@@ -1,7 +1,8 @@
 import React from 'react';
 import FirebaseService from './Firebase/FirebaseService';
 import './App.css';
-
+import Admin from './Components/Admin/index';
+import OwnerAdmin from './Components/OwnerAdmin/index';
 import firebase from 'firebase';
 
 const firebaseConfig = {
@@ -15,10 +16,18 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-new FirebaseService(firebase);
+const firebaseService = new FirebaseService(firebase);
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Admin service={firebaseService} />
+      <OwnerAdmin
+        service={firebaseService}
+        id="afa3c8a6-9f73-49f9-90fd-ae09ffe0973a"
+      />
+    </div>
+  );
 }
 
 export default App;

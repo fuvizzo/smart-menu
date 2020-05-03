@@ -17,7 +17,10 @@
           "price": "10€"
         }
       },
-      "restaurant": "Restaurant name"
+      "owner": {
+        "type": "Restaurant",
+        "name": "La Paredeta"
+      }
     }
   }
 }
