@@ -12,9 +12,10 @@ function Admin(props) {
   const updateOwnerCallback = useCallback(() => {});
 
   const createOwnerCallback = useCallback(() => {
+    const listItemId = uuidv1();
     const createOwner = async () => {
       const data = {
-        path: `/list/${uuidv1()}`,
+        path: `/list/${listItemId}`,
         body: {
           owner: {
             name: 'Bourmuth',
@@ -25,8 +26,9 @@ function Admin(props) {
 
       try {
         await firebaseService.create(data);
-        list.push(data.body);
-        setList(list);
+        const newList = new Map(list.entries());
+        newList.set(listItemId, data.body);
+        setList(newList);
       } catch (error) {
         console.log(error);
       }
@@ -38,14 +40,14 @@ function Admin(props) {
   useEffect(() => {
     const readList = async () => {
       const path = 'list';
-      const map = new Map();
+      const currentList = new Map();
       try {
         const results = await firebaseService.read(path);
         const data = results.val();
         Object.keys(data).forEach(key => {
-          map.set(key, data[key]);
+          currentList.set(key, data[key]);
         });
-        setList(map);
+        setList(currentList);
       } catch (error) {
         console.log(error);
       }

@@ -14,33 +14,43 @@ function OwnerAdmin(props) {
 
   const createMenuItemCallback = useCallback(() => {
     const createMenuItem = async () => {
+      const menuItemId = uuidv1();
+
       const data = {
-        path,
-        body: {},
+        path: `${path}/${menuItemId}}`,
+        body: {
+          category: 'Dessert',
+          description: 'desc',
+          ingredients: 'Ingredients list',
+          name: 'Lemon cake',
+          price: '6€',
+        },
       };
 
       try {
         await firebaseService.create(data);
-        menu.push(data.body);
-        setMenu(menu);
+        const newMenu = new Map(menu.entries());
+        newMenu.set(menuItemId, data.body);
+
+        setMenu(newMenu);
       } catch (error) {
         console.log(error);
       }
     };
     //TODO get data from UI and pass it to
     createMenuItem();
-  }, [firebaseService, menu]);
+  }, [firebaseService, menu, path]);
 
   useEffect(() => {
     const readList = async () => {
-      const map = new Map();
+      const currentMenu = new Map();
       try {
         const results = await firebaseService.read(path);
         const data = results.val();
         Object.keys(data).forEach(key => {
-          map.set(key, data[key]);
+          currentMenu.set(key, data[key]);
         });
-        setMenu(map);
+        setMenu(currentMenu);
       } catch (error) {
         console.log(error);
       }
@@ -64,6 +74,7 @@ function OwnerAdmin(props) {
           );
         })}
       </ul>
+      <button onClick={createMenuItemCallback}>Add</button>
     </div>
   );
 }
