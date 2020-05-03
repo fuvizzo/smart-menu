@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import FirebaseService from './Firebase/FirebaseService';
 import './App.css';
 
 import firebase from 'firebase';
@@ -15,6 +15,7 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+new FirebaseService(firebase);
 
 function App() {
   return <div className="App"></div>;
