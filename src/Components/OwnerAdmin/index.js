@@ -30,14 +30,18 @@ function OwnerAdmin(props) {
   );
 
   const toggleEditMode = useCallback(
-    menuItemId => {
-      setEditModeState({
-        enabled: true,
-        selectedItem: {
-          id: menuItemId,
-          value: menu.get(menuItemId),
-        },
-      });
+    ({ menuItemId, cancel = false }) => {
+      setEditModeState(
+        cancel
+          ? defaultEditModeState
+          : {
+              enabled: true,
+              selectedItem: {
+                id: menuItemId,
+                value: menu.get(menuItemId),
+              },
+            }
+      );
     },
     [menu]
   );
@@ -129,10 +133,15 @@ function OwnerAdmin(props) {
     readList();
   }, [firebaseService]);
 
+  useEffect(() => {
+    setMenu(editModeState.enabled ? menu : sortMap(menu));
+    console.log('reorder!');
+  }, [editModeState.enabled]);
+
   return (
     <div>
       <ul>
-        {[...sortMap(menu).keys()].map(key => {
+        {[...menu.keys()].map(key => {
           const data = menu.get(key);
           return (
             <li key={key}>
@@ -147,9 +156,14 @@ function OwnerAdmin(props) {
                         onChange={onChangeValue}
                         type="text"
                         placeholder="Category"
+                        value={data.category}
                       >
                         {dishMap.map((dishType, index) => {
-                          return <option value={index}>{dishType}</option>;
+                          return (
+                            <option key={index} value={index}>
+                              {dishType}
+                            </option>
+                          );
                         })}
                       </select>
                     </div>
@@ -193,6 +207,9 @@ function OwnerAdmin(props) {
                     <button onClick={() => updateMenuItemCallback()}>
                       Apply changes
                     </button>
+                    <button onClick={() => toggleEditMode({ cancel: true })}>
+                      Cancel
+                    </button>
                   </div>
                 </div>
               ) : (
@@ -205,7 +222,9 @@ function OwnerAdmin(props) {
                   <button onClick={() => deleteMenuItemCallback(key)}>
                     Delete
                   </button>
-                  <button onClick={() => toggleEditMode(key)}>Edit</button>
+                  <button onClick={() => toggleEditMode({ menuItemId: key })}>
+                    Edit
+                  </button>
                 </div>
               )}
             </li>
