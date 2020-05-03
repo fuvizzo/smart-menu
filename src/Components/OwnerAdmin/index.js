@@ -1,9 +1,10 @@
 import React from 'react';
 import { useEffect, useState, useCallback } from 'react';
-
+import { sortMap, DishMap } from '../../Helpers/index';
 import { v1 as uuidv1 } from 'uuid';
 
 function OwnerAdmin(props) {
+  const dishMap = DishMap.get('en');
   const { service: firebaseService, id } = props;
   const path = `/list/${id}/menu`;
   const [menu, setMenu] = useState(new Map());
@@ -89,7 +90,7 @@ function OwnerAdmin(props) {
       const data = {
         path: `${path}/${menuItemId}`,
         body: {
-          category: 'Dessert',
+          category: '4',
           description: 'desc',
           ingredients: 'Ingredients list',
           name: 'Lemon cake',
@@ -131,7 +132,7 @@ function OwnerAdmin(props) {
   return (
     <div>
       <ul>
-        {[...menu.keys()].map(key => {
+        {[...sortMap(menu).keys()].map(key => {
           const data = menu.get(key);
           return (
             <li key={key}>
@@ -141,13 +142,16 @@ function OwnerAdmin(props) {
                   Edit mode
                   <div>
                     <div>
-                      <input
+                      <select
                         name="category"
                         onChange={onChangeValue}
                         type="text"
                         placeholder="Category"
-                        value={data.category}
-                      />
+                      >
+                        {dishMap.map((dishType, index) => {
+                          return <option value={index}>{dishType}</option>;
+                        })}
+                      </select>
                     </div>
                     <div>
                       <input
@@ -193,7 +197,7 @@ function OwnerAdmin(props) {
                 </div>
               ) : (
                 <div>
-                  <div> {data.category}</div>
+                  <div> {dishMap[data.category]}</div>
                   <div> {data.name}</div>
                   <div> {data.description}</div>
                   <div> {data.ingredients}</div>
