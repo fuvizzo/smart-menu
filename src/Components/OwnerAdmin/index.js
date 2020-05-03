@@ -8,7 +8,26 @@ function OwnerAdmin(props) {
   const path = `/list/${id}/menu`;
   const [menu, setMenu] = useState(new Map());
 
-  const deleteMenuItemCallback = useCallback(() => {});
+  const toggleEditMode = useCallback(menuItemId => {});
+
+  const deleteMenuItemCallback = useCallback(
+    menuItemId => {
+      const menuItemPath = `${path}/${menuItemId}`;
+      const deleteMenuItem = async () => {
+        try {
+          await firebaseService.delete(menuItemPath);
+          const newMenu = new Map(menu.entries());
+          newMenu.delete(menuItemId);
+
+          setMenu(newMenu);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      deleteMenuItem();
+    },
+    [firebaseService, path, menu]
+  );
 
   const updateMenuItemCallback = useCallback(() => {});
 
@@ -70,6 +89,10 @@ function OwnerAdmin(props) {
               <div> {data.descriptions}</div>
               <div> {data.ingredients}</div>
               <div> {data.price}</div>
+              <button onClick={() => deleteMenuItemCallback(key)}>
+                Delete
+              </button>
+              <button onClick={() => toggleEditMode(key)}>Edit</button>
             </li>
           );
         })}
