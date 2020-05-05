@@ -1,49 +1,109 @@
 import React from 'react';
 import { useEffect, useState, useCallback } from 'react';
-import { sortMap, DishMap } from '../../Helpers/index';
+import { sortMap } from '../../Helpers/index';
+import constants from './../../constants';
 import { v1 as uuidv1 } from 'uuid';
+import { cloneDeep } from 'lodash';
+import Locale from './locale';
+import NewLocaleForm from './newLocale';
 
-function OwnerAdmin(props) {
-  const dishMap = DishMap.get('en');
-  const { service: firebaseService, id } = props;
+const { LOCALIZED_FIELDS, SUPPORTED_LANGUAGES, LOCALE } = constants;
+
+const emptyLocaleData = {
+  lang: '',
+  name: '',
+  description: '',
+  ingredients: '',
+};
+
+const OwnerAdmin = props => {
+  const { service: firebaseService, id, systemLang = 'en' } = props;
+  const dishMap = LOCALE[systemLang].DISH_TYPES;
   const path = `/list/${id}/menu`;
   const [menu, setMenu] = useState(new Map());
-
   const defaultEditModeState = {
     enabled: false,
     selectedItem: {},
   };
-  const [editModeState, setEditModeState] = useState(defaultEditModeState);
 
+  const defaultInserLocaleModeState = {
+    enabled: false,
+    selectedItem: {},
+  };
+  const [editModeState, setEditModeState] = useState(defaultEditModeState);
+  const [insertLocaleModeState, setInsertLocaleModeState] = useState(
+    defaultInserLocaleModeState
+  );
   const onChangeValue = useCallback(
     event => {
       const input = event.currentTarget;
       const currentValue = input.value;
-      const selectedItem = editModeState.selectedItem;
-      selectedItem.value[input.name] = currentValue;
-      setEditModeState({
-        enabled: true,
-        selectedItem,
-      });
+
+      if (insertLocaleModeState.enabled) {
+        const lang = input.dataset.lang;
+        const newLocale = insertLocaleModeState.newLocale;
+        newLocale.lang = lang;
+        newLocale[input.name] = currentValue;
+
+        setInsertLocaleModeState({
+          ...insertLocaleModeState,
+          newLocale,
+        });
+      } else {
+        const selectedItem = editModeState.selectedItem;
+
+        if (LOCALIZED_FIELDS.some(field => field === input.name)) {
+          const lang = input.dataset.lang;
+          selectedItem.newValue.locales[lang][input.name] = currentValue;
+        } else {
+          selectedItem.newValue[input.name] = currentValue;
+        }
+
+        setEditModeState({
+          enabled: true,
+          selectedItem,
+        });
+      }
     },
-    [editModeState.selectedItem]
+    [editModeState.selectedItem, insertLocaleModeState]
+  );
+
+  const toggleAddLocalMode = useCallback(
+    ({ menuItemId, cancel = false }) => {
+      if (cancel) {
+        setInsertLocaleModeState(defaultInserLocaleModeState);
+      } else {
+        setInsertLocaleModeState({
+          enabled: true,
+          menuItemId,
+          newLocale: emptyLocaleData,
+        });
+      }
+    },
+    [menu, insertLocaleModeState.menuItemId]
   );
 
   const toggleEditMode = useCallback(
     ({ menuItemId, cancel = false }) => {
-      setEditModeState(
-        cancel
-          ? defaultEditModeState
-          : {
-              enabled: true,
-              selectedItem: {
-                id: menuItemId,
-                value: menu.get(menuItemId),
-              },
-            }
-      );
+      if (cancel) {
+        menu.set(
+          editModeState.selectedItem.id,
+          editModeState.selectedItem.oldValue
+        );
+        setMenu(menu);
+        setEditModeState(defaultEditModeState);
+      } else {
+        setEditModeState({
+          enabled: true,
+          selectedItem: {
+            id: menuItemId,
+            newValue: menu.get(menuItemId),
+            oldValue: cloneDeep(menu.get(menuItemId)),
+          },
+        });
+      }
     },
-    [menu]
+    [menu, editModeState.selectedItem.id]
   );
 
   const deleteMenuItemCallback = useCallback(
@@ -71,7 +131,7 @@ function OwnerAdmin(props) {
     const updateMenuItem = async () => {
       const data = {
         path: `${path}/${menuItemId}`,
-        body: editModeState.selectedItem.value,
+        body: editModeState.selectedItem.newValue,
       };
       try {
         await firebaseService.update(data);
@@ -87,7 +147,7 @@ function OwnerAdmin(props) {
     updateMenuItem();
   }, [editModeState.selectedItem.value, editModeState.selectedItem.id]);
 
-  const createMenuItemCallback = useCallback(() => {
+  const createNewMenuItemCallback = useCallback(() => {
     const createMenuItem = async () => {
       const menuItemId = uuidv1();
 
@@ -116,6 +176,26 @@ function OwnerAdmin(props) {
     createMenuItem();
   }, [firebaseService, menu, path]);
 
+  const createNewLocalInMenuItem = useCallback(() => {
+    console.log(insertLocaleModeState);
+    const createNewLocale = async () => {
+      const { menuItemId, newLocale } = insertLocaleModeState;
+      const localeData = Object.assign({}, newLocale);
+      delete localeData.lang;
+      const data = {
+        path: `${path}/${menuItemId}/locales/${newLocale.lang}`,
+        body: localeData,
+      };
+
+      try {
+        await firebaseService.create(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    createNewLocale();
+  }, [firebaseService, menu, path, insertLocaleModeState]);
+
   useEffect(() => {
     const readList = async () => {
       const currentMenu = new Map();
@@ -138,6 +218,12 @@ function OwnerAdmin(props) {
     console.log('reorder!');
   }, [editModeState.enabled]);
 
+  const getAvailableLanguage = usedLanguages => {
+    return SUPPORTED_LANGUAGES.filter(
+      lang => !usedLanguages.some(l => l === lang)
+    );
+  };
+
   return (
     <div>
       <ul>
@@ -145,8 +231,8 @@ function OwnerAdmin(props) {
           const data = menu.get(key);
           return (
             <li key={key}>
-              {editModeState.selectedItem.id === key &&
-              editModeState.enabled ? (
+              {editModeState.enabled &&
+              editModeState.selectedItem.id === key ? (
                 <div>
                   Edit mode
                   <div>
@@ -169,33 +255,6 @@ function OwnerAdmin(props) {
                     </div>
                     <div>
                       <input
-                        name="name"
-                        onChange={onChangeValue}
-                        type="text"
-                        placeholder="Name"
-                        value={data.name}
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="description"
-                        onChange={onChangeValue}
-                        type="text"
-                        placeholder="Description"
-                        value={data.description}
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="ingredients"
-                        onChange={onChangeValue}
-                        type="text"
-                        placeholder="Ingredients"
-                        value={data.ingredients}
-                      />
-                    </div>
-                    <div>
-                      <input
                         name="price"
                         onChange={onChangeValue}
                         type="text"
@@ -203,6 +262,17 @@ function OwnerAdmin(props) {
                         value={data.price}
                       />
                     </div>
+                    {Object.keys(data.locales).map((lang, index) => {
+                      const locale = data.locales[lang];
+                      return (
+                        <Locale
+                          key={index}
+                          lang={lang}
+                          data={locale}
+                          onChangeValue={onChangeValue}
+                        />
+                      );
+                    })}
 
                     <button onClick={() => updateMenuItemCallback()}>
                       Apply changes
@@ -215,25 +285,62 @@ function OwnerAdmin(props) {
               ) : (
                 <div>
                   <div> {dishMap[data.category]}</div>
-                  <div> {data.name}</div>
-                  <div> {data.description}</div>
-                  <div> {data.ingredients}</div>
                   <div> {data.price}</div>
-                  <button onClick={() => deleteMenuItemCallback(key)}>
-                    Delete
-                  </button>
-                  <button onClick={() => toggleEditMode({ menuItemId: key })}>
-                    Edit
-                  </button>
+                  {Object.keys(data.locales).map((lang, index) => {
+                    const locale = data.locales[lang];
+                    return (
+                      <div key={index}>
+                        <div>
+                          Menu in <b>{lang}</b>
+                        </div>
+                        <div> {locale.name}</div>
+                        <div> {locale.description}</div>
+                        <div> {locale.ingredients}</div>
+                      </div>
+                    );
+                  })}
+
+                  <div>
+                    <button onClick={() => deleteMenuItemCallback(key)}>
+                      Delete
+                    </button>
+                  </div>
+                  <div>
+                    <button onClick={() => toggleEditMode({ menuItemId: key })}>
+                      Edit
+                    </button>
+                  </div>
+
+                  {insertLocaleModeState.enabled &&
+                  insertLocaleModeState.menuItemId === key ? (
+                    <NewLocaleForm
+                      emptyLocaleData={insertLocaleModeState.newLocale}
+                      toggleAddLocalMode={toggleAddLocalMode}
+                      onChangeValue={onChangeValue}
+                      systemLang={systemLang}
+                      onCreateNewLocalInMenuItem={createNewLocalInMenuItem}
+                      availableLanguages={getAvailableLanguage(
+                        Object.keys(data.locales)
+                      )}
+                    />
+                  ) : (
+                    <div>
+                      <button
+                        onClick={() => toggleAddLocalMode({ menuItemId: key })}
+                      >
+                        Add description, name and ingrendients in another lang
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </li>
           );
         })}
       </ul>
-      <button onClick={createMenuItemCallback}>Add</button>
+      <button onClick={createNewMenuItemCallback}>Add</button>
     </div>
   );
-}
+};
 
 export default OwnerAdmin;
