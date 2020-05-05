@@ -25,7 +25,7 @@ const getAvailableLanguage = usedLanguages => {
 const OwnerAdmin = props => {
   const { service: firebaseService, id, systemLang = 'en' } = props;
   const dishMap = LOCALE[systemLang].DISH_TYPES;
-  const path = `/list/${id}/menu`;
+  const path = `/list/${id}`;
   const [menu, setMenu] = useState(new Map());
   const defaultEditModeState = {
     enabled: false,
@@ -186,7 +186,7 @@ const OwnerAdmin = props => {
     createMenuItem();
   }, [menu, path]);
 
-  const createNewLocalInMenuItem = useCallback(() => {
+  const createNewLocaleInMenuItem = useCallback(() => {
     const createNewLocale = async () => {
       const { menuItemId, newLocale } = insertLocaleModeState;
       const localeData = { ...newLocale };
@@ -237,8 +237,9 @@ const OwnerAdmin = props => {
       try {
         const results = await firebaseService.read(path);
         const data = results.val();
-        Object.keys(data).forEach(key => {
-          currentMenu.set(key, data[key]);
+
+        Object.keys(data.menu).forEach(key => {
+          currentMenu.set(key, data.menu[key]);
         });
         setMenu(currentMenu);
       } catch (error) {
@@ -251,7 +252,7 @@ const OwnerAdmin = props => {
   useEffect(() => {
     setMenu(editModeState.enabled ? menu : sortMap(menu));
     console.log('reorder!');
-  }, [editModeState.enabled]);
+  }, [editModeState.enabled, menu.size]);
 
   return (
     <div>
@@ -355,7 +356,7 @@ const OwnerAdmin = props => {
                       toggleAddLocalMode={toggleAddLocalMode}
                       onChangeValue={onChangeValue}
                       systemLang={systemLang}
-                      onCreateNewLocalInMenuItem={createNewLocalInMenuItem}
+                      onCreateNewLocalInMenuItem={createNewLocaleInMenuItem}
                       availableLanguages={getAvailableLanguage(
                         Object.keys(data.locales)
                       )}

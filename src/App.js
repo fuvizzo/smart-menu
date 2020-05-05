@@ -21,7 +21,7 @@ const firebaseService = new FirebaseService(firebase);
 function App() {
   return (
     <div className="App">
-      <Admin service={firebaseService} />
+      {/*  <Admin service={firebaseService} /> */}
       <OwnerAdmin
         service={firebaseService}
         id="afa3c8a6-9f73-49f9-90fd-ae09ffe0973a"
