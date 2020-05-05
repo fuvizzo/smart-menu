@@ -16,6 +16,12 @@ const emptyLocaleData = {
   ingredients: '',
 };
 
+const getAvailableLanguage = usedLanguages => {
+  return SUPPORTED_LANGUAGES.filter(
+    lang => !usedLanguages.some(l => l === lang)
+  );
+};
+
 const OwnerAdmin = props => {
   const { service: firebaseService, id, systemLang = 'en' } = props;
   const dishMap = LOCALE[systemLang].DISH_TYPES;
@@ -76,7 +82,7 @@ const OwnerAdmin = props => {
         setInsertLocaleModeState({
           enabled: true,
           menuItemId,
-          newLocale: emptyLocaleData,
+          newLocale: { ...emptyLocaleData },
         });
       }
     },
@@ -122,7 +128,7 @@ const OwnerAdmin = props => {
       };
       deleteMenuItem();
     },
-    [firebaseService, path, menu]
+    [menu]
   );
 
   const updateMenuItemCallback = useCallback(() => {
@@ -155,9 +161,13 @@ const OwnerAdmin = props => {
         path: `${path}/${menuItemId}`,
         body: {
           category: '4',
-          description: 'desc',
-          ingredients: 'Ingredients list',
-          name: 'Lemon cake',
+          locales: {
+            en: {
+              description: 'desc',
+              ingredients: 'Ingredients list',
+              name: 'Lemon cake',
+            },
+          },
           price: '6€',
         },
       };
@@ -174,13 +184,12 @@ const OwnerAdmin = props => {
     };
     //TODO get data from UI and pass it to
     createMenuItem();
-  }, [firebaseService, menu, path]);
+  }, [menu, path]);
 
   const createNewLocalInMenuItem = useCallback(() => {
-    console.log(insertLocaleModeState);
     const createNewLocale = async () => {
       const { menuItemId, newLocale } = insertLocaleModeState;
-      const localeData = Object.assign({}, newLocale);
+      const localeData = { ...newLocale };
       delete localeData.lang;
       const data = {
         path: `${path}/${menuItemId}/locales/${newLocale.lang}`,
@@ -189,12 +198,38 @@ const OwnerAdmin = props => {
 
       try {
         await firebaseService.create(data);
+        const newMenu = new Map(menu.entries());
+        const menuItem = newMenu.get(menuItemId);
+        menuItem.locales[newLocale.lang] = localeData;
+
+        setMenu(newMenu);
+        toggleAddLocalMode({ cancel: true });
       } catch (error) {
         console.log(error);
       }
     };
     createNewLocale();
-  }, [firebaseService, menu, path, insertLocaleModeState]);
+  }, [menu, insertLocaleModeState]);
+
+  const deleteLocale = useCallback(
+    (menuItemId, lang) => {
+      const menuItemLocalePath = `${path}/${menuItemId}/locales/${lang}`;
+      const deleteLocale = async () => {
+        try {
+          await firebaseService.delete(menuItemLocalePath);
+          const newMenu = new Map(menu.entries());
+          const menuItem = newMenu.get(menuItemId);
+          delete menuItem.locales[lang];
+
+          setMenu(newMenu);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      deleteLocale();
+    },
+    [menu]
+  );
 
   useEffect(() => {
     const readList = async () => {
@@ -217,12 +252,6 @@ const OwnerAdmin = props => {
     setMenu(editModeState.enabled ? menu : sortMap(menu));
     console.log('reorder!');
   }, [editModeState.enabled]);
-
-  const getAvailableLanguage = usedLanguages => {
-    return SUPPORTED_LANGUAGES.filter(
-      lang => !usedLanguages.some(l => l === lang)
-    );
-  };
 
   return (
     <div>
@@ -266,6 +295,7 @@ const OwnerAdmin = props => {
                       const locale = data.locales[lang];
                       return (
                         <Locale
+                          systemLang={systemLang}
                           key={index}
                           lang={lang}
                           data={locale}
@@ -291,11 +321,18 @@ const OwnerAdmin = props => {
                     return (
                       <div key={index}>
                         <div>
-                          Menu in <b>{lang}</b>
+                          Menu in <b>{LOCALE[systemLang].LANGUAGES[lang]}</b>
                         </div>
                         <div> {locale.name}</div>
                         <div> {locale.description}</div>
                         <div> {locale.ingredients}</div>
+
+                        <div>
+                          <button onClick={() => deleteLocale(key, lang)}>
+                            Delete description in{' '}
+                            {LOCALE[systemLang].LANGUAGES[lang]}
+                          </button>
+                        </div>
                       </div>
                     );
                   })}
@@ -324,13 +361,18 @@ const OwnerAdmin = props => {
                       )}
                     />
                   ) : (
-                    <div>
-                      <button
-                        onClick={() => toggleAddLocalMode({ menuItemId: key })}
-                      >
-                        Add description, name and ingrendients in another lang
-                      </button>
-                    </div>
+                    <>
+                      {getAvailableLanguage(Object.keys(data.locales))
+                        .length !== 0 && (
+                        <button
+                          onClick={() =>
+                            toggleAddLocalMode({ menuItemId: key })
+                          }
+                        >
+                          Add description, name and ingrendients in another lang
+                        </button>
+                      )}
+                    </>
                   )}
                 </div>
               )}

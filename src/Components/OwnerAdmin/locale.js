@@ -1,11 +1,14 @@
 import React from 'react';
+
+import constants from './../../constants';
+const { LOCALE } = constants;
 const Locale = props => {
-  const { index, lang, onChangeValue, data } = props;
+  const { index, lang, systemLang, onChangeValue, data } = props;
 
   return (
     <div key={index}>
       <div>
-        Menu in <b>{lang}</b>
+        Menu in <b>{LOCALE[systemLang].LANGUAGES[lang]}</b>
       </div>
       <div>
         <input

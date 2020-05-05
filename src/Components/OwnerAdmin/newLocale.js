@@ -33,6 +33,7 @@ const NewLocaleForm = props => {
       </select>
       <Locale
         key="0"
+        systemLang={systemLang}
         lang={lang}
         data={emptyLocaleData}
         onChangeValue={onChangeValue}
