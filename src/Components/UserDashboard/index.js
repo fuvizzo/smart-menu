@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { setDefaultSystemLanguage } from '../../Actions/index';
 import constants from '../../Constants/index';
@@ -6,22 +6,13 @@ import MenuEditor from './menuEditor';
 import Dashboard from '../Dashboard/index';
 import AuthRoute from '../Auth/authRoute';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  useRouteMatch,
-  useHistory,
-  Route,
-  Redirect,
-  Link,
-} from 'react-router-dom';
+import { Switch, useRouteMatch } from 'react-router-dom';
 const { LOCALE } = constants;
 
 const UserDashboard = props => {
   const locale = LOCALE[props.defaultLanguage];
   const { path } = useRouteMatch();
 
-  console.log(path);
   return (
     <Dashboard>
       <Switch>
