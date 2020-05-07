@@ -11,6 +11,7 @@ export default {
         'Desserts',
         'Drinks',
       ],
+      DEFAULT_LANGUAGE: 'Default language',
       LANGUAGES: {
         en: 'English',
         es: 'Spanish',

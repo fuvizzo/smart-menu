@@ -1,6 +1,6 @@
 {
-  "list": {
-    "afa3c8a6-9f73-49f9-90fd-ae09ffe0973a": {
+  "users": {
+    "OIRnMadgbecau6O6QL9xlyqoBkI2": {
       "menu": {
         "75db2315-ce01-41d8-a16e-7984b1e48b17": {
           "category": "0",
@@ -25,9 +25,19 @@
           "price": "10€"
         }
       },
-      "owner": {
+      "business": {
         "type": "Restaurant",
         "name": "La Paredeta"
+      },
+      "account": {
+        "settings": {
+          "defaultLanguage": "en"
+        },
+        "user": {
+          "firstName": "Fulvio",
+          "lastName": "Cusimano",
+          "email": "fulvio.cusimano@gmail.com"
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Locale from './locale';
-
-import constants from './../../constants';
+import { connect } from 'react-redux';
+import constants from '../../Constants/index';
 const { LOCALE } = constants;
 
 const NewLocaleForm = props => {
@@ -11,7 +11,7 @@ const NewLocaleForm = props => {
     onChangeValue,
     toggleAddLocalMode,
     onCreateNewLocalInMenuItem,
-    systemLang,
+    defaultLanguage,
   } = props;
   const [lang, setLang] = useState(availableLanguages[0]);
 
@@ -26,14 +26,14 @@ const NewLocaleForm = props => {
         {availableLanguages.map((lang, index) => {
           return (
             <option key={index} value={lang}>
-              {LOCALE[systemLang].LANGUAGES[lang]}
+              {LOCALE[defaultLanguage].LANGUAGES[lang]}
             </option>
           );
         })}
       </select>
       <Locale
         key="0"
-        systemLang={systemLang}
+        systemLang={defaultLanguage}
         lang={lang}
         data={emptyLocaleData}
         onChangeValue={onChangeValue}
@@ -49,4 +49,10 @@ const NewLocaleForm = props => {
   );
 };
 
-export default NewLocaleForm;
+function mapStateToProps(state) {
+  return {
+    defaultLanguage: state.settings.defaultLanguage,
+  };
+}
+
+export default connect(mapStateToProps)(NewLocaleForm);

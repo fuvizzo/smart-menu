@@ -1,14 +1,14 @@
 import React from 'react';
-
-import constants from './../../constants';
+import { connect } from 'react-redux';
+import constants from '../../Constants/index';
 const { LOCALE } = constants;
 const Locale = props => {
-  const { index, lang, systemLang, onChangeValue, data } = props;
+  const { index, lang, defaultLanguage, onChangeValue, data } = props;
 
   return (
     <div key={index}>
       <div>
-        Menu in <b>{LOCALE[systemLang].LANGUAGES[lang]}</b>
+        Menu in <b>{LOCALE[defaultLanguage].LANGUAGES[lang]}</b>
       </div>
       <div>
         <input
@@ -44,4 +44,10 @@ const Locale = props => {
   );
 };
 
-export default Locale;
+function mapStateToProps(state) {
+  return {
+    defaultLanguage: state.settings.defaultLanguage,
+  };
+}
+
+export default connect(mapStateToProps)(Locale);
