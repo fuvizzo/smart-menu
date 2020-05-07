@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 //import Admin from './Components/Admin/index';
 import SignIn from './Components/Auth/signIn';
@@ -7,53 +7,25 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
-  useHistory,
-  useLocation,
 } from 'react-router-dom';
 
+import AuthRoute from './Components/Auth/authRoute';
+
 const App = props => {
-  const { user } = props;
-
-  const PrivateRoute = useCallback(
-    ({ children, ...rest }) => {
-      console.log(user);
-      return (
-        <Route
-          {...rest}
-          render={({ location }) =>
-            user ? (
-              children
-            ) : (
-              <Redirect
-                to={{
-                  pathname: '/signin',
-                  state: { from: location },
-                }}
-              />
-            )
-          }
-        />
-      );
-    },
-    [user]
-  );
-
   return (
     <div>
       <Router>
         {/* <Link to="/signin">Signin</Link> */}
-
-        <Redirect from="/" to="signin" />
+        {!props.user && <Redirect from="/" to="signin" />}
 
         <Switch>
           <Route path="/signin">
             <SignIn />
           </Route>
-          <PrivateRoute path="/dashboard">
+          <AuthRoute path="/dashboard">
             <UserDashboard />
-          </PrivateRoute>
+          </AuthRoute>
         </Switch>
       </Router>
     </div>

@@ -14,6 +14,7 @@ const initialState = {
   settings: {
     defaultLanguage: 'en',
   },
+
   user: null,
   business: null,
   menu: new Map(),

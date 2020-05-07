@@ -15,28 +15,18 @@ import useStyles from './styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signInWithEmailAndPassword } from '../../Actions/index';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../Common/copyright';
 
 const emptySignInState = {
   email: 'fulvio.cusimano@gmail.com',
   password: 'password',
 };
 const SignIn = props => {
+  console.count('SignIn renders');
   const history = useHistory();
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: '/' } };
+  //TODO understand location
+  //const location = useLocation();
+  //const { from } = location.state || { from: { pathname: '/' } };
 
   const classes = useStyles();
   const [loginData, setLoginData] = useState(emptySignInState);
@@ -46,7 +36,7 @@ const SignIn = props => {
     async event => {
       event.preventDefault();
       await signInWithEmailAndPassword(loginData.email, loginData.password);
-      history.replace('dashboard');
+      history.push('dashboard');
     },
     [loginData]
   );
@@ -57,7 +47,6 @@ const SignIn = props => {
     },
     [loginData]
   );
-
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
