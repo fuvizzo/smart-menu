@@ -1,6 +1,7 @@
 import {
   SET_DEFAULT_SYSTEM_LANGUAGE,
   SET_USER_DATA,
+  SIGN_OUT,
   GET_MENU,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
@@ -26,6 +27,8 @@ function rootReducer(state = initialState, action) {
           defaultLanguage: action.payload,
         },
       });
+    case SIGN_OUT:
+      return Object.assign({}, state, initialState);
     case SET_USER_DATA:
       const user = {
         ...action.payload.account.user,

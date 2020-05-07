@@ -7,3 +7,4 @@ export const DELETE_MENU_ITEM = 'DELETE_MENU_ITEM';
 export const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
 export const CREATE_NEW_LOCALE = 'CREATE_NEW_LOCALE';
 export const DELETE_LOCALE = 'DELETE_LOCALE';
+export const SIGN_OUT = 'SIGN_OUT';

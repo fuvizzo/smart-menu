@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { setDefaultSystemLanguage } from '../../Actions/index';
 import constants from '../../Constants/index';
 import MenuEditor from './menuEditor';
+import Dashboard from '../Dashboard/index';
 const { LOCALE } = constants;
 
-const OwnerAdmin = props => {
+const UserDashboard = props => {
   const locale = LOCALE[props.defaultLanguage];
   const { userId } = props;
 
   return (
-    <>
+    <Dashboard>
       {props.user && (
         <div>
           <div>
@@ -22,7 +23,7 @@ const OwnerAdmin = props => {
           <MenuEditor />
         </div>
       )}
-    </>
+    </Dashboard>
   );
 };
 
@@ -35,4 +36,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   setDefaultSystemLanguage,
-})(OwnerAdmin);
+})(UserDashboard);

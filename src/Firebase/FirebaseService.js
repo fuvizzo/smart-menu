@@ -5,14 +5,14 @@ class FirebaseService {
   constructor(firebase) {
     this.#database = firebase.database();
     this.#auth = firebase.auth();
-    /* const dbRefObject = this.#database.ref().child('/list');
-    console.log(dbRefObject);
-    dbRefObject.on('value', snap => {
-      console.log(snap.val());
-    }); */
+
+    this.#auth.onAuthStateChanged(user => {
+      console.log(user);
+    });
   }
 
   auth = {
+    signOut: async () => this.#auth.signOut(),
     signInWithEmailAndPassword: async (email, password) => {
       try {
         const authData = await this.#auth.signInWithEmailAndPassword(
