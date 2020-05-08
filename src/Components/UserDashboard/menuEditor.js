@@ -82,7 +82,7 @@ useEffect(() => {
 
   const updateMenuItemHandler = useCallback(() => {
     const menuItemId = editModeState.selectedItem.id;
-    const body = editModeState.selectedItem.newValue;
+    const body = editModeState.selectedItem.value;
     dispatch(updateMenuItem(menuId, menuItemId, body));
     setEditModeState({
       enabled: false,
@@ -120,9 +120,9 @@ useEffect(() => {
 
         if (LOCALIZED_FIELDS.some(field => field === input.name)) {
           const lang = input.dataset.lang;
-          selectedItem.newValue.locales[lang][input.name] = currentValue;
+          selectedItem.value.locales[lang][input.name] = currentValue;
         } else {
-          selectedItem.newValue[input.name] = currentValue;
+          selectedItem.value[input.name] = currentValue;
         }
 
         setEditModeState({
@@ -153,15 +153,12 @@ useEffect(() => {
     ({ menuItemId, cancel = false }) => {
       if (cancel) {
         setEditModeState(defaultEditModeState);
-        menu.items[editModeState.selectedItem.id] =
-          editModeState.selectedItem.oldValue;
       } else {
         setEditModeState({
           enabled: true,
           selectedItem: {
             id: menuItemId,
-            newValue: menu.items[menuItemId],
-            oldValue: cloneDeep(menu.items[menuItemId]),
+            value: cloneDeep(menu.items[menuItemId]),
           },
         });
       }
@@ -187,7 +184,7 @@ useEffect(() => {
                         onChange={onChangeValueHandler}
                         type="text"
                         placeholder="Category"
-                        value={data.category}
+                        value={editModeState.selectedItem.value.category}
                       >
                         {dishMap.map((dishType, index) => {
                           return (
@@ -204,20 +201,23 @@ useEffect(() => {
                         onChange={onChangeValueHandler}
                         type="text"
                         placeholder="Price"
-                        value={data.price}
+                        value={editModeState.selectedItem.value.price}
                       />
                     </div>
-                    {Object.keys(data.locales).map((lang, index) => {
-                      const locale = data.locales[lang];
-                      return (
-                        <Locale
-                          key={index}
-                          lang={lang}
-                          data={locale}
-                          onChangeValue={onChangeValueHandler}
-                        />
-                      );
-                    })}
+                    {Object.keys(editModeState.selectedItem.value.locales).map(
+                      (lang, index) => {
+                        const locale =
+                          editModeState.selectedItem.value.locales[lang];
+                        return (
+                          <Locale
+                            key={index}
+                            lang={lang}
+                            data={locale}
+                            onChangeValue={onChangeValueHandler}
+                          />
+                        );
+                      }
+                    )}
 
                     <button onClick={() => updateMenuItemHandler()}>
                       Apply changes

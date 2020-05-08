@@ -39,7 +39,7 @@ export const createNewMenuItem = (menuId, body) => {
   return async (dispatch, getState) => {
     const menuItemId = uuidv1();
     const userId = getState().user.userId;
-    const path = `${userMenusPath(userId)}/${menuItemId}`;
+    const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     const data = {
       path,
