@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import {
+  getMenu,
   sortMenu,
   createNewMenuItem,
   deleteMenuItem,
   updateMenuItem,
   createNewLocale,
   deleteLocale,
-} from '../../Actions/menuActions';
+} from '../../Actions/menuActionsOld';
 import { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import Locale from './locale';
@@ -32,11 +33,9 @@ const getAvailableLanguage = usedLanguages => {
 
 const MenuEditor = props => {
   const dispatch = useDispatch();
-  const { menuId } = useParams();
-
-  const { sortMenu, defaultLanguage, menus } = props;
+  const { getMenu, sortMenu, defaultLanguage, menu } = props;
   const dishMap = LOCALE[defaultLanguage].DISH_TYPES;
-  const menu = menus[menuId];
+
   const defaultEditModeState = {
     enabled: false,
     selectedItem: {},
@@ -51,18 +50,18 @@ const MenuEditor = props => {
     defaultInserLocaleModeState
   );
 
-  /* useEffect(() => {
+  useEffect(() => {
     getMenu();
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     if (!editModeState.enabled) sortMenu(menu);
     console.log('reorder!');
-  }, [menu.size, editModeState.enabled]); */
+  }, [menu.size, editModeState.enabled]);
 
   const createNewMenuItemCallback = useCallback(data => {
     dispatch(
-      createNewMenuItem(menuId, {
+      createNewMenuItem({
         category: '4',
         locales: {
           en: {
@@ -77,13 +76,13 @@ useEffect(() => {
   }, []);
 
   const deleteMenuItemHandler = useCallback(menuItemId => {
-    dispatch(deleteMenuItem(menuId, menuItemId));
+    dispatch(deleteMenuItem(menuItemId));
   }, []);
 
   const updateMenuItemHandler = useCallback(() => {
     const menuItemId = editModeState.selectedItem.id;
     const body = editModeState.selectedItem.newValue;
-    dispatch(updateMenuItem(menuId, menuItemId, body));
+    dispatch(updateMenuItem(menuItemId, body));
     setEditModeState({
       enabled: false,
       selectedItem: {},
@@ -92,12 +91,12 @@ useEffect(() => {
 
   const createNewLocaleCallback = useCallback(() => {
     const { menuItemId, newLocale } = insertLocaleModeState;
-    dispatch(createNewLocale(menuId, menuItemId, newLocale));
+    dispatch(createNewLocale(menuItemId, newLocale));
     toggleAddLocalMode({ cancel: true });
   }, [insertLocaleModeState]);
 
   const deleteLocaleHandler = useCallback((menuItemId, lang) => {
-    dispatch(deleteLocale(menuId, menuItemId, lang));
+    dispatch(deleteLocale(menuItemId, lang));
   }, []);
 
   const onChangeValueHandler = useCallback(
@@ -152,16 +151,19 @@ useEffect(() => {
   const toggleEditModeHandler = useCallback(
     ({ menuItemId, cancel = false }) => {
       if (cancel) {
+        menu.set(
+          editModeState.selectedItem.id,
+          editModeState.selectedItem.oldValue
+        );
+        getMenu(menu);
         setEditModeState(defaultEditModeState);
-        menu.items[editModeState.selectedItem.id] =
-          editModeState.selectedItem.oldValue;
       } else {
         setEditModeState({
           enabled: true,
           selectedItem: {
             id: menuItemId,
-            newValue: menu.items[menuItemId],
-            oldValue: cloneDeep(menu.items[menuItemId]),
+            newValue: menu.get(menuItemId),
+            oldValue: cloneDeep(menu.get(menuItemId)),
           },
         });
       }
@@ -172,8 +174,8 @@ useEffect(() => {
   return (
     <div>
       <ul>
-        {Object.keys(menu.items).map(key => {
-          const data = menu.items[key];
+        {[...menu.keys()].map(key => {
+          const data = menu.get(key);
           return (
             <li key={key}>
               {editModeState.enabled &&
@@ -308,12 +310,13 @@ useEffect(() => {
 
 function mapStateToProps(state) {
   return {
-    menus: state.menus,
+    menu: state.menu,
     defaultLanguage: state.settings.defaultLanguage,
   };
 }
 
 export default connect(mapStateToProps, {
+  getMenu,
   sortMenu,
   createNewMenuItem,
   deleteMenuItem,

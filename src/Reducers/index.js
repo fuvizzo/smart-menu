@@ -3,12 +3,14 @@ import {
   SET_USER_DATA,
   SIGN_OUT,
   GET_MENU,
+  GET_MENUS,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
   CREATE_NEW_LOCALE,
   DELETE_LOCALE,
-} from './../Constants/action-types';
+} from './../Constants/actionTypes';
+import { cloneDeep } from 'lodash';
 
 const initialState = {
   settings: {
@@ -16,10 +18,12 @@ const initialState = {
   },
   user: null,
   business: null,
-  menu: new Map(),
+  menus: {},
 };
 
 function rootReducer(state = initialState, action) {
+  const newState = cloneDeep(state);
+
   switch (action.type) {
     case SET_DEFAULT_SYSTEM_LANGUAGE:
       return Object.assign({}, state, {
@@ -35,7 +39,6 @@ function rootReducer(state = initialState, action) {
         ...{
           userId: action.payload.user.uid,
           email: action.payload.user.email,
-          refreshToken: action.payload.user.refreshToken,
           creationTime: action.payload.user.metadata.creationTime,
           lastSignInTime: action.payload.user.metadata.lastSignInTime,
         },
@@ -44,43 +47,36 @@ function rootReducer(state = initialState, action) {
         user,
         settings: action.payload.account.settings,
       });
-    case GET_MENU:
-      return Object.assign({}, state, {
-        menu: action.payload,
-      });
+
+    case GET_MENUS:
+      newState.menus = action.payload;
+      return newState;
     case CREATE_NEW_MENU_ITEM:
-      return Object.assign({}, state, {
-        menu: new Map([...state.menu.entries(), action.payload]),
-      });
+      newState.menus[action.payload.menuId].items[action.payload.menuItemId] =
+        action.payload.value;
+      return newState;
     case DELETE_MENU_ITEM: {
-      const menu = new Map(state.menu.entries());
-      menu.delete(action.payload);
-      return Object.assign({}, state, {
-        menu,
-      });
+      delete newState.menus[action.payload.menuId].items[
+        action.payload.menuItemId
+      ];
+      return newState;
     }
-    case UPDATE_MENU_ITEM: {
-      const menu = new Map(state.menu.entries());
-      menu.set(action.payload.key, action.payload.value);
-      return Object.assign({}, state, {
-        menu,
-      });
-    }
-    case CREATE_NEW_LOCALE: {
-      const menu = new Map(state.menu.entries());
-      const menuItem = menu.get(action.payload.key);
-      menuItem.locales[action.payload.lang] = action.payload.data;
-      return Object.assign({}, state, {
-        menu,
-      });
-    }
+    case UPDATE_MENU_ITEM:
+      newState.menus[action.payload.menuId].items[action.payload.menuItemId] =
+        action.payload.value;
+      return newState;
+
+    case CREATE_NEW_LOCALE:
+      newState.menus[action.payload.menuId].items[
+        action.payload.menuItemId
+      ].locales[action.payload.lang] = action.payload.data;
+      return newState;
+
     case DELETE_LOCALE: {
-      const menu = new Map(state.menu.entries());
-      const menuItem = menu.get(action.payload.key);
-      delete menuItem.locales[action.payload.lang];
-      return Object.assign({}, state, {
-        menu,
-      });
+      delete newState.menus[action.payload.menuId].items[
+        action.payload.menuItemId
+      ].locales[action.payload.lang];
+      return newState;
     }
 
     default:

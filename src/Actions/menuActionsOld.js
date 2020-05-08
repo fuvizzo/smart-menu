@@ -1,6 +1,5 @@
 import {
   GET_MENU,
-  GET_MENUS,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
@@ -12,19 +11,21 @@ import { sortMap } from '../Helpers/index';
 import { v1 as uuidv1 } from 'uuid';
 
 const LOCALES = 'locales';
-const ITEMS = 'items';
-const INFO = 'info';
-const userMenusPath = userId => `/users/${userId}/menus`;
 
-export const getMenus = () => {
+const userMenuPath = userId => `/users/${userId}/menu`;
+
+export const getMenu = () => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
-    const path = userMenusPath(userId);
+    const path = userMenuPath(userId);
     try {
       const results = await firebaseService.read(path);
       const data = results.val();
-
-      dispatch({ type: GET_MENUS, payload: data });
+      const menu = new Map();
+      Object.keys(data).forEach(key => {
+        menu.set(key, data[key]);
+      });
+      dispatch({ type: GET_MENU, payload: menu });
     } catch (error) {
       console.log(error);
     }
@@ -35,11 +36,11 @@ export const sortMenu = menu => {
   return { type: GET_MENU, payload: sortMap(menu) };
 };
 
-export const createNewMenuItem = (menuId, body) => {
+export const createNewMenuItem = body => {
   return async (dispatch, getState) => {
     const menuItemId = uuidv1();
     const userId = getState().user.userId;
-    const path = `${userMenusPath(userId)}/${menuItemId}`;
+    const path = `${userMenuPath(userId)}/${menuItemId}`;
 
     const data = {
       path,
@@ -47,34 +48,31 @@ export const createNewMenuItem = (menuId, body) => {
     };
     try {
       await firebaseService.create(data);
-      dispatch({
-        type: CREATE_NEW_MENU_ITEM,
-        payload: { menuId, menuItemId, value: body },
-      });
+      dispatch({ type: CREATE_NEW_MENU_ITEM, payload: [menuItemId, body] });
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const deleteMenuItem = (menuId, menuItemId) => {
+export const deleteMenuItem = menuItemId => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
-    const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
+    const path = `${userMenuPath(userId)}/${menuItemId}`;
 
     try {
       await firebaseService.delete(path);
-      dispatch({ type: DELETE_MENU_ITEM, payload: { menuId, menuItemId } });
+      dispatch({ type: DELETE_MENU_ITEM, payload: menuItemId });
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const updateMenuItem = (menuId, menuItemId, body) => {
+export const updateMenuItem = (menuItemId, body) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
-    const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
+    const path = `${userMenuPath(userId)}/${menuItemId}`;
 
     const data = {
       path,
@@ -84,7 +82,7 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
       await firebaseService.update(data);
       dispatch({
         type: UPDATE_MENU_ITEM,
-        payload: { menuId, menuItemId, value: body },
+        payload: { key: menuItemId, value: body },
       });
     } catch (error) {
       console.log(error);
@@ -92,12 +90,12 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
   };
 };
 
-export const createNewLocale = (menuId, menuItemId, body) => {
+export const createNewLocale = (menuItemId, body) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
-    const path = `${userMenusPath(
-      userId
-    )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${body.lang}`;
+    const path = `${userMenuPath(userId)}/${menuItemId}/${LOCALES}/${
+      body.lang
+    }`;
     const localeData = { ...body };
     delete localeData.lang;
     const data = {
@@ -109,8 +107,7 @@ export const createNewLocale = (menuId, menuItemId, body) => {
       dispatch({
         type: CREATE_NEW_LOCALE,
         payload: {
-          menuId,
-          menuItemId,
+          key: menuItemId,
           data: localeData,
           lang: body.lang,
         },
@@ -121,12 +118,10 @@ export const createNewLocale = (menuId, menuItemId, body) => {
   };
 };
 
-export const deleteLocale = (menuId, menuItemId, lang) => {
+export const deleteLocale = (menuItemId, lang) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
-    const path = `${userMenusPath(
-      userId
-    )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${lang}`;
+    const path = `${userMenuPath(userId)}/${menuItemId}/${LOCALES}/${lang}`;
 
     try {
       await firebaseService.delete(path);
@@ -134,8 +129,8 @@ export const deleteLocale = (menuId, menuItemId, lang) => {
       dispatch({
         type: DELETE_LOCALE,
         payload: {
-          menuId,
-          menuItemId,
+          key: menuItemId,
+
           lang,
         },
       });

@@ -10,9 +10,8 @@ import { signOut } from '../../Actions/index';
 import { connect, useDispatch } from 'react-redux';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 const LeftMenu = props => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const signOutHandler = useCallback(() => {
     dispatch(signOut());
@@ -23,7 +22,7 @@ const LeftMenu = props => {
     <div>
       <Divider />
       <List>
-        <ListItem button onClick={() => history.push(url)}>
+        <ListItem to={url} component={RouterLink} button>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -38,11 +37,11 @@ const LeftMenu = props => {
       </List>
       <Divider />
       <List>
-        <ListItem button onClick={() => history.push(`${url}/menu-editor`)}>
+        <ListItem button to={`${url}/menu-list`} component={RouterLink}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Menu editor" />
+          <ListItemText primary="Menu list" />
         </ListItem>
         <ListItem button onClick={signOutHandler}>
           <ListItemIcon>

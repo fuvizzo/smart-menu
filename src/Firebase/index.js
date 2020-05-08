@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import firebaseMock from './../Mock/firebaseMock';
 
 import FirebaseService from './firebaseService';
 const firebaseConfig = {
@@ -12,4 +13,5 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-export default new FirebaseService(firebase);
+
+export default new FirebaseService(firebaseMock);

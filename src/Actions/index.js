@@ -2,7 +2,7 @@ import {
   SIGN_OUT,
   SET_DEFAULT_SYSTEM_LANGUAGE,
   SET_USER_DATA,
-} from './../Constants/action-types';
+} from './../Constants/actionTypes';
 import firebaseService from '../Firebase/index';
 
 export function setDefaultSystemLanguage() {}

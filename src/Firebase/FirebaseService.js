@@ -1,7 +1,7 @@
 class FirebaseService {
   #database = null;
   #auth = null;
-  #root = 'users';
+  #root = '/users';
   constructor(firebase) {
     this.#database = firebase.database();
     this.#auth = firebase.auth();

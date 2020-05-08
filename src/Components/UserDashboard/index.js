@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setDefaultSystemLanguage } from '../../Actions/index';
 import constants from '../../Constants/index';
 import MenuEditor from './menuEditor';
+import MenuList from './menuList';
 import Dashboard from '../Dashboard/index';
 import AuthRoute from '../Auth/authRoute';
 
@@ -27,8 +28,11 @@ const UserDashboard = props => {
             </div>
           </div>
         </AuthRoute>
-        <AuthRoute path={`${path}/menu-editor`}>
+        <AuthRoute path={`${path}/menu-editor/:menuId`}>
           <MenuEditor />
+        </AuthRoute>
+        <AuthRoute path={`${path}/menu-list`}>
+          <MenuList />
         </AuthRoute>
       </Switch>
     </Dashboard>

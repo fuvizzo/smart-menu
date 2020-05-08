@@ -17,7 +17,8 @@ const mapTransformer = config =>
 const persistConfig = {
   key: 'appStore',
   storage: storage,
-  transforms: [mapTransformer({ whitelist: 'menu' })],
+  //whitelist: 'user',
+  //transforms: [mapTransformer({ whitelist: 'menus' })],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
