@@ -1,102 +1,101 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import { connect } from 'react-redux';
 import { getMenus } from '../../Actions/menuActions';
 import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import Popover from '@material-ui/core/Popover';
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
-import { Link as RouterLink } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
 import EditIcon from '@material-ui/icons/Edit';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import constants from '../../Constants/index';
 import useStyles from './styles';
+import MenuActions from './popoverActions';
+import ConfirmationDialog from './confirmationDialog';
+import { Link as RouterLink } from 'react-router-dom';
 
-const { LOCALE } = constants;
+const MenuList = props => {
+  const defaultMenuActionsState = { anchorEl: null, menuId: null };
+  const { getMenus, menus } = props;
+  const classes = useStyles();
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [menuActionsPopoverState, setMenuActionsPopoverState] = useState(
+    defaultMenuActionsState
+  );
+  const menuActionsPopoverOpen = Boolean(menuActionsPopoverState.anchorEl);
+  const menuActionsPopoverId = menuActionsPopoverOpen
+    ? 'menu-actions-popover'
+    : undefined;
 
-const PopOverActions = ({ id, open, anchorEl, handleClose, menuId }) => {
+  const handleMenuActionsClick = useCallback(
+    (event, key) => {
+      setMenuActionsPopoverState(
+        !menuActionsPopoverOpen
+          ? { anchorEl: event.target, menuId: key }
+          : defaultMenuActionsState
+      );
+    },
+    [menuActionsPopoverState.menuId]
+  );
+
+  useEffect(() => {
+    getMenus();
+  }, []);
+
   return (
-    <Popover
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'center',
-        horizontal: 'right',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-    >
-      <Box>
+    <>
+      <ConfirmationDialog
+        open={openConfirmationDialog}
+        title="TRANSLATION NEEDED -> DELETE ITEM"
+        content="TRANSLATION NEEDED -> CLICK ON PROCEED TO DELETE THE SELECTED ITEM."
+        handleClose={() => setOpenConfirmationDialog(false)}
+        onConfirm={() => {
+          console.log('Action confirmed');
+        }}
+      />
+      <MenuActions
+        id={menuActionsPopoverId}
+        open={menuActionsPopoverOpen}
+        anchorEl={menuActionsPopoverState.anchorEl}
+        handleClose={handleMenuActionsClick}
+      >
         <List>
           <ListItem
             aria-label="edit"
             button
-            to={`./menu-editor/${menuId}`}
+            to={`./menu-editor/${menuActionsPopoverState.menuId}`}
             component={RouterLink}
           >
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText primary="Edit" />
+            <ListItemText primary="TRANSLATION NEEDED -> Edit" />
           </ListItem>
-          <ListItem aria-label="delete" button>
+          <ListItem
+            aria-label="delete"
+            button
+            onClick={() => {
+              setMenuActionsPopoverState(defaultMenuActionsState);
+              setOpenConfirmationDialog(true);
+            }}
+          >
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary="Delete" />
+            <ListItemText primary="TRANSLATION NEEDED -> Delete" />
           </ListItem>
         </List>
-      </Box>
-    </Popover>
-  );
-};
-
-const MenuList = props => {
-  const defaultState = { anchorEl: null, menuId: null };
-  const { getMenus, defaultLanguage, menus } = props;
-  const classes = useStyles();
-
-  const [state, setState] = useState(defaultState);
-  const open = Boolean(state.anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-  useEffect(() => {
-    getMenus();
-  }, []);
-
-  const handleClick = (event, key) => {
-    setState({ anchorEl: event.target, menuId: key });
-  };
-
-  const handleClose = () => {
-    setState(defaultState);
-  };
-
-  return (
-    <>
-      <PopOverActions
-        id={id}
-        menuId={state.menuId}
-        open={open}
-        anchorEl={state.anchorEl}
-        handleClose={handleClose}
-      />
+      </MenuActions>
       <Grid
         container
         spacing={2}
@@ -118,8 +117,8 @@ const MenuList = props => {
                   }
                   action={
                     <IconButton
-                      aria-describedby={id}
-                      onClick={event => handleClick(event, key)}
+                      aria-describedby={menuActionsPopoverId}
+                      onClick={event => handleMenuActionsClick(event, key)}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -127,15 +126,15 @@ const MenuList = props => {
                   title={menu.info.name}
                   subheader={
                     menu.info.setMenu
-                      ? `Set menu: ${menu.info.setMenu}`
-                      : 'normal menu'
+                      ? `TRANSLATION NEEDED -> Set menu: ${menu.info.setMenu}`
+                      : 'TRANSLATION NEEDED -> normal menu'
                   }
                 />
 
                 <CardMedia
                   className={classes.media}
                   image={MenuImage}
-                  title="Paella dish"
+                  title={menu.info.description}
                 />
                 <CardContent>
                   <Typography

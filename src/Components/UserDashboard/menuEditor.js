@@ -1,5 +1,20 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
+import CardHeader from '@material-ui/core/CardHeader';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+
+import ConfirmationDialog from './confirmationDialog';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import {
   sortMenu,
   createNewMenuItem,
@@ -14,9 +29,14 @@ import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import Locale from './locale';
 import NewLocaleForm from './newLocale';
+import useStyles from './styles';
+import Avatar from '@material-ui/core/Avatar';
 
+import MenuItemActions from './popoverActions';
 const { LOCALIZED_FIELDS, SUPPORTED_LANGUAGES, LOCALE } = constants;
-
+const UserActions = {
+  DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
+};
 const emptyLocaleData = {
   lang: '',
   name: '',
@@ -33,10 +53,11 @@ const getAvailableLanguage = usedLanguages => {
 const MenuEditor = props => {
   const dispatch = useDispatch();
   const { menuId } = useParams();
-
+  const classes = useStyles();
   const { sortMenu, defaultLanguage, menus } = props;
   const dishMap = LOCALE[defaultLanguage].DISH_TYPES;
   const menu = menus[menuId];
+
   const defaultEditModeState = {
     enabled: false,
     selectedItem: {},
@@ -46,16 +67,24 @@ const MenuEditor = props => {
     enabled: false,
     selectedItem: {},
   };
+
+  const defaultConfirmationDialogState = {
+    open: false,
+    item: null,
+  };
+
+  const defaultMenuItemActionsState = { anchorEl: null, menuItemId: null };
+
+  const [confirmationDialogState, setConfirmationDialogState] = useState(
+    defaultConfirmationDialogState
+  );
+
   const [editModeState, setEditModeState] = useState(defaultEditModeState);
   const [insertLocaleModeState, setInsertLocaleModeState] = useState(
     defaultInserLocaleModeState
   );
 
-  /* useEffect(() => {
-    getMenu();
-  }, []);
-
-useEffect(() => {
+  /*useEffect(() => {
     if (!editModeState.enabled) sortMenu(menu);
     console.log('reorder!');
   }, [menu.size, editModeState.enabled]); */
@@ -99,6 +128,28 @@ useEffect(() => {
   const deleteLocaleHandler = useCallback((menuItemId, lang) => {
     dispatch(deleteLocale(menuId, menuItemId, lang));
   }, []);
+
+  const [
+    menuItemActionsPopoverState,
+    setMenuItemActionsPopoverState,
+  ] = useState(defaultMenuItemActionsState);
+  const menuItemActionsPopoverOpen = Boolean(
+    menuItemActionsPopoverState.anchorEl
+  );
+  const menuItemActionsPopoverId = menuItemActionsPopoverOpen
+    ? 'menu-item-actions-popover'
+    : undefined;
+
+  const handleMenuItemActionsClick = useCallback(
+    (event, key) => {
+      setMenuItemActionsPopoverState(
+        !menuItemActionsPopoverOpen
+          ? { anchorEl: event.target, menuItemId: key }
+          : defaultMenuItemActionsState
+      );
+    },
+    [menuItemActionsPopoverState.menuItemId]
+  );
 
   const onChangeValueHandler = useCallback(
     event => {
@@ -167,12 +218,74 @@ useEffect(() => {
   );
 
   return (
-    <div>
-      <ul>
-        {Object.keys(menu.items).map(key => {
-          const data = menu.items[key];
-          return (
-            <li key={key}>
+    <Grid
+      container
+      spacing={2}
+      direction="row"
+      justify="flex-start"
+      alignItems="flex-start"
+    >
+      {}
+      <ConfirmationDialog
+        open={confirmationDialogState.open}
+        action={UserActions.DELETE_MENU_ITEM}
+        data={
+          confirmationDialogState.item &&
+          confirmationDialogState.item.value.locales[defaultLanguage].name
+        }
+        handleClose={() =>
+          setConfirmationDialogState(defaultConfirmationDialogState)
+        }
+        onConfirm={() => deleteMenuItemHandler(confirmationDialogState.item.id)}
+      />
+      <MenuItemActions
+        id={menuItemActionsPopoverId}
+        open={menuItemActionsPopoverOpen}
+        anchorEl={menuItemActionsPopoverState.anchorEl}
+        handleClose={handleMenuItemActionsClick}
+      >
+        <List>
+          <ListItem
+            onClick={() =>
+              toggleEditModeHandler({
+                menuItemId: menuItemActionsPopoverState.menuItemId,
+              })
+            }
+            aria-label="edit"
+            button
+          >
+            <ListItemIcon>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemText primary="TRANSLATION NEEDED -> Edit" />
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              const menuItemId = menuItemActionsPopoverState.menuItemId;
+              setMenuItemActionsPopoverState(defaultMenuItemActionsState);
+              setConfirmationDialogState({
+                open: true,
+                item: {
+                  id: menuItemId,
+                  value: menu.items[menuItemId],
+                },
+              });
+            }}
+            aria-label="delete"
+            button
+          >
+            <ListItemIcon>
+              <DeleteIcon />
+            </ListItemIcon>
+            <ListItemText primary="TRANSLATION NEEDED -> Delete" />
+          </ListItem>
+        </List>
+      </MenuItemActions>
+      {Object.keys(menu.items).map(key => {
+        const data = menu.items[key];
+        return (
+          <Grid item xs={12} key={key}>
+            <Card width={1}>
               {editModeState.enabled &&
               editModeState.selectedItem.id === key ? (
                 <div>
@@ -230,79 +343,113 @@ useEffect(() => {
                   </div>
                 </div>
               ) : (
-                <div>
-                  <div> {dishMap[data.category]}</div>
-                  <div> {data.price}</div>
-                  {Object.keys(data.locales).map((lang, index) => {
-                    const locale = data.locales[lang];
-                    return (
-                      <div key={index}>
-                        <div>
-                          Menu in{' '}
-                          <b>{LOCALE[defaultLanguage].LANGUAGES[lang]}</b>
-                        </div>
-                        <div> {locale.name}</div>
-                        <div> {locale.description}</div>
-                        <div> {locale.ingredients}</div>
+                <>
+                  <CardHeader
+                    className={classes.header}
+                    avatar={
+                      <Avatar aria-label="recipe" className={classes.avatar}>
+                        {dishMap[data.category].substr(0, 1)}
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton
+                        aria-describedby={menuItemActionsPopoverId}
+                        onClick={event =>
+                          handleMenuItemActionsClick(event, key)
+                        }
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={data.locales[defaultLanguage].name}
+                    subheader={
+                      data.price
+                    } /*  {data.locales[defaultLanguage].description} */
+                  />
+                  <CardContent>
+                    {data.locales[defaultLanguage].description && (
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {data.locales[defaultLanguage].description}
+                      </Typography>
+                    )}
+                    {data.locales[defaultLanguage].ingredients && (
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        component="p"
+                      >
+                        TRANSLATION NEEDED -> Ingredients:{' '}
+                        {data.locales[defaultLanguage].ingredients}
+                      </Typography>
+                    )}
+                  </CardContent>
+                  <div>
+                    {Object.keys(data.locales)
+                      .filter(locale => locale !== defaultLanguage)
+                      .map((lang, index) => {
+                        const locale = data.locales[lang];
+                        return (
+                          <div key={index}>
+                            <div>
+                              Menu in{' '}
+                              <b>{LOCALE[defaultLanguage].LANGUAGES[lang]}</b>
+                            </div>
+                            <div> {locale.name}</div>
+                            <div> {locale.description}</div>
+                            <div> {locale.ingredients}</div>
 
-                        <div>
+                            <div>
+                              <button
+                                onClick={() => deleteLocaleHandler(key, lang)}
+                              >
+                                Delete description in{' '}
+                                {LOCALE[defaultLanguage].LANGUAGES[lang]}
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                    {insertLocaleModeState.enabled &&
+                    insertLocaleModeState.menuItemId === key ? (
+                      <NewLocaleForm
+                        emptyLocaleData={insertLocaleModeState.newLocale}
+                        toggleAddLocalMode={toggleAddLocalMode}
+                        onChangeValue={onChangeValueHandler}
+                        onCreateNewLocalInMenuItem={createNewLocaleCallback}
+                        availableLanguages={getAvailableLanguage(
+                          Object.keys(data.locales)
+                        )}
+                      />
+                    ) : (
+                      <>
+                        {getAvailableLanguage(Object.keys(data.locales))
+                          .length !== 0 && (
                           <button
-                            onClick={() => deleteLocaleHandler(key, lang)}
+                            onClick={() =>
+                              toggleAddLocalMode({ menuItemId: key })
+                            }
                           >
-                            Delete description in{' '}
-                            {LOCALE[defaultLanguage].LANGUAGES[lang]}
+                            Add description, name and ingrendients in another
+                            lang
                           </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                  <div>
-                    <button onClick={() => deleteMenuItemHandler(key)}>
-                      Delete
-                    </button>
+                        )}
+                      </>
+                    )}
                   </div>
-                  <div>
-                    <button
-                      onClick={() => toggleEditModeHandler({ menuItemId: key })}
-                    >
-                      Edit
-                    </button>
-                  </div>
-
-                  {insertLocaleModeState.enabled &&
-                  insertLocaleModeState.menuItemId === key ? (
-                    <NewLocaleForm
-                      emptyLocaleData={insertLocaleModeState.newLocale}
-                      toggleAddLocalMode={toggleAddLocalMode}
-                      onChangeValue={onChangeValueHandler}
-                      onCreateNewLocalInMenuItem={createNewLocaleCallback}
-                      availableLanguages={getAvailableLanguage(
-                        Object.keys(data.locales)
-                      )}
-                    />
-                  ) : (
-                    <>
-                      {getAvailableLanguage(Object.keys(data.locales))
-                        .length !== 0 && (
-                        <button
-                          onClick={() =>
-                            toggleAddLocalMode({ menuItemId: key })
-                          }
-                        >
-                          Add description, name and ingrendients in another lang
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
+                </>
               )}
-            </li>
-          );
-        })}
-      </ul>
+            </Card>
+          </Grid>
+        );
+      })}
+
       <button onClick={createNewMenuItemCallback}>Add</button>
-    </div>
+    </Grid>
   );
 };
 

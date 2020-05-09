@@ -19,6 +19,13 @@ export default {
         it: 'Italian',
         fr: 'French',
       },
+      CONFIRMATION_ACTIONS: {
+        DELETE_MENU_ITEM: {
+          getTitle: itemName => `Delete the menu item ${itemName}`,
+          getContent: itemName =>
+            `Click on proceed to delete the selected item ${itemName}`,
+        },
+      },
     },
   },
 };

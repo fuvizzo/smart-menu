@@ -26,13 +26,13 @@ const LeftMenu = props => {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="TRANSLATION NEEDED -> Dashboard" />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
-          <ListItemText primary="Subscription status" />
+          <ListItemText primary="TRANSLATION NEEDED -> Subscription status" />
         </ListItem>
       </List>
       <Divider />
@@ -41,13 +41,13 @@ const LeftMenu = props => {
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Menu list" />
+          <ListItemText primary="TRANSLATION NEEDED -> Menu list" />
         </ListItem>
         <ListItem button onClick={signOutHandler}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary="TRANSLATION NEEDED -> Logout" />
         </ListItem>
       </List>
     </div>

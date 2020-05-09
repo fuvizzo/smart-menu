@@ -3,9 +3,10 @@ import { red } from '@material-ui/core/colors';
 export default makeStyles(theme => ({
   root: {
     maxWidth: 345,
+    maxHeight: 450,
   },
   header: {
-    height: '80px',
+    height: 80,
   },
   media: {
     height: 0,
