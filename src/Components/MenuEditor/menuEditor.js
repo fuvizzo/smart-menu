@@ -11,6 +11,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import clsx from 'clsx';
+import Button from '@material-ui/core/Button';
 
 import ConfirmationDialog from '../UserDashboard/confirmationDialog';
 import CardContent from '@material-ui/core/CardContent';
@@ -27,6 +30,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './languageTabsPanel';
 import MenuItemActions from '../UserDashboard/popoverActions';
+import CardActions from '@material-ui/core/CardActions';
 
 const emptyLocaleData = {
   lang: '',
@@ -52,7 +56,6 @@ const MenuEditor = props => {
   const {
     LocalizedFields,
     SupportedLanguages,
-
     Locale,
     ConfirmationActions,
   } = constants;
@@ -80,6 +83,11 @@ const MenuEditor = props => {
     item: null,
   };
 
+  const defaultLanguageTabsPanelState = {
+    expanded: false,
+    menuItemId: null,
+  };
+
   const defaultMenuItemActionsState = { anchorEl: null, menuItemId: null };
 
   const [confirmationDialogState, setConfirmationDialogState] = useState(
@@ -90,11 +98,18 @@ const MenuEditor = props => {
   const [insertLocaleModeState, setInsertLocaleModeState] = useState(
     defaultInserLocaleModeState
   );
+  const [languageTabsPanelState, setLanguageTabsPanelState] = useState(
+    defaultLanguageTabsPanelState
+  );
 
-  /*useEffect(() => {
-    if (!editModeState.enabled) sortMenu(menu);
-    console.log('reorder!');
-  }, [menu.size, editModeState.enabled]); */
+  const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
+    const expanded = languageTabsPanelState.expanded;
+    setLanguageTabsPanelState(
+      !expanded || languageTabsPanelState.menuItemId !== menuItemId
+        ? { expanded: true, menuItemId }
+        : defaultLanguageTabsPanelState
+    );
+  };
 
   const getAvailableLanguage = useCallback(usedLanguages => {
     return SupportedLanguages.filter(
@@ -228,6 +243,11 @@ const MenuEditor = props => {
     [menu, editModeState.selectedItem.id]
   );
 
+  /*useEffect(() => {
+    if (!editModeState.enabled) sortMenu(menu);
+    console.log('reorder!');
+  }, [menu.size, editModeState.enabled]); */
+
   return (
     <Grid
       container
@@ -298,6 +318,9 @@ const MenuEditor = props => {
       </MenuItemActions>
       {Object.keys(menu.items).map(key => {
         const data = menu.items[key];
+        const languageTabExpanded =
+          languageTabsPanelState.expanded &&
+          languageTabsPanelState.menuItemId === key;
         return (
           <Grid item xs={12} key={key}>
             <Card width={1}>
@@ -401,46 +424,27 @@ const MenuEditor = props => {
                         {data.locales[defaultLanguage].ingredients}
                       </Typography>
                     )}
+                    <CardActions disableSpacing>
+                      <Button
+                        className={clsx(classes.expand, {
+                          [classes.expandOpen]: languageTabExpanded,
+                        })}
+                        onClick={event =>
+                          handleExpandLanguageTabsPanelClick(event, key)
+                        }
+                        aria-expanded={languageTabExpanded}
+                        aria-label="show more"
+                        endIcon={<ExpandMoreIcon />}
+                      >
+                        {!languageTabExpanded && 'Show Other languages tab'}
+                      </Button>
+                    </CardActions>
                   </CardContent>
-                  <Collapse in={true} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <Typography paragraph>
-                        TODO TRANSLATION NEEDED -> Other languages
-                      </Typography>
-                    </CardContent>
-                    <LanguageTabsPanel
-                      onDeleteLocale={deleteLocaleHandler}
-                      locales={data.locales}
-                    />
-                    {/*  {Object.keys(data.locales)
-                      .filter(locale => locale !== defaultLanguage)
-                      .map((lang, index) => {
-                        const locale = data.locales[lang];
-                        return (
-                          <CardContent key={index}>
-                            <Typography paragraph>
-                              TODO TRANSLATION NEEDED -> Menu in{' '}
-                              <b>{Languages[lang]}</b>
-                            </Typography>
-                            <Typography paragraph>{locale.name}</Typography>
-                            <Typography paragraph>
-                              {locale.description}
-                            </Typography>
-                            <Typography paragraph>
-                              {locale.ingredients}
-                            </Typography>
-                            <div>
-                              <button
-                                onClick={() => deleteLocaleHandler(key, lang)}
-                              >
-                                Delete description in {Languages[lang]}
-                              </button>
-                            </div>
-                          </CardContent>
-                        );
-                      })} */}
-                  </Collapse>
-                  <div>
+                  <Collapse
+                    in={languageTabExpanded}
+                    timeout="auto"
+                    unmountOnExit
+                  >
                     {insertLocaleModeState.enabled &&
                     insertLocaleModeState.menuItemId === key ? (
                       <NewLocaleEditor
@@ -454,6 +458,10 @@ const MenuEditor = props => {
                       />
                     ) : (
                       <>
+                        <LanguageTabsPanel
+                          onDeleteLocale={deleteLocaleHandler}
+                          locales={data.locales}
+                        />
                         {getAvailableLanguage(Object.keys(data.locales))
                           .length !== 0 && (
                           <button
@@ -467,7 +475,7 @@ const MenuEditor = props => {
                         )}
                       </>
                     )}
-                  </div>
+                  </Collapse>
                 </>
               )}
             </Card>
