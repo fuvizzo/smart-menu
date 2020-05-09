@@ -19,15 +19,12 @@ import useStyles from './styles';
 import LeftMenu from './leftMenu';
 const Dashboard = props => {
   console.count('Dashboard renders');
-  const { sectionName, children } = props;
+  const { getSectionName, children } = props;
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleDrawerStatus = open => {
+    setOpen(open);
   };
 
   return (
@@ -42,13 +39,9 @@ const Dashboard = props => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
+            onClick={() => handleDrawerStatus(!open)}
           >
-            <MenuIcon />
+            {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
           <Typography
             component="h1"
@@ -57,7 +50,7 @@ const Dashboard = props => {
             noWrap
             className={classes.title}
           >
-            {sectionName}
+            {getSectionName()}
           </Typography>
           {/*  <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -73,11 +66,6 @@ const Dashboard = props => {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
         <LeftMenu />
       </Drawer>
       <main className={classes.content}>

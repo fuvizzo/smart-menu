@@ -7,15 +7,19 @@ import MenuList from './menuList';
 import Dashboard from '../Dashboard/index';
 import AuthRoute from '../Auth/authRoute';
 
-import { Switch, useRouteMatch } from 'react-router-dom';
-const { LOCALE } = constants;
+import { Switch, useRouteMatch, useLocation } from 'react-router-dom';
+const { Locale } = constants;
 
 const UserDashboard = props => {
-  const locale = LOCALE[props.defaultLanguage];
+  const locale = Locale[props.defaultLanguage];
   const { path } = useRouteMatch();
+  const location = useLocation();
+  const sectionNameHandler = () => {
+    console.log(location);
+  };
 
   return (
-    <Dashboard>
+    <Dashboard getSectionName={sectionNameHandler}>
       <Switch>
         <AuthRoute exact path={path}>
           <div>
@@ -24,7 +28,7 @@ const UserDashboard = props => {
             </div>
             <div>
               {locale.DEFAULT_LANGUAGE}:
-              {locale.LANGUAGES[props.defaultLanguage]}
+              {locale.Languages[props.defaultLanguage]}
             </div>
           </div>
         </AuthRoute>

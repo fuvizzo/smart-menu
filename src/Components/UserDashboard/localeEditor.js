@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import constants from '../../Constants/index';
-const { LOCALE } = constants;
-const Locale = props => {
+const { Locale } = constants;
+const LocaleEditor = props => {
   const { index, lang, defaultLanguage, onChangeValue, data } = props;
 
   return (
     <div key={index}>
       <div>
-        Menu in <b>{LOCALE[defaultLanguage].LANGUAGES[lang]}</b>
+        Menu in <b>{Locale[defaultLanguage].Languages[lang]}</b>
       </div>
       <div>
         <input
@@ -50,4 +50,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Locale);
+export default connect(mapStateToProps)(LocaleEditor);

@@ -23,12 +23,21 @@ import useStyles from './styles';
 import MenuActions from './popoverActions';
 import ConfirmationDialog from './confirmationDialog';
 import { Link as RouterLink } from 'react-router-dom';
+const { ConfirmationActions } = constants;
 
 const MenuList = props => {
   const defaultMenuActionsState = { anchorEl: null, menuId: null };
-  const { getMenus, menus } = props;
+  const { getMenus, menus, defaultLanguage } = props;
   const classes = useStyles();
-  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+
+  const defaultConfirmationDialogState = {
+    open: false,
+    item: null,
+  };
+  const [confirmationDialogState, setConfirmationDialogState] = useState(
+    defaultConfirmationDialogState
+  );
+
   const [menuActionsPopoverState, setMenuActionsPopoverState] = useState(
     defaultMenuActionsState
   );
@@ -55,10 +64,13 @@ const MenuList = props => {
   return (
     <>
       <ConfirmationDialog
-        open={openConfirmationDialog}
-        title="TRANSLATION NEEDED -> DELETE ITEM"
-        content="TRANSLATION NEEDED -> CLICK ON PROCEED TO DELETE THE SELECTED ITEM."
-        handleClose={() => setOpenConfirmationDialog(false)}
+        open={confirmationDialogState.open}
+        action={ConfirmationActions.DELETE_MENU}
+        data={
+          confirmationDialogState.item &&
+          confirmationDialogState.item.value.locales[defaultLanguage].name
+        }
+        handleClose={() => setConfirmationDialogState(false)}
         onConfirm={() => {
           console.log('Action confirmed');
         }}
@@ -85,8 +97,15 @@ const MenuList = props => {
             aria-label="delete"
             button
             onClick={() => {
+              const menuId = menuActionsPopoverState.menuId;
               setMenuActionsPopoverState(defaultMenuActionsState);
-              setOpenConfirmationDialog(true);
+              setConfirmationDialogState({
+                open: true,
+                item: {
+                  id: menuId,
+                  value: menus[menuId].info,
+                },
+              });
             }}
           >
             <ListItemIcon>
@@ -123,7 +142,7 @@ const MenuList = props => {
                       <MoreVertIcon />
                     </IconButton>
                   }
-                  title={menu.info.name}
+                  title={menu.info.locales[defaultLanguage].name}
                   subheader={
                     menu.info.setMenu
                       ? `TRANSLATION NEEDED -> Set menu: ${menu.info.setMenu}`
@@ -134,7 +153,7 @@ const MenuList = props => {
                 <CardMedia
                   className={classes.media}
                   image={MenuImage}
-                  title={menu.info.description}
+                  title={menu.info.locales[defaultLanguage].name}
                 />
                 <CardContent>
                   <Typography
@@ -142,7 +161,7 @@ const MenuList = props => {
                     color="textSecondary"
                     component="p"
                   >
-                    {menu.info.description}
+                    {menu.info.locales[defaultLanguage].description}
                   </Typography>
                 </CardContent>
               </Card>

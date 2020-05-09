@@ -1,7 +1,12 @@
 export default {
-  SUPPORTED_LANGUAGES: ['en', 'es', 'cat', 'it', 'fr'],
-  LOCALIZED_FIELDS: ['description', 'ingredients', 'name'],
-  LOCALE: {
+  SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
+  LocalizedFields: ['description', 'ingredients', 'name'],
+  ConfirmationActions: {
+    DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
+    DELETE_MENU: 'DELETE_MENU',
+    DELETE_LOCALE: 'DELETE_LOCALE',
+  },
+  Locale: {
     en: {
       DISH_TYPES: [
         'Starters',
@@ -12,18 +17,40 @@ export default {
         'Drinks',
       ],
       DEFAULT_LANGUAGE: 'Default language',
-      LANGUAGES: {
+      Languages: {
         en: 'English',
         es: 'Spanish',
         cat: 'Catalan',
         it: 'Italian',
         fr: 'French',
       },
-      CONFIRMATION_ACTIONS: {
+      Labels: {
+        Sections: {
+          DASHBOARD: 'Dashboard',
+          MENU_LIST: 'Menu list',
+          MENU_EDITOR: 'Menu editor',
+        },
+        Actions: {
+          PROCEED: 'Proceed',
+          CANCEL: 'Cancel',
+          SAVE: 'Save',
+          EDIT: 'Edit',
+          CREATE: 'Crete',
+          SIGN_IN: 'Login',
+          SIGN_UP: 'Register',
+          SIGN_OUT: 'Logout',
+        },
+      },
+      ConfirmationActions: {
+        DELETE_MENU: {
+          getTitle: name => `Delete the menu '${name}'`,
+          getContent: name =>
+            `Click on proceed to delete the selected menu '${name}'`,
+        },
         DELETE_MENU_ITEM: {
-          getTitle: itemName => `Delete the menu item ${itemName}`,
+          getTitle: itemName => `Delete the menu item '${itemName}'`,
           getContent: itemName =>
-            `Click on proceed to delete the selected item ${itemName}`,
+            `Click on proceed to delete the selected item '${itemName}'`,
         },
       },
     },

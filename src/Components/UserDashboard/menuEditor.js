@@ -27,16 +27,19 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
-import Locale from './locale';
-import NewLocaleForm from './newLocale';
+import LocaleEditor from './localeEditor';
+import NewLocaleEditor from './newLocale';
 import useStyles from './styles';
 import Avatar from '@material-ui/core/Avatar';
 
 import MenuItemActions from './popoverActions';
-const { LOCALIZED_FIELDS, SUPPORTED_LANGUAGES, LOCALE } = constants;
-const UserActions = {
-  DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
-};
+const {
+  LocalizedFields,
+  SupportedLanguages,
+  Locale,
+  ConfirmationActions,
+} = constants;
+
 const emptyLocaleData = {
   lang: '',
   name: '',
@@ -45,7 +48,7 @@ const emptyLocaleData = {
 };
 
 const getAvailableLanguage = usedLanguages => {
-  return SUPPORTED_LANGUAGES.filter(
+  return SupportedLanguages.filter(
     lang => !usedLanguages.some(l => l === lang)
   );
 };
@@ -55,7 +58,7 @@ const MenuEditor = props => {
   const { menuId } = useParams();
   const classes = useStyles();
   const { sortMenu, defaultLanguage, menus } = props;
-  const dishMap = LOCALE[defaultLanguage].DISH_TYPES;
+  const dishMap = Locale[defaultLanguage].DISH_TYPES;
   const menu = menus[menuId];
 
   const defaultEditModeState = {
@@ -169,7 +172,7 @@ const MenuEditor = props => {
       } else {
         const selectedItem = editModeState.selectedItem;
 
-        if (LOCALIZED_FIELDS.some(field => field === input.name)) {
+        if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
           selectedItem.value.locales[lang][input.name] = currentValue;
         } else {
@@ -228,7 +231,7 @@ const MenuEditor = props => {
       {}
       <ConfirmationDialog
         open={confirmationDialogState.open}
-        action={UserActions.DELETE_MENU_ITEM}
+        action={ConfirmationActions.DELETE_MENU_ITEM}
         data={
           confirmationDialogState.item &&
           confirmationDialogState.item.value.locales[defaultLanguage].name
@@ -246,11 +249,12 @@ const MenuEditor = props => {
       >
         <List>
           <ListItem
-            onClick={() =>
+            onClick={() => {
+              setMenuItemActionsPopoverState(defaultMenuItemActionsState);
               toggleEditModeHandler({
                 menuItemId: menuItemActionsPopoverState.menuItemId,
-              })
-            }
+              });
+            }}
             aria-label="edit"
             button
           >
@@ -322,7 +326,7 @@ const MenuEditor = props => {
                         const locale =
                           editModeState.selectedItem.value.locales[lang];
                         return (
-                          <Locale
+                          <LocaleEditor
                             key={index}
                             lang={lang}
                             data={locale}
@@ -396,7 +400,7 @@ const MenuEditor = props => {
                           <div key={index}>
                             <div>
                               Menu in{' '}
-                              <b>{LOCALE[defaultLanguage].LANGUAGES[lang]}</b>
+                              <b>{Locale[defaultLanguage].Languages[lang]}</b>
                             </div>
                             <div> {locale.name}</div>
                             <div> {locale.description}</div>
@@ -407,7 +411,7 @@ const MenuEditor = props => {
                                 onClick={() => deleteLocaleHandler(key, lang)}
                               >
                                 Delete description in{' '}
-                                {LOCALE[defaultLanguage].LANGUAGES[lang]}
+                                {Locale[defaultLanguage].Languages[lang]}
                               </button>
                             </div>
                           </div>
@@ -416,7 +420,7 @@ const MenuEditor = props => {
 
                     {insertLocaleModeState.enabled &&
                     insertLocaleModeState.menuItemId === key ? (
-                      <NewLocaleForm
+                      <NewLocaleEditor
                         emptyLocaleData={insertLocaleModeState.newLocale}
                         toggleAddLocalMode={toggleAddLocalMode}
                         onChangeValue={onChangeValueHandler}

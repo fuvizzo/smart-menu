@@ -19,7 +19,7 @@ import SignIn from '../Auth/signIn';
 import Pricing from '../Pricing';
 import UserDashboard from '../UserDashboard/index';
 
-const App = () => {
+const App = props => {
   const classes = useStyles();
 
   return (
@@ -39,7 +39,7 @@ const App = () => {
             noWrap
             className={classes.toolbarTitle}
           >
-            Smart menu
+            {!props.user && <div>Smart menu</div>}
           </Typography>
           <nav>
             <Link

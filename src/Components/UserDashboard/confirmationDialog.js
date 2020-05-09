@@ -56,10 +56,10 @@ const DialogActions = withStyles(theme => ({
   },
 }))(MuiDialogActions);
 
-const { LOCALE } = constants;
+const { Locale } = constants;
 const ConfirmationDialog = props => {
   const { onConfirm, open, handleClose, defaultLanguage, data, action } = props;
-  const dialogInfo = LOCALE[defaultLanguage].CONFIRMATION_ACTIONS[action];
+  const dialogInfo = Locale[defaultLanguage].ConfirmationActions[action];
   return (
     <Dialog
       onClose={handleClose}
@@ -74,7 +74,7 @@ const ConfirmationDialog = props => {
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose} color="primary">
-          TRANSLATION NEEDED -> Cancel
+          {Locale[defaultLanguage].Labels.Actions.CANCEL}
         </Button>
         <Button
           autoFocus
@@ -84,7 +84,7 @@ const ConfirmationDialog = props => {
           }}
           color="primary"
         >
-          TRANSLATION NEEDED -> Proceed
+          {Locale[defaultLanguage].Labels.Actions.PROCEED}
         </Button>
       </DialogActions>
     </Dialog>

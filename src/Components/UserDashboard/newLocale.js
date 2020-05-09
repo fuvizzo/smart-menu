@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Locale from './locale';
+import LocaleEditor from './localeEditor';
 import { connect } from 'react-redux';
 import constants from '../../Constants/index';
-const { LOCALE } = constants;
+const { Locale } = constants;
 
 const NewLocaleForm = props => {
   const {
@@ -26,12 +26,12 @@ const NewLocaleForm = props => {
         {availableLanguages.map((lang, index) => {
           return (
             <option key={index} value={lang}>
-              {LOCALE[defaultLanguage].LANGUAGES[lang]}
+              {Locale[defaultLanguage].Languages[lang]}
             </option>
           );
         })}
       </select>
-      <Locale
+      <LocaleEditor
         key="0"
         systemLang={defaultLanguage}
         lang={lang}
