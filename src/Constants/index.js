@@ -55,6 +55,11 @@ export default {
           getContent: itemName =>
             `Click on proceed to delete the selected item '${itemName}'`,
         },
+        DELETE_LOCALE: {
+          getTitle: lang => `Delete the '${lang}' translation`,
+          getContent: lang =>
+            `Click on proceed to delete  the '${lang}' translation for the selected menu item`,
+        },
       },
     },
   },

@@ -51,7 +51,7 @@ const NewLocaleForm = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.settings.defaultLanguage,
+    defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }
 

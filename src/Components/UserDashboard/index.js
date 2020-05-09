@@ -46,7 +46,7 @@ const UserDashboard = props => {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    defaultLanguage: state.settings.defaultLanguage,
+    defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }
 

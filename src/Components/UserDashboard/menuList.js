@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { getMenus } from '../../Actions/menuActions';
 import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
@@ -23,41 +23,48 @@ import MenuActions from './popoverActions';
 import ConfirmationDialog from './confirmationDialog';
 import { Link as RouterLink } from 'react-router-dom';
 import constants from '../../Constants/index';
+import * as uiActions from '../../Actions/ui-actions';
+import { isEmpty } from 'lodash';
 
 const { ConfirmationActions, Locale } = constants;
 
 const MenuList = props => {
-  const defaultMenuActionsState = { anchorEl: null, menuId: null };
-  const { menus, defaultLanguage } = props;
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const {
+    menus,
+    ui,
+    showActionsPopover,
+    hideActionsPopover,
+    openConfirmationDialog,
+    closeConfirmationDialog,
+  } = props;
+  const defaultLanguage = ui.settings.defaultLanguage;
   const classes = useStyles();
   const {
     Labels: { Actions: ActionsLabels },
   } = Locale[defaultLanguage];
-  const defaultConfirmationDialogState = {
-    open: false,
-    item: null,
-  };
-  const [confirmationDialogState, setConfirmationDialogState] = useState(
-    defaultConfirmationDialogState
-  );
 
-  const [menuActionsPopoverState, setMenuActionsPopoverState] = useState(
-    defaultMenuActionsState
-  );
-  const menuActionsPopoverOpen = Boolean(menuActionsPopoverState.anchorEl);
+  const menuActionsPopoverOpen = Boolean(anchorEl);
   const menuActionsPopoverId = menuActionsPopoverOpen
     ? 'menu-actions-popover'
     : undefined;
 
   const handleMenuActionsClick = useCallback(
     (event, key) => {
-      setMenuActionsPopoverState(
-        !menuActionsPopoverOpen
-          ? { anchorEl: event.target, menuId: key }
-          : defaultMenuActionsState
-      );
+      if (!menuActionsPopoverOpen) {
+        setAnchorEl(event.currentTarget);
+        showActionsPopover({
+          data: {
+            menuId: key,
+          },
+        });
+      } else {
+        setAnchorEl(null);
+        hideActionsPopover();
+      }
     },
-    [menuActionsPopoverState.menuId]
+    [ui.actionsPopoverState.data.menuId, menuActionsPopoverOpen]
   );
 
   useEffect(() => {
@@ -67,13 +74,15 @@ const MenuList = props => {
   return (
     <>
       <ConfirmationDialog
-        open={confirmationDialogState.open}
+        open={ui.confirmationDialogState.open}
         action={ConfirmationActions.DELETE_MENU}
         data={
-          confirmationDialogState.item &&
-          confirmationDialogState.item.value.locales[defaultLanguage].name
+          !isEmpty(ui.confirmationDialogState.data) &&
+          ui.confirmationDialogState.data.value.locales[defaultLanguage].name
         }
-        handleClose={() => setConfirmationDialogState(false)}
+        handleClose={() =>
+          dispatch(closeConfirmationDialog({ open: false, data: null }))
+        }
         onConfirm={() => {
           console.log('Action confirmed');
         }}
@@ -81,14 +90,14 @@ const MenuList = props => {
       <MenuActions
         id={menuActionsPopoverId}
         open={menuActionsPopoverOpen}
-        anchorEl={menuActionsPopoverState.anchorEl}
+        anchorEl={anchorEl}
         handleClose={handleMenuActionsClick}
       >
         <List>
           <ListItem
             aria-label="edit"
             button
-            to={`./menu-editor/${menuActionsPopoverState.menuId}`}
+            to={`./menu-editor/${ui.actionsPopoverState.data.menuId}`}
             component={RouterLink}
           >
             <ListItemIcon>
@@ -100,15 +109,17 @@ const MenuList = props => {
             aria-label="delete"
             button
             onClick={() => {
-              const menuId = menuActionsPopoverState.menuId;
-              setMenuActionsPopoverState(defaultMenuActionsState);
-              setConfirmationDialogState({
-                open: true,
-                item: {
-                  id: menuId,
-                  value: menus[menuId].info,
-                },
-              });
+              const menuId = ui.actionsPopoverState.data.menuId;
+              dispatch(hideActionsPopover());
+              dispatch(
+                openConfirmationDialog({
+                  open: true,
+                  data: {
+                    id: menuId,
+                    value: menus[menuId].info,
+                  },
+                })
+              );
             }}
           >
             <ListItemIcon>
@@ -179,10 +190,8 @@ const MenuList = props => {
 function mapStateToProps(state) {
   return {
     menus: state.menus,
-    defaultLanguage: state.settings.defaultLanguage,
+    ui: state.ui,
   };
 }
 
-export default connect(mapStateToProps, {
-  getMenus,
-})(MenuList);
+export default connect(mapStateToProps, { ...uiActions, getMenus })(MenuList);
