@@ -18,18 +18,21 @@ import List from '@material-ui/core/List';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import constants from '../../Constants/index';
 import useStyles from './styles';
 import MenuActions from './popoverActions';
 import ConfirmationDialog from './confirmationDialog';
 import { Link as RouterLink } from 'react-router-dom';
-const { ConfirmationActions } = constants;
+import constants from '../../Constants/index';
+
+const { ConfirmationActions, Locale } = constants;
 
 const MenuList = props => {
   const defaultMenuActionsState = { anchorEl: null, menuId: null };
-  const { getMenus, menus, defaultLanguage } = props;
+  const { menus, defaultLanguage } = props;
   const classes = useStyles();
-
+  const {
+    Labels: { Actions: ActionsLabels },
+  } = Locale[defaultLanguage];
   const defaultConfirmationDialogState = {
     open: false,
     item: null,
@@ -58,7 +61,7 @@ const MenuList = props => {
   );
 
   useEffect(() => {
-    getMenus();
+    props.getMenus();
   }, []);
 
   return (
@@ -91,7 +94,7 @@ const MenuList = props => {
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText primary="TRANSLATION NEEDED -> Edit" />
+            <ListItemText primary={ActionsLabels.EDIT} />
           </ListItem>
           <ListItem
             aria-label="delete"
@@ -111,7 +114,7 @@ const MenuList = props => {
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary="TRANSLATION NEEDED -> Delete" />
+            <ListItemText primary={ActionsLabels.DELETE} />
           </ListItem>
         </List>
       </MenuActions>

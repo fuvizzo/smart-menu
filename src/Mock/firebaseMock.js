@@ -51,6 +51,9 @@ export default new firebaseMock.MockFirebaseSdk(
       if (
         path.includes(
           '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus/9b940e13-f7c2-4df1-a1ae-eeaad721039b'
+        ) ||
+        path.includes(
+          '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus/d010d4df-0b7a-42b2-9bd9-6971498c6c53'
         )
       ) {
         child.set = event => {
@@ -79,6 +82,12 @@ export default new firebaseMock.MockFirebaseSdk(
             lastSignInTime: null,
           },
         },
+      };
+    };
+
+    mockAuth.signOut = () => {
+      return {
+        user: null,
       };
     };
     return mockAuth;

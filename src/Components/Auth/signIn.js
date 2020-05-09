@@ -24,9 +24,6 @@ const emptySignInState = {
 const SignIn = props => {
   console.count('SignIn renders');
   const history = useHistory();
-  //TODO understand location
-  //const location = useLocation();
-  //const { from } = location.state || { from: { pathname: '/' } };
 
   const classes = useStyles();
   const [loginData, setLoginData] = useState(emptySignInState);
@@ -36,7 +33,7 @@ const SignIn = props => {
     async event => {
       event.preventDefault();
       await signInWithEmailAndPassword(loginData.email, loginData.password);
-      history.push('dashboard');
+      history.push('dashboard/menu-list');
     },
     [loginData]
   );

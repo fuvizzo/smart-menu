@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -12,33 +12,21 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 
-import ConfirmationDialog from './confirmationDialog';
+import ConfirmationDialog from '../UserDashboard/confirmationDialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {
-  sortMenu,
-  createNewMenuItem,
-  deleteMenuItem,
-  updateMenuItem,
-  createNewLocale,
-  deleteLocale,
-} from '../../Actions/menuActions';
+import * as menuActions from '../../Actions/menuActions';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './localeEditor';
 import NewLocaleEditor from './newLocale';
-import useStyles from './styles';
+import useStyles from '../UserDashboard/styles';
 import Avatar from '@material-ui/core/Avatar';
-
-import MenuItemActions from './popoverActions';
-const {
-  LocalizedFields,
-  SupportedLanguages,
-  Locale,
-  ConfirmationActions,
-} = constants;
+import Collapse from '@material-ui/core/Collapse';
+import LanguageTabsPanel from './languageTabsPanel';
+import MenuItemActions from '../UserDashboard/popoverActions';
 
 const emptyLocaleData = {
   lang: '',
@@ -47,18 +35,34 @@ const emptyLocaleData = {
   ingredients: '',
 };
 
-const getAvailableLanguage = usedLanguages => {
-  return SupportedLanguages.filter(
-    lang => !usedLanguages.some(l => l === lang)
-  );
-};
-
 const MenuEditor = props => {
-  const dispatch = useDispatch();
   const { menuId } = useParams();
   const classes = useStyles();
-  const { sortMenu, defaultLanguage, menus } = props;
-  const dishMap = Locale[defaultLanguage].DISH_TYPES;
+  const {
+    sortMenu,
+    createNewMenuItem,
+    deleteMenuItem,
+    updateMenuItem,
+    createNewLocale,
+    deleteLocale,
+    defaultLanguage,
+    menus,
+  } = props;
+
+  const {
+    LocalizedFields,
+    SupportedLanguages,
+
+    Locale,
+    ConfirmationActions,
+  } = constants;
+
+  const {
+    Labels: { Actions: ActionsLabels },
+    Languages,
+    DISH_TYPES: DishTypes,
+  } = Locale[defaultLanguage];
+
   const menu = menus[menuId];
 
   const defaultEditModeState = {
@@ -92,30 +96,34 @@ const MenuEditor = props => {
     console.log('reorder!');
   }, [menu.size, editModeState.enabled]); */
 
-  const createNewMenuItemCallback = useCallback(data => {
-    dispatch(
-      createNewMenuItem(menuId, {
-        category: '4',
-        locales: {
-          en: {
-            description: 'desc',
-            ingredients: 'Ingredients list',
-            name: 'Lemon cake',
-          },
-        },
-        price: '6€',
-      })
+  const getAvailableLanguage = useCallback(usedLanguages => {
+    return SupportedLanguages.filter(
+      lang => !usedLanguages.some(l => l === lang)
     );
   }, []);
 
+  const createNewMenuItemCallback = useCallback(data => {
+    createNewMenuItem(menuId, {
+      category: '4',
+      locales: {
+        en: {
+          description: 'desc',
+          ingredients: 'Ingredients list',
+          name: 'Lemon cake',
+        },
+      },
+      price: '6€',
+    });
+  }, []);
+
   const deleteMenuItemHandler = useCallback(menuItemId => {
-    dispatch(deleteMenuItem(menuId, menuItemId));
+    deleteMenuItem(menuId, menuItemId);
   }, []);
 
   const updateMenuItemHandler = useCallback(() => {
     const menuItemId = editModeState.selectedItem.id;
     const body = editModeState.selectedItem.value;
-    dispatch(updateMenuItem(menuId, menuItemId, body));
+    updateMenuItem(menuId, menuItemId, body);
     setEditModeState({
       enabled: false,
       selectedItem: {},
@@ -124,12 +132,12 @@ const MenuEditor = props => {
 
   const createNewLocaleCallback = useCallback(() => {
     const { menuItemId, newLocale } = insertLocaleModeState;
-    dispatch(createNewLocale(menuId, menuItemId, newLocale));
+    createNewLocale(menuId, menuItemId, newLocale);
     toggleAddLocalMode({ cancel: true });
   }, [insertLocaleModeState]);
 
   const deleteLocaleHandler = useCallback((menuItemId, lang) => {
-    dispatch(deleteLocale(menuId, menuItemId, lang));
+    deleteLocale(menuId, menuItemId, lang);
   }, []);
 
   const [
@@ -239,7 +247,10 @@ const MenuEditor = props => {
         handleClose={() =>
           setConfirmationDialogState(defaultConfirmationDialogState)
         }
-        onConfirm={() => deleteMenuItemHandler(confirmationDialogState.item.id)}
+        onConfirm={() => {
+          deleteMenuItemHandler(confirmationDialogState.item.id);
+          setConfirmationDialogState(defaultConfirmationDialogState);
+        }}
       />
       <MenuItemActions
         id={menuItemActionsPopoverId}
@@ -261,7 +272,7 @@ const MenuEditor = props => {
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText primary="TRANSLATION NEEDED -> Edit" />
+            <ListItemText primary={ActionsLabels.EDIT} />
           </ListItem>
           <ListItem
             onClick={() => {
@@ -281,7 +292,7 @@ const MenuEditor = props => {
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>
-            <ListItemText primary="TRANSLATION NEEDED -> Delete" />
+            <ListItemText primary={ActionsLabels.DELETE} />
           </ListItem>
         </List>
       </MenuItemActions>
@@ -303,7 +314,7 @@ const MenuEditor = props => {
                         placeholder="Category"
                         value={editModeState.selectedItem.value.category}
                       >
-                        {dishMap.map((dishType, index) => {
+                        {DishTypes.map((dishType, index) => {
                           return (
                             <option key={index} value={index}>
                               {dishType}
@@ -352,7 +363,7 @@ const MenuEditor = props => {
                     className={classes.header}
                     avatar={
                       <Avatar aria-label="recipe" className={classes.avatar}>
-                        {dishMap[data.category].substr(0, 1)}
+                        {DishTypes[data.category].substr(0, 1)}
                       </Avatar>
                     }
                     action={
@@ -391,33 +402,45 @@ const MenuEditor = props => {
                       </Typography>
                     )}
                   </CardContent>
-                  <div>
-                    {Object.keys(data.locales)
+                  <Collapse in={true} timeout="auto" unmountOnExit>
+                    <CardContent>
+                      <Typography paragraph>
+                        TODO TRANSLATION NEEDED -> Other languages
+                      </Typography>
+                    </CardContent>
+                    <LanguageTabsPanel
+                      onDeleteLocale={deleteLocaleHandler}
+                      locales={data.locales}
+                    />
+                    {/*  {Object.keys(data.locales)
                       .filter(locale => locale !== defaultLanguage)
                       .map((lang, index) => {
                         const locale = data.locales[lang];
                         return (
-                          <div key={index}>
-                            <div>
-                              Menu in{' '}
-                              <b>{Locale[defaultLanguage].Languages[lang]}</b>
-                            </div>
-                            <div> {locale.name}</div>
-                            <div> {locale.description}</div>
-                            <div> {locale.ingredients}</div>
-
+                          <CardContent key={index}>
+                            <Typography paragraph>
+                              TODO TRANSLATION NEEDED -> Menu in{' '}
+                              <b>{Languages[lang]}</b>
+                            </Typography>
+                            <Typography paragraph>{locale.name}</Typography>
+                            <Typography paragraph>
+                              {locale.description}
+                            </Typography>
+                            <Typography paragraph>
+                              {locale.ingredients}
+                            </Typography>
                             <div>
                               <button
                                 onClick={() => deleteLocaleHandler(key, lang)}
                               >
-                                Delete description in{' '}
-                                {Locale[defaultLanguage].Languages[lang]}
+                                Delete description in {Languages[lang]}
                               </button>
                             </div>
-                          </div>
+                          </CardContent>
                         );
-                      })}
-
+                      })} */}
+                  </Collapse>
+                  <div>
                     {insertLocaleModeState.enabled &&
                     insertLocaleModeState.menuItemId === key ? (
                       <NewLocaleEditor
@@ -464,11 +487,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  sortMenu,
-  createNewMenuItem,
-  deleteMenuItem,
-  updateMenuItem,
-  createNewLocale,
-  deleteLocale,
-})(MenuEditor);
+export default connect(mapStateToProps, menuActions)(MenuEditor);

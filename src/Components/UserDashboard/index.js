@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setDefaultSystemLanguage } from '../../Actions/index';
 import constants from '../../Constants/index';
-import MenuEditor from './menuEditor';
+import MenuEditor from '../MenuEditor/menuEditor';
 import MenuList from './menuList';
 import Dashboard from '../Dashboard/index';
 import AuthRoute from '../Auth/authRoute';
@@ -21,7 +21,7 @@ const UserDashboard = props => {
   return (
     <Dashboard getSectionName={sectionNameHandler}>
       <Switch>
-        <AuthRoute exact path={path}>
+        <AuthRoute path={`${path}/account`}>
           <div>
             <div>
               {props.user.firstName} {props.user.lastName}
@@ -35,7 +35,7 @@ const UserDashboard = props => {
         <AuthRoute path={`${path}/menu-editor/:menuId`}>
           <MenuEditor />
         </AuthRoute>
-        <AuthRoute path={`${path}/menu-list`}>
+        <AuthRoute exact path={`${path}/menu-list`}>
           <MenuList />
         </AuthRoute>
       </Switch>

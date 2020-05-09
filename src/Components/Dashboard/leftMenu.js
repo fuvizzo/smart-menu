@@ -7,53 +7,74 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { signOut } from '../../Actions/index';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import constants from '../../Constants/index';
+const { Locale } = constants;
+
 const LeftMenu = props => {
-  const dispatch = useDispatch();
+  const { defaultLanguage } = props;
+
   const signOutHandler = useCallback(() => {
-    dispatch(signOut());
+    props.signOut();
   }, []);
   const { url } = useRouteMatch();
+  const {
+    Labels: { Sections: SectionLabels, Actions: ActionsLabels },
+  } = Locale[defaultLanguage];
 
   return (
     <div>
-      <Divider />
-      <List>
-        <ListItem to={url} component={RouterLink} button>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="TRANSLATION NEEDED -> Dashboard" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary="TRANSLATION NEEDED -> Subscription status" />
-        </ListItem>
-      </List>
       <Divider />
       <List>
         <ListItem button to={`${url}/menu-list`} component={RouterLink}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="TRANSLATION NEEDED -> Menu list" />
+          <ListItemText primary={SectionLabels.MENU_LIST} />
         </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem
+          to={`${url}/subscription-status`}
+          component={RouterLink}
+          button
+        >
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary={SectionLabels.SUBSCRIPTION_STATUS} />
+        </ListItem>
+        <ListItem button to={`${url}/account`} component={RouterLink}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary={SectionLabels.ACCOUNT} />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
         <ListItem button onClick={signOutHandler}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary="TRANSLATION NEEDED -> Logout" />
+          <ListItemText primary={ActionsLabels.SIGN_OUT} />
         </ListItem>
       </List>
     </div>
   );
 };
 
-export default connect(null, {
+function mapStateToProps(state) {
+  return {
+    defaultLanguage: state.settings.defaultLanguage,
+  };
+}
+
+export default connect(mapStateToProps, {
   signOut,
 })(LeftMenu);
