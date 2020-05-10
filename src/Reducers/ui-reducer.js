@@ -12,10 +12,12 @@ const initialState = {
   editModeState: {
     enabled: false,
     data: {},
+    childItem: false,
   },
   insertModeState: {
     enabled: false,
     data: {},
+    childItem: false,
   },
   actionsPopoverState: {},
   languageTabsPanelState: {
@@ -61,7 +63,7 @@ function uiReducer(state = initialState, action) {
     case UI_ActionTypes.INSERT_DATA:
     case UI_ActionTypes.ENABLE_INSERT_MODE:
       ui.insertModeState = {
-        ...ui.insertLocaleModeState,
+        ...ui.insertModeState,
         ...action.payload,
       };
 

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -24,8 +23,8 @@ import * as uiActions from '../../Actions/ui-actions';
 import LocaleEditor from './locale-editor';
 import { cloneDeep } from 'lodash';
 
+import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { Card, CardHeader, CardContent } from '@material-ui/core';
 const { ConfirmationActions, Locale } = constants;
 
 function TabPanel(props) {
@@ -67,12 +66,30 @@ const emptyLocaleData = {
   ingredients: '',
 };
 
+const TabLocaleEditor = props => {
+  const { onChangeValue, updateMenuItem, locale, lang, index } = props;
+  return (
+    <>
+      <LocaleEditor
+        key={index}
+        lang={lang}
+        data={locale}
+        onChangeValue={onChangeValue}
+      />
+      <button onClick={updateMenuItem}>Apply changes</button>
+      <button onClick={updateMenuItem}>Cancel</button>
+    </>
+  );
+};
+
 const LanguageTabsPanel = props => {
   const {
     menu,
     menuItemId,
     locales,
     ui,
+    updateMenuItem,
+    onChangeValueHandler,
     availableLanguages,
     showActionsPopover,
     hideActionsPopover,
@@ -81,8 +98,9 @@ const LanguageTabsPanel = props => {
     enableEditMode,
     enableInsertMode,
     disableInsertMode,
-    onDeleteLocale,
-    children,
+    deleteLocale,
+    createNewLocale,
+    collapseLanguageTabsPanel,
   } = props;
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
   const [tabValue, setTabValue] = useState(0);
@@ -93,7 +111,6 @@ const LanguageTabsPanel = props => {
     ? 'locale-actions-popover'
     : undefined;
   const classes = useStyles();
-
   const {
     Languages,
     Labels: { Actions: ActionsLabels },
@@ -117,28 +134,6 @@ const LanguageTabsPanel = props => {
     [ui.insertModeState.data]
   );
 
-  const TabLocaleEditor = props => {
-    const {
-      onChangeValueHandler,
-      updateMenuItemHandler,
-      index,
-      lang,
-      locale,
-    } = props;
-    return (
-      <>
-        <LocaleEditor
-          key={index}
-          lang={lang}
-          data={locale}
-          onChangeValue={onChangeValueHandler}
-        />
-        );
-        <button onClick={updateMenuItemHandler}>Apply changes</button>
-      </>
-    );
-  };
-
   const handleLocaleActionsClick = useCallback(
     (event, lang) => {
       if (localeActionsPopoverOpen) {
@@ -159,11 +154,14 @@ const LanguageTabsPanel = props => {
         action={ConfirmationActions.DELETE_LOCALE}
         handleClose={closeConfirmationDialog}
         onConfirm={() => {
-          onDeleteLocale(
+          deleteLocale(
             ui.confirmationDialogState.data.id,
             ui.confirmationDialogState.data.value
           );
           closeConfirmationDialog();
+          const left = Object.keys(menu.items[menuItemId].locales).length - 1;
+          if (left > 1) setTabValue(0);
+          else collapseLanguageTabsPanel();
         }}
         data={
           ui.confirmationDialogState.data &&
@@ -185,6 +183,7 @@ const LanguageTabsPanel = props => {
               enableEditMode({
                 id: menuItemId,
                 value: cloneDeep(menu.items[menuItemId]),
+                childItem: true,
               });
             }}
             aria-label="edit"
@@ -225,6 +224,10 @@ const LanguageTabsPanel = props => {
             .map((lang, index) => {
               return (
                 <Tab
+                  disabled={
+                    index !== tabValue &&
+                    (ui.editModeState.enabled || ui.insertModeState.enabled)
+                  }
                   label={Languages[lang]}
                   key={index}
                   {...a11yProps(index)}
@@ -232,7 +235,11 @@ const LanguageTabsPanel = props => {
               );
             })}
           >
-          {availableLanguages.length !== 0 && !ui.insertModeState.enabled && (
+          {!(
+            availableLanguages.length === 0 ||
+            ui.insertModeState.enabled ||
+            ui.editModeState.enabled
+          ) && (
             <IconButton
               edge="end"
               color="inherit"
@@ -246,21 +253,34 @@ const LanguageTabsPanel = props => {
       </AppBar>
 
       {ui.insertModeState.enabled &&
-      ui.insertModeState.data.menuItemId === menuItemId
-        ? children
-        : Object.keys(locales)
-            .filter(locale => locale !== defaultLanguage)
-            .map((lang, index) => {
-              const locale = locales[lang];
-              const showEditForm =
-                ui.editModeState.enabled &&
-                ui.editModeState.data.menuItemId === menuItemId;
-              return (
-                <>
+      ui.insertModeState.data.menuItemId === menuItemId ? (
+        <NewLocaleEditor
+          emptyLocaleData={ui.insertModeState.data.newLocale}
+          onChangeValue={onChangeValueHandler}
+          onCreateNewLocalInMenuItem={createNewLocale}
+          availableLanguages={availableLanguages}
+        />
+      ) : (
+        Object.keys(locales)
+          .filter(locale => locale !== defaultLanguage)
+          .map((lang, index) => {
+            const locale = locales[lang];
+            const showEditForm =
+              ui.editModeState.enabled &&
+              ui.editModeState.data.id === menuItemId;
+            return (
+              <>
+                <TabPanel value={tabValue} key={index} index={index}>
                   {showEditForm ? (
-                    <TabLocaleEditor />
+                    <TabLocaleEditor
+                      updateMenuItem={updateMenuItem}
+                      onChangeValue={onChangeValueHandler}
+                      locale={ui.editModeState.data.value.locales[lang]}
+                      lang={lang}
+                      index={index}
+                    />
                   ) : (
-                    <TabPanel value={tabValue} key={index} index={index}>
+                    <>
                       <Toolbar className={classes.toolbar}>
                         <Typography className={classes.header} component="h3">
                           {locale.name}
@@ -289,11 +309,13 @@ const LanguageTabsPanel = props => {
                       >
                         {locale.ingredients}
                       </Typography>
-                    </TabPanel>
+                    </>
                   )}
-                </>
-              );
-            })}
+                </TabPanel>
+              </>
+            );
+          })
+      )}
     </div>
   );
 };

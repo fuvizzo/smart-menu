@@ -67,3 +67,7 @@ export const enableInsertMode = payload => {
 export const disableInsertMode = () => {
   return { type: UI_ActionTypes.DISABLE_INSERT_MODE };
 };
+
+export const insertData = payload => {
+  return { type: UI_ActionTypes.INSERT_DATA, payload };
+};

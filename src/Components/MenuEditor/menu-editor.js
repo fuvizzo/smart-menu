@@ -18,13 +18,12 @@ import Button from '@material-ui/core/Button';
 import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import * as menuActions from '../../Actions/menu-actions';
+
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
-import NewLocaleEditor from './new-locale';
 import useStyles from '../UserDashboard/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -32,6 +31,7 @@ import LanguageTabsPanel from './language-tabs-panel';
 import MenuItemActions from '../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
 import * as uiActions from '../../Actions/ui-actions';
+import * as menuActions from '../../Actions/menu-actions';
 
 const MenuEditor = props => {
   const { menuId } = useParams();
@@ -157,11 +157,10 @@ const MenuEditor = props => {
         const newLocale = ui.insertModeState.data.newLocale;
         newLocale.lang = lang;
         newLocale[input.name] = currentValue;
-
-        /*  setInsertLocaleModeState({
-          ...insertModeState,
+        insertData({
+          ...ui.insertModeState.data,
           newLocale,
-        }); */
+        });
       } else {
         const selectedItem = ui.editModeState.data;
 
@@ -257,10 +256,14 @@ const MenuEditor = props => {
         const availableLanguages = getAvailableLanguage(
           Object.keys(data.locales)
         );
+        const showMenuItemEditForm =
+          ui.editModeState.enabled &&
+          ui.editModeState.data.id === key &&
+          !ui.editModeState.data.childItem;
         return (
           <Grid item xs={12} key={key}>
             <Card width={1}>
-              {ui.editModeState.enabled && ui.editModeState.data.id === key ? (
+              {showMenuItemEditForm ? (
                 <div>
                   Edit mode
                   <div>
@@ -378,18 +381,14 @@ const MenuEditor = props => {
                   >
                     <LanguageTabsPanel
                       menu={menu}
+                      createNewLocale={createNewLocaleCallback}
                       menuItemId={key}
                       availableLanguages={availableLanguages}
-                      onDeleteLocale={deleteLocaleHandler}
+                      updateMenuItem={updateMenuItemHandler}
+                      deleteLocale={deleteLocaleHandler}
+                      onChangeValueHandler={onChangeValueHandler}
                       locales={data.locales}
-                    >
-                      <NewLocaleEditor
-                        emptyLocaleData={ui.insertModeState.data}
-                        onChangeValue={onChangeValueHandler}
-                        onCreateNewLocalInMenuItem={createNewLocaleCallback}
-                        availableLanguages={availableLanguages}
-                      />
-                    </LanguageTabsPanel>
+                    />
                   </Collapse>
                 </>
               )}
