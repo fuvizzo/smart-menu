@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from './styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signInWithEmailAndPassword } from '../../Actions/index';
+import * as userActions from '../../Actions/index';
 import Copyright from '../Common/copyright';
 
 const emptySignInState = {
@@ -119,6 +119,4 @@ const SignIn = props => {
   );
 };
 
-export default connect(null, {
-  signInWithEmailAndPassword,
-})(SignIn);
+export default connect(null, userActions)(SignIn);

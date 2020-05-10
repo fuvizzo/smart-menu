@@ -1,6 +1,5 @@
 import firebaseMock from 'firebase-mock';
-import jsonMock from './mockData.json';
-import jsonMockNew from './mockDataNew.json';
+import jsonMock from './mock-data.json';
 const mockAuth = new firebaseMock.MockAuthentication();
 const mockDatabase = new firebaseMock.MockFirebase();
 const mockFirestore = new firebaseMock.MockFirestore();
@@ -26,22 +25,12 @@ export default new firebaseMock.MockFirebaseSdk(
           }
         };
       }
-      if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menu') {
-        child.once = event => {
-          if (event === 'value') {
-            const val = () => {
-              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menu;
-            };
-            data.val = val;
-            return Promise.resolve(data);
-          }
-        };
-      }
+
       if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus') {
         child.once = event => {
           if (event === 'value') {
             const val = () => {
-              return jsonMockNew.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menus;
+              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menus;
             };
             data.val = val;
             return Promise.resolve(data);

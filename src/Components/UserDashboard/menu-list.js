@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { getMenus } from '../../Actions/menuActions';
+import { getMenus } from '../../Actions/menu-actions';
 import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
 import Card from '@material-ui/core/Card';
@@ -19,8 +19,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from './styles';
-import MenuActions from './popoverActions';
-import ConfirmationDialog from './confirmationDialog';
+import MenuActions from './popover-actions';
+import ConfirmationDialog from './confirmation-dialog';
 import { Link as RouterLink } from 'react-router-dom';
 import constants from '../../Constants/index';
 import * as uiActions from '../../Actions/ui-actions';
@@ -29,7 +29,6 @@ import { isEmpty } from 'lodash';
 const { ConfirmationActions, Locale } = constants;
 
 const MenuList = props => {
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const {
     menus,
@@ -80,9 +79,7 @@ const MenuList = props => {
           !isEmpty(ui.confirmationDialogState.data) &&
           ui.confirmationDialogState.data.value.locales[defaultLanguage].name
         }
-        handleClose={() =>
-          dispatch(closeConfirmationDialog({ open: false, data: null }))
-        }
+        handleClose={() => closeConfirmationDialog({ open: false, data: null })}
         onConfirm={() => {
           console.log('Action confirmed');
         }}
@@ -110,16 +107,15 @@ const MenuList = props => {
             button
             onClick={() => {
               const menuId = ui.actionsPopoverState.data.menuId;
-              dispatch(hideActionsPopover());
-              dispatch(
-                openConfirmationDialog({
-                  open: true,
-                  data: {
-                    id: menuId,
-                    value: menus[menuId].info,
-                  },
-                })
-              );
+              hideActionsPopover();
+              setAnchorEl(null);
+              openConfirmationDialog({
+                open: true,
+                data: {
+                  id: menuId,
+                  value: menus[menuId].info,
+                },
+              });
             }}
           >
             <ListItemIcon>

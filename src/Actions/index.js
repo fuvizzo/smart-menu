@@ -1,8 +1,4 @@
-import {
-  SIGN_OUT,
-  SET_DEFAULT_SYSTEM_LANGUAGE,
-  SET_USER_DATA,
-} from './../Constants/actionTypes';
+import { SIGN_OUT, SIGN_IN } from './../Constants/user-action-types';
 import firebaseService from '../Firebase/index';
 
 export function setDefaultSystemLanguage() {}
@@ -15,7 +11,7 @@ export function signInWithEmailAndPassword(email, password) {
         password
       );
 
-      dispatch({ type: SET_USER_DATA, payload: data });
+      dispatch({ type: SIGN_IN, payload: data });
     } catch (error) {
       console.log(error);
     }

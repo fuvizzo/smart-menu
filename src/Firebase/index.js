@@ -1,7 +1,7 @@
 import firebase from 'firebase';
-import firebaseMock from './../Mock/firebaseMock';
+import firebaseMock from '../Mock/firebase-mock';
 
-import FirebaseService from './firebaseService';
+import FirebaseService from './firebase-service';
 const firebaseConfig = {
   apiKey: 'AIzaSyApy1VB9ENzXTjyABftKFf0t7DpF5itsRw',
   authDomain: 'smart-menu-794bf.firebaseapp.com',
@@ -14,4 +14,4 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export default new FirebaseService(firebaseMock);
+export default new FirebaseService(firebase);

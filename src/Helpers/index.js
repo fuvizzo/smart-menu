@@ -1,4 +1,4 @@
-export const sortMap = map => {
+export const sort = map => {
   const compareFn = (val1, val2) => {
     return val1[1].category - val2[1].category;
   };

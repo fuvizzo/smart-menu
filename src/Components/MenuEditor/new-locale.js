@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LocaleEditor from './localeEditor';
+import LocaleEditor from './locale-editor';
 import { connect } from 'react-redux';
 import constants from '../../Constants/index';
 const { Locale } = constants;

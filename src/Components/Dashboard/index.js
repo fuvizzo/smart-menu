@@ -16,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import useStyles from './styles';
 
-import LeftMenu from './leftMenu';
+import LeftMenu from './left-menu';
 const Dashboard = props => {
   console.count('Dashboard renders');
   const { getSectionName, children } = props;

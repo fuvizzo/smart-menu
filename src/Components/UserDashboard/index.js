@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setDefaultSystemLanguage } from '../../Actions/index';
 import constants from '../../Constants/index';
-import MenuEditor from '../MenuEditor/menuEditor';
-import MenuList from './menuList';
+import MenuEditor from '../MenuEditor/menu-editor';
+import MenuList from './menu-list';
 import Dashboard from '../Dashboard/index';
-import AuthRoute from '../Auth/authRoute';
+import AuthRoute from '../Auth/auth-route';
 
 import { Switch, useRouteMatch, useLocation } from 'react-router-dom';
 const { Locale } = constants;

@@ -15,21 +15,21 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 
-import ConfirmationDialog from '../UserDashboard/confirmationDialog';
+import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import * as menuActions from '../../Actions/menuActions';
+import * as menuActions from '../../Actions/menu-actions';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
-import LocaleEditor from './localeEditor';
-import NewLocaleEditor from './newLocale';
+import LocaleEditor from './locale-editor';
+import NewLocaleEditor from './new-locale';
 import useStyles from '../UserDashboard/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
-import LanguageTabsPanel from './languageTabsPanel';
-import MenuItemActions from '../UserDashboard/popoverActions';
+import LanguageTabsPanel from './language-tabs-panel';
+import MenuItemActions from '../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
 
 const emptyLocaleData = {

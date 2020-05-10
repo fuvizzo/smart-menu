@@ -1,4 +1,4 @@
-import { SET_USER_DATA, SIGN_OUT } from './../Constants/actionTypes';
+import { SIGN_IN, SIGN_OUT } from './../Constants/user-action-types';
 import { cloneDeep } from 'lodash';
 
 const initialState = null;
@@ -7,7 +7,7 @@ function userReducer(state = initialState, action) {
   switch (action.type) {
     case SIGN_OUT:
       return initialState;
-    case SET_USER_DATA:
+    case SIGN_IN:
       const user = {
         ...action.payload.account.user,
         ...{

@@ -5,7 +5,7 @@ import {
   UPDATE_MENU_ITEM,
   CREATE_NEW_LOCALE,
   DELETE_LOCALE,
-} from './../Constants/actionTypes';
+} from './../Constants/menu-action-types';
 import { cloneDeep } from 'lodash';
 
 const initialState = {};
