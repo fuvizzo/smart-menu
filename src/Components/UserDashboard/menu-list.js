@@ -29,7 +29,7 @@ import { isEmpty } from 'lodash';
 const { ConfirmationActions, Locale } = constants;
 
 const MenuList = props => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
   const {
     menus,
     ui,
@@ -44,7 +44,7 @@ const MenuList = props => {
     Labels: { Actions: ActionsLabels },
   } = Locale[defaultLanguage];
 
-  const menuActionsPopoverOpen = Boolean(anchorEl);
+  const menuActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
   const menuActionsPopoverId = menuActionsPopoverOpen
     ? 'menu-actions-popover'
     : undefined;
@@ -52,18 +52,16 @@ const MenuList = props => {
   const handleMenuActionsClick = useCallback(
     (event, key) => {
       if (!menuActionsPopoverOpen) {
-        setAnchorEl(event.currentTarget);
+        setActionPopoverAnchorEl(event.currentTarget);
         showActionsPopover({
-          data: {
-            menuId: key,
-          },
+          menuId: key,
         });
       } else {
-        setAnchorEl(null);
+        setActionPopoverAnchorEl(null);
         hideActionsPopover();
       }
     },
-    [ui.actionsPopoverState.data.menuId, menuActionsPopoverOpen]
+    [ui.actionsPopoverState.menuId]
   );
 
   useEffect(() => {
@@ -87,14 +85,14 @@ const MenuList = props => {
       <MenuActions
         id={menuActionsPopoverId}
         open={menuActionsPopoverOpen}
-        anchorEl={anchorEl}
+        anchorEl={actionPopoverAnchorEl}
         handleClose={handleMenuActionsClick}
       >
         <List>
           <ListItem
             aria-label="edit"
             button
-            to={`./menu-editor/${ui.actionsPopoverState.data.menuId}`}
+            to={`./menu-editor/${ui.actionsPopoverState.menuId}`}
             component={RouterLink}
           >
             <ListItemIcon>
@@ -106,15 +104,12 @@ const MenuList = props => {
             aria-label="delete"
             button
             onClick={() => {
-              const menuId = ui.actionsPopoverState.data.menuId;
+              const menuId = ui.actionsPopoverState.menuId;
               hideActionsPopover();
-              setAnchorEl(null);
+              setActionPopoverAnchorEl(null);
               openConfirmationDialog({
-                open: true,
-                data: {
-                  id: menuId,
-                  value: menus[menuId].info,
-                },
+                id: menuId,
+                value: menus[menuId].info,
               });
             }}
           >

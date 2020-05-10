@@ -31,28 +31,41 @@ import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
 import MenuItemActions from '../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
-
-const emptyLocaleData = {
-  lang: '',
-  name: '',
-  description: '',
-  ingredients: '',
-};
+import * as uiActions from '../../Actions/ui-actions';
 
 const MenuEditor = props => {
   const { menuId } = useParams();
+  const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
+  const menuItemActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
+  const menuItemActionsPopoverId = menuItemActionsPopoverOpen
+    ? 'menu-item-actions-popover'
+    : undefined;
+
   const classes = useStyles();
   const {
+    menus,
+    ui,
     sortMenu,
     createNewMenuItem,
     deleteMenuItem,
     updateMenuItem,
     createNewLocale,
     deleteLocale,
-    defaultLanguage,
-    menus,
+    showActionsPopover,
+    hideActionsPopover,
+    openConfirmationDialog,
+    closeConfirmationDialog,
+    editData,
+    enableEditMode,
+    disableEditMode,
+    insertData,
+    enableInsertMode,
+    disableInsertMode,
+    expandLanguageTabsPanel,
+    collapseLanguageTabsPanel,
   } = props;
 
+  const defaultLanguage = ui.settings.defaultLanguage;
   const {
     LocalizedFields,
     SupportedLanguages,
@@ -68,62 +81,14 @@ const MenuEditor = props => {
 
   const menu = menus[menuId];
 
-  const defaultEditModeState = {
-    enabled: false,
-    selectedItem: {},
-  };
-
-  const defaultInserLocaleModeState = {
-    enabled: false,
-    selectedItem: {},
-  };
-
-  const defaultConfirmationDialogState = {
-    open: false,
-    item: null,
-  };
-
-  const defaultLanguageTabsPanelState = {
-    expanded: false,
-    menuItemId: null,
-  };
-
-  const defaultMenuItemActionsPopoverState = {
-    anchorEl: null,
-    menuItemId: null,
-  };
-
-  const [
-    menuItemActionsPopoverState,
-    setMenuItemActionsPopoverState,
-  ] = useState(defaultMenuItemActionsPopoverState);
-
-  const menuItemActionsPopoverOpen = Boolean(
-    menuItemActionsPopoverState.anchorEl
-  );
-  const menuItemActionsPopoverId = menuItemActionsPopoverOpen
-    ? 'menu-item-actions-popover'
-    : undefined;
-
-  const [confirmationDialogState, setConfirmationDialogState] = useState(
-    defaultConfirmationDialogState
-  );
-
-  const [editModeState, setEditModeState] = useState(defaultEditModeState);
-  const [insertLocaleModeState, setInsertLocaleModeState] = useState(
-    defaultInserLocaleModeState
-  );
-  const [languageTabsPanelState, setLanguageTabsPanelState] = useState(
-    defaultLanguageTabsPanelState
-  );
-
   const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
-    const expanded = languageTabsPanelState.expanded;
-    setLanguageTabsPanelState(
-      !expanded || languageTabsPanelState.menuItemId !== menuItemId
-        ? { expanded: true, menuItemId }
-        : defaultLanguageTabsPanelState
-    );
+    const expanded = ui.languageTabsPanelState.expanded;
+    disableInsertMode();
+    if (!expanded || ui.languageTabsPanelState.itemId !== menuItemId) {
+      expandLanguageTabsPanel(menuItemId);
+    } else {
+      collapseLanguageTabsPanel();
+    }
   };
 
   const getAvailableLanguage = useCallback(usedLanguages => {
@@ -151,20 +116,17 @@ const MenuEditor = props => {
   }, []);
 
   const updateMenuItemHandler = useCallback(() => {
-    const menuItemId = editModeState.selectedItem.id;
-    const body = editModeState.selectedItem.value;
+    const menuItemId = ui.editModeState.data.id;
+    const body = ui.editModeState.data.value;
     updateMenuItem(menuId, menuItemId, body);
-    setEditModeState({
-      enabled: false,
-      selectedItem: {},
-    });
-  }, [editModeState.selectedItem.value, editModeState.selectedItem.id]);
+    disableEditMode();
+  }, [ui.editModeState.data.value, ui.editModeState.data.id]);
 
   const createNewLocaleCallback = useCallback(() => {
-    const { menuItemId, newLocale } = insertLocaleModeState;
+    const { menuItemId, newLocale } = ui.insertModeState.data;
     createNewLocale(menuId, menuItemId, newLocale);
-    toggleAddLocalMode({ cancel: true });
-  }, [insertLocaleModeState]);
+    disableInsertMode();
+  }, [ui.insertModeState.data]);
 
   const deleteLocaleHandler = useCallback((menuItemId, lang) => {
     deleteLocale(menuId, menuItemId, lang);
@@ -172,13 +134,17 @@ const MenuEditor = props => {
 
   const handleMenuItemActionsClick = useCallback(
     (event, key) => {
-      setMenuItemActionsPopoverState(
-        !menuItemActionsPopoverOpen
-          ? { anchorEl: event.target, menuItemId: key }
-          : defaultMenuItemActionsPopoverState
-      );
+      if (menuItemActionsPopoverOpen) {
+        setActionPopoverAnchorEl(null);
+        hideActionsPopover();
+      } else {
+        setActionPopoverAnchorEl(event.currentTarget);
+        showActionsPopover({
+          menuItemId: key,
+        });
+      }
     },
-    [menuItemActionsPopoverState.menuItemId]
+    [ui.actionsPopoverState.menuItemId]
   );
 
   const onChangeValueHandler = useCallback(
@@ -186,18 +152,18 @@ const MenuEditor = props => {
       const input = event.currentTarget;
       const currentValue = input.value;
 
-      if (insertLocaleModeState.enabled) {
+      if (ui.insertModeState.enabled) {
         const lang = input.dataset.lang;
-        const newLocale = insertLocaleModeState.newLocale;
+        const newLocale = ui.insertModeState.data.newLocale;
         newLocale.lang = lang;
         newLocale[input.name] = currentValue;
 
-        setInsertLocaleModeState({
-          ...insertLocaleModeState,
+        /*  setInsertLocaleModeState({
+          ...insertModeState,
           newLocale,
-        });
+        }); */
       } else {
-        const selectedItem = editModeState.selectedItem;
+        const selectedItem = ui.editModeState.data;
 
         if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
@@ -206,45 +172,24 @@ const MenuEditor = props => {
           selectedItem.value[input.name] = currentValue;
         }
 
-        setEditModeState({
-          enabled: true,
-          selectedItem: cloneDeep(selectedItem),
-        });
+        editData(cloneDeep(selectedItem));
       }
     },
-    [editModeState.selectedItem, insertLocaleModeState]
-  );
-
-  const toggleAddLocalMode = useCallback(
-    ({ menuItemId, cancel = false }) => {
-      if (cancel) {
-        setInsertLocaleModeState(defaultInserLocaleModeState);
-      } else {
-        setInsertLocaleModeState({
-          enabled: true,
-          menuItemId,
-          newLocale: { ...emptyLocaleData },
-        });
-      }
-    },
-    [menu, insertLocaleModeState.menuItemId]
+    [ui.editModeState.data, ui.insertModeState.data]
   );
 
   const toggleEditModeHandler = useCallback(
     ({ menuItemId, cancel = false }) => {
       if (cancel) {
-        setEditModeState(defaultEditModeState);
+        disableEditMode();
       } else {
-        setEditModeState({
-          enabled: true,
-          selectedItem: {
-            id: menuItemId,
-            value: cloneDeep(menu.items[menuItemId]),
-          },
+        enableEditMode({
+          id: menuItemId,
+          value: cloneDeep(menu.items[menuItemId]),
         });
       }
     },
-    [menu, editModeState.selectedItem.id]
+    [menu, ui.editModeState.data.id]
   );
 
   /*useEffect(() => {
@@ -261,34 +206,31 @@ const MenuEditor = props => {
       alignItems="flex-start"
     >
       <ConfirmationDialog
-        open={confirmationDialogState.open}
+        open={ui.confirmationDialogState.open}
         action={ConfirmationActions.DELETE_MENU_ITEM}
         data={
-          confirmationDialogState.item &&
-          confirmationDialogState.item.value.locales[defaultLanguage].name
+          ui.confirmationDialogState.item &&
+          ui.confirmationDialogState.item.value.locales[defaultLanguage].name
         }
-        handleClose={() =>
-          setConfirmationDialogState(defaultConfirmationDialogState)
-        }
+        handleClose={() => closeConfirmationDialog()}
         onConfirm={() => {
-          deleteMenuItemHandler(confirmationDialogState.item.id);
-          setConfirmationDialogState(defaultConfirmationDialogState);
+          deleteMenuItemHandler(ui.confirmationDialogState.item.id);
+          closeConfirmationDialog();
         }}
       />
       <MenuItemActions
         id={menuItemActionsPopoverId}
         open={menuItemActionsPopoverOpen}
-        anchorEl={menuItemActionsPopoverState.anchorEl}
+        anchorEl={actionPopoverAnchorEl}
         handleClose={handleMenuItemActionsClick}
       >
         <List>
           <ListItem
             onClick={() => {
-              setMenuItemActionsPopoverState(
-                defaultMenuItemActionsPopoverState
-              );
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
               toggleEditModeHandler({
-                menuItemId: menuItemActionsPopoverState.menuItemId,
+                menuItemId: ui.actionsPopoverState.menuItemId,
               });
             }}
             aria-label="edit"
@@ -301,16 +243,12 @@ const MenuEditor = props => {
           </ListItem>
           <ListItem
             onClick={() => {
-              const menuItemId = menuItemActionsPopoverState.menuItemId;
-              setMenuItemActionsPopoverState(
-                defaultMenuItemActionsPopoverState
-              );
-              setConfirmationDialogState({
-                open: true,
-                item: {
-                  id: menuItemId,
-                  value: menu.items[menuItemId],
-                },
+              const menuItemId = ui.actionsPopoverState.menuItemId;
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
+              openConfirmationDialog({
+                id: menuItemId,
+                value: menu.items[menuItemId],
               });
             }}
             aria-label="delete"
@@ -326,16 +264,15 @@ const MenuEditor = props => {
       {Object.keys(menu.items).map(key => {
         const data = menu.items[key];
         const languageTabExpanded =
-          languageTabsPanelState.expanded &&
-          languageTabsPanelState.menuItemId === key;
+          ui.languageTabsPanelState.expanded &&
+          ui.languageTabsPanelState.itemId === key;
         const availableLanguages = getAvailableLanguage(
           Object.keys(data.locales)
         );
         return (
           <Grid item xs={12} key={key}>
             <Card width={1}>
-              {editModeState.enabled &&
-              editModeState.selectedItem.id === key ? (
+              {ui.editModeState.enabled && ui.editModeState.data.id === key ? (
                 <div>
                   Edit mode
                   <div>
@@ -345,7 +282,7 @@ const MenuEditor = props => {
                         onChange={onChangeValueHandler}
                         type="text"
                         placeholder="Category"
-                        value={editModeState.selectedItem.value.category}
+                        value={ui.editModeState.data.value.category}
                       >
                         {DishTypes.map((dishType, index) => {
                           return (
@@ -362,14 +299,14 @@ const MenuEditor = props => {
                         onChange={onChangeValueHandler}
                         type="text"
                         placeholder="Price"
-                        value={editModeState.selectedItem.value.price}
+                        value={ui.editModeState.data.value.price}
                       />
                     </div>
-                    {Object.keys(editModeState.selectedItem.value.locales)
+                    {Object.keys(ui.editModeState.data.value.locales)
                       .filter(lang => lang === defaultLanguage)
                       .map((lang, index) => {
                         const locale =
-                          editModeState.selectedItem.value.locales[lang];
+                          ui.editModeState.data.value.locales[lang];
                         return (
                           <LocaleEditor
                             key={index}
@@ -458,24 +395,15 @@ const MenuEditor = props => {
                     <LanguageTabsPanel
                       menuItemId={key}
                       availableLanguages={availableLanguages}
-                      toggleAddLocalMode={() =>
-                        toggleAddLocalMode({ menuItemId: key })
-                      }
                       onDeleteLocale={deleteLocaleHandler}
                       locales={data.locales}
                     >
-                      {insertLocaleModeState.enabled &&
-                      insertLocaleModeState.menuItemId === key ? (
-                        <NewLocaleEditor
-                          emptyLocaleData={insertLocaleModeState.newLocale}
-                          toggleAddLocalMode={toggleAddLocalMode}
-                          onChangeValue={onChangeValueHandler}
-                          onCreateNewLocalInMenuItem={createNewLocaleCallback}
-                          availableLanguages={availableLanguages}
-                        />
-                      ) : (
-                        <></>
-                      )}
+                      <NewLocaleEditor
+                        emptyLocaleData={ui.insertModeState.data}
+                        onChangeValue={onChangeValueHandler}
+                        onCreateNewLocalInMenuItem={createNewLocaleCallback}
+                        availableLanguages={availableLanguages}
+                      />
                     </LanguageTabsPanel>
                   </Collapse>
                 </>
@@ -493,8 +421,10 @@ const MenuEditor = props => {
 function mapStateToProps(state) {
   return {
     menus: state.menus,
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    ui: state.ui,
   };
 }
 
-export default connect(mapStateToProps, menuActions)(MenuEditor);
+export default connect(mapStateToProps, { ...uiActions, ...menuActions })(
+  MenuEditor
+);

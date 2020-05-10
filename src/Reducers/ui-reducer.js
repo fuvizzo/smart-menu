@@ -9,7 +9,19 @@ const initialState = {
     open: false,
     data: {},
   },
-  actionsPopoverState: { anchorEl: null, data: {} },
+  editModeState: {
+    enabled: false,
+    data: {},
+  },
+  insertModeState: {
+    enabled: false,
+    data: {},
+  },
+  actionsPopoverState: {},
+  languageTabsPanelState: {
+    expanded: false,
+    itemId: null,
+  },
 };
 
 function uiReducer(state = initialState, action) {
@@ -30,6 +42,34 @@ function uiReducer(state = initialState, action) {
     case UI_ActionTypes.HIDE_ACTIONS_POPOVER:
       ui.actionsPopoverState = initialState.actionsPopoverState;
       return ui;
+    case UI_ActionTypes.EDIT_DATA:
+    case UI_ActionTypes.ENABLE_EDIT_MODE:
+      ui.editModeState = {
+        ...ui.editModeState,
+        ...action.payload,
+      };
+      return ui;
+    case UI_ActionTypes.DISABLE_EDIT_MODE:
+      ui.editModeState = initialState.editModeState;
+      return ui;
+    case UI_ActionTypes.EXPAND_LANGUAGE_TABS_PANEL:
+      ui.languageTabsPanelState = action.payload;
+      return ui;
+    case UI_ActionTypes.COLLAPSE_LANGUAGE_TABS_PANEL:
+      ui.languageTabsPanelState = initialState.languageTabsPanelState;
+      return ui;
+    case UI_ActionTypes.INSERT_DATA:
+    case UI_ActionTypes.ENABLE_INSERT_MODE:
+      ui.insertModeState = {
+        ...ui.insertLocaleModeState,
+        ...action.payload,
+      };
+
+      return ui;
+    case UI_ActionTypes.DISABLE_INSERT_MODE:
+      ui.insertModeState = initialState.insertModeState;
+      return ui;
+
     default:
       return ui;
   }

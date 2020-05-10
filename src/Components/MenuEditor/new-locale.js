@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
 import LocaleEditor from './locale-editor';
 import { connect } from 'react-redux';
+import * as uiActions from '../../Actions/ui-actions';
+
 import constants from '../../Constants/index';
 const { Locale } = constants;
 
 const NewLocaleForm = props => {
   const {
+    ui,
     emptyLocaleData,
     availableLanguages,
     onChangeValue,
-    toggleAddLocalMode,
     onCreateNewLocalInMenuItem,
-    defaultLanguage,
+    disableInsertMode,
   } = props;
   const [lang, setLang] = useState(availableLanguages[0]);
 
+  const defaultLanguage = ui.settings.defaultLanguage;
   const onChangeLangValue = event => {
     setLang(event.currentTarget.value);
     onChangeValue(event);
   };
-
+  /*  const createNewLocaleCallback = useCallback(() => {
+    const { menuItemId, newLocale } = insertLocaleModeState;
+    createNewLocale(menuId, menuItemId, newLocale);
+    toggleAddLocalMode({ cancel: true });
+  }, [insertLocaleModeState]);
+ */
   return (
     <>
       <select name="lang" onChange={onChangeLangValue} value={lang}>
@@ -41,9 +49,7 @@ const NewLocaleForm = props => {
       <div>
         <button onClick={() => onCreateNewLocalInMenuItem()}>Finish</button>
 
-        <button onClick={() => toggleAddLocalMode({ cancel: true })}>
-          Cancel
-        </button>
+        <button onClick={disableInsertMode}>Cancel</button>
       </div>
     </>
   );
@@ -51,8 +57,8 @@ const NewLocaleForm = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    ui: state.ui,
   };
 }
 
-export default connect(mapStateToProps)(NewLocaleForm);
+export default connect(mapStateToProps, uiActions)(NewLocaleForm);

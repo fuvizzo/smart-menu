@@ -5,6 +5,9 @@ export default makeStyles(theme => ({
     maxWidth: 345,
     maxHeight: 450,
   },
+  toolbar: {
+    flexGrow: 1,
+  },
   header: {
     height: 80,
   },

@@ -18,6 +18,10 @@ import List from '@material-ui/core/List';
 import EditIcon from '@material-ui/icons/Edit';
 import LocaleActions from '../UserDashboard/popover-actions';
 import { connect } from 'react-redux';
+import Toolbar from '@material-ui/core/Toolbar';
+import useStyles from './styles';
+import * as uiActions from '../../Actions/ui-actions';
+
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
 const { ConfirmationActions, Locale } = constants;
@@ -33,7 +37,11 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && (
+        <Box pt={0} p={3}>
+          {children}
+        </Box>
+      )}
     </div>
   );
 }
@@ -50,101 +58,104 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+const emptyLocaleData = {
+  lang: '',
+  name: '',
+  description: '',
+  ingredients: '',
+};
 
 const LanguageTabsPanel = props => {
   const {
     menuItemId,
     locales,
-    defaultLanguage,
+    ui,
     availableLanguages,
-    toggleAddLocalMode,
+    showActionsPopover,
+    hideActionsPopover,
+    openConfirmationDialog,
+    closeConfirmationDialog,
+    enableInsertMode,
+    disableInsertMode,
     onDeleteLocale,
     children,
   } = props;
-
-  const defaultLocaleActionsPopoverState = {
-    anchorEl: null,
-    menuItemId: null,
-    lang: null,
-  };
-  const [localeActionsPopoverState, setLocaleActionsPopoverState] = useState(
-    defaultLocaleActionsPopoverState
-  );
-
-  const localeActionsPopoverOpen = Boolean(localeActionsPopoverState.anchorEl);
+  const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
+  const defaultLanguage = ui.settings.defaultLanguage;
+  const localeActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
 
   const localeActionsPopoverId = localeActionsPopoverOpen
     ? 'locale-actions-popover'
     : undefined;
   const classes = useStyles();
 
-  const defaultConfirmationDialogState = {
-    open: false,
-    item: null,
-  };
-
-  const [confirmationDialogState, setConfirmationDialogState] = useState(
-    defaultConfirmationDialogState
-  );
-
-  const [tabValue, setTabValue] = useState(0);
-
   const {
     Languages,
     Labels: { Actions: ActionsLabels },
   } = Locale[defaultLanguage];
+
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
+  const toggleAddLocalMode = useCallback(
+    ({ cancel = false }) => {
+      if (cancel) {
+        disableInsertMode();
+      } else {
+        enableInsertMode({
+          menuItemId,
+          newLocale: { ...emptyLocaleData },
+        });
+      }
+    },
+    [ui.insertModeState.data]
+  );
+
   const handleLocaleActionsClick = useCallback(
     (event, lang) => {
-      setLocaleActionsPopoverState(
-        !localeActionsPopoverOpen
-          ? { anchorEl: event.target, lang, menuItemId }
-          : defaultLocaleActionsPopoverState
-      );
+      if (localeActionsPopoverOpen) {
+        setActionPopoverAnchorEl(null);
+        hideActionsPopover();
+      } else {
+        setActionPopoverAnchorEl(event.currentTarget);
+        showActionsPopover({ lang, menuItemId });
+      }
     },
-    [localeActionsPopoverState.lang]
+    [ui.actionsPopoverState.lang]
   );
 
   return (
     <div className={classes.root}>
       <ConfirmationDialog
-        open={confirmationDialogState.open}
+        open={ui.confirmationDialogState.open}
         action={ConfirmationActions.DELETE_LOCALE}
-        handleClose={() =>
-          setConfirmationDialogState(defaultConfirmationDialogState)
-        }
+        handleClose={closeConfirmationDialog}
         onConfirm={() => {
           onDeleteLocale(
-            confirmationDialogState.item.id,
-            confirmationDialogState.item.value
+            ui.confirmationDialogState.data.id,
+            ui.confirmationDialogState.data.value
           );
-          setConfirmationDialogState(defaultConfirmationDialogState);
+          closeConfirmationDialog();
         }}
         data={
-          confirmationDialogState.item &&
-          Languages[confirmationDialogState.item.value]
+          ui.confirmationDialogState.data &&
+          Languages[ui.confirmationDialogState.data.value]
         }
       />
       <LocaleActions
         id={localeActionsPopoverId}
         open={localeActionsPopoverOpen}
-        anchorEl={localeActionsPopoverState.anchorEl}
+        anchorEl={actionPopoverAnchorEl}
         handleClose={handleLocaleActionsClick}
       >
         <List>
           <ListItem
             onClick={() => {
-              setLocaleActionsPopoverState(defaultLocaleActionsPopoverState);
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
+
               //toggleEditLocalMode();
             }}
             aria-label="edit"
@@ -157,13 +168,11 @@ const LanguageTabsPanel = props => {
           </ListItem>
           <ListItem
             onClick={() => {
-              setLocaleActionsPopoverState(defaultLocaleActionsPopoverState);
-              setConfirmationDialogState({
-                open: true,
-                item: {
-                  id: menuItemId,
-                  value: localeActionsPopoverState.lang,
-                },
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
+              openConfirmationDialog({
+                id: menuItemId,
+                value: ui.actionsPopoverState.lang,
               });
             }}
             aria-label="delete"
@@ -194,7 +203,7 @@ const LanguageTabsPanel = props => {
               );
             })}
           >
-          {availableLanguages.length !== 0 && (
+          {availableLanguages.length !== 0 && !ui.insertModeState.enabled && (
             <IconButton
               edge="end"
               color="inherit"
@@ -210,40 +219,50 @@ const LanguageTabsPanel = props => {
         .filter(locale => locale !== defaultLanguage)
         .map((lang, index) => {
           const locale = locales[lang];
+          const showForm =
+            ui.insertModeState.enabled &&
+            ui.insertModeState.data.menuItemId === menuItemId;
           return (
             <TabPanel value={tabValue} key={index} index={index}>
-              <Typography
-                component="h3"
-                action={
-                  <IconButton
-                    aria-describedby={localeActionsPopoverId}
-                    onClick={event => handleLocaleActionsClick(event, lang)}
+              {showForm ? (
+                <> {children}</>
+              ) : (
+                <>
+                  <Toolbar className={classes.toolbar}>
+                    <Typography className={classes.header} component="h3">
+                      {locale.name}
+                    </Typography>
+                    <IconButton
+                      edge="end"
+                      aria-describedby={localeActionsPopoverId}
+                      onClick={event => handleLocaleActionsClick(event, lang)}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </Toolbar>
+                  <Typography variant="body2" color="textPrimary" component="p">
+                    {locale.description}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
                   >
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-              >
-                {locale.name}
-              </Typography>
-
-              <Typography variant="body2" color="textPrimary" component="p">
-                {locale.description}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {locale.ingredients}
-              </Typography>
+                    {locale.ingredients}
+                  </Typography>
+                </>
+              )}
             </TabPanel>
           );
         })}
-      {children}
     </div>
   );
 };
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    ui: state.ui,
   };
 }
 
-export default connect(mapStateToProps)(LanguageTabsPanel);
+export default connect(mapStateToProps, uiActions)(LanguageTabsPanel);
