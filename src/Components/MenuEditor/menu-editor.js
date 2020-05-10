@@ -178,20 +178,6 @@ const MenuEditor = props => {
     [ui.editModeState.data, ui.insertModeState.data]
   );
 
-  const toggleEditModeHandler = useCallback(
-    ({ menuItemId, cancel = false }) => {
-      if (cancel) {
-        disableEditMode();
-      } else {
-        enableEditMode({
-          id: menuItemId,
-          value: cloneDeep(menu.items[menuItemId]),
-        });
-      }
-    },
-    [menu, ui.editModeState.data.id]
-  );
-
   /*useEffect(() => {
     if (!editModeState.enabled) sortMenu(menu);
     console.log('reorder!');
@@ -227,10 +213,12 @@ const MenuEditor = props => {
         <List>
           <ListItem
             onClick={() => {
+              const menuItemId = ui.actionsPopoverState.menuItemId;
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
-              toggleEditModeHandler({
-                menuItemId: ui.actionsPopoverState.menuItemId,
+              enableEditMode({
+                id: menuItemId,
+                value: cloneDeep(menu.items[menuItemId]),
               });
             }}
             aria-label="edit"
@@ -317,14 +305,10 @@ const MenuEditor = props => {
                         );
                       })}
 
-                    <button onClick={() => updateMenuItemHandler()}>
+                    <button onClick={updateMenuItemHandler}>
                       Apply changes
                     </button>
-                    <button
-                      onClick={() => toggleEditModeHandler({ cancel: true })}
-                    >
-                      Cancel
-                    </button>
+                    <button onClick={disableEditMode}>Cancel</button>
                   </div>
                 </div>
               ) : (
@@ -393,6 +377,7 @@ const MenuEditor = props => {
                     unmountOnExit
                   >
                     <LanguageTabsPanel
+                      menu={menu}
                       menuItemId={key}
                       availableLanguages={availableLanguages}
                       onDeleteLocale={deleteLocaleHandler}

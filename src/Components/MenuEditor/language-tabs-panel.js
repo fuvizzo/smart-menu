@@ -21,6 +21,8 @@ import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
 import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
+import LocaleEditor from './locale-editor';
+import { cloneDeep } from 'lodash';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { Card, CardHeader, CardContent } from '@material-ui/core';
@@ -67,6 +69,7 @@ const emptyLocaleData = {
 
 const LanguageTabsPanel = props => {
   const {
+    menu,
     menuItemId,
     locales,
     ui,
@@ -75,6 +78,7 @@ const LanguageTabsPanel = props => {
     hideActionsPopover,
     openConfirmationDialog,
     closeConfirmationDialog,
+    enableEditMode,
     enableInsertMode,
     disableInsertMode,
     onDeleteLocale,
@@ -112,6 +116,28 @@ const LanguageTabsPanel = props => {
     },
     [ui.insertModeState.data]
   );
+
+  const TabLocaleEditor = props => {
+    const {
+      onChangeValueHandler,
+      updateMenuItemHandler,
+      index,
+      lang,
+      locale,
+    } = props;
+    return (
+      <>
+        <LocaleEditor
+          key={index}
+          lang={lang}
+          data={locale}
+          onChangeValue={onChangeValueHandler}
+        />
+        );
+        <button onClick={updateMenuItemHandler}>Apply changes</button>
+      </>
+    );
+  };
 
   const handleLocaleActionsClick = useCallback(
     (event, lang) => {
@@ -156,7 +182,10 @@ const LanguageTabsPanel = props => {
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
 
-              //toggleEditLocalMode();
+              enableEditMode({
+                id: menuItemId,
+                value: cloneDeep(menu.items[menuItemId]),
+              });
             }}
             aria-label="edit"
             button
@@ -215,46 +244,56 @@ const LanguageTabsPanel = props => {
           )}
         </Tabs>
       </AppBar>
-      {Object.keys(locales)
-        .filter(locale => locale !== defaultLanguage)
-        .map((lang, index) => {
-          const locale = locales[lang];
-          const showForm =
-            ui.insertModeState.enabled &&
-            ui.insertModeState.data.menuItemId === menuItemId;
-          return (
-            <TabPanel value={tabValue} key={index} index={index}>
-              {showForm ? (
-                <> {children}</>
-              ) : (
+
+      {ui.insertModeState.enabled &&
+      ui.insertModeState.data.menuItemId === menuItemId
+        ? children
+        : Object.keys(locales)
+            .filter(locale => locale !== defaultLanguage)
+            .map((lang, index) => {
+              const locale = locales[lang];
+              const showEditForm =
+                ui.editModeState.enabled &&
+                ui.editModeState.data.menuItemId === menuItemId;
+              return (
                 <>
-                  <Toolbar className={classes.toolbar}>
-                    <Typography className={classes.header} component="h3">
-                      {locale.name}
-                    </Typography>
-                    <IconButton
-                      edge="end"
-                      aria-describedby={localeActionsPopoverId}
-                      onClick={event => handleLocaleActionsClick(event, lang)}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                  </Toolbar>
-                  <Typography variant="body2" color="textPrimary" component="p">
-                    {locale.description}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {locale.ingredients}
-                  </Typography>
+                  {showEditForm ? (
+                    <TabLocaleEditor />
+                  ) : (
+                    <TabPanel value={tabValue} key={index} index={index}>
+                      <Toolbar className={classes.toolbar}>
+                        <Typography className={classes.header} component="h3">
+                          {locale.name}
+                        </Typography>
+                        <IconButton
+                          edge="end"
+                          aria-describedby={localeActionsPopoverId}
+                          onClick={event =>
+                            handleLocaleActionsClick(event, lang)
+                          }
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                      </Toolbar>
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        component="p"
+                      >
+                        {locale.description}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {locale.ingredients}
+                      </Typography>
+                    </TabPanel>
+                  )}
                 </>
-              )}
-            </TabPanel>
-          );
-        })}
+              );
+            })}
     </div>
   );
 };
