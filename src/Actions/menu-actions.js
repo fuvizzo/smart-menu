@@ -1,6 +1,6 @@
 import {
   GET_PUBLISHED_MENU,
-  GET_SORTED_MENU,
+  SORT_MENU,
   GET_MENUS,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
@@ -9,7 +9,7 @@ import {
   DELETE_LOCALE,
 } from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
-import { sort } from '../Helpers/index';
+
 import { v1 as uuidv1 } from 'uuid';
 
 const LOCALES = 'locales';
@@ -46,8 +46,8 @@ export const getPublishedMenu = (userId, menuId) => {
   };
 };
 
-export const sortMenu = menu => {
-  return { type: GET_SORTED_MENU, payload: sort(menu) };
+export const sortMenu = menuId => {
+  return { type: SORT_MENU, payload: menuId };
 };
 
 export const createNewMenuItem = (menuId, body) => {

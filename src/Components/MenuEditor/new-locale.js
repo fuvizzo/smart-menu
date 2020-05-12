@@ -33,7 +33,10 @@ const NewLocaleForm = props => {
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
   const onChangeLangValue = event => {
-    setLang(event.currentTarget.value);
+    event.currentTarget.name = event.target.name;
+    const lang = event.target.value;
+    event.currentTarget.dataset.lang = lang;
+    setLang(lang);
     onChangeValue(event);
   };
 
@@ -46,16 +49,11 @@ const NewLocaleForm = props => {
           labelId="lang-select-label"
           onChange={onChangeLangValue}
           value={lang}
-          inputProps={{ 'data-name': 'lang', 'data-lang': lang }}
+          name="lang"
         >
           {availableLanguages.map((lang, index) => {
             return (
-              <MenuItem
-                key={index}
-                data-name="lang"
-                data-lang={lang}
-                value={lang}
-              >
+              <MenuItem key={index} value={lang}>
                 {Locale[defaultLanguage].Languages[lang]}
               </MenuItem>
             );

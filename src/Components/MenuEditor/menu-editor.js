@@ -121,25 +121,25 @@ const MenuEditor = props => {
     });
   }, []);
 
-  const deleteMenuItemHandler = useCallback(menuItemId => {
-    deleteMenuItem(menuId, menuItemId);
+  const deleteMenuItemHandler = useCallback(async menuItemId => {
+    await deleteMenuItem(menuId, menuItemId);
   }, []);
 
-  const updateMenuItemHandler = useCallback(() => {
+  const updateMenuItemHandler = useCallback(async () => {
     const menuItemId = ui.editModeState.data.id;
     const body = ui.editModeState.data.value;
-    updateMenuItem(menuId, menuItemId, body);
+    await updateMenuItem(menuId, menuItemId, body);
     disableEditMode();
   }, [ui.editModeState.data.value, ui.editModeState.data.id]);
 
-  const createNewLocaleCallback = useCallback(() => {
+  const createNewLocaleCallback = useCallback(async () => {
     const { menuItemId, newLocale } = ui.insertModeState.data;
-    createNewLocale(menuId, menuItemId, newLocale);
+    await createNewLocale(menuId, menuItemId, newLocale);
     disableInsertMode();
   }, [ui.insertModeState.data]);
 
-  const deleteLocaleHandler = useCallback((menuItemId, lang) => {
-    deleteLocale(menuId, menuItemId, lang);
+  const deleteLocaleHandler = useCallback(async (menuItemId, lang) => {
+    await deleteLocale(menuId, menuItemId, lang);
   }, []);
 
   const handleMenuItemActionsClick = useCallback(
@@ -160,14 +160,14 @@ const MenuEditor = props => {
   const onChangeValueHandler = useCallback(
     event => {
       const input = event.currentTarget;
-      input.value = input.dataset.value || input.value;
-      input.name = input.dataset.name || input.name;
+      const currentValue =
+        input.type !== '' ? input.value : input.dataset.value;
 
       if (ui.insertModeState.enabled) {
         const lang = input.dataset.lang;
         const newLocale = ui.insertModeState.data.newLocale;
         newLocale.lang = lang;
-        newLocale[input.name] = input.value;
+        newLocale[input.name] = currentValue;
         insertData({
           ...ui.insertModeState.data,
           newLocale,
@@ -177,9 +177,9 @@ const MenuEditor = props => {
 
         if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
-          selectedItem.value.locales[lang][input.name] = input.value;
+          selectedItem.value.locales[lang][input.name] = currentValue;
         } else {
-          selectedItem.value[input.name] = input.value;
+          selectedItem.value[input.name] = currentValue;
         }
 
         editData(cloneDeep(selectedItem));
@@ -188,10 +188,9 @@ const MenuEditor = props => {
     [ui.editModeState.data, ui.insertModeState.data]
   );
 
-  /*useEffect(() => {
-    if (!editModeState.enabled) sortMenu(menu);
-    console.log('reorder!');
-  }, [menu.size, editModeState.enabled]); */
+  useEffect(() => {
+    if (!ui.editModeState.enabled) sortMenu(menuId);
+  }, [Object.entries(menu.items).length, ui.editModeState.enabled]);
 
   return (
     <Grid
@@ -284,8 +283,10 @@ const MenuEditor = props => {
                       className={commonClasses.selectField}
                       labelId="dish-select-label"
                       name="category"
-                      onChange={onChangeValueHandler}
-                      type="text"
+                      onChange={event => {
+                        event.currentTarget.name = event.target.name;
+                        onChangeValueHandler(event);
+                      }}
                       value={ui.editModeState.data.value.category}
                     >
                       {DishTypes.map((dishType, index) => {
@@ -306,7 +307,6 @@ const MenuEditor = props => {
                       label={MenuLabels.PRICE}
                       name="price"
                       onChange={onChangeValueHandler}
-                      type="text"
                       value={ui.editModeState.data.value.price}
                     />
                   </FormControl>

@@ -1,5 +1,6 @@
 import {
   GET_MENUS,
+  SORT_MENU,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
@@ -7,7 +8,7 @@ import {
   DELETE_LOCALE,
 } from './../Constants/menu-action-types';
 import { cloneDeep } from 'lodash';
-
+import { sort } from '../Helpers/index';
 const initialState = {};
 
 function menuReducer(state = initialState, action) {
@@ -15,6 +16,10 @@ function menuReducer(state = initialState, action) {
   else {
     const menus = cloneDeep(state);
     switch (action.type) {
+      case SORT_MENU:
+        const menuItems = menus[action.payload].items;
+        menus[action.payload].items = sort(menuItems);
+        return menus;
       case CREATE_NEW_MENU_ITEM:
         menus[action.payload.menuId].items[action.payload.menuItemId] =
           action.payload.value;
