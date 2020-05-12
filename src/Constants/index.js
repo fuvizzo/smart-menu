@@ -1,6 +1,14 @@
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
+  DishTypesColorMap: [
+    '#36bff4',
+    '#36f456',
+    '#ffd96d',
+    '#ff6dbe',
+    '#ffa15f',
+    '#f44336',
+  ],
   ConfirmationActions: {
     DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
     DELETE_MENU: 'DELETE_MENU',

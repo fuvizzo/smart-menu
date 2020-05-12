@@ -19,7 +19,7 @@ import useStyles from './styles';
 import LeftMenu from './left-menu';
 const Dashboard = props => {
   console.count('Dashboard renders');
-  const { getSectionName, children } = props;
+  const { sectionName, children } = props;
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -50,13 +50,8 @@ const Dashboard = props => {
             noWrap
             className={classes.title}
           >
-            {getSectionName()}
+            {props.sectionHeader}
           </Typography>
-          {/*  <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
         </Toolbar>
       </AppBar>
       <Drawer

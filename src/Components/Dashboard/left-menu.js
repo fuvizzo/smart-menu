@@ -30,7 +30,7 @@ const LeftMenu = props => {
     <div>
       <Divider />
       <List>
-        <ListItem button to={`${url}/menu-list`} component={RouterLink}>
+        <ListItem button to="./menu-list" component={RouterLink}>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
@@ -39,17 +39,13 @@ const LeftMenu = props => {
       </List>
       <Divider />
       <List>
-        <ListItem
-          to={`${url}/subscription-status`}
-          component={RouterLink}
-          button
-        >
+        <ListItem to="./subscription-status" component={RouterLink} button>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary={SectionLabels.SUBSCRIPTION_STATUS} />
         </ListItem>
-        <ListItem button to={`${url}/account`} component={RouterLink}>
+        <ListItem button to="./account" component={RouterLink}>
           <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>

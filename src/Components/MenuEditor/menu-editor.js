@@ -80,6 +80,7 @@ const MenuEditor = props => {
     LocalizedFields,
     SupportedLanguages,
     Locale,
+    DishTypesColorMap,
     ConfirmationActions,
   } = constants;
 
@@ -105,20 +106,6 @@ const MenuEditor = props => {
     return SupportedLanguages.filter(
       lang => !usedLanguages.some(l => l === lang)
     );
-  }, []);
-
-  const createNewMenuItemCallback = useCallback(data => {
-    createNewMenuItem(menuId, {
-      category: '4',
-      locales: {
-        en: {
-          description: 'desc',
-          ingredients: 'Ingredients list',
-          name: 'Lemon cake',
-        },
-      },
-      price: '6€',
-    });
   }, []);
 
   const deleteMenuItemHandler = useCallback(async menuItemId => {
@@ -343,7 +330,9 @@ const MenuEditor = props => {
                     avatar={
                       <Avatar
                         aria-label="recipe"
-                        className={dashboardClasses.avatar}
+                        style={{
+                          backgroundColor: DishTypesColorMap[data.category],
+                        }}
                       >
                         {DishTypes[data.category].substr(0, 1)}
                       </Avatar>
@@ -426,8 +415,6 @@ const MenuEditor = props => {
           </Grid>
         );
       })}
-
-      <button onClick={createNewMenuItemCallback}>Add</button>
     </Grid>
   );
 };
