@@ -11,4 +11,7 @@ export default makeStyles(theme => ({
   header: {
     flexGrow: 1,
   },
+  priceField: {
+    maxWidth: 100,
+  },
 }));

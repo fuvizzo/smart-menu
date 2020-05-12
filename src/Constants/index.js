@@ -32,7 +32,21 @@ export default {
           ACCOUNT: 'Account',
           SUBSCRIPTION_STATUS: 'Subscription status',
         },
+        Menu: {
+          INGREDIENTS_LIST: 'Ingredients list',
+          MENU: 'Normal menu',
+          SET_MENU: 'Set menu',
+          DISH_NAME: 'Dish name',
+          CATEGORY: 'Category',
+          DESCRIPTION: 'Description',
+          PRICE: 'Price',
+          LANGUAGE: 'Language',
+        },
+        Common: {
+          SHOW_OTHER_LANGUAGES: 'Show Other languages',
+        },
         Actions: {
+          APPLY_CHANGES: 'Apply changes',
           PROCEED: 'Proceed',
           CANCEL: 'Cancel',
           SAVE: 'Save',

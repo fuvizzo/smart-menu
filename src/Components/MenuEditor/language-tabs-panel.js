@@ -22,6 +22,8 @@ import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
 import LocaleEditor from './locale-editor';
 import { cloneDeep } from 'lodash';
+import Button from '@material-ui/core/Button';
+import useCommonStyles from '../Common/styles';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -67,18 +69,34 @@ const emptyLocaleData = {
 };
 
 const TabLocaleEditor = props => {
-  const { onChangeValue, updateMenuItem, locale, lang, index } = props;
+  const commonClasses = useCommonStyles();
+
+  const {
+    onChangeValue,
+    updateMenuItem,
+    locale,
+    lang,
+    index,
+    actionsLabels,
+    disableEditMode,
+  } = props;
   return (
-    <>
+    <Box pt={3}>
       <LocaleEditor
         key={index}
         lang={lang}
         data={locale}
         onChangeValue={onChangeValue}
       />
-      <button onClick={updateMenuItem}>Apply changes</button>
-      <button onClick={updateMenuItem}>Cancel</button>
-    </>
+      <Box className={commonClasses.buttonBar}>
+        <Button variant="contained" onClick={disableEditMode}>
+          {actionsLabels.CANCEL}
+        </Button>
+        <Button variant="contained" color="primary" onClick={updateMenuItem}>
+          {actionsLabels.APPLY_CHANGES}
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
@@ -96,6 +114,7 @@ const LanguageTabsPanel = props => {
     openConfirmationDialog,
     closeConfirmationDialog,
     enableEditMode,
+    disableEditMode,
     enableInsertMode,
     disableInsertMode,
     deleteLocale,
@@ -255,7 +274,7 @@ const LanguageTabsPanel = props => {
       {ui.insertModeState.enabled &&
       ui.insertModeState.data.menuItemId === menuItemId ? (
         <NewLocaleEditor
-          emptyLocaleData={ui.insertModeState.data.newLocale}
+          newLocale={ui.insertModeState.data.newLocale}
           onChangeValue={onChangeValueHandler}
           onCreateNewLocalInMenuItem={createNewLocale}
           availableLanguages={availableLanguages}
@@ -273,6 +292,8 @@ const LanguageTabsPanel = props => {
                 <TabPanel value={tabValue} key={index} index={index}>
                   {showEditForm ? (
                     <TabLocaleEditor
+                      disableEditMode={disableEditMode}
+                      actionsLabels={ActionsLabels}
                       updateMenuItem={updateMenuItem}
                       onChangeValue={onChangeValueHandler}
                       locale={ui.editModeState.data.value.locales[lang]}

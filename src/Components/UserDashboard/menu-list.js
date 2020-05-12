@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { getMenus } from '../../Actions/menu-actions';
 import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
@@ -15,6 +15,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
+
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -41,7 +42,7 @@ const MenuList = props => {
   const defaultLanguage = ui.settings.defaultLanguage;
   const classes = useStyles();
   const {
-    Labels: { Actions: ActionsLabels },
+    Labels: { Actions: ActionsLabels, Menu: MenuLabels },
   } = Locale[defaultLanguage];
 
   const menuActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
@@ -130,7 +131,14 @@ const MenuList = props => {
         {Object.keys(menus).map(key => {
           const menu = menus[key];
           return (
-            <Grid item xs={12} sm={6} md={3} key={key}>
+            <Grid
+              className={classes.cardGrid}
+              item
+              xs={12}
+              sm={6}
+              md={3}
+              key={key}
+            >
               <Card className={classes.root}>
                 <CardHeader
                   className={classes.header}
@@ -149,9 +157,16 @@ const MenuList = props => {
                   }
                   title={menu.info.locales[defaultLanguage].name}
                   subheader={
-                    menu.info.setMenu
-                      ? `TRANSLATION NEEDED -> Set menu: ${menu.info.setMenu}`
-                      : 'TRANSLATION NEEDED -> normal menu'
+                    menu.info.setMenu ? (
+                      <div>
+                        <span style={{ color: '#3f51b5' }}>
+                          {MenuLabels.SET_MENU}:{' '}
+                        </span>
+                        <span>{menu.info.setMenu}</span>
+                      </div>
+                    ) : (
+                      MenuLabels.MENU
+                    )
                   }
                 />
 

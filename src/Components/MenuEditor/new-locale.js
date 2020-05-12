@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import LocaleEditor from './locale-editor';
 import { connect } from 'react-redux';
 import * as uiActions from '../../Actions/ui-actions';
+import Select from '@material-ui/core/Select';
+import Box from '@material-ui/core/Box';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import useCommonStyles from '../Common/styles';
+import Button from '@material-ui/core/Button';
 
 import constants from '../../Constants/index';
 const { Locale } = constants;
@@ -9,49 +16,74 @@ const { Locale } = constants;
 const NewLocaleForm = props => {
   const {
     ui,
-    emptyLocaleData,
+    newLocale,
     availableLanguages,
     onChangeValue,
     onCreateNewLocalInMenuItem,
     disableInsertMode,
   } = props;
   const [lang, setLang] = useState(availableLanguages[0]);
+  const commonClasses = useCommonStyles();
 
   const defaultLanguage = ui.settings.defaultLanguage;
+
+  const {
+    Labels: { Actions: ActionsLabels, Menu: MenuLabels, Common: CommonLabels },
+    Languages,
+    DISH_TYPES: DishTypes,
+  } = Locale[defaultLanguage];
   const onChangeLangValue = event => {
     setLang(event.currentTarget.value);
     onChangeValue(event);
   };
-  /*  const createNewLocaleCallback = useCallback(() => {
-    const { menuItemId, newLocale } = insertLocaleModeState;
-    createNewLocale(menuId, menuItemId, newLocale);
-    toggleAddLocalMode({ cancel: true });
-  }, [insertLocaleModeState]);
- */
+
   return (
-    <>
-      <select name="lang" onChange={onChangeLangValue} value={lang}>
-        {availableLanguages.map((lang, index) => {
-          return (
-            <option key={index} value={lang}>
-              {Locale[defaultLanguage].Languages[lang]}
-            </option>
-          );
-        })}
-      </select>
+    <Box p={3}>
+      <FormControl className={commonClasses.formControl}>
+        <InputLabel id="lang-select-label">{MenuLabels.LANGUAGE}</InputLabel>
+        <Select
+          className={commonClasses.selectField}
+          labelId="lang-select-label"
+          onChange={onChangeLangValue}
+          value={lang}
+          inputProps={{ 'data-name': 'lang', 'data-lang': lang }}
+        >
+          {availableLanguages.map((lang, index) => {
+            return (
+              <MenuItem
+                key={index}
+                data-name="lang"
+                data-lang={lang}
+                value={lang}
+              >
+                {Locale[defaultLanguage].Languages[lang]}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+
       <LocaleEditor
         key="0"
         systemLang={defaultLanguage}
         lang={lang}
-        data={emptyLocaleData}
+        data={newLocale}
         onChangeValue={onChangeValue}
       />
-      <div>
-        <button onClick={() => onCreateNewLocalInMenuItem()}>Finish</button>
 
-        <button onClick={disableInsertMode}>Cancel</button>
-      </div>
-    </>
+      <Box className={commonClasses.buttonBar}>
+        <Button variant="contained" onClick={disableInsertMode}>
+          {ActionsLabels.CANCEL}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onCreateNewLocalInMenuItem}
+        >
+          {ActionsLabels.PROCEED}
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

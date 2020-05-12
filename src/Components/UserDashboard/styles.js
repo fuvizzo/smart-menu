@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 export default makeStyles(theme => ({
+  cardGrid: {
+    minWidth: 300,
+  },
   root: {
     maxWidth: 345,
     maxHeight: 450,

@@ -14,17 +14,22 @@ import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import FormControl from '@material-ui/core/FormControl';
 
 import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
+import TextField from '@material-ui/core/TextField';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
-import useStyles from '../UserDashboard/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
@@ -32,6 +37,9 @@ import MenuItemActions from '../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
 import * as uiActions from '../../Actions/ui-actions';
 import * as menuActions from '../../Actions/menu-actions';
+import useDashboardStyles from '../UserDashboard/styles';
+import useCommonStyles from '../Common/styles';
+import useMenuStyles from './styles';
 
 const MenuEditor = props => {
   const { menuId } = useParams();
@@ -41,7 +49,9 @@ const MenuEditor = props => {
     ? 'menu-item-actions-popover'
     : undefined;
 
-  const classes = useStyles();
+  const dashboardClasses = useDashboardStyles();
+  const menuClasses = useMenuStyles();
+  const commonClasses = useCommonStyles();
   const {
     menus,
     ui,
@@ -74,7 +84,7 @@ const MenuEditor = props => {
   } = constants;
 
   const {
-    Labels: { Actions: ActionsLabels },
+    Labels: { Actions: ActionsLabels, Menu: MenuLabels, Common: CommonLabels },
     Languages,
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
@@ -150,13 +160,14 @@ const MenuEditor = props => {
   const onChangeValueHandler = useCallback(
     event => {
       const input = event.currentTarget;
-      const currentValue = input.value;
+      input.value = input.dataset.value || input.value;
+      input.name = input.dataset.name || input.name;
 
       if (ui.insertModeState.enabled) {
         const lang = input.dataset.lang;
         const newLocale = ui.insertModeState.data.newLocale;
         newLocale.lang = lang;
-        newLocale[input.name] = currentValue;
+        newLocale[input.name] = input.value;
         insertData({
           ...ui.insertModeState.data,
           newLocale,
@@ -166,9 +177,9 @@ const MenuEditor = props => {
 
         if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
-          selectedItem.value.locales[lang][input.name] = currentValue;
+          selectedItem.value.locales[lang][input.name] = input.value;
         } else {
-          selectedItem.value[input.name] = currentValue;
+          selectedItem.value[input.name] = input.value;
         }
 
         editData(cloneDeep(selectedItem));
@@ -264,62 +275,76 @@ const MenuEditor = props => {
           <Grid item xs={12} key={key}>
             <Card width={1}>
               {showMenuItemEditForm ? (
-                <div>
-                  Edit mode
-                  <div>
-                    <div>
-                      <select
-                        name="category"
-                        onChange={onChangeValueHandler}
-                        type="text"
-                        placeholder="Category"
-                        value={ui.editModeState.data.value.category}
-                      >
-                        {DishTypes.map((dishType, index) => {
-                          return (
-                            <option key={index} value={index}>
-                              {dishType}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div>
-                      <input
-                        name="price"
-                        onChange={onChangeValueHandler}
-                        type="text"
-                        placeholder="Price"
-                        value={ui.editModeState.data.value.price}
-                      />
-                    </div>
-                    {Object.keys(ui.editModeState.data.value.locales)
-                      .filter(lang => lang === defaultLanguage)
-                      .map((lang, index) => {
-                        const locale =
-                          ui.editModeState.data.value.locales[lang];
+                <Box p={2}>
+                  <FormControl className={commonClasses.formControl}>
+                    <InputLabel id="dish-select-label">
+                      {MenuLabels.CATEGORY}
+                    </InputLabel>
+                    <Select
+                      className={commonClasses.selectField}
+                      labelId="dish-select-label"
+                      name="category"
+                      onChange={onChangeValueHandler}
+                      type="text"
+                      value={ui.editModeState.data.value.category}
+                    >
+                      {DishTypes.map((dishType, index) => {
                         return (
-                          <LocaleEditor
-                            key={index}
-                            lang={lang}
-                            data={locale}
-                            onChangeValue={onChangeValueHandler}
-                          />
+                          <MenuItem key={index} value={index}>
+                            {dishType}
+                          </MenuItem>
                         );
                       })}
-
-                    <button onClick={updateMenuItemHandler}>
-                      Apply changes
-                    </button>
-                    <button onClick={disableEditMode}>Cancel</button>
-                  </div>
-                </div>
+                    </Select>
+                  </FormControl>
+                  <FormControl className={commonClasses.formControl}>
+                    <TextField
+                      className={clsx(
+                        commonClasses.textField,
+                        menuClasses.priceField
+                      )}
+                      label={MenuLabels.PRICE}
+                      name="price"
+                      onChange={onChangeValueHandler}
+                      type="text"
+                      value={ui.editModeState.data.value.price}
+                    />
+                  </FormControl>
+                  {Object.keys(ui.editModeState.data.value.locales)
+                    .filter(lang => lang === defaultLanguage)
+                    .map((lang, index) => {
+                      const locale = ui.editModeState.data.value.locales[lang];
+                      return (
+                        <LocaleEditor
+                          key={index}
+                          lang={lang}
+                          data={locale}
+                          onChangeValue={onChangeValueHandler}
+                        />
+                      );
+                    })}
+                  <Box className={commonClasses.buttonBar}>
+                    <Button variant="contained" onClick={disableEditMode}>
+                      {ActionsLabels.CANCEL}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={updateMenuItemHandler}
+                    >
+                      {ActionsLabels.APPLY_CHANGES}
+                    </Button>
+                  </Box>
+                </Box>
               ) : (
                 <>
                   <CardHeader
-                    className={classes.header}
+                    className={dashboardClasses.header}
                     avatar={
-                      <Avatar aria-label="recipe" className={classes.avatar}>
+                      <Avatar
+                        aria-label="recipe"
+                        className={dashboardClasses.avatar}
+                      >
                         {DishTypes[data.category].substr(0, 1)}
                       </Avatar>
                     }
@@ -349,19 +374,23 @@ const MenuEditor = props => {
                       </Typography>
                     )}
                     {data.locales[defaultLanguage].ingredients && (
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        TRANSLATION NEEDED -> Ingredients:{' '}
-                        {data.locales[defaultLanguage].ingredients}
-                      </Typography>
+                      <Box mt={2}>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          <b>{MenuLabels.INGREDIENTS_LIST}: </b>
+                          <span>
+                            {data.locales[defaultLanguage].ingredients}
+                          </span>
+                        </Typography>
+                      </Box>
                     )}
                     <CardActions disableSpacing>
                       <Button
-                        className={clsx(classes.expand, {
-                          [classes.expandOpen]: languageTabExpanded,
+                        className={clsx(dashboardClasses.expand, {
+                          [dashboardClasses.expandOpen]: languageTabExpanded,
                         })}
                         onClick={event =>
                           handleExpandLanguageTabsPanelClick(event, key)
@@ -370,7 +399,8 @@ const MenuEditor = props => {
                         aria-label="show more"
                         endIcon={<ExpandMoreIcon />}
                       >
-                        {!languageTabExpanded && 'Show Other languages tab'}
+                        {!languageTabExpanded &&
+                          CommonLabels.SHOW_OTHER_LANGUAGES.toUpperCase()}
                       </Button>
                     </CardActions>
                   </CardContent>
