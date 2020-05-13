@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import constants from '../../Constants/index';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -83,8 +83,12 @@ const MenuEditor = props => {
   } = constants;
 
   const {
-    Labels: { Actions: ActionsLabels, Menu: MenuLabels, Common: CommonLabels },
-    Languages,
+    Labels: {
+      Actions: ActionsLabels,
+      Menu: MenuLabels,
+      Common: CommonLabels,
+      Warnings: WarningMessages,
+    },
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
 
@@ -195,12 +199,12 @@ const MenuEditor = props => {
         open={ui.confirmationDialogState.open}
         action={ConfirmationActions.DELETE_MENU_ITEM}
         data={
-          ui.confirmationDialogState.item &&
-          ui.confirmationDialogState.item.value.locales[defaultLanguage].name
+          !isEmpty(ui.confirmationDialogState.data) &&
+          ui.confirmationDialogState.data.value.locales[defaultLanguage].name
         }
         handleClose={() => closeConfirmationDialog()}
         onConfirm={() => {
-          deleteMenuItemHandler(ui.confirmationDialogState.item.id);
+          deleteMenuItemHandler(ui.confirmationDialogState.data.id);
           closeConfirmationDialog();
         }}
       />
@@ -289,18 +293,20 @@ const MenuEditor = props => {
                       })}
                     </Select>
                   </FormControl>
-                  <FormControl className={commonClasses.formControl}>
-                    <TextField
-                      className={clsx(
-                        commonClasses.textField,
-                        menuClasses.priceField
-                      )}
-                      label={MenuLabels.PRICE}
-                      name="price"
-                      onChange={onChangeValueHandler}
-                      value={ui.editModeState.data.value.price}
-                    />
-                  </FormControl>
+                  {!menu.info.setMenu && (
+                    <FormControl className={commonClasses.formControl}>
+                      <TextField
+                        className={clsx(
+                          commonClasses.textField,
+                          menuClasses.priceField
+                        )}
+                        label={MenuLabels.PRICE}
+                        name="price"
+                        onChange={onChangeValueHandler}
+                        value={ui.editModeState.data.value.price}
+                      />
+                    </FormControl>
+                  )}
                   {Object.keys(ui.editModeState.data.value.locales)
                     .filter(lang => lang === defaultLanguage)
                     .map((lang, index) => {
@@ -355,29 +361,36 @@ const MenuEditor = props => {
                     subheader={!menu.info.setMenu && data.price}
                   />
                   <CardContent>
-                    {data.locales[defaultLanguage].description && (
+                    <Box>
                       <Typography
-                        variant="body2"
-                        color="textPrimary"
-                        component="p"
+                        className={commonClasses.label}
+                        color="textSecondary"
+                        variant="h1"
                       >
-                        {data.locales[defaultLanguage].description}
+                        {MenuLabels.DESCRIPTION}
                       </Typography>
-                    )}
-                    {data.locales[defaultLanguage].ingredients && (
-                      <Box mt={2}>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          <b>{MenuLabels.INGREDIENTS_LIST}: </b>
-                          <span>
-                            {data.locales[defaultLanguage].ingredients}
-                          </span>
-                        </Typography>
-                      </Box>
-                    )}
+                    </Box>
+                    <Box mt={0.5}>
+                      <Typography>
+                        {data.locales[defaultLanguage].description ||
+                          WarningMessages.MISSING_FIELD}
+                      </Typography>
+                    </Box>
+                    <Box mt={2}>
+                      <Typography
+                        className={commonClasses.label}
+                        color="textSecondary"
+                        variant="h1"
+                      >
+                        {MenuLabels.INGREDIENTS_LIST}
+                      </Typography>
+                    </Box>
+                    <Box mt={0.5}>
+                      <Typography>
+                        {data.locales[defaultLanguage].ingredients ||
+                          WarningMessages.MISSING_FIELD}
+                      </Typography>
+                    </Box>
                     <CardActions disableSpacing>
                       <Button
                         className={clsx(dashboardClasses.expand, {

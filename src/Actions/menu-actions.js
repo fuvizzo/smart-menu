@@ -1,5 +1,6 @@
 import {
   GET_PUBLISHED_MENU,
+  TOGGLE_PUBLISHED,
   SORT_MENU,
   GET_MENUS,
   CREATE_NEW_MENU_ITEM,
@@ -34,11 +35,31 @@ export const getMenus = () => {
 export const getPublishedMenu = (userId, menuId) => {
   return async dispatch => {
     try {
-      const path = `/users/${userId}/menus/${menuId}`;
+      const path = `${userMenusPath(userId)}/${menuId}`;
       const results = await firebaseService.read(path);
       const data = results.val();
 
       dispatch({ type: GET_PUBLISHED_MENU, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const togglePublishedStatus = (menuId, published) => {
+  return async (dispatch, getState) => {
+    const userId = getState().user.userId;
+    const path = `${userMenusPath(userId)}/${menuId}`;
+    const data = {
+      path,
+      body: { published },
+    };
+    try {
+      await firebaseService.update(data);
+      dispatch({
+        type: TOGGLE_PUBLISHED,
+        payload: { menuId },
+      });
     } catch (error) {
       console.log(error);
     }

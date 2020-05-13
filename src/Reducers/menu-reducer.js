@@ -1,6 +1,7 @@
 import {
   GET_MENUS,
   SORT_MENU,
+  TOGGLE_PUBLISHED,
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
@@ -24,26 +25,27 @@ function menuReducer(state = initialState, action) {
         menus[action.payload.menuId].items[action.payload.menuItemId] =
           action.payload.value;
         return menus;
-      case DELETE_MENU_ITEM: {
+      case DELETE_MENU_ITEM:
         delete menus[action.payload.menuId].items[action.payload.menuItemId];
         return menus;
-      }
       case UPDATE_MENU_ITEM:
         menus[action.payload.menuId].items[action.payload.menuItemId] =
           action.payload.value;
         return menus;
-
+      case TOGGLE_PUBLISHED:
+        const published = menus[action.payload.menuId].published;
+        menus[action.payload.menuId].published = !published;
+        return menus;
       case CREATE_NEW_LOCALE:
         menus[action.payload.menuId].items[action.payload.menuItemId].locales[
           action.payload.lang
         ] = action.payload.data;
         return menus;
-
-      case DELETE_LOCALE: {
+      case DELETE_LOCALE:
         delete menus[action.payload.menuId].items[action.payload.menuItemId]
           .locales[action.payload.lang];
         return menus;
-      }
+
       default:
         return state;
     }

@@ -38,12 +38,8 @@ export default new firebaseMock.MockFirebaseSdk(
         };
       }
       if (
-        path.includes(
-          '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus/9b940e13-f7c2-4df1-a1ae-eeaad721039b'
-        ) ||
-        path.includes(
-          '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus/d010d4df-0b7a-42b2-9bd9-6971498c6c53'
-        )
+        path.includes('9b940e13-f7c2-4df1-a1ae-eeaad721039b') ||
+        path.includes('d010d4df-0b7a-42b2-9bd9-6971498c6c53')
       ) {
         child.set = event => {
           return Promise.resolve();
@@ -53,6 +49,19 @@ export default new firebaseMock.MockFirebaseSdk(
         };
         child.update = event => {
           return Promise.resolve();
+        };
+        child.once = event => {
+          if (event === 'value') {
+            const segs = path.split('/');
+            const val = () => {
+              console.log(
+                'The mocked Firebase service shows results even if "published"=false but Firebase rules prevent to read unpublished menus'
+              );
+              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menus[segs[4]];
+            };
+            data.val = val;
+            return Promise.resolve(data);
+          }
         };
       }
       return child;

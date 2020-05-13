@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { getMenus } from '../../Actions/menu-actions';
 import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
 import Card from '@material-ui/core/Card';
@@ -8,6 +7,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -15,17 +16,23 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
-
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import useStyles from './styles';
 import MenuActions from './popover-actions';
 import ConfirmationDialog from './confirmation-dialog';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { Link as RouterLink } from 'react-router-dom';
 import constants from '../../Constants/index';
-import * as uiActions from '../../Actions/ui-actions';
+
 import { isEmpty } from 'lodash';
+import Truncate from 'react-truncate';
+
+import * as uiActions from '../../Actions/ui-actions';
+import { getMenus, togglePublishedStatus } from '../../Actions/menu-actions';
+import useStyles from './styles';
 
 const { ConfirmationActions, Locale } = constants;
 
@@ -176,14 +183,39 @@ const MenuList = props => {
                   title={menu.info.locales[defaultLanguage].name}
                 />
                 <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    {menu.info.locales[defaultLanguage].description}
-                  </Typography>
+                  <Truncate lines={3} ellipsis="...">
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                      className={classes.descriptionParagraph}
+                    >
+                      {menu.info.locales[defaultLanguage].description}
+                    </Typography>
+                  </Truncate>
                 </CardContent>
+
+                <CardActions disableSpacing>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={menu.published}
+                        onChange={() =>
+                          props.togglePublishedStatus(key, !menu.published)
+                        }
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <Typography variant="body2" color="textSecondary">
+                        {menu.published
+                          ? MenuLabels.PUBLISHED
+                          : MenuLabels.UNPUBLISHED}
+                      </Typography>
+                    }
+                  />
+                </CardActions>
               </Card>
             </Grid>
           );
@@ -200,4 +232,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { ...uiActions, getMenus })(MenuList);
+export default connect(mapStateToProps, {
+  ...uiActions,
+  ...{
+    getMenus,
+    togglePublishedStatus,
+  },
+})(MenuList);

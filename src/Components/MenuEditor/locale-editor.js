@@ -11,19 +11,25 @@ const { Locale } = constants;
 const LocaleEditor = props => {
   const { index, lang, defaultLanguage, onChangeValue, data } = props;
   const {
-    Labels: { Actions: ActionsLabels, Menu: MenuLabels },
+    Labels: {
+      Actions: ActionsLabels,
+      Menu: MenuLabels,
+      FormValidationErrors: FormValidationErrorsLabels,
+    },
   } = Locale[defaultLanguage];
   const classes = useStyles();
 
   return (
     <>
-      <FormControl className={classes.formControl}>
+      <FormControl className={classes.formControl} error={!data.name}>
         <TextField
           className={classes.textField}
           label={MenuLabels.DISH_NAME}
           name="name"
           onChange={onChangeValue}
           type="text"
+          error={!data.name}
+          helperText={!data.name && FormValidationErrorsLabels.REQUIRED}
           value={data.name}
           inputProps={{ 'data-lang': lang }}
         />

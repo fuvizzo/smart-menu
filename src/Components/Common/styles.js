@@ -15,7 +15,9 @@ export default makeStyles(theme => ({
   selectField: {
     maxWidth: 250,
   },
-
+  label: {
+    fontSize: 12,
+  },
   textField: {},
   buttonBar: {
     display: 'flex',

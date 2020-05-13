@@ -49,9 +49,21 @@ export default {
           DESCRIPTION: 'Description',
           PRICE: 'Price',
           LANGUAGE: 'Language',
+          UNPUBLISHED: 'Unpublished',
+          PUBLISHED: 'Published',
+        },
+        FormValidationErrors: {
+          REQUIRED: 'This field is required',
         },
         Common: {
           SHOW_OTHER_LANGUAGES: 'Show Other languages',
+        },
+        Warnings: {
+          MISSING_FIELD: "This field hasn't been filled up",
+        },
+
+        Account: {
+          ACCOUNT_OWNER: 'Account owner',
         },
         Actions: {
           APPLY_CHANGES: 'Apply changes',

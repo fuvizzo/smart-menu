@@ -147,7 +147,7 @@ const LanguageTabsPanel = props => {
         enableInsertMode(
           {
             id: menuItemId,
-            value: { ...emptyLocaleData },
+            value: { ...emptyLocaleData, lang: availableLanguages[0] },
           },
           true
         );
@@ -242,21 +242,23 @@ const LanguageTabsPanel = props => {
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          {Object.keys(locales)
-            .filter(locale => locale !== defaultLanguage)
-            .map((lang, index) => {
-              return (
-                <Tab
-                  disabled={
-                    index !== tabValue &&
-                    (ui.editModeState.enabled || ui.insertModeState.enabled)
-                  }
-                  label={Languages[lang]}
-                  key={index}
-                  {...a11yProps(index)}
-                />
-              );
-            })}
+          <Box>
+            {Object.keys(locales)
+              .filter(locale => locale !== defaultLanguage)
+              .map((lang, index) => {
+                return (
+                  <Tab
+                    disabled={
+                      index !== tabValue &&
+                      (ui.editModeState.enabled || ui.insertModeState.enabled)
+                    }
+                    label={Languages[lang]}
+                    key={index}
+                    {...a11yProps(index)}
+                  />
+                );
+              })}
+          </Box>
           >
           {!(
             availableLanguages.length === 0 ||

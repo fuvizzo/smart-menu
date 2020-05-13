@@ -27,7 +27,7 @@ const App = props => {
   useEffect(() => {
     props.getPublishedMenu(
       'OIRnMadgbecau6O6QL9xlyqoBkI2',
-      '9b940e13-f7c2-4df1-a1ae-eeaad721039b'
+      'd010d4df-0b7a-42b2-9bd9-6971498c6c53'
     );
   }, []);
 

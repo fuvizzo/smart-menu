@@ -45,11 +45,10 @@ function uiReducer(state = initialState, action) {
       ui.actionsPopoverState = initialState.actionsPopoverState;
       return ui;
     case UI_ActionTypes.EDIT_DATA:
+      ui.editModeState.data = action.payload;
+      return ui;
     case UI_ActionTypes.ENABLE_EDIT_MODE:
-      ui.editModeState = {
-        ...ui.editModeState,
-        ...action.payload,
-      };
+      ui.editModeState = action.payload;
       return ui;
     case UI_ActionTypes.DISABLE_EDIT_MODE:
       ui.editModeState = initialState.editModeState;
@@ -61,12 +60,10 @@ function uiReducer(state = initialState, action) {
       ui.languageTabsPanelState = initialState.languageTabsPanelState;
       return ui;
     case UI_ActionTypes.INSERT_DATA:
+      ui.insertModeState.data = action.payload;
+      return ui;
     case UI_ActionTypes.ENABLE_INSERT_MODE:
-      ui.insertModeState = {
-        ...ui.insertModeState,
-        ...action.payload,
-      };
-
+      ui.insertModeState = action.payload;
       return ui;
     case UI_ActionTypes.DISABLE_INSERT_MODE:
       ui.insertModeState = initialState.insertModeState;
