@@ -125,14 +125,18 @@ const LanguageTabsPanel = props => {
   const [tabValue, setTabValue] = useState(0);
   const defaultLanguage = ui.settings.defaultLanguage;
   const localeActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
-
+  const commonClasses = useCommonStyles();
   const localeActionsPopoverId = localeActionsPopoverOpen
     ? 'locale-actions-popover'
     : undefined;
   const classes = useStyles();
   const {
     Languages,
-    Labels: { Actions: ActionsLabels },
+    Labels: {
+      Actions: ActionsLabels,
+      Menu: MenuLabels,
+      Warnings: WarningMessages,
+    },
   } = Locale[defaultLanguage];
 
   const handleChange = (event, newValue) => {
@@ -171,25 +175,24 @@ const LanguageTabsPanel = props => {
 
   return (
     <div className={classes.root}>
-      <ConfirmationDialog
-        open={ui.confirmationDialogState.open}
-        action={ConfirmationActions.DELETE_LOCALE}
-        handleClose={closeConfirmationDialog}
-        onConfirm={() => {
-          deleteLocale(
-            ui.confirmationDialogState.data.id,
-            ui.confirmationDialogState.data.value
-          );
-          closeConfirmationDialog();
-          const left = Object.keys(menu.items[menuItemId].locales).length - 1;
-          if (left > 1) setTabValue(0);
-          else collapseLanguageTabsPanel();
-        }}
-        data={
-          ui.confirmationDialogState.data &&
-          Languages[ui.confirmationDialogState.data.value]
-        }
-      />
+      {ui.confirmationDialogState.open && ui.confirmationDialogState.childItem && (
+        <ConfirmationDialog
+          open={ui.confirmationDialogState.open}
+          action={ConfirmationActions.DELETE_LOCALE}
+          handleClose={closeConfirmationDialog}
+          onConfirm={() => {
+            deleteLocale(
+              ui.confirmationDialogState.data.id,
+              ui.confirmationDialogState.data.value
+            );
+            closeConfirmationDialog();
+            const left = Object.keys(menu.items[menuItemId].locales).length - 1;
+            if (left > 1) setTabValue(0);
+            else collapseLanguageTabsPanel();
+          }}
+          data={Languages[ui.confirmationDialogState.data.value]}
+        />
+      )}
       <LocaleActions
         id={localeActionsPopoverId}
         open={localeActionsPopoverOpen}
@@ -221,10 +224,13 @@ const LanguageTabsPanel = props => {
             onClick={() => {
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
-              openConfirmationDialog({
-                id: menuItemId,
-                value: ui.actionsPopoverState.lang,
-              });
+              openConfirmationDialog(
+                {
+                  id: menuItemId,
+                  value: ui.actionsPopoverState.lang,
+                },
+                true
+              );
             }}
             aria-label="delete"
             button
@@ -242,23 +248,21 @@ const LanguageTabsPanel = props => {
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          <Box>
-            {Object.keys(locales)
-              .filter(locale => locale !== defaultLanguage)
-              .map((lang, index) => {
-                return (
-                  <Tab
-                    disabled={
-                      index !== tabValue &&
-                      (ui.editModeState.enabled || ui.insertModeState.enabled)
-                    }
-                    label={Languages[lang]}
-                    key={index}
-                    {...a11yProps(index)}
-                  />
-                );
-              })}
-          </Box>
+          {Object.keys(locales)
+            .filter(locale => locale !== defaultLanguage)
+            .map((lang, index) => {
+              return (
+                <Tab
+                  disabled={
+                    index !== tabValue &&
+                    (ui.editModeState.enabled || ui.insertModeState.enabled)
+                  }
+                  label={Languages[lang]}
+                  key={index}
+                  {...a11yProps(index)}
+                />
+              );
+            })}
           >
           {!(
             availableLanguages.length === 0 ||
@@ -309,9 +313,21 @@ const LanguageTabsPanel = props => {
                   ) : (
                     <>
                       <Toolbar className={classes.toolbar}>
-                        <Typography className={classes.header} component="h3">
-                          {locale.name}
-                        </Typography>
+                        <Box mt={1} className={classes.header}>
+                          <Typography
+                            className={commonClasses.label}
+                            color="textSecondary"
+                            variant="h3"
+                          >
+                            {MenuLabels.DISH_NAME}
+                          </Typography>
+                          <Box mt={0.5}>
+                            <Typography component="h3">
+                              {locale.name}
+                            </Typography>
+                          </Box>
+                        </Box>
+
                         <IconButton
                           edge="end"
                           aria-describedby={localeActionsPopoverId}
@@ -322,20 +338,38 @@ const LanguageTabsPanel = props => {
                           <MoreVertIcon />
                         </IconButton>
                       </Toolbar>
-                      <Typography
-                        variant="body2"
-                        color="textPrimary"
-                        component="p"
-                      >
-                        {locale.description}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {locale.ingredients}
-                      </Typography>
+                      <Box mt={2}>
+                        <Typography
+                          className={commonClasses.label}
+                          color="textSecondary"
+                          variant="h3"
+                        >
+                          {MenuLabels.DESCRIPTION}
+                        </Typography>
+                      </Box>
+                      <Box mt={0.5}>
+                        <Typography
+                          variant="body2"
+                          color="textPrimary"
+                          component="p"
+                        >
+                          {locale.description || WarningMessages.MISSING_FIELD}
+                        </Typography>
+                      </Box>
+                      <Box mt={2}>
+                        <Typography
+                          className={commonClasses.label}
+                          color="textSecondary"
+                          variant="h3"
+                        >
+                          {MenuLabels.INGREDIENTS_LIST}
+                        </Typography>
+                      </Box>
+                      <Box mt={0.5}>
+                        <Typography>
+                          {locale.ingredients || WarningMessages.MISSING_FIELD}
+                        </Typography>
+                      </Box>
                     </>
                   )}
                 </TabPanel>

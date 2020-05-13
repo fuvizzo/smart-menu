@@ -1,9 +1,10 @@
 import * as UI_ActionTypes from '../Constants/ui-action-types';
 
-export const openConfirmationDialog = payload => {
+export const openConfirmationDialog = (payload, childItem = false) => {
   return {
     type: UI_ActionTypes.OPEN_CONFIRMATION_DIALOG,
     payload: {
+      childItem,
       open: true,
       data: payload,
     },
@@ -26,8 +27,8 @@ export const enableEditMode = (payload, childItem = false) => {
   return {
     type: UI_ActionTypes.ENABLE_EDIT_MODE,
     payload: {
-      enabled: true,
       childItem,
+      enabled: true,
       data: payload,
     },
   };
@@ -59,8 +60,8 @@ export const enableInsertMode = (payload, childItem = false) => {
   return {
     type: UI_ActionTypes.ENABLE_INSERT_MODE,
     payload: {
-      enabled: true,
       childItem,
+      enabled: true,
       data: payload,
     },
   };

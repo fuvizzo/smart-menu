@@ -55,7 +55,7 @@ const NewMenuItemDialog = props => {
       }
       props.insertData(data);
     },
-    [ui.insertModeState.data.value]
+    [ui.insertModeState.data]
   );
 
   const createNewMenuItemCallback = useCallback(async () => {

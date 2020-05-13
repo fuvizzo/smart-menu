@@ -154,24 +154,21 @@ const MenuEditor = props => {
 
       if (ui.insertModeState.enabled) {
         const lang = input.dataset.lang;
-        const newLocale = ui.insertModeState.data.value;
-        newLocale.lang = lang;
-        newLocale[input.name] = currentValue;
-        insertData({
-          ...ui.insertModeState.data,
-          newLocale,
-        });
+        const data = cloneDeep(ui.insertModeState.data);
+
+        data.value.lang = lang;
+        data.value[input.name] = currentValue;
+        insertData(data);
       } else {
-        const selectedItem = ui.editModeState.data;
+        const data = cloneDeep(ui.editModeState.data);
 
         if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
-          selectedItem.value.locales[lang][input.name] = currentValue;
+          data.value.locales[lang][input.name] = currentValue;
         } else {
-          selectedItem.value[input.name] = currentValue;
+          data.value[input.name] = currentValue;
         }
-
-        editData(cloneDeep(selectedItem));
+        editData(data);
       }
     },
     [ui.editModeState.data, ui.insertModeState.data]
@@ -195,19 +192,22 @@ const MenuEditor = props => {
       justify="flex-start"
       alignItems="flex-start"
     >
-      <ConfirmationDialog
-        open={ui.confirmationDialogState.open}
-        action={ConfirmationActions.DELETE_MENU_ITEM}
-        data={
-          !isEmpty(ui.confirmationDialogState.data) &&
-          ui.confirmationDialogState.data.value.locales[defaultLanguage].name
-        }
-        handleClose={() => closeConfirmationDialog()}
-        onConfirm={() => {
-          deleteMenuItemHandler(ui.confirmationDialogState.data.id);
-          closeConfirmationDialog();
-        }}
-      />
+      {ui.confirmationDialogState.open &&
+        !ui.confirmationDialogState.childItem && (
+          <ConfirmationDialog
+            open={ui.confirmationDialogState.open}
+            action={ConfirmationActions.DELETE_MENU_ITEM}
+            data={
+              ui.confirmationDialogState.data.value.locales[defaultLanguage]
+                .name
+            }
+            handleClose={() => closeConfirmationDialog()}
+            onConfirm={() => {
+              deleteMenuItemHandler(ui.confirmationDialogState.data.id);
+              closeConfirmationDialog();
+            }}
+          />
+        )}
       <MenuItemActions
         id={menuItemActionsPopoverId}
         open={menuItemActionsPopoverOpen}
@@ -365,7 +365,7 @@ const MenuEditor = props => {
                       <Typography
                         className={commonClasses.label}
                         color="textSecondary"
-                        variant="h1"
+                        variant="h3"
                       >
                         {MenuLabels.DESCRIPTION}
                       </Typography>
@@ -380,7 +380,7 @@ const MenuEditor = props => {
                       <Typography
                         className={commonClasses.label}
                         color="textSecondary"
-                        variant="h1"
+                        variant="h3"
                       >
                         {MenuLabels.INGREDIENTS_LIST}
                       </Typography>

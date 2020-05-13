@@ -8,6 +8,7 @@ const initialState = {
   confirmationDialogState: {
     open: false,
     data: {},
+    childItem: false,
   },
   editModeState: {
     enabled: false,

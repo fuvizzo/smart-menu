@@ -4,7 +4,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Typography from '@material-ui/core/Typography';
 import constants from '../../Constants/index';
 import IconButton from '@material-ui/core/IconButton';
-import { enableInsertMode } from '../../Actions/ui-actions';
+import * as uiActions from '../../Actions/ui-actions';
 import Toolbar from '@material-ui/core/Toolbar';
 import useMenuStyles from './styles';
 import NewMenuItemDialog from './new-menu-item-dialog';
@@ -24,7 +24,13 @@ const emptyMenuItemData = defaultLanguage => ({
 });
 
 const SectionHeader = props => {
-  const { defaultLanguage, menus } = props;
+  const {
+    defaultLanguage,
+    menus,
+    enableInsertMode,
+    disableEditMode,
+    collapseLanguageTabsPanel,
+  } = props;
   const classes = useMenuStyles();
   const { menuId } = useParams();
   const menu = menus[menuId];
@@ -43,13 +49,15 @@ const SectionHeader = props => {
         edge="end"
         aria-describedby=""
         color="inherit"
-        onClick={() =>
-          props.enableInsertMode({
+        onClick={() => {
+          collapseLanguageTabsPanel();
+          disableEditMode();
+          enableInsertMode({
             id: menuId,
             value: emptyMenuItemData(defaultLanguage),
             setMenu: menu.info.setMenu,
-          })
-        }
+          });
+        }}
       >
         <AddCircleOutlineIcon />
       </IconButton>
@@ -64,4 +72,4 @@ function mapStateToProps(state) {
     defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }
-export default connect(mapStateToProps, { enableInsertMode })(SectionHeader);
+export default connect(mapStateToProps, uiActions)(SectionHeader);
