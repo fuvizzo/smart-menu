@@ -144,10 +144,13 @@ const LanguageTabsPanel = props => {
       if (cancel) {
         disableInsertMode();
       } else {
-        enableInsertMode({
-          menuItemId,
-          newLocale: { ...emptyLocaleData },
-        });
+        enableInsertMode(
+          {
+            id: menuItemId,
+            value: { ...emptyLocaleData },
+          },
+          true
+        );
       }
     },
     [ui.insertModeState.data]
@@ -198,12 +201,13 @@ const LanguageTabsPanel = props => {
             onClick={() => {
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
-
-              enableEditMode({
-                id: menuItemId,
-                value: cloneDeep(menu.items[menuItemId]),
-                childItem: true,
-              });
+              enableEditMode(
+                {
+                  id: menuItemId,
+                  value: cloneDeep(menu.items[menuItemId]),
+                },
+                true
+              );
             }}
             aria-label="edit"
             button
@@ -272,9 +276,9 @@ const LanguageTabsPanel = props => {
       </AppBar>
 
       {ui.insertModeState.enabled &&
-      ui.insertModeState.data.menuItemId === menuItemId ? (
+      ui.insertModeState.data.id === menuItemId ? (
         <NewLocaleEditor
-          newLocale={ui.insertModeState.data.newLocale}
+          newLocale={ui.insertModeState.data.value}
           onChangeValue={onChangeValueHandler}
           onCreateNewLocalInMenuItem={createNewLocale}
           availableLanguages={availableLanguages}

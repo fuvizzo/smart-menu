@@ -64,6 +64,7 @@ export default {
           SIGN_IN: 'Login',
           SIGN_UP: 'Register',
           SIGN_OUT: 'Logout',
+          ADD_NEW_MENU_ITEM: ' Add a new menu item',
         },
       },
       ConfirmationActions: {

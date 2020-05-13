@@ -13,7 +13,7 @@ const { Locale } = constants;
 const UserDashboard = props => {
   const locale = Locale[props.defaultLanguage];
   const { path } = useRouteMatch();
-  const { menuId } = useParams();
+
   return (
     /*  <Dashboard> */
     <Switch>
@@ -28,7 +28,7 @@ const UserDashboard = props => {
         </Dashboard>
       </AuthRoute>
       <AuthRoute path={`${path}/menu-editor/:menuId`}>
-        <Dashboard sectionHeader={<MenuEditorSectionHeader props={menuId} />}>
+        <Dashboard sectionHeader={<MenuEditorSectionHeader />}>
           <MenuEditor />
         </Dashboard>
       </AuthRoute>

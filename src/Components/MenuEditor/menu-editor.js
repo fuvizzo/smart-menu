@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -16,17 +17,13 @@ import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-
 import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-
 import TextField from '@material-ui/core/TextField';
-import { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import constants from '../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
@@ -36,6 +33,7 @@ import LanguageTabsPanel from './language-tabs-panel';
 import MenuItemActions from '../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
 import * as uiActions from '../../Actions/ui-actions';
+
 import * as menuActions from '../../Actions/menu-actions';
 import useDashboardStyles from '../UserDashboard/styles';
 import useCommonStyles from '../Common/styles';
@@ -120,7 +118,7 @@ const MenuEditor = props => {
   }, [ui.editModeState.data.value, ui.editModeState.data.id]);
 
   const createNewLocaleCallback = useCallback(async () => {
-    const { menuItemId, newLocale } = ui.insertModeState.data;
+    const { id: menuItemId, value: newLocale } = ui.insertModeState.data;
     await createNewLocale(menuId, menuItemId, newLocale);
     disableInsertMode();
   }, [ui.insertModeState.data]);
@@ -152,7 +150,7 @@ const MenuEditor = props => {
 
       if (ui.insertModeState.enabled) {
         const lang = input.dataset.lang;
-        const newLocale = ui.insertModeState.data.newLocale;
+        const newLocale = ui.insertModeState.data.value;
         newLocale.lang = lang;
         newLocale[input.name] = currentValue;
         insertData({
@@ -178,6 +176,12 @@ const MenuEditor = props => {
   useEffect(() => {
     if (!ui.editModeState.enabled) sortMenu(menuId);
   }, [Object.entries(menu.items).length, ui.editModeState.enabled]);
+
+  useEffect(() => {
+    disableEditMode();
+    disableInsertMode();
+    collapseLanguageTabsPanel();
+  }, []);
 
   return (
     <Grid
@@ -256,7 +260,7 @@ const MenuEditor = props => {
         const showMenuItemEditForm =
           ui.editModeState.enabled &&
           ui.editModeState.data.id === key &&
-          !ui.editModeState.data.childItem;
+          !ui.editModeState.childItem;
         return (
           <Grid item xs={12} key={key}>
             <Card width={1}>
@@ -348,9 +352,7 @@ const MenuEditor = props => {
                       </IconButton>
                     }
                     title={data.locales[defaultLanguage].name}
-                    subheader={
-                      data.price
-                    } /*  {data.locales[defaultLanguage].description} */
+                    subheader={!menu.info.setMenu && data.price}
                   />
                   <CardContent>
                     {data.locales[defaultLanguage].description && (

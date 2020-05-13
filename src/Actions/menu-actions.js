@@ -24,7 +24,6 @@ export const getMenus = () => {
     try {
       const results = await firebaseService.read(path);
       const data = results.val();
-      console.log(data);
       dispatch({ type: GET_MENUS, payload: data });
     } catch (error) {
       console.log(error);

@@ -22,11 +22,12 @@ export const hideActionsPopover = () => {
   return { type: UI_ActionTypes.HIDE_ACTIONS_POPOVER };
 };
 
-export const enableEditMode = payload => {
+export const enableEditMode = (payload, childItem = false) => {
   return {
     type: UI_ActionTypes.ENABLE_EDIT_MODE,
     payload: {
       enabled: true,
+      childItem,
       data: payload,
     },
   };
@@ -54,11 +55,12 @@ export const editData = payload => {
   return { type: UI_ActionTypes.EDIT_DATA, payload };
 };
 
-export const enableInsertMode = payload => {
+export const enableInsertMode = (payload, childItem = false) => {
   return {
     type: UI_ActionTypes.ENABLE_INSERT_MODE,
     payload: {
       enabled: true,
+      childItem,
       data: payload,
     },
   };
