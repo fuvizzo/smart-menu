@@ -23,7 +23,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuActions from './popover-actions';
 import ConfirmationDialog from './confirmation-dialog';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { Link as RouterLink } from 'react-router-dom';
@@ -71,7 +70,7 @@ const MenuList = props => {
         hideActionsPopover();
       }
     },
-    [ui.actionsPopoverState.menuId]
+    [ui.actionsPopover.menuId]
   );
 
   useEffect(() => {
@@ -88,11 +87,11 @@ const MenuList = props => {
         alignItems="flex-start"
       >
         <ConfirmationDialog
-          open={ui.confirmationDialogState.open}
+          open={ui.confirmationDialog.open}
           action={ConfirmationActions.DELETE_MENU}
           data={
-            !isEmpty(ui.confirmationDialogState.data) &&
-            ui.confirmationDialogState.data.value.locales[defaultLanguage].name
+            !isEmpty(ui.confirmationDialog.data) &&
+            ui.confirmationDialog.data.value.locales[defaultLanguage].name
           }
           handleClose={() =>
             closeConfirmationDialog({ open: false, data: null })
@@ -111,7 +110,7 @@ const MenuList = props => {
             <ListItem
               aria-label="edit"
               button
-              to={`./menu-editor/${ui.actionsPopoverState.menuId}`}
+              to={`./menu-editor/${ui.actionsPopover.menuId}`}
               component={RouterLink}
             >
               <ListItemIcon>
@@ -123,7 +122,7 @@ const MenuList = props => {
               aria-label="delete"
               button
               onClick={() => {
-                const menuId = ui.actionsPopoverState.menuId;
+                const menuId = ui.actionsPopover.menuId;
                 hideActionsPopover();
                 setActionPopoverAnchorEl(null);
                 openConfirmationDialog({

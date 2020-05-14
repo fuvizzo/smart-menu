@@ -137,7 +137,7 @@ const LanguageTabsPanel = props => {
         );
       }
     },
-    [ui.insertModeState.data]
+    [ui.insertMode.data]
   );
 
   const handleLocaleActionsClick = useCallback(
@@ -150,27 +150,27 @@ const LanguageTabsPanel = props => {
         showActionsPopover({ lang, menuItemId });
       }
     },
-    [ui.actionsPopoverState.lang]
+    [ui.actionsPopover.lang]
   );
 
   return (
     <div className={classes.root}>
-      {ui.confirmationDialogState.open && ui.confirmationDialogState.childItem && (
+      {ui.confirmationDialog.open && ui.confirmationDialog.childItem && (
         <ConfirmationDialog
-          open={ui.confirmationDialogState.open}
+          open={ui.confirmationDialog.open}
           action={ConfirmationActions.DELETE_LOCALE}
           handleClose={closeConfirmationDialog}
           onConfirm={() => {
             deleteLocale(
-              ui.confirmationDialogState.data.id,
-              ui.confirmationDialogState.data.value
+              ui.confirmationDialog.data.id,
+              ui.confirmationDialog.data.value
             );
             closeConfirmationDialog();
             const left = Object.keys(menu.items[menuItemId].locales).length - 1;
             if (left > 1) setTabValue(0);
             else collapseLanguageTabsPanel();
           }}
-          data={Languages[ui.confirmationDialogState.data.value]}
+          data={Languages[ui.confirmationDialog.data.value]}
         />
       )}
       <LocaleActions
@@ -207,7 +207,7 @@ const LanguageTabsPanel = props => {
               openConfirmationDialog(
                 {
                   id: menuItemId,
-                  value: ui.actionsPopoverState.lang,
+                  value: ui.actionsPopover.lang,
                 },
                 true
               );
@@ -235,7 +235,7 @@ const LanguageTabsPanel = props => {
                 <Tab
                   disabled={
                     index !== tabValue &&
-                    (ui.editModeState.enabled || ui.insertModeState.enabled)
+                    (ui.editMode.enabled || ui.insertMode.enabled)
                   }
                   label={Languages[lang]}
                   key={index}
@@ -246,8 +246,8 @@ const LanguageTabsPanel = props => {
           >
           {!(
             availableLanguages.length === 0 ||
-            ui.insertModeState.enabled ||
-            ui.editModeState.enabled
+            ui.insertMode.enabled ||
+            ui.editMode.enabled
           ) && (
             <IconButton
               edge="end"
@@ -261,10 +261,9 @@ const LanguageTabsPanel = props => {
         </Tabs>
       </AppBar>
 
-      {ui.insertModeState.enabled &&
-      ui.insertModeState.data.id === menuItemId ? (
+      {ui.insertMode.enabled && ui.insertMode.data.id === menuItemId ? (
         <NewLocaleEditor
-          newLocale={ui.insertModeState.data.value}
+          newLocale={ui.insertMode.data.value}
           onChangeValue={onChangeValueHandler}
           onCreateNewLocalInMenuItem={createNewLocale}
           availableLanguages={availableLanguages}
@@ -275,8 +274,7 @@ const LanguageTabsPanel = props => {
           .map((lang, index) => {
             const locale = locales[lang];
             const showEditForm =
-              ui.editModeState.enabled &&
-              ui.editModeState.data.id === menuItemId;
+              ui.editMode.enabled && ui.editMode.data.id === menuItemId;
             return (
               <TabPanel
                 value={tabValue}
@@ -291,7 +289,7 @@ const LanguageTabsPanel = props => {
                     actionsLabels={ActionsLabels}
                     updateMenuItem={updateMenuItem}
                     onChangeValue={onChangeValueHandler}
-                    locale={ui.editModeState.data.value.locales[lang]}
+                    locale={ui.editMode.data.value.locales[lang]}
                     lang={lang}
                     index={index}
                   />

@@ -45,7 +45,7 @@ const MenuEditor = props => {
   return (
     <>
       <Tabs
-        value={ui.menuEditorTabsPanelState.index}
+        value={ui.menuEditorTabsPanel.index}
         onChange={(event, value) => setMenuEditorTabsPanelIndex(value)}
         aria-label="menu editor tabs"
       >
@@ -53,7 +53,7 @@ const MenuEditor = props => {
         <Tab label={MenuLabels.INFO} {...a11yProps(1)} />
       </Tabs>
       <TabPanel
-        value={ui.menuEditorTabsPanelState.index}
+        value={ui.menuEditorTabsPanel.index}
         index={0}
         ariaLabelledByPrefix="menu-editor-tab"
         idPrefix="menu-editor-tabpanel"
@@ -63,7 +63,7 @@ const MenuEditor = props => {
         </Box>
       </TabPanel>
       <TabPanel
-        value={ui.menuEditorTabsPanelState.index}
+        value={ui.menuEditorTabsPanel.index}
         index={1}
         ariaLabelledByPrefix="menu-editor-tab"
         idPrefix="menu-editor-tabpanel"

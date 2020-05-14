@@ -5,29 +5,30 @@ const initialState = {
   settings: {
     defaultLanguage: 'en',
   },
-  confirmationDialogState: {
+  confirmationDialog: {
     open: false,
     data: {},
     childItem: false,
   },
-  editModeState: {
+  editMode: {
     enabled: false,
     data: {},
     childItem: false,
   },
-  insertModeState: {
+  insertMode: {
     enabled: false,
     data: {},
     childItem: false,
   },
-  actionsPopoverState: {},
-  languageTabsPanelState: {
+  actionsPopover: {},
+  languageTabsPanel: {
     expanded: false,
     itemId: null,
   },
-  menuEditorTabsPanelState: {
+  menuEditorTabsPanel: {
     index: 0,
   },
+  dashboardDrawerOpen: false,
 };
 
 function uiReducer(state = initialState, action) {
@@ -37,43 +38,46 @@ function uiReducer(state = initialState, action) {
       ui.settings.defaultLanguage = action.payload;
       return ui;
     case UI_ActionTypes.CLOSE_CONFIRMATION_DIALOG:
-      ui.confirmationDialogState = initialState.confirmationDialogState;
+      ui.confirmationDialog = initialState.confirmationDialog;
       return ui;
     case UI_ActionTypes.OPEN_CONFIRMATION_DIALOG:
-      ui.confirmationDialogState = action.payload;
+      ui.confirmationDialog = action.payload;
       return ui;
     case UI_ActionTypes.SHOW_ACTIONS_POPOVER:
-      ui.actionsPopoverState = action.payload;
+      ui.actionsPopover = action.payload;
       return ui;
     case UI_ActionTypes.HIDE_ACTIONS_POPOVER:
-      ui.actionsPopoverState = initialState.actionsPopoverState;
+      ui.actionsPopover = initialState.actionsPopover;
       return ui;
     case UI_ActionTypes.EDIT_DATA:
-      ui.editModeState.data = action.payload;
+      ui.editMode.data = action.payload;
       return ui;
     case UI_ActionTypes.ENABLE_EDIT_MODE:
-      ui.editModeState = action.payload;
+      ui.editMode = action.payload;
       return ui;
     case UI_ActionTypes.DISABLE_EDIT_MODE:
-      ui.editModeState = initialState.editModeState;
+      ui.editMode = initialState.editMode;
       return ui;
     case UI_ActionTypes.EXPAND_LANGUAGE_TABS_PANEL:
-      ui.languageTabsPanelState = action.payload;
+      ui.languageTabsPanel = action.payload;
       return ui;
     case UI_ActionTypes.COLLAPSE_LANGUAGE_TABS_PANEL:
-      ui.languageTabsPanelState = initialState.languageTabsPanelState;
+      ui.languageTabsPanel = initialState.languageTabsPanel;
       return ui;
     case UI_ActionTypes.INSERT_DATA:
-      ui.insertModeState.data = action.payload;
+      ui.insertMode.data = action.payload;
       return ui;
     case UI_ActionTypes.ENABLE_INSERT_MODE:
-      ui.insertModeState = action.payload;
+      ui.insertMode = action.payload;
       return ui;
     case UI_ActionTypes.DISABLE_INSERT_MODE:
-      ui.insertModeState = initialState.insertModeState;
+      ui.insertMode = initialState.insertMode;
       return ui;
     case UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX:
-      ui.menuEditorTabsPanelState.index = action.payload;
+      ui.menuEditorTabsPanel.index = action.payload;
+      return ui;
+    case UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN:
+      ui.dashboardDrawerOpen = action.payload;
       return ui;
     default:
       return ui;

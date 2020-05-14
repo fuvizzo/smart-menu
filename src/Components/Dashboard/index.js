@@ -9,23 +9,21 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+
 import Copyright from '../Common/copyright';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+
+import { setDashboardDrawerOpen } from '../../Actions/ui-actions';
 import useStyles from './styles';
 
 import LeftMenu from './left-menu';
 const Dashboard = props => {
   console.count('Dashboard renders');
-  const { sectionName, children } = props;
-
+  const { ui, children } = props;
+  const open = ui.dashboardDrawerOpen;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerStatus = open => {
-    setOpen(open);
-  };
 
   return (
     <div className={classes.root}>
@@ -39,7 +37,7 @@ const Dashboard = props => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={() => handleDrawerStatus(!open)}
+            onClick={() => props.setDashboardDrawerOpen(!open)}
           >
             {open ? <ChevronLeftIcon /> : <MenuIcon />}
           </IconButton>
@@ -65,11 +63,8 @@ const Dashboard = props => {
       </Drawer>
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
-          {/*   <Grid container spacing={3}>
-            <Grid item xs={12}> */}
           <Paper>{children}</Paper>
-          {/* </Grid>
-          </Grid> */}
+
           <Box pt={4}>
             <Copyright />
           </Box>
@@ -79,4 +74,10 @@ const Dashboard = props => {
   );
 };
 
-export default connect()(Dashboard);
+function mapStateToProps(state) {
+  return {
+    ui: state.ui,
+  };
+}
+
+export default connect(mapStateToProps, { setDashboardDrawerOpen })(Dashboard);

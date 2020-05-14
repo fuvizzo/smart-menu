@@ -91,9 +91,9 @@ const MenuItemsEditor = props => {
   } = Locale[defaultLanguage];
 
   const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
-    const expanded = ui.languageTabsPanelState.expanded;
+    const expanded = ui.languageTabsPanel.expanded;
     disableInsertMode();
-    if (!expanded || ui.languageTabsPanelState.itemId !== menuItemId) {
+    if (!expanded || ui.languageTabsPanel.itemId !== menuItemId) {
       expandLanguageTabsPanel(menuItemId);
     } else {
       collapseLanguageTabsPanel();
@@ -111,17 +111,17 @@ const MenuItemsEditor = props => {
   }, []);
 
   const updateMenuItemHandler = useCallback(async () => {
-    const menuItemId = ui.editModeState.data.id;
-    const body = ui.editModeState.data.value;
+    const menuItemId = ui.editMode.data.id;
+    const body = ui.editMode.data.value;
     await updateMenuItem(menuId, menuItemId, body);
     disableEditMode();
-  }, [ui.editModeState.data.value, ui.editModeState.data.id]);
+  }, [ui.editMode.data.value, ui.editMode.data.id]);
 
   const createNewLocaleCallback = useCallback(async () => {
-    const { id: menuItemId, value: newLocale } = ui.insertModeState.data;
+    const { id: menuItemId, value: newLocale } = ui.insertMode.data;
     await createNewLocale(menuId, menuItemId, newLocale);
     disableInsertMode();
-  }, [ui.insertModeState.data]);
+  }, [ui.insertMode.data]);
 
   const deleteLocaleHandler = useCallback(async (menuItemId, lang) => {
     await deleteLocale(menuId, menuItemId, lang);
@@ -139,7 +139,7 @@ const MenuItemsEditor = props => {
         });
       }
     },
-    [ui.actionsPopoverState.menuItemId]
+    [ui.actionsPopover.menuItemId]
   );
 
   const onChangeValueHandler = useCallback(
@@ -148,15 +148,15 @@ const MenuItemsEditor = props => {
       const currentValue =
         input.type !== '' ? input.value : input.dataset.value;
 
-      if (ui.insertModeState.enabled) {
+      if (ui.insertMode.enabled) {
         const lang = input.dataset.lang;
-        const data = cloneDeep(ui.insertModeState.data);
+        const data = cloneDeep(ui.insertMode.data);
 
         data.value.lang = lang;
         data.value[input.name] = currentValue;
         insertData(data);
       } else {
-        const data = cloneDeep(ui.editModeState.data);
+        const data = cloneDeep(ui.editMode.data);
 
         if (LocalizedFields.some(field => field === input.name)) {
           const lang = input.dataset.lang;
@@ -167,12 +167,12 @@ const MenuItemsEditor = props => {
         editData(data);
       }
     },
-    [ui.editModeState.data, ui.insertModeState.data]
+    [ui.editMode.data, ui.insertMode.data]
   );
 
   useEffect(() => {
-    if (!ui.editModeState.enabled) sortMenu(menuId);
-  }, [Object.entries(menu.items).length, ui.editModeState.enabled]);
+    if (!ui.editMode.enabled) sortMenu(menuId);
+  }, [Object.entries(menu.items).length, ui.editMode.enabled]);
 
   useEffect(() => {
     disableEditMode();
@@ -188,22 +188,18 @@ const MenuItemsEditor = props => {
       justify="flex-start"
       alignItems="flex-start"
     >
-      {ui.confirmationDialogState.open &&
-        !ui.confirmationDialogState.childItem && (
-          <ConfirmationDialog
-            open={ui.confirmationDialogState.open}
-            action={ConfirmationActions.DELETE_MENU_ITEM}
-            data={
-              ui.confirmationDialogState.data.value.locales[defaultLanguage]
-                .name
-            }
-            handleClose={() => closeConfirmationDialog()}
-            onConfirm={() => {
-              deleteMenuItemHandler(ui.confirmationDialogState.data.id);
-              closeConfirmationDialog();
-            }}
-          />
-        )}
+      {ui.confirmationDialog.open && !ui.confirmationDialog.childItem && (
+        <ConfirmationDialog
+          open={ui.confirmationDialog.open}
+          action={ConfirmationActions.DELETE_MENU_ITEM}
+          data={ui.confirmationDialog.data.value.locales[defaultLanguage].name}
+          handleClose={() => closeConfirmationDialog()}
+          onConfirm={() => {
+            deleteMenuItemHandler(ui.confirmationDialog.data.id);
+            closeConfirmationDialog();
+          }}
+        />
+      )}
       <MenuItemActions
         id={menuItemActionsPopoverId}
         open={menuItemActionsPopoverOpen}
@@ -213,7 +209,7 @@ const MenuItemsEditor = props => {
         <List>
           <ListItem
             onClick={() => {
-              const menuItemId = ui.actionsPopoverState.menuItemId;
+              const menuItemId = ui.actionsPopover.menuItemId;
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
               enableEditMode({
@@ -231,7 +227,7 @@ const MenuItemsEditor = props => {
           </ListItem>
           <ListItem
             onClick={() => {
-              const menuItemId = ui.actionsPopoverState.menuItemId;
+              const menuItemId = ui.actionsPopover.menuItemId;
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
               openConfirmationDialog({
@@ -253,15 +249,14 @@ const MenuItemsEditor = props => {
       {Object.keys(menu.items).map(key => {
         const data = menu.items[key];
         const languageTabExpanded =
-          ui.languageTabsPanelState.expanded &&
-          ui.languageTabsPanelState.itemId === key;
+          ui.languageTabsPanel.expanded && ui.languageTabsPanel.itemId === key;
         const availableLanguages = getAvailableLanguage(
           Object.keys(data.locales)
         );
         const showMenuItemEditForm =
-          ui.editModeState.enabled &&
-          ui.editModeState.data.id === key &&
-          !ui.editModeState.childItem;
+          ui.editMode.enabled &&
+          ui.editMode.data.id === key &&
+          !ui.editMode.childItem;
         return (
           <Grid item xs={12} key={key}>
             <Card width={1} elevation={2}>
@@ -279,7 +274,7 @@ const MenuItemsEditor = props => {
                         event.currentTarget.name = event.target.name;
                         onChangeValueHandler(event);
                       }}
-                      value={ui.editModeState.data.value.category}
+                      value={ui.editMode.data.value.category}
                     >
                       {DishTypes.map((dishType, index) => {
                         return (
@@ -300,14 +295,14 @@ const MenuItemsEditor = props => {
                         label={MenuLabels.PRICE}
                         name="price"
                         onChange={onChangeValueHandler}
-                        value={ui.editModeState.data.value.price}
+                        value={ui.editMode.data.value.price}
                       />
                     </FormControl>
                   )}
-                  {Object.keys(ui.editModeState.data.value.locales)
+                  {Object.keys(ui.editMode.data.value.locales)
                     .filter(lang => lang === defaultLanguage)
                     .map((lang, index) => {
-                      const locale = ui.editModeState.data.value.locales[lang];
+                      const locale = ui.editMode.data.value.locales[lang];
                       return (
                         <LocaleEditor
                           key={index}

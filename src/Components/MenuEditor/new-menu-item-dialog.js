@@ -43,7 +43,7 @@ const NewMenuItemDialog = props => {
       const input = event.currentTarget;
       const currentValue =
         input.type !== '' ? input.value : input.dataset.value;
-      const data = cloneDeep(ui.insertModeState.data);
+      const data = cloneDeep(ui.insertMode.data);
       if (LocalizedFields.some(field => field === input.name)) {
         data.value.locales[defaultLanguage][input.name] = currentValue;
       } else {
@@ -51,23 +51,23 @@ const NewMenuItemDialog = props => {
       }
       props.insertData(data);
     },
-    [ui.insertModeState.data]
+    [ui.insertMode.data]
   );
 
   const createNewMenuItemCallback = useCallback(async () => {
     await props.createNewMenuItem(
-      ui.insertModeState.data.id,
-      ui.insertModeState.data.value
+      ui.insertMode.data.id,
+      ui.insertMode.data.value
     );
     props.disableInsertMode();
-  }, [ui.insertModeState.data.id, ui.insertModeState.data]);
+  }, [ui.insertMode.data.id, ui.insertMode.data]);
   return (
-    ui.insertModeState.enabled &&
-    !ui.insertModeState.childItem && (
+    ui.insertMode.enabled &&
+    !ui.insertMode.childItem && (
       <Dialog
         onClose={props.disableInsertMode}
         aria-labelledby="customized-dialog-title"
-        open={ui.insertModeState.enabled}
+        open={ui.insertMode.enabled}
       >
         <DialogTitle
           id="customized-dialog-title"
@@ -79,7 +79,7 @@ const NewMenuItemDialog = props => {
           <Box pb={0} p={2}>
             <FormControl
               className={commonClasses.formControl}
-              error={!ui.insertModeState.data.value.category}
+              error={!ui.insertMode.data.value.category}
             >
               <InputLabel id="dish-select-label">
                 {MenuLabels.CATEGORY}
@@ -101,13 +101,13 @@ const NewMenuItemDialog = props => {
                   );
                 })}
               </Select>
-              {!ui.insertModeState.data.value.category && (
+              {!ui.insertMode.data.value.category && (
                 <FormHelperText>
                   {FormValidationErrorsLabels.REQUIRED}
                 </FormHelperText>
               )}
             </FormControl>
-            {!ui.insertModeState.data.setMenu && (
+            {!ui.insertMode.data.setMenu && (
               <FormControl className={commonClasses.formControl}>
                 <TextField
                   className={clsx(
@@ -117,13 +117,13 @@ const NewMenuItemDialog = props => {
                   label={MenuLabels.PRICE}
                   name="price"
                   onChange={onChangeValueHandler}
-                  value={ui.insertModeState.data.value.price}
+                  value={ui.insertMode.data.value.price}
                 />
               </FormControl>
             )}
             <LocaleEditor
               lang={defaultLanguage}
-              data={ui.insertModeState.data.value.locales[defaultLanguage]}
+              data={ui.insertMode.data.value.locales[defaultLanguage]}
               onChangeValue={onChangeValueHandler}
             />
           </Box>

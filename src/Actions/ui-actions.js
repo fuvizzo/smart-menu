@@ -78,3 +78,7 @@ export const insertData = payload => {
 export const setMenuEditorTabsPanelIndex = payload => {
   return { type: UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX, payload };
 };
+
+export const setDashboardDrawerOpen = payload => {
+  return { type: UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN, payload };
+};
