@@ -25,7 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import constants from '../../Constants/index';
-import { cloneDeep, isEmpty } from 'lodash';
+import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -39,7 +39,7 @@ import useDashboardStyles from '../UserDashboard/styles';
 import useCommonStyles from '../Common/styles';
 import useMenuStyles from './styles';
 
-const MenuEditor = props => {
+const MenuItemsEditor = props => {
   const { menuId } = useParams();
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
   const menuItemActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
@@ -51,10 +51,9 @@ const MenuEditor = props => {
   const menuClasses = useMenuStyles();
   const commonClasses = useCommonStyles();
   const {
-    menus,
+    menu,
     ui,
     sortMenu,
-    createNewMenuItem,
     deleteMenuItem,
     updateMenuItem,
     createNewLocale,
@@ -67,7 +66,6 @@ const MenuEditor = props => {
     enableEditMode,
     disableEditMode,
     insertData,
-    enableInsertMode,
     disableInsertMode,
     expandLanguageTabsPanel,
     collapseLanguageTabsPanel,
@@ -91,8 +89,6 @@ const MenuEditor = props => {
     },
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
-
-  const menu = menus[menuId];
 
   const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
     const expanded = ui.languageTabsPanelState.expanded;
@@ -187,7 +183,7 @@ const MenuEditor = props => {
   return (
     <Grid
       container
-      spacing={2}
+      spacing={4}
       direction="row"
       justify="flex-start"
       alignItems="flex-start"
@@ -253,6 +249,7 @@ const MenuEditor = props => {
           </ListItem>
         </List>
       </MenuItemActions>
+
       {Object.keys(menu.items).map(key => {
         const data = menu.items[key];
         const languageTabExpanded =
@@ -267,7 +264,7 @@ const MenuEditor = props => {
           !ui.editModeState.childItem;
         return (
           <Grid item xs={12} key={key}>
-            <Card width={1}>
+            <Card width={1} elevation={2}>
               {showMenuItemEditForm ? (
                 <Box p={2}>
                   <FormControl className={commonClasses.formControl}>
@@ -436,11 +433,11 @@ const MenuEditor = props => {
 
 function mapStateToProps(state) {
   return {
-    menus: state.menus,
+    //menus: state.menus,
     ui: state.ui,
   };
 }
 
 export default connect(mapStateToProps, { ...uiActions, ...menuActions })(
-  MenuEditor
+  MenuItemsEditor
 );

@@ -65,11 +65,11 @@ const Dashboard = props => {
       </Drawer>
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>{children}</Paper>
-            </Grid>
-          </Grid>
+          {/*   <Grid container spacing={3}>
+            <Grid item xs={12}> */}
+          <Paper>{children}</Paper>
+          {/* </Grid>
+          </Grid> */}
           <Box pt={4}>
             <Copyright />
           </Box>

@@ -7,6 +7,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const styles = theme => ({
   root: {
@@ -52,4 +53,31 @@ const DialogActions = withStyles(theme => ({
   },
 }))(MuiDialogActions);
 
-export { DialogTitle, DialogContent, DialogActions };
+const TabPanel = props => {
+  const {
+    children,
+    value,
+    index,
+    idPrefix,
+    ariaLabelledByPrefix,
+    ...other
+  } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`${idPrefix}-${index}`}
+      aria-labelledby={`${ariaLabelledByPrefix}-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box pt={0} p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+};
+
+export { DialogTitle, DialogContent, DialogActions, TabPanel };

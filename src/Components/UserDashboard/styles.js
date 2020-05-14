@@ -34,5 +34,6 @@ export default makeStyles(theme => ({
   descriptionParagraph: {
     maxHeight: 150,
     paddingBottom: 10,
+    fontSize: 12,
   },
 }));

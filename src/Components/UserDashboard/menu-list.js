@@ -5,6 +5,8 @@ import MenuImage from '../../Assets/menu.png';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -77,64 +79,67 @@ const MenuList = props => {
   }, []);
 
   return (
-    <>
-      <ConfirmationDialog
-        open={ui.confirmationDialogState.open}
-        action={ConfirmationActions.DELETE_MENU}
-        data={
-          !isEmpty(ui.confirmationDialogState.data) &&
-          ui.confirmationDialogState.data.value.locales[defaultLanguage].name
-        }
-        handleClose={() => closeConfirmationDialog({ open: false, data: null })}
-        onConfirm={() => {
-          console.log('Action confirmed');
-        }}
-      />
-      <MenuActions
-        id={menuActionsPopoverId}
-        open={menuActionsPopoverOpen}
-        anchorEl={actionPopoverAnchorEl}
-        handleClose={handleMenuActionsClick}
-      >
-        <List>
-          <ListItem
-            aria-label="edit"
-            button
-            to={`./menu-editor/${ui.actionsPopoverState.menuId}`}
-            component={RouterLink}
-          >
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.EDIT} />
-          </ListItem>
-          <ListItem
-            aria-label="delete"
-            button
-            onClick={() => {
-              const menuId = ui.actionsPopoverState.menuId;
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              openConfirmationDialog({
-                id: menuId,
-                value: menus[menuId].info,
-              });
-            }}
-          >
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.DELETE} />
-          </ListItem>
-        </List>
-      </MenuActions>
+    <Box p={2}>
       <Grid
         container
-        spacing={2}
+        spacing={4}
         direction="row"
         justify="flex-start"
         alignItems="flex-start"
       >
+        <ConfirmationDialog
+          open={ui.confirmationDialogState.open}
+          action={ConfirmationActions.DELETE_MENU}
+          data={
+            !isEmpty(ui.confirmationDialogState.data) &&
+            ui.confirmationDialogState.data.value.locales[defaultLanguage].name
+          }
+          handleClose={() =>
+            closeConfirmationDialog({ open: false, data: null })
+          }
+          onConfirm={() => {
+            console.log('Action confirmed');
+          }}
+        />
+        <MenuActions
+          id={menuActionsPopoverId}
+          open={menuActionsPopoverOpen}
+          anchorEl={actionPopoverAnchorEl}
+          handleClose={handleMenuActionsClick}
+        >
+          <List>
+            <ListItem
+              aria-label="edit"
+              button
+              to={`./menu-editor/${ui.actionsPopoverState.menuId}`}
+              component={RouterLink}
+            >
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary={ActionsLabels.EDIT} />
+            </ListItem>
+            <ListItem
+              aria-label="delete"
+              button
+              onClick={() => {
+                const menuId = ui.actionsPopoverState.menuId;
+                hideActionsPopover();
+                setActionPopoverAnchorEl(null);
+                openConfirmationDialog({
+                  id: menuId,
+                  value: menus[menuId].info,
+                });
+              }}
+            >
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText primary={ActionsLabels.DELETE} />
+            </ListItem>
+          </List>
+        </MenuActions>
+
         {Object.keys(menus).map(key => {
           const menu = menus[key];
           return (
@@ -146,7 +151,7 @@ const MenuList = props => {
               md={3}
               key={key}
             >
-              <Card className={classes.root}>
+              <Card width={1} elevation={2} className={classes.root}>
                 <CardHeader
                   className={classes.header}
                   avatar={
@@ -183,16 +188,16 @@ const MenuList = props => {
                   title={menu.info.locales[defaultLanguage].name}
                 />
                 <CardContent>
-                  <Truncate lines={3} ellipsis="...">
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                      className={classes.descriptionParagraph}
-                    >
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                    className={classes.descriptionParagraph}
+                  >
+                    <Truncate lines={4} ellipsis="...">
                       {menu.info.locales[defaultLanguage].description}
-                    </Typography>
-                  </Truncate>
+                    </Truncate>
+                  </Typography>
                 </CardContent>
 
                 <CardActions disableSpacing>
@@ -221,7 +226,7 @@ const MenuList = props => {
           );
         })}
       </Grid>
-    </>
+    </Box>
   );
 };
 

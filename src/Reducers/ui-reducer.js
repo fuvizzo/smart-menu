@@ -25,6 +25,9 @@ const initialState = {
     expanded: false,
     itemId: null,
   },
+  menuEditorTabsPanelState: {
+    index: 0,
+  },
 };
 
 function uiReducer(state = initialState, action) {
@@ -69,7 +72,9 @@ function uiReducer(state = initialState, action) {
     case UI_ActionTypes.DISABLE_INSERT_MODE:
       ui.insertModeState = initialState.insertModeState;
       return ui;
-
+    case UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX:
+      ui.menuEditorTabsPanelState.index = action.payload;
+      return ui;
     default:
       return ui;
   }

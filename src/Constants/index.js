@@ -51,6 +51,8 @@ export default {
           LANGUAGE: 'Language',
           UNPUBLISHED: 'Unpublished',
           PUBLISHED: 'Published',
+          ITEMS: 'Items',
+          INFO: 'Info',
         },
         FormValidationErrors: {
           REQUIRED: 'This field is required',

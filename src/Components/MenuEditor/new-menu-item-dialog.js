@@ -11,11 +11,7 @@ import LocaleEditor from './locale-editor';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 import Select from '@material-ui/core/Select';
-import {
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-} from '../Common/dialog-common';
+import { DialogActions, DialogTitle, DialogContent } from '../Common/';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import MenuItem from '@material-ui/core/MenuItem';

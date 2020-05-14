@@ -5,11 +5,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import constants from '../../Constants/index';
-import {
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-} from '../Common/dialog-common';
+import { DialogActions, DialogTitle, DialogContent } from '../Common';
 
 const { Locale } = constants;
 const ConfirmationDialog = props => {

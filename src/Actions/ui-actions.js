@@ -74,3 +74,7 @@ export const disableInsertMode = () => {
 export const insertData = payload => {
   return { type: UI_ActionTypes.INSERT_DATA, payload };
 };
+
+export const setMenuEditorTabsPanelIndex = payload => {
+  return { type: UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX, payload };
+};

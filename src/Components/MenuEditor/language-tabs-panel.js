@@ -24,30 +24,11 @@ import LocaleEditor from './locale-editor';
 import { cloneDeep } from 'lodash';
 import Button from '@material-ui/core/Button';
 import useCommonStyles from '../Common/styles';
+import { TabPanel } from '../Common';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 const { ConfirmationActions, Locale } = constants;
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box pt={0} p={3}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -55,12 +36,11 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
+const a11yProps = index => ({
+  id: `language-tab-${index}`,
+  'aria-controls': `language-tabpanel-${index}`,
+});
+
 const emptyLocaleData = {
   lang: '',
   name: '',
@@ -246,7 +226,7 @@ const LanguageTabsPanel = props => {
         <Tabs
           value={tabValue}
           onChange={handleChange}
-          aria-label="simple tabs example"
+          aria-label="languages tab panel"
         >
           {Object.keys(locales)
             .filter(locale => locale !== defaultLanguage)
@@ -298,82 +278,82 @@ const LanguageTabsPanel = props => {
               ui.editModeState.enabled &&
               ui.editModeState.data.id === menuItemId;
             return (
-              <>
-                <TabPanel value={tabValue} key={index} index={index}>
-                  {showEditForm ? (
-                    <TabLocaleEditor
-                      disableEditMode={disableEditMode}
-                      actionsLabels={ActionsLabels}
-                      updateMenuItem={updateMenuItem}
-                      onChangeValue={onChangeValueHandler}
-                      locale={ui.editModeState.data.value.locales[lang]}
-                      lang={lang}
-                      index={index}
-                    />
-                  ) : (
-                    <>
-                      <Toolbar className={classes.toolbar}>
-                        <Box mt={1} className={classes.header}>
-                          <Typography
-                            className={commonClasses.label}
-                            color="textSecondary"
-                            variant="h3"
-                          >
-                            {MenuLabels.DISH_NAME}
-                          </Typography>
-                          <Box mt={0.5}>
-                            <Typography component="h3">
-                              {locale.name}
-                            </Typography>
-                          </Box>
+              <TabPanel
+                value={tabValue}
+                key={index}
+                index={index}
+                ariaLabelledByPrefix="language-tab"
+                idPrefix="language-tabpanel"
+              >
+                {showEditForm ? (
+                  <TabLocaleEditor
+                    disableEditMode={disableEditMode}
+                    actionsLabels={ActionsLabels}
+                    updateMenuItem={updateMenuItem}
+                    onChangeValue={onChangeValueHandler}
+                    locale={ui.editModeState.data.value.locales[lang]}
+                    lang={lang}
+                    index={index}
+                  />
+                ) : (
+                  <>
+                    <Toolbar className={classes.toolbar}>
+                      <Box mt={1} className={classes.header}>
+                        <Typography
+                          className={commonClasses.label}
+                          color="textSecondary"
+                          variant="h3"
+                        >
+                          {MenuLabels.DISH_NAME}
+                        </Typography>
+                        <Box mt={0.5}>
+                          <Typography component="h3">{locale.name}</Typography>
                         </Box>
+                      </Box>
 
-                        <IconButton
-                          edge="end"
-                          aria-describedby={localeActionsPopoverId}
-                          onClick={event =>
-                            handleLocaleActionsClick(event, lang)
-                          }
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
-                      </Toolbar>
-                      <Box mt={2}>
-                        <Typography
-                          className={commonClasses.label}
-                          color="textSecondary"
-                          variant="h3"
-                        >
-                          {MenuLabels.DESCRIPTION}
-                        </Typography>
-                      </Box>
-                      <Box mt={0.5}>
-                        <Typography
-                          variant="body2"
-                          color="textPrimary"
-                          component="p"
-                        >
-                          {locale.description || WarningMessages.MISSING_FIELD}
-                        </Typography>
-                      </Box>
-                      <Box mt={2}>
-                        <Typography
-                          className={commonClasses.label}
-                          color="textSecondary"
-                          variant="h3"
-                        >
-                          {MenuLabels.INGREDIENTS_LIST}
-                        </Typography>
-                      </Box>
-                      <Box mt={0.5}>
-                        <Typography>
-                          {locale.ingredients || WarningMessages.MISSING_FIELD}
-                        </Typography>
-                      </Box>
-                    </>
-                  )}
-                </TabPanel>
-              </>
+                      <IconButton
+                        edge="end"
+                        aria-describedby={localeActionsPopoverId}
+                        onClick={event => handleLocaleActionsClick(event, lang)}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    </Toolbar>
+                    <Box mt={2}>
+                      <Typography
+                        className={commonClasses.label}
+                        color="textSecondary"
+                        variant="h3"
+                      >
+                        {MenuLabels.DESCRIPTION}
+                      </Typography>
+                    </Box>
+                    <Box mt={0.5}>
+                      <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        component="p"
+                      >
+                        {locale.description || WarningMessages.MISSING_FIELD}
+                      </Typography>
+                    </Box>
+                    <Box mt={2}>
+                      <Typography
+                        className={commonClasses.label}
+                        color="textSecondary"
+                        variant="h3"
+                      >
+                        {MenuLabels.INGREDIENTS_LIST}
+                      </Typography>
+                    </Box>
+                    <Box mt={0.5}>
+                      <Typography>
+                        {locale.ingredients || WarningMessages.MISSING_FIELD}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
+              </TabPanel>
             );
           })
       )}
