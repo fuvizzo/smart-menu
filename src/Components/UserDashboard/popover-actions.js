@@ -21,7 +21,7 @@ const PopoverActions = ({ id, open, anchorEl, handleClose, children }) => {
       }}
     >
       <Box>
-        <List>{children}</List>
+        <List component="div">{children}</List>
       </Box>
     </Popover>
   );

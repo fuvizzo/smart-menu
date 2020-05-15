@@ -184,44 +184,42 @@ const MenuItemsEditor = props => {
         anchorEl={actionPopoverAnchorEl}
         handleClose={handleMenuItemActionsClick}
       >
-        <List>
-          <ListItem
-            onClick={() => {
-              const menuItemId = ui.actionsPopover.menuItemId;
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              enableEditMode({
-                id: menuItemId,
-                value: cloneDeep(menu.items[menuItemId]),
-              });
-            }}
-            aria-label="edit"
-            button
-          >
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.EDIT} />
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              const menuItemId = ui.actionsPopover.menuItemId;
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              openConfirmationDialog({
-                id: menuItemId,
-                value: menu.items[menuItemId],
-              });
-            }}
-            aria-label="delete"
-            button
-          >
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.DELETE} />
-          </ListItem>
-        </List>
+        <ListItem
+          onClick={() => {
+            const menuItemId = ui.actionsPopover.menuItemId;
+            hideActionsPopover();
+            setActionPopoverAnchorEl(null);
+            enableEditMode({
+              id: menuItemId,
+              value: cloneDeep(menu.items[menuItemId]),
+            });
+          }}
+          aria-label="edit"
+          button
+        >
+          <ListItemIcon>
+            <EditIcon />
+          </ListItemIcon>
+          <ListItemText primary={ActionsLabels.EDIT} />
+        </ListItem>
+        <ListItem
+          onClick={() => {
+            const menuItemId = ui.actionsPopover.menuItemId;
+            hideActionsPopover();
+            setActionPopoverAnchorEl(null);
+            openConfirmationDialog({
+              id: menuItemId,
+              value: menu.items[menuItemId],
+            });
+          }}
+          aria-label="delete"
+          button
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary={ActionsLabels.DELETE} />
+        </ListItem>
       </MenuItemActions>
 
       {Object.keys(menu.items).map(key => {

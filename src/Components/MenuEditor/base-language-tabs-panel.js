@@ -182,48 +182,46 @@ const LanguageTabsPanel = props => {
         anchorEl={actionPopoverAnchorEl}
         handleClose={handleLocaleActionsClick}
       >
-        <List>
-          <ListItem
-            onClick={() => {
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              enableEditMode(
-                {
-                  id: menuItemId,
-                  value: cloneDeep(menu.items[menuItemId]),
-                },
-                true
-              );
-            }}
-            aria-label="edit"
-            button
-          >
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.EDIT} />
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              openConfirmationDialog(
-                {
-                  id: menuItemId,
-                  value: ui.actionsPopover.lang,
-                },
-                true
-              );
-            }}
-            aria-label="delete"
-            button
-          >
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.DELETE} />
-          </ListItem>
-        </List>
+        <ListItem
+          onClick={() => {
+            hideActionsPopover();
+            setActionPopoverAnchorEl(null);
+            enableEditMode(
+              {
+                id: menuItemId,
+                value: cloneDeep(menu.items[menuItemId]),
+              },
+              true
+            );
+          }}
+          aria-label="edit"
+          button
+        >
+          <ListItemIcon>
+            <EditIcon />
+          </ListItemIcon>
+          <ListItemText primary={ActionsLabels.EDIT} />
+        </ListItem>
+        <ListItem
+          onClick={() => {
+            hideActionsPopover();
+            setActionPopoverAnchorEl(null);
+            openConfirmationDialog(
+              {
+                id: menuItemId,
+                value: ui.actionsPopover.lang,
+              },
+              true
+            );
+          }}
+          aria-label="delete"
+          button
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary={ActionsLabels.DELETE} />
+        </ListItem>
       </LocaleActions>
       <AppBar position="static">
         <Tabs

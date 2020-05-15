@@ -106,37 +106,35 @@ const MenuList = props => {
           anchorEl={actionPopoverAnchorEl}
           handleClose={handleMenuActionsClick}
         >
-          <List>
-            <ListItem
-              aria-label="edit"
-              button
-              to={`./menu-editor/${ui.actionsPopover.menuId}`}
-              component={RouterLink}
-            >
-              <ListItemIcon>
-                <EditIcon />
-              </ListItemIcon>
-              <ListItemText primary={ActionsLabels.EDIT} />
-            </ListItem>
-            <ListItem
-              aria-label="delete"
-              button
-              onClick={() => {
-                const menuId = ui.actionsPopover.menuId;
-                hideActionsPopover();
-                setActionPopoverAnchorEl(null);
-                openConfirmationDialog({
-                  id: menuId,
-                  value: menus[menuId].info,
-                });
-              }}
-            >
-              <ListItemIcon>
-                <DeleteIcon />
-              </ListItemIcon>
-              <ListItemText primary={ActionsLabels.DELETE} />
-            </ListItem>
-          </List>
+          <ListItem
+            aria-label="edit"
+            button
+            to={`./menu-editor/${ui.actionsPopover.menuId}`}
+            component={RouterLink}
+          >
+            <ListItemIcon>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemText primary={ActionsLabels.EDIT} />
+          </ListItem>
+          <ListItem
+            aria-label="delete"
+            button
+            onClick={() => {
+              const menuId = ui.actionsPopover.menuId;
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
+              openConfirmationDialog({
+                id: menuId,
+                value: menus[menuId].info,
+              });
+            }}
+          >
+            <ListItemIcon>
+              <DeleteIcon />
+            </ListItemIcon>
+            <ListItemText primary={ActionsLabels.DELETE} />
+          </ListItem>
         </MenuActions>
 
         {Object.keys(menus).map(key => {

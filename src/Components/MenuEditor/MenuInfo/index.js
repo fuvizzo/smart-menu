@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import FormControl from '@material-ui/core/FormControl';
 import ConfirmationDialog from '../../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
@@ -101,6 +103,16 @@ const MenuInfoEditor = props => {
     }
   };
 
+  const toggleSetMenuOption = useCallback(
+    value => {
+      const data = cloneDeep(ui.editMode.data);
+      data.setMenuEnabled = value;
+      if (!value) data.value.setMenu = null;
+      editData(data);
+    },
+    [ui.editMode.data.setMenuEnabled]
+  );
+
   const handleMenuInfoActionsClick = useCallback(
     (event, key) => {
       if (menuInfoActionsPopoverOpen) {
@@ -145,24 +157,23 @@ const MenuInfoEditor = props => {
         anchorEl={actionPopoverAnchorEl}
         handleClose={handleMenuInfoActionsClick}
       >
-        <List>
-          <ListItem
-            onClick={() => {
-              hideActionsPopover();
-              setActionPopoverAnchorEl(null);
-              enableEditMode({
-                value: cloneDeep(menu.info),
-              });
-            }}
-            aria-label="edit"
-            button
-          >
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText primary={ActionsLabels.EDIT} />
-          </ListItem>
-        </List>
+        <ListItem
+          onClick={() => {
+            hideActionsPopover();
+            setActionPopoverAnchorEl(null);
+            enableEditMode({
+              value: cloneDeep(menu.info),
+              setMenuEnabled: !!menu.info.setMenu,
+            });
+          }}
+          aria-label="edit"
+          button
+        >
+          <ListItemIcon>
+            <EditIcon />
+          </ListItemIcon>
+          <ListItemText primary={ActionsLabels.EDIT} />
+        </ListItem>
       </MenuInfoActions>
 
       <Grid item xs={12}>
@@ -191,6 +202,40 @@ const MenuInfoEditor = props => {
                       />
                     );
                   })}
+
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={ui.editMode.data.setMenuEnabled}
+                      onChange={() =>
+                        toggleSetMenuOption(!ui.editMode.data.setMenuEnabled)
+                      }
+                      name="checkedB"
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <Typography variant="body2" color="textSecondary">
+                      {menu.published ? MenuLabels.NORMAL : MenuLabels.SET_MENU}
+                    </Typography>
+                  }
+                />
+                {ui.editMode.data.setMenuEnabled && (
+                  <FormControl className={commonClasses.formControl}>
+                    <TextValidator
+                      className={clsx(
+                        commonClasses.textField,
+                        menuClasses.priceField
+                      )}
+                      label={MenuLabels.PRICE}
+                      validators={['required']}
+                      errorMessages={FormValidationErrorsLabels.REQUIRED}
+                      name="setMenu"
+                      onChange={onChangeValueHandler}
+                      value={ui.editMode.data.value.setMenu}
+                    />
+                  </FormControl>
+                )}
                 <Box className={commonClasses.buttonBar}>
                   <Button variant="contained" onClick={disableEditMode}>
                     {ActionsLabels.CANCEL}
@@ -205,16 +250,6 @@ const MenuInfoEditor = props => {
             <>
               <CardHeader
                 className={dashboardClasses.header}
-                /*  avatar={
-                  <Avatar
-                    aria-label="recipe"
-                    style={{
-                      backgroundColor: DishTypesColorMap[data.category],
-                    }}
-                  >
-                    {DishTypes[data.category].substr(0, 1)}
-                  </Avatar>
-                } */
                 action={
                   <IconButton
                     aria-describedby={menuInfoActionsPopoverId}
