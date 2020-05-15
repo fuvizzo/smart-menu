@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Children, isValidElement, cloneElement } from 'react';
 import { connect } from 'react-redux';
 import * as uiActions from '../../Actions/ui-actions';
 import Select from '@material-ui/core/Select';
@@ -11,6 +11,14 @@ import Button from '@material-ui/core/Button';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import constants from '../../Constants/index';
 const { Locale } = constants;
+
+const createChildrenWithProps = (children, props) =>
+  Children.map(children, child => {
+    if (isValidElement(child)) {
+      return cloneElement(child, props);
+    }
+    return child;
+  });
 
 const NewLocaleForm = props => {
   const {
@@ -62,7 +70,9 @@ const NewLocaleForm = props => {
           </Select>
         </FormControl>
 
-        {children}
+        {createChildrenWithProps(children, {
+          lang,
+        })}
         <Box className={commonClasses.buttonBar}>
           <Button variant="contained" onClick={disableInsertMode}>
             {ActionsLabels.CANCEL}

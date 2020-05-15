@@ -42,6 +42,7 @@ import useCommonStyles from '../../Common/styles';
 import useMenuStyles from '../styles';
 
 const MenuInfoEditor = props => {
+  const { menuId } = useParams();
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
   const menuInfoActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
   const menuInfoActionsPopoverId = menuInfoActionsPopoverOpen
@@ -54,12 +55,11 @@ const MenuInfoEditor = props => {
   const {
     menu,
     ui,
-    createNewLocale,
+    createNewLocaleMenuInfo,
     deleteLocale,
     showActionsPopover,
     hideActionsPopover,
-    openConfirmationDialog,
-    closeConfirmationDialog,
+    updateMenuInfo,
     editData,
     enableEditMode,
     disableEditMode,
@@ -70,13 +70,7 @@ const MenuInfoEditor = props => {
   } = props;
 
   const defaultLanguage = ui.settings.defaultLanguage;
-  const {
-    LocalizedFields,
-    SupportedLanguages,
-    Locale,
-    DishTypesColorMap,
-    ConfirmationActions,
-  } = constants;
+  const { LocalizedFields, SupportedLanguages, Locale } = constants;
 
   const {
     Labels: {
@@ -86,7 +80,6 @@ const MenuInfoEditor = props => {
       Warnings: WarningMessages,
       FormValidationErrors: FormValidationErrorsLabels,
     },
-    DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
 
   const data = menu.info;
@@ -94,7 +87,13 @@ const MenuInfoEditor = props => {
 
   const showMenuItemEditForm = ui.editMode.enabled && !ui.editMode.childItem;
 
-  const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
+  const createNewLocaleHandler = useCallback(async () => {
+    const { id: menuItemId, value: newLocale } = ui.insertMode.data;
+    await createNewLocaleMenuInfo(menuId, menuItemId, newLocale);
+    disableInsertMode();
+  }, [ui.insertMode.data]);
+
+  const languageTabsPanelClickHandler = (event, menuItemId) => {
     disableInsertMode();
     if (languageTabExpanded) {
       collapseLanguageTabsPanel();
@@ -103,7 +102,14 @@ const MenuInfoEditor = props => {
     }
   };
 
-  const toggleSetMenuOption = useCallback(
+  const updateMenuInfoHandler = useCallback(async () => {
+    const menuItemId = ui.editMode.data.id;
+    const body = ui.editMode.data.value;
+    await updateMenuInfo(menuId, menuItemId, body);
+    disableEditMode();
+  }, [ui.editMode.data.value, ui.editMode.data.id]);
+
+  const toggleSetMenuOptionHandler = useCallback(
     value => {
       const data = cloneDeep(ui.editMode.data);
       data.setMenuEnabled = value;
@@ -113,7 +119,7 @@ const MenuInfoEditor = props => {
     [ui.editMode.data.setMenuEnabled]
   );
 
-  const handleMenuInfoActionsClick = useCallback(
+  const menuInfoActionsClickHandler = useCallback(
     (event, key) => {
       if (menuInfoActionsPopoverOpen) {
         setActionPopoverAnchorEl(null);
@@ -131,6 +137,12 @@ const MenuInfoEditor = props => {
     [ui.editMode.enabled, ui.insertMode.enabled]
   );
 
+  useEffect(() => {
+    disableEditMode();
+    disableInsertMode();
+    collapseLanguageTabsPanel();
+  }, []);
+
   return (
     <Grid
       container
@@ -139,23 +151,11 @@ const MenuInfoEditor = props => {
       justify="flex-start"
       alignItems="flex-start"
     >
-      {/*  {ui.confirmationDialog.open && !ui.confirmationDialog.childItem && (
-      <ConfirmationDialog
-        open={ui.confirmationDialog.open}
-        action={ConfirmationActions.DELETE_MENU_ITEM}
-        data={ui.confirmationDialog.data.value.locales[defaultLanguage].name}
-        handleClose={() => closeConfirmationDialog()}
-        onConfirm={() => {
-          deleteMenuItemHandler(ui.confirmationDialog.data.id);
-          closeConfirmationDialog();
-        }}
-      />
-    )}*/}
       <MenuInfoActions
         id={menuInfoActionsPopoverId}
         open={menuInfoActionsPopoverOpen}
         anchorEl={actionPopoverAnchorEl}
-        handleClose={handleMenuInfoActionsClick}
+        handleClose={menuInfoActionsClickHandler}
       >
         <ListItem
           onClick={() => {
@@ -180,7 +180,7 @@ const MenuInfoEditor = props => {
         <Card width={1} elevation={2}>
           {showMenuItemEditForm ? (
             <ValidatorForm
-              /*  onSubmit={updateMenuInfoHandler} */
+              onSubmit={updateMenuInfoHandler}
               onError={errors => console.log(errors)}
             >
               <Box p={2}>
@@ -208,7 +208,9 @@ const MenuInfoEditor = props => {
                     <Switch
                       checked={ui.editMode.data.setMenuEnabled}
                       onChange={() =>
-                        toggleSetMenuOption(!ui.editMode.data.setMenuEnabled)
+                        toggleSetMenuOptionHandler(
+                          !ui.editMode.data.setMenuEnabled
+                        )
                       }
                       name="checkedB"
                       color="primary"
@@ -253,7 +255,7 @@ const MenuInfoEditor = props => {
                 action={
                   <IconButton
                     aria-describedby={menuInfoActionsPopoverId}
-                    onClick={event => handleMenuInfoActionsClick(event)}
+                    onClick={event => menuInfoActionsClickHandler(event)}
                   >
                     <MoreVertIcon />
                   </IconButton>
@@ -305,7 +307,7 @@ const MenuInfoEditor = props => {
                     className={clsx(dashboardClasses.expand, {
                       [dashboardClasses.expandOpen]: languageTabExpanded,
                     })}
-                    onClick={event => handleExpandLanguageTabsPanelClick(event)}
+                    onClick={event => languageTabsPanelClickHandler(event)}
                     aria-expanded={languageTabExpanded}
                     aria-label="show more"
                     endIcon={<ExpandMoreIcon />}
@@ -316,15 +318,13 @@ const MenuInfoEditor = props => {
                 </CardActions>
               </CardContent>
               <Collapse in={languageTabExpanded} timeout="auto" unmountOnExit>
-                {/*  <LanguageTabsPanel
-                  menu={menu}
-                  createNewLocale={createNewLocaleCallback}
-                  menuItemId={key}
-                  availableLanguages={availableLanguages}
-                  updateMenuItem={updateMenuItemHandler}
-                  deleteLocale={deleteLocaleHandler}
+                <LanguageTabsPanel
+                  data={menu.info}
+                  createNewLocale={createNewLocaleHandler}
+                  updateData={updateMenuInfoHandler}
+                  /*  deleteLocale={deleteLocaleHandler} */
                   onChangeValue={onChangeValueHandler}
-                /> */}
+                />
               </Collapse>
             </>
           )}

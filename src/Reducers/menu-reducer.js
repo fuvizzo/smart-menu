@@ -5,8 +5,10 @@ import {
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
-  CREATE_NEW_LOCALE,
-  DELETE_LOCALE,
+  CREATE_NEW_LOCALE_MENU_ITEM,
+  DELETE_LOCALE_MENU_ITEM,
+  CREATE_NEW_LOCALE_MENU_INFO,
+  UPDATE_MENU_INFO,
 } from './../Constants/menu-action-types';
 import { cloneDeep } from 'lodash';
 import { sort } from '../Helpers/index';
@@ -36,14 +38,21 @@ function menuReducer(state = initialState, action) {
         const published = menus[action.payload.menuId].published;
         menus[action.payload.menuId].published = !published;
         return menus;
-      case CREATE_NEW_LOCALE:
+      case CREATE_NEW_LOCALE_MENU_ITEM:
         menus[action.payload.menuId].items[action.payload.menuItemId].locales[
           action.payload.lang
         ] = action.payload.data;
         return menus;
-      case DELETE_LOCALE:
+      case DELETE_LOCALE_MENU_ITEM:
         delete menus[action.payload.menuId].items[action.payload.menuItemId]
           .locales[action.payload.lang];
+        return menus;
+      case UPDATE_MENU_INFO:
+        delete menus[action.payload.menuId].items[action.payload.menuItemId]
+          .locales[action.payload.lang];
+        return menus;
+      case CREATE_NEW_LOCALE_MENU_INFO:
+        menus[action.payload.menuId].info = action.payload.data;
         return menus;
       default:
         return state;

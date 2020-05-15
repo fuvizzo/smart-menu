@@ -49,17 +49,6 @@ const LocaleEditor = props => {
         />
       </FormControl>
       {children}
-      {/*   <FormControl className={classes.formControl}>
-        <TextField
-          className={classes.textField}
-          label={MenuLabels.INGREDIENTS_LIST}
-          inputProps={{ 'data-lang': lang }}
-          name="ingredients"
-          onChange={onChangeValue}
-          type="text"
-          value={data.ingredients}
-        />
-      </FormControl> */}
     </>
   );
 };

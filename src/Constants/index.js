@@ -12,7 +12,7 @@ export default {
   ConfirmationActions: {
     DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
     DELETE_MENU: 'DELETE_MENU',
-    DELETE_LOCALE: 'DELETE_LOCALE',
+    DELETE_LOCALE_MENU_ITEM: 'DELETE_LOCALE_MENU_ITEM',
   },
   Locale: {
     en: {
@@ -94,7 +94,7 @@ export default {
           getContent: itemName =>
             `Click on proceed to delete the selected item '${itemName}'`,
         },
-        DELETE_LOCALE: {
+        DELETE_LOCALE_MENU_ITEM: {
           getTitle: lang => `Delete the '${lang}' translation`,
           getContent: lang =>
             `Click on proceed to delete  the '${lang}' translation for the selected menu item`,

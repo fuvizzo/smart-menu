@@ -6,8 +6,10 @@ import {
   CREATE_NEW_MENU_ITEM,
   DELETE_MENU_ITEM,
   UPDATE_MENU_ITEM,
-  CREATE_NEW_LOCALE,
-  DELETE_LOCALE,
+  CREATE_NEW_LOCALE_MENU_ITEM,
+  DELETE_LOCALE_MENU_ITEM,
+  CREATE_NEW_LOCALE_MENU_INFO,
+  UPDATE_MENU_INFO,
 } from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
 
@@ -127,7 +129,7 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
   };
 };
 
-export const createNewLocale = (menuId, menuItemId, body) => {
+export const createNewLocaleMenuItem = (menuId, menuItemId, body) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
     const path = `${userMenusPath(
@@ -142,7 +144,7 @@ export const createNewLocale = (menuId, menuItemId, body) => {
     try {
       await firebaseService.create(data);
       dispatch({
-        type: CREATE_NEW_LOCALE,
+        type: CREATE_NEW_LOCALE_MENU_ITEM,
         payload: {
           menuId,
           menuItemId,
@@ -156,7 +158,7 @@ export const createNewLocale = (menuId, menuItemId, body) => {
   };
 };
 
-export const deleteLocale = (menuId, menuItemId, lang) => {
+export const deleteLocaleMenuItem = (menuId, menuItemId, lang) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
     const path = `${userMenusPath(
@@ -167,12 +169,61 @@ export const deleteLocale = (menuId, menuItemId, lang) => {
       await firebaseService.delete(path);
 
       dispatch({
-        type: DELETE_LOCALE,
+        type: DELETE_LOCALE_MENU_ITEM,
         payload: {
           menuId,
           menuItemId,
           lang,
         },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const createNewLocaleMenuInfo = (menuId, body) => {
+  return async (dispatch, getState) => {
+    const userId = getState().user.userId;
+    const path = `${userMenusPath(userId)}/${menuId}/${INFO}/${LOCALES}/${
+      body.lang
+    }`;
+    const localeData = { ...body };
+    delete localeData.lang;
+    const data = {
+      path,
+      body: localeData,
+    };
+    try {
+      await firebaseService.create(data);
+      dispatch({
+        type: CREATE_NEW_LOCALE_MENU_INFO,
+        payload: {
+          menuId,
+          data: localeData,
+          lang: body.lang,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateMenuInfo = (menuId, body) => {
+  return async (dispatch, getState) => {
+    const userId = getState().user.userId;
+    const path = `${userMenusPath(userId)}/${menuId}/${INFO}`;
+
+    const data = {
+      path,
+      body,
+    };
+    try {
+      await firebaseService.update(data);
+      dispatch({
+        type: UPDATE_MENU_INFO,
+        payload: { menuId, value: body },
       });
     } catch (error) {
       console.log(error);

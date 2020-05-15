@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import constants from '../../Constants/index';
 
 export const onChangeInputValueHandler = (event, ui, editData, insertData) => {
@@ -7,13 +6,13 @@ export const onChangeInputValueHandler = (event, ui, editData, insertData) => {
 
   if (ui.insertMode.enabled) {
     const lang = input.dataset.lang;
-    const data = cloneDeep(ui.insertMode.data);
+    const data = ui.insertMode.data;
 
     data.value.lang = lang;
     data.value[input.name] = currentValue;
     insertData(data);
   } else {
-    const data = cloneDeep(ui.editMode.data);
+    const data = ui.editMode.data;
 
     if (constants.LocalizedFields.some(field => field === input.name)) {
       const lang = input.dataset.lang;

@@ -7,7 +7,6 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Card from '@material-ui/core/Card';
@@ -56,8 +55,8 @@ const MenuItemsEditor = props => {
     sortMenu,
     deleteMenuItem,
     updateMenuItem,
-    createNewLocale,
-    deleteLocale,
+    createNewLocaleMenuItem,
+    deleteLocaleMenuItem,
     showActionsPopover,
     hideActionsPopover,
     openConfirmationDialog,
@@ -73,7 +72,6 @@ const MenuItemsEditor = props => {
 
   const defaultLanguage = ui.settings.defaultLanguage;
   const {
-    LocalizedFields,
     SupportedLanguages,
     Locale,
     DishTypesColorMap,
@@ -91,21 +89,15 @@ const MenuItemsEditor = props => {
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
 
-  const handleExpandLanguageTabsPanelClick = (event, menuItemId) => {
+  const languageTabsPanelClickHandler = (event, menuItemId) => {
     const expanded = ui.languageTabsPanel.expanded;
     disableInsertMode();
-    if (!expanded || ui.languageTabsPanel.itemId !== menuItemId) {
-      expandLanguageTabsPanel(menuItemId);
-    } else {
+    if (expanded && ui.languageTabsPanel.itemId !== menuItemId) {
       collapseLanguageTabsPanel();
+    } else {
+      expandLanguageTabsPanel(menuItemId);
     }
   };
-
-  const getAvailableLanguage = useCallback(usedLanguages => {
-    return SupportedLanguages.filter(
-      lang => !usedLanguages.some(l => l === lang)
-    );
-  }, []);
 
   const deleteMenuItemHandler = useCallback(async menuItemId => {
     await deleteMenuItem(menuId, menuItemId);
@@ -118,17 +110,17 @@ const MenuItemsEditor = props => {
     disableEditMode();
   }, [ui.editMode.data.value, ui.editMode.data.id]);
 
-  const createNewLocaleCallback = useCallback(async () => {
+  const createNewLocaleHandler = useCallback(async () => {
     const { id: menuItemId, value: newLocale } = ui.insertMode.data;
-    await createNewLocale(menuId, menuItemId, newLocale);
+    await createNewLocaleMenuItem(menuId, menuItemId, newLocale);
     disableInsertMode();
   }, [ui.insertMode.data]);
 
   const deleteLocaleHandler = useCallback(async (menuItemId, lang) => {
-    await deleteLocale(menuId, menuItemId, lang);
+    await deleteLocaleMenuItem(menuId, menuItemId, lang);
   }, []);
 
-  const handleMenuItemActionsClick = useCallback(
+  const menuItemActionsClickHandler = useCallback(
     (event, key) => {
       if (menuItemActionsPopoverOpen) {
         setActionPopoverAnchorEl(null);
@@ -182,7 +174,7 @@ const MenuItemsEditor = props => {
         id={menuItemActionsPopoverId}
         open={menuItemActionsPopoverOpen}
         anchorEl={actionPopoverAnchorEl}
-        handleClose={handleMenuItemActionsClick}
+        handleClose={menuItemActionsClickHandler}
       >
         <ListItem
           onClick={() => {
@@ -226,9 +218,7 @@ const MenuItemsEditor = props => {
         const data = menu.items[key];
         const languageTabExpanded =
           ui.languageTabsPanel.expanded && ui.languageTabsPanel.itemId === key;
-        const availableLanguages = getAvailableLanguage(
-          Object.keys(data.locales)
-        );
+
         const showMenuItemEditForm =
           ui.editMode.enabled &&
           ui.editMode.data.id === key &&
@@ -282,7 +272,9 @@ const MenuItemsEditor = props => {
                     {Object.keys(ui.editMode.data.value.locales)
                       .filter(lang => lang === defaultLanguage)
                       .map((lang, index) => {
-                        const locale = ui.editMode.data.value.locales[lang];
+                        const locale = cloneDeep(
+                          ui.editMode.data.value.locales[lang]
+                        );
                         return (
                           <LocaleEditor
                             key={index}
@@ -320,7 +312,7 @@ const MenuItemsEditor = props => {
                       <IconButton
                         aria-describedby={menuItemActionsPopoverId}
                         onClick={event =>
-                          handleMenuItemActionsClick(event, key)
+                          menuItemActionsClickHandler(event, key)
                         }
                       >
                         <MoreVertIcon />
@@ -366,7 +358,7 @@ const MenuItemsEditor = props => {
                           [dashboardClasses.expandOpen]: languageTabExpanded,
                         })}
                         onClick={event =>
-                          handleExpandLanguageTabsPanelClick(event, key)
+                          languageTabsPanelClickHandler(event, key)
                         }
                         aria-expanded={languageTabExpanded}
                         aria-label="show more"
@@ -383,11 +375,10 @@ const MenuItemsEditor = props => {
                     unmountOnExit
                   >
                     <LanguageTabsPanel
-                      menu={menu}
-                      createNewLocale={createNewLocaleCallback}
-                      menuItemId={key}
-                      availableLanguages={availableLanguages}
-                      updateMenuItem={updateMenuItemHandler}
+                      id={key}
+                      data={menu.items[key]}
+                      createNewLocale={createNewLocaleHandler}
+                      updateData={updateMenuItemHandler}
                       deleteLocale={deleteLocaleHandler}
                       onChangeValue={onChangeValueHandler}
                     />
