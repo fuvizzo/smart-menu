@@ -17,27 +17,26 @@ import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
+import ConfirmationDialog from '../../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import constants from '../../Constants/index';
+import constants from '../../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
-import MenuItemActions from '../UserDashboard/popover-actions';
+import MenuItemActions from '../../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
-import * as uiActions from '../../Actions/ui-actions';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
-import * as menuActions from '../../Actions/menu-actions';
-import useDashboardStyles from '../UserDashboard/styles';
-import useCommonStyles from '../Common/styles';
-import useMenuStyles from './styles';
+import * as uiActions from '../../../Actions/ui-actions';
+import * as menuActions from '../../../Actions/menu-actions';
+import useDashboardStyles from '../../UserDashboard/styles';
+import useCommonStyles from '../../Common/styles';
+import useMenuStyles from '../styles';
 
 const MenuItemsEditor = props => {
   const { menuId } = useParams();
@@ -86,6 +85,7 @@ const MenuItemsEditor = props => {
       Menu: MenuLabels,
       Common: CommonLabels,
       Warnings: WarningMessages,
+      FormValidationErrors: FormValidationErrorsLabels,
     },
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
@@ -261,70 +261,71 @@ const MenuItemsEditor = props => {
           <Grid item xs={12} key={key}>
             <Card width={1} elevation={2}>
               {showMenuItemEditForm ? (
-                <Box p={2}>
-                  <FormControl className={commonClasses.formControl}>
-                    <InputLabel id="dish-select-label">
-                      {MenuLabels.CATEGORY}
-                    </InputLabel>
-                    <Select
-                      className={commonClasses.selectField}
-                      labelId="dish-select-label"
-                      name="category"
-                      onChange={event => {
-                        event.currentTarget.name = event.target.name;
-                        onChangeValueHandler(event);
-                      }}
-                      value={ui.editMode.data.value.category}
-                    >
-                      {DishTypes.map((dishType, index) => {
-                        return (
-                          <MenuItem key={index} value={index}>
-                            {dishType}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                  {!menu.info.setMenu && (
+                <ValidatorForm
+                  onSubmit={updateMenuItemHandler}
+                  onError={errors => console.log(errors)}
+                >
+                  <Box p={2}>
                     <FormControl className={commonClasses.formControl}>
                       <TextField
-                        className={clsx(
-                          commonClasses.textField,
-                          menuClasses.priceField
-                        )}
-                        label={MenuLabels.PRICE}
-                        name="price"
-                        onChange={onChangeValueHandler}
-                        value={ui.editMode.data.value.price}
-                      />
+                        select
+                        className={commonClasses.selectField}
+                        label={MenuLabels.CATEGORY}
+                        name="category"
+                        onChange={event => {
+                          event.currentTarget.name = event.target.name;
+                          onChangeValueHandler(event);
+                        }}
+                        value={ui.editMode.data.value.category}
+                      >
+                        {DishTypes.map((dishType, index) => {
+                          return (
+                            <MenuItem key={index} value={index}>
+                              {dishType}
+                            </MenuItem>
+                          );
+                        })}
+                      </TextField>
                     </FormControl>
-                  )}
-                  {Object.keys(ui.editMode.data.value.locales)
-                    .filter(lang => lang === defaultLanguage)
-                    .map((lang, index) => {
-                      const locale = ui.editMode.data.value.locales[lang];
-                      return (
-                        <LocaleEditor
-                          key={index}
-                          lang={lang}
-                          data={locale}
-                          onChangeValue={onChangeValueHandler}
+                    {!menu.info.setMenu && (
+                      <FormControl className={commonClasses.formControl}>
+                        <TextValidator
+                          className={clsx(
+                            commonClasses.textField,
+                            menuClasses.priceField
+                          )}
+                          label={MenuLabels.PRICE}
+                          validators={['required']}
+                          errorMessages={FormValidationErrorsLabels.REQUIRED}
+                          name="price"
+                          onChange={onChangeValueHandler}
+                          value={ui.editMode.data.value.price}
                         />
-                      );
-                    })}
-                  <Box className={commonClasses.buttonBar}>
-                    <Button variant="contained" onClick={disableEditMode}>
-                      {ActionsLabels.CANCEL}
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={updateMenuItemHandler}
-                    >
-                      {ActionsLabels.APPLY_CHANGES}
-                    </Button>
+                      </FormControl>
+                    )}
+                    {Object.keys(ui.editMode.data.value.locales)
+                      .filter(lang => lang === defaultLanguage)
+                      .map((lang, index) => {
+                        const locale = ui.editMode.data.value.locales[lang];
+                        return (
+                          <LocaleEditor
+                            key={index}
+                            lang={lang}
+                            data={locale}
+                            onChangeValue={onChangeValueHandler}
+                          />
+                        );
+                      })}
+                    <Box className={commonClasses.buttonBar}>
+                      <Button variant="contained" onClick={disableEditMode}>
+                        {ActionsLabels.CANCEL}
+                      </Button>
+                      <Button variant="contained" color="primary" type="submit">
+                        {ActionsLabels.APPLY_CHANGES}
+                      </Button>
+                    </Box>
                   </Box>
-                </Box>
+                </ValidatorForm>
               ) : (
                 <>
                   <CardHeader
@@ -412,8 +413,7 @@ const MenuItemsEditor = props => {
                       availableLanguages={availableLanguages}
                       updateMenuItem={updateMenuItemHandler}
                       deleteLocale={deleteLocaleHandler}
-                      onChangeValueHandler={onChangeValueHandler}
-                      locales={data.locales}
+                      onChangeValue={onChangeValueHandler}
                     />
                   </Collapse>
                 </>

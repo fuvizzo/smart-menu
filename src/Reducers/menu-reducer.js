@@ -45,7 +45,6 @@ function menuReducer(state = initialState, action) {
         delete menus[action.payload.menuId].items[action.payload.menuItemId]
           .locales[action.payload.lang];
         return menus;
-
       default:
         return state;
     }

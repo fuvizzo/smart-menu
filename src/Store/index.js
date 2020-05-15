@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'appStore',
   storage,
+  debug: true,
   blacklist: 'public',
   //whitelist: 'user',
 };

@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MenuDescriptionEditor from './menu-description-editor';
+import MenuDescriptionEditor from './MenuInfo/menu-info-editor';
 import { TabPanel } from '../Common';
 import Box from '@material-ui/core/Box';
 import constants from '../../Constants/index';
-import MenuItemsEditor from './menu-items-editor';
+import MenuItemsEditor from './MenuItems';
 import * as uiActions from '../../Actions/ui-actions';
 
 import * as menuActions from '../../Actions/menu-actions';

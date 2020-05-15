@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 const AuthRoute = ({ user, children, ...rest }) => {
-  console.log(children);
   return (
     <Route
       {...rest}

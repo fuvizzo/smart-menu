@@ -80,7 +80,7 @@ function uiReducer(state = initialState, action) {
       ui.dashboardDrawerOpen = action.payload;
       return ui;
     default:
-      return ui;
+      return state;
   }
 }
 

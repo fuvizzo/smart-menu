@@ -6,7 +6,7 @@ export default makeStyles(theme => ({
   }, */
   formControl: {
     paddingTop: 5,
-    paddingBottom: 25,
+    paddingBottom: 15,
 
     minWidth: 320,
     flexGrow: 1,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as uiActions from '../../Actions/ui-actions';
+import * as uiActions from '../../../Actions/ui-actions';
 const MenuDescriptionEditor = props => {
   return <>{props.menu.info.locales.en.name}</>;
 };

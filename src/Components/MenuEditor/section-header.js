@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import * as uiActions from '../../Actions/ui-actions';
 import Toolbar from '@material-ui/core/Toolbar';
 import useMenuStyles from './styles';
-import NewMenuItemDialog from './new-menu-item-dialog';
+import NewMenuItemDialog from './MenuItems/new-item-dialog';
 import { useParams } from 'react-router-dom';
 const { Locale } = constants;
 

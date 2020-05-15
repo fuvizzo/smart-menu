@@ -1,14 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, {
+  useState,
+  useCallback,
+  Children,
+  isValidElement,
+  cloneElement,
+} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import constants from '../../Constants/index';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ConfirmationDialog from '../UserDashboard/confirmation-dialog';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -17,14 +21,13 @@ import List from '@material-ui/core/List';
 import EditIcon from '@material-ui/icons/Edit';
 import LocaleActions from '../UserDashboard/popover-actions';
 import { connect } from 'react-redux';
-import Toolbar from '@material-ui/core/Toolbar';
 import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
-import LocaleEditor from './locale-editor';
 import { cloneDeep } from 'lodash';
 import Button from '@material-ui/core/Button';
 import useCommonStyles from '../Common/styles';
 import { TabPanel } from '../Common';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -51,40 +54,41 @@ const emptyLocaleData = {
 const TabLocaleEditor = props => {
   const commonClasses = useCommonStyles();
 
-  const {
-    onChangeValue,
-    updateMenuItem,
-    locale,
-    lang,
-    index,
-    actionsLabels,
-    disableEditMode,
-  } = props;
+  const { updateMenuItem, actionsLabels, disableEditMode, children } = props;
   return (
-    <Box pt={3}>
-      <LocaleEditor
-        key={index}
-        lang={lang}
-        data={locale}
-        onChangeValue={onChangeValue}
-      />
-      <Box className={commonClasses.buttonBar}>
-        <Button variant="contained" onClick={disableEditMode}>
-          {actionsLabels.CANCEL}
-        </Button>
-        <Button variant="contained" color="primary" onClick={updateMenuItem}>
-          {actionsLabels.APPLY_CHANGES}
-        </Button>
+    <ValidatorForm
+      onSubmit={updateMenuItem}
+      onError={errors => console.log(errors)}
+    >
+      <Box pt={3}>
+        {children}
+
+        <Box className={commonClasses.buttonBar}>
+          <Button variant="contained" onClick={disableEditMode}>
+            {actionsLabels.CANCEL}
+          </Button>
+          <Button variant="contained" color="primary" type="submit">
+            {actionsLabels.APPLY_CHANGES}
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </ValidatorForm>
   );
 };
+
+const createChildrenWithProps = (children, props) =>
+  Children.map(children, child => {
+    if (isValidElement(child)) {
+      return cloneElement(child, props);
+    }
+
+    return child;
+  });
 
 const LanguageTabsPanel = props => {
   const {
     menu,
     menuItemId,
-    locales,
     ui,
     updateMenuItem,
     onChangeValueHandler,
@@ -100,24 +104,23 @@ const LanguageTabsPanel = props => {
     deleteLocale,
     createNewLocale,
     collapseLanguageTabsPanel,
+    tabView,
+    children,
   } = props;
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
   const [tabValue, setTabValue] = useState(0);
   const defaultLanguage = ui.settings.defaultLanguage;
   const localeActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
-  const commonClasses = useCommonStyles();
   const localeActionsPopoverId = localeActionsPopoverOpen
     ? 'locale-actions-popover'
     : undefined;
   const classes = useStyles();
   const {
     Languages,
-    Labels: {
-      Actions: ActionsLabels,
-      Menu: MenuLabels,
-      Warnings: WarningMessages,
-    },
+    Labels: { Actions: ActionsLabels },
   } = Locale[defaultLanguage];
+
+  const locales = menu.items[menuItemId].locales;
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -263,11 +266,15 @@ const LanguageTabsPanel = props => {
 
       {ui.insertMode.enabled && ui.insertMode.data.id === menuItemId ? (
         <NewLocaleEditor
-          newLocale={ui.insertMode.data.value}
+          data={ui.insertMode.data.value}
           onChangeValue={onChangeValueHandler}
           onCreateNewLocalInMenuItem={createNewLocale}
           availableLanguages={availableLanguages}
-        />
+        >
+          {createChildrenWithProps(children, {
+            data: ui.insertMode.data.value,
+          })}
+        </NewLocaleEditor>
       ) : (
         Object.keys(locales)
           .filter(locale => locale !== defaultLanguage)
@@ -289,67 +296,21 @@ const LanguageTabsPanel = props => {
                     actionsLabels={ActionsLabels}
                     updateMenuItem={updateMenuItem}
                     onChangeValue={onChangeValueHandler}
-                    locale={ui.editMode.data.value.locales[lang]}
                     lang={lang}
                     index={index}
-                  />
+                  >
+                    {createChildrenWithProps(children, {
+                      data: ui.editMode.data.value.locales[lang],
+                      lang,
+                    })}
+                  </TabLocaleEditor>
                 ) : (
-                  <>
-                    <Toolbar className={classes.toolbar}>
-                      <Box mt={1} className={classes.header}>
-                        <Typography
-                          className={commonClasses.label}
-                          color="textSecondary"
-                          variant="h3"
-                        >
-                          {MenuLabels.DISH_NAME}
-                        </Typography>
-                        <Box mt={0.5}>
-                          <Typography component="h3">{locale.name}</Typography>
-                        </Box>
-                      </Box>
-
-                      <IconButton
-                        edge="end"
-                        aria-describedby={localeActionsPopoverId}
-                        onClick={event => handleLocaleActionsClick(event, lang)}
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                    </Toolbar>
-                    <Box mt={2}>
-                      <Typography
-                        className={commonClasses.label}
-                        color="textSecondary"
-                        variant="h3"
-                      >
-                        {MenuLabels.DESCRIPTION}
-                      </Typography>
-                    </Box>
-                    <Box mt={0.5}>
-                      <Typography
-                        variant="body2"
-                        color="textPrimary"
-                        component="p"
-                      >
-                        {locale.description || WarningMessages.MISSING_FIELD}
-                      </Typography>
-                    </Box>
-                    <Box mt={2}>
-                      <Typography
-                        className={commonClasses.label}
-                        color="textSecondary"
-                        variant="h3"
-                      >
-                        {MenuLabels.INGREDIENTS_LIST}
-                      </Typography>
-                    </Box>
-                    <Box mt={0.5}>
-                      <Typography>
-                        {locale.ingredients || WarningMessages.MISSING_FIELD}
-                      </Typography>
-                    </Box>
-                  </>
+                  createChildrenWithProps(tabView, {
+                    localeActionsPopoverId,
+                    handleLocaleActionsClick,
+                    locale,
+                    lang,
+                  })
                 )}
               </TabPanel>
             );

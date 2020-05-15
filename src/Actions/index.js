@@ -12,7 +12,6 @@ export function signInWithEmailAndPassword(email, password) {
         email,
         password
       );
-
       dispatch({ type: SIGN_IN, payload: data });
     } catch (error) {
       console.log(error);

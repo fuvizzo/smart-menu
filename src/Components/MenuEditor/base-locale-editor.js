@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
-
+import { TextValidator } from 'react-material-ui-form-validator';
 import Box from '@material-ui/core/Box';
 import constants from '../../Constants/index';
 import useStyles from '../Common/styles';
@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 
 const { Locale } = constants;
 const LocaleEditor = props => {
-  const { index, lang, defaultLanguage, onChangeValue, data } = props;
+  const { index, lang, defaultLanguage, onChangeValue, data, children } = props;
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -22,14 +22,14 @@ const LocaleEditor = props => {
   return (
     <>
       <FormControl className={classes.formControl} error={!data.name}>
-        <TextField
+        <TextValidator
           className={classes.textField}
           label={MenuLabels.DISH_NAME}
           name="name"
           onChange={onChangeValue}
           type="text"
-          error={!data.name}
-          helperText={!data.name && FormValidationErrorsLabels.REQUIRED}
+          validators={['required']}
+          errorMessages={FormValidationErrorsLabels.REQUIRED}
           value={data.name}
           inputProps={{ 'data-lang': lang }}
         />
@@ -46,7 +46,8 @@ const LocaleEditor = props => {
           value={data.description}
         />
       </FormControl>
-      <FormControl className={classes.formControl}>
+      {children}
+      {/*   <FormControl className={classes.formControl}>
         <TextField
           className={classes.textField}
           label={MenuLabels.INGREDIENTS_LIST}
@@ -56,7 +57,7 @@ const LocaleEditor = props => {
           type="text"
           value={data.ingredients}
         />
-      </FormControl>
+      </FormControl> */}
     </>
   );
 };
