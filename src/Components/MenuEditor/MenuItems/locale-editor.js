@@ -8,14 +8,20 @@ import TextField from '@material-ui/core/TextField';
 
 const { Locale } = constants;
 const LocaleEditor = props => {
-  const { index, lang, defaultLanguage, onChangeValue, data } = props;
+  const { lang, defaultLanguage, onChangeValue, data } = props;
   const {
     Labels: { Menu: MenuLabels },
   } = Locale[defaultLanguage];
   const classes = useStyles();
 
   return (
-    <BaseLocaleEditor {...props}>
+    <BaseLocaleEditor
+      {...props}
+      labels={{
+        name: MenuLabels.DISH_NAME,
+        description: MenuLabels.DESCRIPTION,
+      }}
+    >
       <FormControl className={classes.formControl}>
         <TextField
           className={classes.textField}

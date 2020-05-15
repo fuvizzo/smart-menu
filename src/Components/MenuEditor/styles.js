@@ -9,8 +9,8 @@ export default makeStyles(theme => ({
     paddingLeft: 0,
     paddingRight: 0,
   },
-  header: {
-    flexGrow: 1,
+  cardContent: {
+    paddingTop: 0,
   },
   priceField: {
     maxWidth: 100,

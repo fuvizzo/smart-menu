@@ -2,20 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import { TextValidator } from 'react-material-ui-form-validator';
-import Box from '@material-ui/core/Box';
 import constants from '../../Constants/index';
 import useStyles from '../Common/styles';
 import TextField from '@material-ui/core/TextField';
 
 const { Locale } = constants;
 const LocaleEditor = props => {
-  const { index, lang, defaultLanguage, onChangeValue, data, children } = props;
   const {
-    Labels: {
-      Actions: ActionsLabels,
-      Menu: MenuLabels,
-      FormValidationErrors: FormValidationErrorsLabels,
-    },
+    lang,
+    defaultLanguage,
+    onChangeValue,
+    data,
+    labels,
+    children,
+  } = props;
+  const {
+    Labels: { FormValidationErrors: FormValidationErrorsLabels },
   } = Locale[defaultLanguage];
   const classes = useStyles();
 
@@ -24,7 +26,7 @@ const LocaleEditor = props => {
       <FormControl className={classes.formControl} error={!data.name}>
         <TextValidator
           className={classes.textField}
-          label={MenuLabels.DISH_NAME}
+          label={labels.name}
           name="name"
           onChange={onChangeValue}
           type="text"
@@ -38,7 +40,7 @@ const LocaleEditor = props => {
         <TextField
           multiline={true}
           className={classes.textField}
-          label={MenuLabels.DESCRIPTION}
+          label={labels.description}
           inputProps={{ 'data-lang': lang }}
           name="description"
           onChange={onChangeValue}

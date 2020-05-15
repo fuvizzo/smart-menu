@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
+
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MenuDescriptionEditor from './MenuInfo/menu-info-editor';
-import { TabPanel } from '../Common';
 import Box from '@material-ui/core/Box';
-import constants from '../../Constants/index';
-import MenuItemsEditor from './MenuItems';
-import * as uiActions from '../../Actions/ui-actions';
 
+import MenuItemsEditor from './MenuItems';
+import MenuInfoEditor from './MenuInfo';
+import { TabPanel } from '../Common';
+import constants from '../../Constants/index';
+import * as uiActions from '../../Actions/ui-actions';
 import * as menuActions from '../../Actions/menu-actions';
 
 const a11yProps = index => ({
@@ -68,7 +69,9 @@ const MenuEditor = props => {
         ariaLabelledByPrefix="menu-editor-tab"
         idPrefix="menu-editor-tabpanel"
       >
-        <MenuDescriptionEditor menu={menu} />
+        <Box mt={1.5}>
+          <MenuInfoEditor menu={menu} />
+        </Box>
       </TabPanel>
     </>
   );

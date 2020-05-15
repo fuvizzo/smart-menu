@@ -43,8 +43,10 @@ export default {
         Menu: {
           INGREDIENTS_LIST: 'Ingredients list',
           MENU: 'Normal menu',
+          TYPE: 'Menu type',
           SET_MENU: 'Set menu',
           DISH_NAME: 'Dish name',
+          MENU_NAME: 'Menu name',
           CATEGORY: 'Category',
           DESCRIPTION: 'Description',
           PRICE: 'Price',

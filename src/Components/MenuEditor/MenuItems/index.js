@@ -22,7 +22,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import constants from '../../../Constants/index';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
@@ -32,6 +31,8 @@ import MenuItemActions from '../../UserDashboard/popover-actions';
 import CardActions from '@material-ui/core/CardActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
+import { onChangeInputValueHandler } from '../handlers';
+import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';
 import * as menuActions from '../../../Actions/menu-actions';
 import useDashboardStyles from '../../UserDashboard/styles';
@@ -139,35 +140,12 @@ const MenuItemsEditor = props => {
         });
       }
     },
-    [ui.actionsPopover.menuItemId]
+    [menuItemActionsPopoverOpen]
   );
 
   const onChangeValueHandler = useCallback(
-    event => {
-      const input = event.currentTarget;
-      const currentValue =
-        input.type !== '' ? input.value : input.dataset.value;
-
-      if (ui.insertMode.enabled) {
-        const lang = input.dataset.lang;
-        const data = cloneDeep(ui.insertMode.data);
-
-        data.value.lang = lang;
-        data.value[input.name] = currentValue;
-        insertData(data);
-      } else {
-        const data = cloneDeep(ui.editMode.data);
-
-        if (LocalizedFields.some(field => field === input.name)) {
-          const lang = input.dataset.lang;
-          data.value.locales[lang][input.name] = currentValue;
-        } else {
-          data.value[input.name] = currentValue;
-        }
-        editData(data);
-      }
-    },
-    [ui.editMode.data, ui.insertMode.data]
+    event => onChangeInputValueHandler(event, ui, editData, insertData),
+    [ui.editMode.enabled, ui.insertMode.enabled]
   );
 
   useEffect(() => {
@@ -353,7 +331,7 @@ const MenuItemsEditor = props => {
                     title={data.locales[defaultLanguage].name}
                     subheader={!menu.info.setMenu && data.price}
                   />
-                  <CardContent>
+                  <CardContent className={menuClasses.cardContent}>
                     <Box>
                       <Typography
                         className={commonClasses.label}
@@ -428,7 +406,6 @@ const MenuItemsEditor = props => {
 
 function mapStateToProps(state) {
   return {
-    //menus: state.menus,
     ui: state.ui,
   };
 }
