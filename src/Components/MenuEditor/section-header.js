@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useMenuStyles from './styles';
 import NewMenuItemDialog from './MenuItems/new-item-dialog';
 import { useParams } from 'react-router-dom';
-const { Locale } = constants;
+const { Locales } = constants;
 
 const emptyMenuItemData = defaultLanguage => ({
   price: '',
@@ -36,7 +36,7 @@ const SectionHeader = props => {
   const menu = menus[menuId];
   const {
     Labels: { Sections: SectionLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
   const menuTitle = menu.info.locales[defaultLanguage].name;
 
   return (

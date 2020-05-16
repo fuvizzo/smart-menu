@@ -5,7 +5,7 @@ import LocaleTabView from './locale-tab-view';
 import constants from '../../../Constants/index';
 
 import { connect } from 'react-redux';
-const { Locale } = constants;
+const { Locales } = constants;
 const emptyLocaleData = {
   lang: '',
   name: '',
@@ -15,7 +15,7 @@ const emptyLocaleData = {
 const LanguageTabsPanel = props => {
   const {
     Labels: { Menu: MenuLabels },
-  } = Locale[props.defaultLanguage];
+  } = Locales[props.defaultLanguage];
   return (
     <BaseLanguageTabPanel
       {...props}

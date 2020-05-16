@@ -24,7 +24,7 @@ const NewMenuItemDialog = props => {
   const commonClasses = useCommonStyles();
   const menuClasses = useMenuStyles();
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locale, LocalizedFields, RegexExpressions } = constants;
+  const { Locales, LocalizedFields, RegexExpressions } = constants;
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -33,7 +33,7 @@ const NewMenuItemDialog = props => {
     },
 
     DISH_TYPES: DishTypes,
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const onChangeValueHandler = useCallback(
     event => {

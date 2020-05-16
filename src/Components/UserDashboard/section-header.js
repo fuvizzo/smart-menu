@@ -8,7 +8,7 @@ import { enableInsertMode } from '../../Actions/ui-actions';
 import Toolbar from '@material-ui/core/Toolbar';
 import useMenuStyles from '../MenuEditor/styles';
 import NewMenuDialog from './new-menu-dialog';
-const { Locale } = constants;
+const { Locales } = constants;
 
 const emptyMenuData = defaultLanguage => ({
   published: false,
@@ -29,7 +29,7 @@ const SectionHeader = props => {
 
   const {
     Labels: { Sections: SectionLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   return (
     <Toolbar className={classes.toolbar}>

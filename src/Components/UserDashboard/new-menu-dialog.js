@@ -18,10 +18,10 @@ import useMenuStyles from '../MenuEditor/styles';
 const NewMenuDialog = props => {
   const { ui } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locale } = constants;
+  const { Locales } = constants;
   const {
     Labels: { Actions: ActionsLabels, Menu: MenuLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const onChangeValueHandler = useCallback(
     event => {

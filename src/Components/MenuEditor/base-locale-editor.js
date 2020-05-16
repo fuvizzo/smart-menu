@@ -6,7 +6,7 @@ import constants from '../../Constants/index';
 import useStyles from '../Common/styles';
 import TextField from '@material-ui/core/TextField';
 
-const { Locale } = constants;
+const { Locales } = constants;
 const LocaleEditor = props => {
   const {
     lang,
@@ -18,7 +18,7 @@ const LocaleEditor = props => {
   } = props;
   const {
     Labels: { FormValidationErrors: FormValidationErrorsLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
   const classes = useStyles();
 
   return (

@@ -17,7 +17,7 @@ export default {
     DELETE_MENU: 'DELETE_MENU',
     DELETE_MENU_ITEM_LOCALE: 'DELETE_MENU_ITEM_LOCALE',
   },
-  Locale: {
+  Locales: {
     en: {
       DISH_TYPES: [
         'Starters',

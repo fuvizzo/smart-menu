@@ -30,7 +30,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-const { ConfirmationActions, Locale, SupportedLanguages } = constants;
+const { ConfirmationActions, Locales, SupportedLanguages } = constants;
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -109,7 +109,7 @@ const LanguageTabsPanel = props => {
   const {
     Languages,
     Labels: { Actions: ActionsLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const locales = data.locales;
 

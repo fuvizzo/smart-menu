@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import constants from '../../Constants/index';
 import useMenuStyles from '../MenuEditor/styles';
-const { Locale } = constants;
+const { Locales } = constants;
 
 const SectionHeader = props => {
   const { defaultLanguage } = props;
@@ -13,7 +13,7 @@ const SectionHeader = props => {
 
   const {
     Labels: { Sections: SectionLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   return (
     <Toolbar className={classes.toolbar}>

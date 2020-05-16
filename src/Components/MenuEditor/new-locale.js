@@ -10,7 +10,7 @@ import useCommonStyles from '../Common/styles';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import constants from '../../Constants/index';
-const { Locale } = constants;
+const { Locales } = constants;
 
 const createChildrenWithProps = (children, props) =>
   Children.map(children, child => {
@@ -36,7 +36,7 @@ const NewLocaleForm = props => {
 
   const {
     Labels: { Actions: ActionsLabels, Menu: MenuLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
   const onChangeLangValue = event => {
     event.currentTarget.name = event.target.name;
     const lang = event.target.value;
@@ -63,7 +63,7 @@ const NewLocaleForm = props => {
             {availableLanguages.map((lang, index) => {
               return (
                 <MenuItem key={index} value={lang}>
-                  {Locale[defaultLanguage].Languages[lang]}
+                  {Locales[defaultLanguage].Languages[lang]}
                 </MenuItem>
               );
             })}

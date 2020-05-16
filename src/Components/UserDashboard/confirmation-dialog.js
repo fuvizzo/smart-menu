@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import constants from '../../Constants/index';
 import { DialogActions, DialogTitle, DialogContent } from '../Common';
 
-const { Locale } = constants;
+const { Locales } = constants;
 const ConfirmationDialog = props => {
   const { onConfirm, open, handleClose, defaultLanguage, data, action } = props;
-  const dialogInfo = Locale[defaultLanguage].ConfirmationActions[action];
+  const dialogInfo = Locales[defaultLanguage].ConfirmationActions[action];
   return (
     <Dialog
       onClose={handleClose}
@@ -25,7 +25,7 @@ const ConfirmationDialog = props => {
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose} color="primary">
-          {Locale[defaultLanguage].Labels.Actions.CANCEL}
+          {Locales[defaultLanguage].Labels.Actions.CANCEL}
         </Button>
         <Button
           autoFocus
@@ -35,7 +35,7 @@ const ConfirmationDialog = props => {
           }}
           color="primary"
         >
-          {Locale[defaultLanguage].Labels.Actions.PROCEED}
+          {Locales[defaultLanguage].Labels.Actions.PROCEED}
         </Button>
       </DialogActions>
     </Dialog>

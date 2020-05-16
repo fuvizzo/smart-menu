@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import { Link as RouterLink } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import constants from '../../Constants/index';
-const { Locale } = constants;
+const { Locales } = constants;
 
 const LeftMenu = props => {
   const { defaultLanguage } = props;
@@ -23,7 +23,7 @@ const LeftMenu = props => {
 
   const {
     Labels: { Sections: SectionLabels, Actions: ActionsLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   return (
     <div>

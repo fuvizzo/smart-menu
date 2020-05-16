@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useStyles from './../styles';
 import useCommonStyles from '../../Common/styles';
 
-const { Locale } = constants;
+const { Locales } = constants;
 
 const LocaleTabView = props => {
   const {
@@ -26,7 +26,7 @@ const LocaleTabView = props => {
   const classes = useStyles();
   const {
     Labels: { Menu: MenuLabels, Warnings: WarningMessages },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   return (
     <>

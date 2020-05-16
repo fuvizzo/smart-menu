@@ -8,12 +8,12 @@ import BaseLocaleEditor from '../base-locale-editor';
 import constants from '../../../Constants/index';
 import useStyles from '../../Common/styles';
 
-const { Locale } = constants;
+const { Locales } = constants;
 const LocaleEditor = props => {
   const { lang, defaultLanguage, onChangeValue, data } = props;
   const {
     Labels: { Menu: MenuLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
   const classes = useStyles();
 
   return (

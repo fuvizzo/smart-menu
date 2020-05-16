@@ -73,7 +73,7 @@ const MenuItemsEditor = props => {
   const defaultLanguage = ui.settings.defaultLanguage;
   const {
     RegexExpressions,
-    Locale,
+    Locales,
     DishTypesColorMap,
     ConfirmationActions,
   } = constants;
@@ -88,7 +88,7 @@ const MenuItemsEditor = props => {
       Hints: HintLabels,
     },
     DISH_TYPES: DishTypes,
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const languageTabsPanelClickHandler = (event, menuItemId) => {
     const expanded = ui.languageTabsPanel.expanded;

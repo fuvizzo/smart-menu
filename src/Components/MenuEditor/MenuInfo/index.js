@@ -64,7 +64,7 @@ const MenuInfoEditor = props => {
   } = props;
 
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locale, RegexExpressions } = constants;
+  const { Locales, RegexExpressions } = constants;
 
   const {
     Labels: {
@@ -74,7 +74,7 @@ const MenuInfoEditor = props => {
       Warnings: WarningMessages,
       FormValidationErrors: FormValidationErrorsLabels,
     },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const data = menu.info;
   const languageTabExpanded = ui.languageTabsPanel.expanded;

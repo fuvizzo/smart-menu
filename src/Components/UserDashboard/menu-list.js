@@ -38,7 +38,7 @@ import {
 } from '../../Actions/menu-actions';
 import useStyles from './styles';
 
-const { ConfirmationActions, Locale } = constants;
+const { ConfirmationActions, Locales } = constants;
 
 const MenuList = props => {
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
@@ -58,7 +58,7 @@ const MenuList = props => {
       Menu: MenuLabels,
       Warnings: WarningMessages,
     },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const menuActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
   const menuActionsPopoverId = menuActionsPopoverOpen

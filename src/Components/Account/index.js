@@ -18,7 +18,7 @@ import * as uiActions from '../../Actions/ui-actions';
 
 import useCommonStyles from '../Common/styles';
 
-const { Locale } = constants;
+const { Locales } = constants;
 const Account = props => {
   const { ui } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
@@ -27,7 +27,7 @@ const Account = props => {
     Labels: { Actions: ActionsLabels, Account: AccountLabels },
     Languages,
     DEFAULT_LANGUAGE,
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
   const commonClasses = useCommonStyles();
   return (
     <Box p={2}>

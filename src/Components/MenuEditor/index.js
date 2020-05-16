@@ -30,10 +30,10 @@ const MenuEditor = props => {
     setMenuEditorTabsPanelIndex,
   } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locale } = constants;
+  const { Locales } = constants;
   const {
     Labels: { Menu: MenuLabels },
-  } = Locale[defaultLanguage];
+  } = Locales[defaultLanguage];
 
   const menu = menus[menuId];
 
