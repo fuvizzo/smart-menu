@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
 import LocaleEditor from './locale-editor';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import Typography from '@material-ui/core/Typography';
 
 import { DialogActions, DialogTitle, DialogContent } from '../../Common';
 
@@ -75,7 +76,9 @@ const NewMenuItemDialog = props => {
           id="new-menu-item-dialog-title"
           onClose={props.disableInsertMode}
         >
-          {ActionsLabels.ADD_NEW_MENU_ITEM}
+          <Typography color="secondary">
+            {ActionsLabels.ADD_NEW_MENU_ITEM}
+          </Typography>
         </DialogTitle>
         <ValidatorForm
           onSubmit={createNewMenuItemCallback}
@@ -135,7 +138,7 @@ const NewMenuItemDialog = props => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button type="submit" autoFocus color="primary">
+            <Button type="submit" autoFocus color="primary" variant="contained">
               {ActionsLabels.PROCEED}
             </Button>
           </DialogActions>

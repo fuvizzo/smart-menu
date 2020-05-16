@@ -357,6 +357,7 @@ const MenuItemsEditor = props => {
                     </Box>
                     <CardActions disableSpacing>
                       <Button
+                        color="secondary"
                         className={clsx(dashboardClasses.expand, {
                           [dashboardClasses.expandOpen]: languageTabExpanded,
                         })}
