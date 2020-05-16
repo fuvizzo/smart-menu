@@ -32,7 +32,7 @@ export default makeStyles(theme => ({
     backgroundColor: red[500],
   },
   descriptionParagraph: {
-    maxHeight: 150,
+    height: 70,
     paddingBottom: 10,
     fontSize: 12,
   },

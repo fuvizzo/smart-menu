@@ -7,10 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import { enableInsertMode } from '../../Actions/ui-actions';
 import Toolbar from '@material-ui/core/Toolbar';
 import useMenuStyles from '../MenuEditor/styles';
+import NewMenuDialog from './new-menu-dialog';
 const { Locale } = constants;
 
 const emptyMenuData = defaultLanguage => ({
   published: false,
+  items: {},
   info: {
     locales: {
       [defaultLanguage]: {
@@ -40,14 +42,13 @@ const SectionHeader = props => {
         color="inherit"
         onClick={() =>
           props.enableInsertMode({
-            // id: userId,
             value: emptyMenuData(defaultLanguage),
           })
         }
       >
         <AddCircleOutlineIcon />
       </IconButton>
-      {/*   <NewMenuDialog /> */}
+      <NewMenuDialog />
     </Toolbar>
   );
 };

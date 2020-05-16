@@ -101,6 +101,7 @@ const MenuItemsEditor = props => {
 
   const deleteMenuItemHandler = useCallback(async menuItemId => {
     await deleteMenuItem(menuId, menuItemId);
+    closeConfirmationDialog();
   }, []);
 
   const updateMenuItemHandler = useCallback(async () => {
@@ -163,10 +164,7 @@ const MenuItemsEditor = props => {
           action={ConfirmationActions.DELETE_MENU_ITEM}
           data={ui.confirmationDialog.data.value.locales[defaultLanguage].name}
           handleClose={() => closeConfirmationDialog()}
-          onConfirm={() => {
-            deleteMenuItemHandler(ui.confirmationDialog.data.id);
-            closeConfirmationDialog();
-          }}
+          onConfirm={() => deleteMenuItemHandler(ui.confirmationDialog.data.id)}
         />
       )}
       <MenuItemActions

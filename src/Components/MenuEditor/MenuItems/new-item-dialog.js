@@ -51,18 +51,12 @@ const NewMenuItemDialog = props => {
     [ui.insertMode.data]
   );
 
-  const createNewMenuItemCallback = useCallback(async () => {
-    if (
-      ui.insertMode.data.value.category !== '' &&
-      ui.insertMode.data.value.locales[defaultLanguage].name &&
-      (ui.insertMode.data.setMenu || ui.insertMode.data.value.price)
-    ) {
-      await props.createNewMenuItem(
-        ui.insertMode.data.id,
-        ui.insertMode.data.value
-      );
-      props.disableInsertMode();
-    }
+  const createNewMenuItemHandler = useCallback(async () => {
+    await props.createNewMenuItem(
+      ui.insertMode.data.id,
+      ui.insertMode.data.value
+    );
+    props.disableInsertMode();
   }, [ui.insertMode.data.id, ui.insertMode.data]);
   return (
     ui.insertMode.enabled &&
@@ -81,7 +75,7 @@ const NewMenuItemDialog = props => {
           </Typography>
         </DialogTitle>
         <ValidatorForm
-          onSubmit={createNewMenuItemCallback}
+          onSubmit={createNewMenuItemHandler}
           onError={errors => console.log(errors)}
         >
           <DialogContent dividers>
@@ -89,6 +83,7 @@ const NewMenuItemDialog = props => {
               <FormControl className={commonClasses.formControl}>
                 <TextValidator
                   select
+                  value={ui.insertMode.data.value.category}
                   validators={['required']}
                   errorMessages={FormValidationErrorsLabels.REQUIRED}
                   className={commonClasses.selectField}

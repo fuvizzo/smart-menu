@@ -31,7 +31,11 @@ import { isEmpty } from 'lodash';
 import Truncate from 'react-truncate';
 
 import * as uiActions from '../../Actions/ui-actions';
-import { getMenus, togglePublishedStatus } from '../../Actions/menu-actions';
+import {
+  getMenus,
+  deleteMenu,
+  togglePublishedStatus,
+} from '../../Actions/menu-actions';
 import useStyles from './styles';
 
 const { ConfirmationActions, Locale } = constants;
@@ -49,7 +53,11 @@ const MenuList = props => {
   const defaultLanguage = ui.settings.defaultLanguage;
   const classes = useStyles();
   const {
-    Labels: { Actions: ActionsLabels, Menu: MenuLabels },
+    Labels: {
+      Actions: ActionsLabels,
+      Menu: MenuLabels,
+      Warnings: WarningMessages,
+    },
   } = Locale[defaultLanguage];
 
   const menuActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
@@ -57,7 +65,7 @@ const MenuList = props => {
     ? 'menu-actions-popover'
     : undefined;
 
-  const handleMenuActionsClick = useCallback(
+  const menuActionsClickHandler = useCallback(
     (event, key) => {
       if (!menuActionsPopoverOpen) {
         setActionPopoverAnchorEl(event.currentTarget);
@@ -71,6 +79,11 @@ const MenuList = props => {
     },
     [ui.actionsPopover.menuId]
   );
+
+  const deleteMenuHandler = useCallback(async menuId => {
+    await props.deleteMenu(menuId);
+    closeConfirmationDialog();
+  }, []);
 
   useEffect(() => {
     props.getMenus();
@@ -92,18 +105,14 @@ const MenuList = props => {
             !isEmpty(ui.confirmationDialog.data) &&
             ui.confirmationDialog.data.value.locales[defaultLanguage].name
           }
-          handleClose={() =>
-            closeConfirmationDialog({ open: false, data: null })
-          }
-          onConfirm={() => {
-            console.log('Action confirmed');
-          }}
+          handleClose={closeConfirmationDialog}
+          onConfirm={() => deleteMenuHandler(ui.confirmationDialog.data.id)}
         />
         <MenuActions
           id={menuActionsPopoverId}
           open={menuActionsPopoverOpen}
           anchorEl={actionPopoverAnchorEl}
-          handleClose={handleMenuActionsClick}
+          handleClose={menuActionsClickHandler}
         >
           <ListItem
             aria-label="edit"
@@ -158,7 +167,7 @@ const MenuList = props => {
                   action={
                     <IconButton
                       aria-describedby={menuActionsPopoverId}
-                      onClick={event => handleMenuActionsClick(event, key)}
+                      onClick={event => menuActionsClickHandler(event, key)}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -191,7 +200,10 @@ const MenuList = props => {
                     className={classes.descriptionParagraph}
                   >
                     <Truncate lines={4} ellipsis="...">
-                      {menu.info.locales[defaultLanguage].description}
+                      {menu.info.locales[defaultLanguage].description ||
+                        WarningMessages.getMissingFieldDetailedMessage(
+                          MenuLabels.DESCRIPTION
+                        )}
                     </Truncate>
                   </Typography>
                 </CardContent>
@@ -237,6 +249,8 @@ export default connect(mapStateToProps, {
   ...uiActions,
   ...{
     getMenus,
+    deleteMenu,
+    //createNewMenu,
     togglePublishedStatus,
   },
 })(MenuList);

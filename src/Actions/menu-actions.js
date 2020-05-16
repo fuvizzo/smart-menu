@@ -1,17 +1,4 @@
-import {
-  GET_PUBLISHED_MENU,
-  TOGGLE_PUBLISHED,
-  SORT_MENU,
-  GET_MENUS,
-  CREATE_NEW_MENU_ITEM,
-  DELETE_MENU_ITEM,
-  UPDATE_MENU_ITEM,
-  CREATE_NEW_MENU_ITEM_LOCALE,
-  DELETE_MENU_ITEM_LOCALE,
-  UPDATE_MENU_INFO,
-  CREATE_NEW_MENU_INFO_LOCALE,
-  DELETE_MENU_INFO_LOCALE,
-} from '../Constants/menu-action-types';
+import * as MenuActions from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
 
 import { v1 as uuidv1 } from 'uuid';
@@ -28,7 +15,7 @@ export const getMenus = () => {
     try {
       const results = await firebaseService.read(path);
       const data = results.val();
-      dispatch({ type: GET_MENUS, payload: data });
+      dispatch({ type: MenuActions.GET_MENUS, payload: data });
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +29,7 @@ export const getPublishedMenu = (userId, menuId) => {
       const results = await firebaseService.read(path);
       const data = results.val();
 
-      dispatch({ type: GET_PUBLISHED_MENU, payload: data });
+      dispatch({ type: MenuActions.GET_PUBLISHED_MENU, payload: data });
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +47,7 @@ export const togglePublishedStatus = (menuId, published) => {
     try {
       await firebaseService.update(data);
       dispatch({
-        type: TOGGLE_PUBLISHED,
+        type: MenuActions.TOGGLE_PUBLISHED,
         payload: { menuId },
       });
     } catch (error) {
@@ -70,7 +57,45 @@ export const togglePublishedStatus = (menuId, published) => {
 };
 
 export const sortMenu = menuId => {
-  return { type: SORT_MENU, payload: menuId };
+  return { type: MenuActions.SORT_MENU, payload: menuId };
+};
+
+export const createNewMenu = body => {
+  return async (dispatch, getState) => {
+    const userId = getState().user.userId;
+    const menuId = uuidv1();
+    const path = `${userMenusPath(userId)}/${menuId}`;
+    const data = {
+      path,
+      body,
+    };
+    try {
+      await firebaseService.create(data);
+      dispatch({
+        type: MenuActions.CREATE_MENU,
+        payload: { menuId, value: body },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteMenu = menuId => {
+  return async (dispatch, getState) => {
+    const userId = getState().user.userId;
+    const path = `${userMenusPath(userId)}/${menuId}`;
+
+    try {
+      await firebaseService.delete(path);
+      dispatch({
+        type: MenuActions.DELETE_MENU,
+        payload: { menuId },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const createNewMenuItem = (menuId, body) => {
@@ -86,7 +111,7 @@ export const createNewMenuItem = (menuId, body) => {
     try {
       await firebaseService.create(data);
       dispatch({
-        type: CREATE_NEW_MENU_ITEM,
+        type: MenuActions.CREATE_NEW_MENU_ITEM,
         payload: { menuId, menuItemId, value: body },
       });
     } catch (error) {
@@ -102,7 +127,10 @@ export const deleteMenuItem = (menuId, menuItemId) => {
 
     try {
       await firebaseService.delete(path);
-      dispatch({ type: DELETE_MENU_ITEM, payload: { menuId, menuItemId } });
+      dispatch({
+        type: MenuActions.DELETE_MENU_ITEM,
+        payload: { menuId, menuItemId },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +149,7 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
     try {
       await firebaseService.update(data);
       dispatch({
-        type: UPDATE_MENU_ITEM,
+        type: MenuActions.UPDATE_MENU_ITEM,
         payload: { menuId, menuItemId, value: body },
       });
     } catch (error) {
@@ -145,7 +173,7 @@ export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
     try {
       await firebaseService.create(data);
       dispatch({
-        type: CREATE_NEW_MENU_ITEM_LOCALE,
+        type: MenuActions.CREATE_NEW_MENU_ITEM_LOCALE,
         payload: {
           menuId,
           menuItemId,
@@ -170,7 +198,7 @@ export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
       await firebaseService.delete(path);
 
       dispatch({
-        type: DELETE_MENU_ITEM_LOCALE,
+        type: MenuActions.DELETE_MENU_ITEM_LOCALE,
         payload: {
           menuId,
           menuItemId,
@@ -198,7 +226,7 @@ export const createNewLocaleMenuInfo = (menuId, body) => {
     try {
       await firebaseService.create(data);
       dispatch({
-        type: CREATE_NEW_MENU_INFO_LOCALE,
+        type: MenuActions.CREATE_NEW_MENU_INFO_LOCALE,
         payload: {
           menuId,
           data: localeData,
@@ -223,7 +251,7 @@ export const updateMenuInfo = (menuId, body) => {
     try {
       await firebaseService.update(data);
       dispatch({
-        type: UPDATE_MENU_INFO,
+        type: MenuActions.UPDATE_MENU_INFO,
         payload: { menuId, value: body },
       });
     } catch (error) {
@@ -243,7 +271,7 @@ export const deleteMenuInfoLocale = (menuId, lang) => {
       await firebaseService.delete(path);
 
       dispatch({
-        type: DELETE_MENU_INFO_LOCALE,
+        type: MenuActions.DELETE_MENU_INFO_LOCALE,
         payload: {
           menuId,
           lang,

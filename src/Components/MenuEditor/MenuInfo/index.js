@@ -7,9 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -19,14 +17,10 @@ import Box from '@material-ui/core/Box';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import FormControl from '@material-ui/core/FormControl';
-import ConfirmationDialog from '../../UserDashboard/confirmation-dialog';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
 import { cloneDeep } from 'lodash';
 import LocaleEditor from '../base-locale-editor';
-import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
 import MenuInfoActions from '../../UserDashboard/popover-actions';
@@ -97,7 +91,7 @@ const MenuInfoEditor = props => {
     await deleteMenuInfoLocale(menuId, lang);
   }, []);
 
-  const languageTabsPanelClickHandler = (event, menuItemId) => {
+  const languageTabsPanelClickHandler = () => {
     disableInsertMode();
     if (languageTabExpanded) {
       collapseLanguageTabsPanel();
@@ -123,7 +117,7 @@ const MenuInfoEditor = props => {
   );
 
   const menuInfoActionsClickHandler = useCallback(
-    (event, key) => {
+    event => {
       if (menuInfoActionsPopoverOpen) {
         setActionPopoverAnchorEl(null);
         hideActionsPopover();

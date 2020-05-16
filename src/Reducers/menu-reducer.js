@@ -12,6 +12,12 @@ function menuReducer(state = initialState, action) {
         const menuItems = menus[action.payload].items;
         menus[action.payload].items = sort(menuItems);
         return menus;
+      case MenuActions.CREATE_MENU:
+        menus[action.payload.menuId] = action.payload.value;
+        return menus;
+      case MenuActions.DELETE_MENU:
+        delete menus[action.payload.menuId];
+        return menus;
       case MenuActions.CREATE_NEW_MENU_ITEM:
         menus[action.payload.menuId].items[action.payload.menuItemId] =
           action.payload.value;

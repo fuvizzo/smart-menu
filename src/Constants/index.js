@@ -68,6 +68,8 @@ export default {
         },
         Warnings: {
           MISSING_FIELD: "This field hasn't been filled up",
+          getMissingFieldDetailedMessage: fieldName =>
+            `This field '${fieldName}' hasn't been filled up `,
         },
 
         Account: {
@@ -85,6 +87,7 @@ export default {
           SIGN_UP: 'Register',
           SIGN_OUT: 'Logout',
           ADD_NEW_MENU_ITEM: ' Add a new menu item',
+          ADD_NEW_MENU: 'Add a new menu',
         },
       },
       ConfirmationActions: {
