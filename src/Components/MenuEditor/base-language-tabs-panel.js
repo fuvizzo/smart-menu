@@ -131,7 +131,7 @@ const LanguageTabsPanel = props => {
       },
       true
     );
-  }, [ui.editMode.enabled]);
+  }, [ui.editMode.data]);
 
   const onDeleteClickHandler = useCallback(() => {
     hideActionsPopover();
@@ -172,7 +172,7 @@ const LanguageTabsPanel = props => {
         );
       }
     },
-    [ui.insertMode.enabled]
+    [ui.insertMode.data]
   );
 
   const handleChange = (event, newValue) => {
