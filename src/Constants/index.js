@@ -50,6 +50,7 @@ export default {
           SET_MENU: 'Set menu',
           DISH_NAME: 'Dish name',
           MENU_NAME: 'Menu name',
+          EMPTY_MENU: "The current menu doesn't have any items yet",
           CATEGORY: 'Category',
           DESCRIPTION: 'Description',
           PRICE: 'Price (€)',
@@ -71,7 +72,10 @@ export default {
           getMissingFieldDetailedMessage: fieldName =>
             `This field '${fieldName}' hasn't been filled up `,
         },
-
+        Hints: {
+          ADD_MENU_ITEM:
+            'Start adding menu items by using the plus icon button in the upper right part of the screen',
+        },
         Account: {
           ACCOUNT_OWNER: 'Account owner',
         },

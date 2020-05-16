@@ -19,4 +19,12 @@ export default makeStyles(theme => ({
   priceField: {
     maxWidth: 130,
   },
+  emptyMenu: {
+    height: 250,
+    display: 'flex',
+    alignItems: 'center',
+    '& > *': {
+      flex: 1,
+    },
+  },
 }));

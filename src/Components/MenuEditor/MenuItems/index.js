@@ -85,6 +85,7 @@ const MenuItemsEditor = props => {
       Common: CommonLabels,
       Warnings: WarningMessages,
       FormValidationErrors: FormValidationErrorsLabels,
+      Hints: HintLabels,
     },
     DISH_TYPES: DishTypes,
   } = Locale[defaultLanguage];
@@ -150,6 +151,8 @@ const MenuItemsEditor = props => {
     disableInsertMode();
   }, []);
 
+  const menuItemKeys = Object.keys(menu.items);
+
   return (
     <Grid
       container
@@ -210,187 +213,207 @@ const MenuItemsEditor = props => {
           <ListItemText primary={ActionsLabels.DELETE} />
         </ListItem>
       </MenuItemActions>
+      {menuItemKeys.length === 0 ? (
+        <Grid item xs={12}>
+          <Card width={1} elevation={2} className={menuClasses.emptyMenu}>
+            <Box pt={2}>
+              <Typography color="textPrimary" align="center">
+                {MenuLabels.EMPTY_MENU}
+              </Typography>
 
-      {Object.keys(menu.items).map(key => {
-        const data = menu.items[key];
-        const languageTabExpanded =
-          ui.languageTabsPanel.expanded && ui.languageTabsPanel.itemId === key;
+              <Typography color="textSecondary" align="center">
+                {HintLabels.ADD_MENU_ITEM}
+              </Typography>
+            </Box>
+          </Card>
+        </Grid>
+      ) : (
+        menuItemKeys.map(key => {
+          const data = menu.items[key];
+          const languageTabExpanded =
+            ui.languageTabsPanel.expanded &&
+            ui.languageTabsPanel.itemId === key;
 
-        const showMenuItemEditForm =
-          ui.editMode.enabled &&
-          ui.editMode.data.id === key &&
-          !ui.editMode.childItem;
-        return (
-          <Grid item xs={12} key={key}>
-            <Card width={1} elevation={2}>
-              {showMenuItemEditForm ? (
-                <ValidatorForm
-                  onSubmit={updateMenuItemHandler}
-                  onError={errors => console.log(errors)}
-                >
-                  <Box p={2}>
-                    <FormControl className={commonClasses.formControl}>
-                      <TextField
-                        select
-                        className={commonClasses.selectField}
-                        label={MenuLabels.CATEGORY}
-                        name="category"
-                        onChange={event => {
-                          event.currentTarget.name = event.target.name;
-                          onChangeValueHandler(event);
-                        }}
-                        value={ui.editMode.data.value.category}
-                      >
-                        {DishTypes.map((dishType, index) => {
+          const showMenuItemEditForm =
+            ui.editMode.enabled &&
+            ui.editMode.data.id === key &&
+            !ui.editMode.childItem;
+          return (
+            <Grid item xs={12} key={key}>
+              <Card width={1} elevation={2}>
+                {showMenuItemEditForm ? (
+                  <ValidatorForm
+                    onSubmit={updateMenuItemHandler}
+                    onError={errors => console.log(errors)}
+                  >
+                    <Box p={2}>
+                      <FormControl className={commonClasses.formControl}>
+                        <TextField
+                          select
+                          className={commonClasses.selectField}
+                          label={MenuLabels.CATEGORY}
+                          name="category"
+                          onChange={event => {
+                            event.currentTarget.name = event.target.name;
+                            onChangeValueHandler(event);
+                          }}
+                          value={ui.editMode.data.value.category}
+                        >
+                          {DishTypes.map((dishType, index) => {
+                            return (
+                              <MenuItem key={index} value={index}>
+                                {dishType}
+                              </MenuItem>
+                            );
+                          })}
+                        </TextField>
+                      </FormControl>
+                      {!menu.info.setMenu && (
+                        <FormControl className={commonClasses.formControl}>
+                          <TextValidator
+                            className={clsx(
+                              commonClasses.textField,
+                              menuClasses.priceField
+                            )}
+                            label={MenuLabels.PRICE}
+                            validators={[
+                              'required',
+                              `matchRegexp:${RegexExpressions.EURO}`,
+                            ]}
+                            errorMessages={[
+                              FormValidationErrorsLabels.REQUIRED,
+                              FormValidationErrorsLabels.CURRENCY,
+                            ]}
+                            name="price"
+                            onChange={onChangeValueHandler}
+                            value={ui.editMode.data.value.price}
+                          />
+                        </FormControl>
+                      )}
+                      {Object.keys(ui.editMode.data.value.locales)
+                        .filter(lang => lang === defaultLanguage)
+                        .map((lang, index) => {
+                          const locale = ui.editMode.data.value.locales[lang];
                           return (
-                            <MenuItem key={index} value={index}>
-                              {dishType}
-                            </MenuItem>
+                            <LocaleEditor
+                              key={index}
+                              lang={lang}
+                              data={locale}
+                              onChangeValue={onChangeValueHandler}
+                            />
                           );
                         })}
-                      </TextField>
-                    </FormControl>
-                    {!menu.info.setMenu && (
-                      <FormControl className={commonClasses.formControl}>
-                        <TextValidator
-                          className={clsx(
-                            commonClasses.textField,
-                            menuClasses.priceField
-                          )}
-                          label={MenuLabels.PRICE}
-                          validators={[
-                            'required',
-                            `matchRegexp:${RegexExpressions.EURO}`,
-                          ]}
-                          errorMessages={[
-                            FormValidationErrorsLabels.REQUIRED,
-                            FormValidationErrorsLabels.CURRENCY,
-                          ]}
-                          name="price"
-                          onChange={onChangeValueHandler}
-                          value={ui.editMode.data.value.price}
-                        />
-                      </FormControl>
-                    )}
-                    {Object.keys(ui.editMode.data.value.locales)
-                      .filter(lang => lang === defaultLanguage)
-                      .map((lang, index) => {
-                        const locale = ui.editMode.data.value.locales[lang];
-                        return (
-                          <LocaleEditor
-                            key={index}
-                            lang={lang}
-                            data={locale}
-                            onChangeValue={onChangeValueHandler}
-                          />
-                        );
-                      })}
-                    <Box className={commonClasses.buttonBar}>
-                      <Button variant="contained" onClick={disableEditMode}>
-                        {ActionsLabels.CANCEL}
-                      </Button>
-                      <Button variant="contained" color="primary" type="submit">
-                        {ActionsLabels.APPLY_CHANGES}
-                      </Button>
+                      <Box className={commonClasses.buttonBar}>
+                        <Button variant="contained" onClick={disableEditMode}>
+                          {ActionsLabels.CANCEL}
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                        >
+                          {ActionsLabels.APPLY_CHANGES}
+                        </Button>
+                      </Box>
                     </Box>
-                  </Box>
-                </ValidatorForm>
-              ) : (
-                <>
-                  <CardHeader
-                    className={dashboardClasses.header}
-                    avatar={
-                      <Avatar
-                        aria-label="recipe"
-                        style={{
-                          backgroundColor: DishTypesColorMap[data.category],
-                        }}
-                      >
-                        {DishTypes[data.category].substr(0, 1)}
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton
-                        aria-describedby={menuItemActionsPopoverId}
-                        onClick={event =>
-                          menuItemActionsClickHandler(event, key)
-                        }
-                      >
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={data.locales[defaultLanguage].name}
-                    subheader={!menu.info.setMenu && `${data.price}€`}
-                  />
-                  <CardContent className={menuClasses.cardContent}>
-                    <Box>
-                      <Typography
-                        className={commonClasses.label}
-                        color="textSecondary"
-                        variant="h3"
-                      >
-                        {MenuLabels.DESCRIPTION}
-                      </Typography>
-                    </Box>
-                    <Box mt={0.5}>
-                      <Typography>
-                        {data.locales[defaultLanguage].description ||
-                          WarningMessages.MISSING_FIELD}
-                      </Typography>
-                    </Box>
-                    <Box mt={2}>
-                      <Typography
-                        className={commonClasses.label}
-                        color="textSecondary"
-                        variant="h3"
-                      >
-                        {MenuLabels.INGREDIENTS_LIST}
-                      </Typography>
-                    </Box>
-                    <Box mt={0.5}>
-                      <Typography>
-                        {data.locales[defaultLanguage].ingredients ||
-                          WarningMessages.MISSING_FIELD}
-                      </Typography>
-                    </Box>
-                    <CardActions disableSpacing>
-                      <Button
-                        color="secondary"
-                        className={clsx(dashboardClasses.expand, {
-                          [dashboardClasses.expandOpen]: languageTabExpanded,
-                        })}
-                        onClick={event =>
-                          languageTabsPanelClickHandler(event, key)
-                        }
-                        aria-expanded={languageTabExpanded}
-                        aria-label="show more"
-                        endIcon={<ExpandMoreIcon />}
-                      >
-                        {!languageTabExpanded &&
-                          CommonLabels.SHOW_OTHER_LANGUAGES.toUpperCase()}
-                      </Button>
-                    </CardActions>
-                  </CardContent>
-                  <Collapse
-                    in={languageTabExpanded}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <LanguageTabsPanel
-                      id={key}
-                      data={menu.items[key]}
-                      createNewLocale={createNewLocaleHandler}
-                      updateData={updateMenuItemHandler}
-                      deleteLocale={deleteLocaleHandler}
-                      onChangeValue={onChangeValueHandler}
+                  </ValidatorForm>
+                ) : (
+                  <>
+                    <CardHeader
+                      className={dashboardClasses.header}
+                      avatar={
+                        <Avatar
+                          aria-label="recipe"
+                          style={{
+                            backgroundColor: DishTypesColorMap[data.category],
+                          }}
+                        >
+                          {DishTypes[data.category].substr(0, 1)}
+                        </Avatar>
+                      }
+                      action={
+                        <IconButton
+                          aria-describedby={menuItemActionsPopoverId}
+                          onClick={event =>
+                            menuItemActionsClickHandler(event, key)
+                          }
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                      }
+                      title={data.locales[defaultLanguage].name}
+                      subheader={!menu.info.setMenu && `${data.price}€`}
                     />
-                  </Collapse>
-                </>
-              )}
-            </Card>
-          </Grid>
-        );
-      })}
+                    <CardContent className={menuClasses.cardContent}>
+                      <Box>
+                        <Typography
+                          className={commonClasses.label}
+                          color="textSecondary"
+                          variant="h3"
+                        >
+                          {MenuLabels.DESCRIPTION}
+                        </Typography>
+                      </Box>
+                      <Box mt={0.5}>
+                        <Typography>
+                          {data.locales[defaultLanguage].description ||
+                            WarningMessages.MISSING_FIELD}
+                        </Typography>
+                      </Box>
+                      <Box mt={2}>
+                        <Typography
+                          className={commonClasses.label}
+                          color="textSecondary"
+                          variant="h3"
+                        >
+                          {MenuLabels.INGREDIENTS_LIST}
+                        </Typography>
+                      </Box>
+                      <Box mt={0.5}>
+                        <Typography>
+                          {data.locales[defaultLanguage].ingredients ||
+                            WarningMessages.MISSING_FIELD}
+                        </Typography>
+                      </Box>
+                      <CardActions disableSpacing>
+                        <Button
+                          color="secondary"
+                          className={clsx(dashboardClasses.expand, {
+                            [dashboardClasses.expandOpen]: languageTabExpanded,
+                          })}
+                          onClick={event =>
+                            languageTabsPanelClickHandler(event, key)
+                          }
+                          aria-expanded={languageTabExpanded}
+                          aria-label="show more"
+                          endIcon={<ExpandMoreIcon />}
+                        >
+                          {!languageTabExpanded &&
+                            CommonLabels.SHOW_OTHER_LANGUAGES.toUpperCase()}
+                        </Button>
+                      </CardActions>
+                    </CardContent>
+                    <Collapse
+                      in={languageTabExpanded}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <LanguageTabsPanel
+                        id={key}
+                        data={menu.items[key]}
+                        createNewLocale={createNewLocaleHandler}
+                        updateData={updateMenuItemHandler}
+                        deleteLocale={deleteLocaleHandler}
+                        onChangeValue={onChangeValueHandler}
+                      />
+                    </Collapse>
+                  </>
+                )}
+              </Card>
+            </Grid>
+          );
+        })
+      )}
     </Grid>
   );
 };
