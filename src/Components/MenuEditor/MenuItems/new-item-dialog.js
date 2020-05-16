@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import clsx from 'clsx';
 import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
-import LocaleEditor from '../base-locale-editor';
+import LocaleEditor from './locale-editor';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 import { DialogActions, DialogTitle, DialogContent } from '../../Common';

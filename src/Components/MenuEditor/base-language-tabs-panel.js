@@ -43,13 +43,6 @@ const a11yProps = index => ({
   'aria-controls': `language-tabpanel-${index}`,
 });
 
-const emptyLocaleData = {
-  lang: '',
-  name: '',
-  description: '',
-  ingredients: '',
-};
-
 const TabLocaleEditor = props => {
   const commonClasses = useCommonStyles();
 
@@ -90,7 +83,7 @@ const LanguageTabsPanel = props => {
     ui,
     updateData,
     onChangeValue,
-
+    emptyLocaleData,
     showActionsPopover,
     hideActionsPopover,
     openConfirmationDialog,
@@ -134,11 +127,11 @@ const LanguageTabsPanel = props => {
     enableEditMode(
       {
         id,
-        value: cloneDeep(data),
+        value: data,
       },
       true
     );
-  }, [id]);
+  }, [ui.editMode.enabled]);
 
   const onDeleteClickHandler = useCallback(() => {
     hideActionsPopover();
@@ -150,7 +143,7 @@ const LanguageTabsPanel = props => {
       },
       true
     );
-  }, [id]);
+  }, [ui.actionsPopover.lang]);
 
   const handleLocaleActionsClick = useCallback(
     (event, lang) => {
@@ -179,7 +172,7 @@ const LanguageTabsPanel = props => {
         );
       }
     },
-    [ui.insertMode.data]
+    [ui.insertMode.enabled]
   );
 
   const handleChange = (event, newValue) => {
@@ -268,12 +261,10 @@ const LanguageTabsPanel = props => {
         <NewLocaleEditor
           data={ui.insertMode.data.value}
           onChangeValue={onChangeValue}
-          onCreateNewLocalInMenuItem={createNewLocale}
+          onCreateNewMenuItemLocale={createNewLocale}
           availableLanguages={availableLanguages}
         >
-          {createChildrenWithProps(children, {
-            data: ui.insertMode.data.value,
-          })}
+          {children}
         </NewLocaleEditor>
       ) : (
         Object.keys(locales)

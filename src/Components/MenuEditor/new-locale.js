@@ -25,7 +25,7 @@ const NewLocaleForm = props => {
     ui,
     availableLanguages,
     onChangeValue,
-    onCreateNewLocalInMenuItem,
+    onCreateNewMenuItemLocale,
     disableInsertMode,
     children,
   } = props;
@@ -47,7 +47,7 @@ const NewLocaleForm = props => {
 
   return (
     <ValidatorForm
-      onSubmit={onCreateNewLocalInMenuItem}
+      onSubmit={onCreateNewMenuItemLocale}
       onError={errors => console.log(errors)}
     >
       <Box p={3}>
@@ -71,8 +71,10 @@ const NewLocaleForm = props => {
         </FormControl>
 
         {createChildrenWithProps(children, {
+          data: ui.insertMode.data.value,
           lang,
         })}
+
         <Box className={commonClasses.buttonBar}>
           <Button variant="contained" onClick={disableInsertMode}>
             {ActionsLabels.CANCEL}

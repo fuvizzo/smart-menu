@@ -76,7 +76,7 @@ const LocaleTabView = props => {
         </Typography>
       </Box>
       <Box mt={0.5}>
-        <Typography>
+        <Typography variant="body2" color="textPrimary" component="p">
           {locale.ingredients || WarningMessages.MISSING_FIELD}
         </Typography>
       </Box>

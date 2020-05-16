@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+
+import BaseLocaleEditor from '../base-locale-editor';
+
 import constants from '../../../Constants/index';
 import useStyles from '../../Common/styles';
-import BaseLocaleEditor from '../base-locale-editor';
-import TextField from '@material-ui/core/TextField';
 
 const { Locale } = constants;
 const LocaleEditor = props => {

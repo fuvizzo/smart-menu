@@ -147,7 +147,6 @@ const MenuItemsEditor = props => {
   useEffect(() => {
     disableEditMode();
     disableInsertMode();
-    collapseLanguageTabsPanel();
   }, []);
 
   return (
@@ -272,9 +271,7 @@ const MenuItemsEditor = props => {
                     {Object.keys(ui.editMode.data.value.locales)
                       .filter(lang => lang === defaultLanguage)
                       .map((lang, index) => {
-                        const locale = cloneDeep(
-                          ui.editMode.data.value.locales[lang]
-                        );
+                        const locale = ui.editMode.data.value.locales[lang];
                         return (
                           <LocaleEditor
                             key={index}

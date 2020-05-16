@@ -140,7 +140,6 @@ const MenuInfoEditor = props => {
   useEffect(() => {
     disableEditMode();
     disableInsertMode();
-    collapseLanguageTabsPanel();
   }, []);
 
   return (

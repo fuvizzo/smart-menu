@@ -40,14 +40,18 @@ const MenuEditor = props => {
   useEffect(() => {
     disableEditMode();
     disableInsertMode();
-    collapseLanguageTabsPanel();
   }, []);
 
   return (
     <>
       <Tabs
         value={ui.menuEditorTabsPanel.index}
-        onChange={(event, value) => setMenuEditorTabsPanelIndex(value)}
+        onChange={(event, value) => {
+          if (ui.menuEditorTabsPanel.index !== value) {
+            collapseLanguageTabsPanel();
+            setMenuEditorTabsPanelIndex(value);
+          }
+        }}
         aria-label="menu editor tabs"
       >
         <Tab label={MenuLabels.ITEMS} {...a11yProps(0)} />

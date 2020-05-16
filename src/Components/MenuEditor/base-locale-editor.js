@@ -23,7 +23,7 @@ const LocaleEditor = props => {
 
   return (
     <>
-      <FormControl className={classes.formControl} error={!data.name}>
+      <FormControl className={classes.formControl}>
         <TextValidator
           className={classes.textField}
           label={labels.name}
