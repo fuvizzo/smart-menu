@@ -1,6 +1,9 @@
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
+  RegexExpressions: {
+    EURO: new RegExp(/^\d+(?:,\d{1,2})?$/).source,
+  },
   DishTypesColorMap: [
     '#36bff4',
     '#36f456',
@@ -12,7 +15,7 @@ export default {
   ConfirmationActions: {
     DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
     DELETE_MENU: 'DELETE_MENU',
-    DELETE_LOCALE_MENU_ITEM: 'DELETE_LOCALE_MENU_ITEM',
+    DELETE_MENU_ITEM_LOCALE: 'DELETE_MENU_ITEM_LOCALE',
   },
   Locale: {
     en: {
@@ -49,7 +52,7 @@ export default {
           MENU_NAME: 'Menu name',
           CATEGORY: 'Category',
           DESCRIPTION: 'Description',
-          PRICE: 'Price',
+          PRICE: 'Price (€)',
           LANGUAGE: 'Language',
           UNPUBLISHED: 'Unpublished',
           PUBLISHED: 'Published',
@@ -58,6 +61,7 @@ export default {
         },
         FormValidationErrors: {
           REQUIRED: 'This field is required',
+          CURRENCY: 'This field must be in the € format (ex: 10,50)',
         },
         Common: {
           SHOW_OTHER_LANGUAGES: 'Show Other languages',
@@ -94,7 +98,7 @@ export default {
           getContent: itemName =>
             `Click on proceed to delete the selected item '${itemName}'`,
         },
-        DELETE_LOCALE_MENU_ITEM: {
+        DELETE_MENU_ITEM_LOCALE: {
           getTitle: lang => `Delete the '${lang}' translation`,
           getContent: lang =>
             `Click on proceed to delete  the '${lang}' translation for the selected menu item`,

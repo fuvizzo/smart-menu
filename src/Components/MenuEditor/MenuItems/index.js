@@ -55,8 +55,8 @@ const MenuItemsEditor = props => {
     sortMenu,
     deleteMenuItem,
     updateMenuItem,
-    createNewLocaleMenuItem,
-    deleteLocaleMenuItem,
+    createNewMenuItemLocale,
+    deleteMenuItemLocale,
     showActionsPopover,
     hideActionsPopover,
     openConfirmationDialog,
@@ -72,7 +72,7 @@ const MenuItemsEditor = props => {
 
   const defaultLanguage = ui.settings.defaultLanguage;
   const {
-    SupportedLanguages,
+    RegexExpressions,
     Locale,
     DishTypesColorMap,
     ConfirmationActions,
@@ -92,7 +92,7 @@ const MenuItemsEditor = props => {
   const languageTabsPanelClickHandler = (event, menuItemId) => {
     const expanded = ui.languageTabsPanel.expanded;
     disableInsertMode();
-    if (expanded && ui.languageTabsPanel.itemId !== menuItemId) {
+    if (expanded && ui.languageTabsPanel.itemId === menuItemId) {
       collapseLanguageTabsPanel();
     } else {
       expandLanguageTabsPanel(menuItemId);
@@ -112,12 +112,12 @@ const MenuItemsEditor = props => {
 
   const createNewLocaleHandler = useCallback(async () => {
     const { id: menuItemId, value: newLocale } = ui.insertMode.data;
-    await createNewLocaleMenuItem(menuId, menuItemId, newLocale);
+    await createNewMenuItemLocale(menuId, menuItemId, newLocale);
     disableInsertMode();
   }, [ui.insertMode.data]);
 
-  const deleteLocaleHandler = useCallback(async (menuItemId, lang) => {
-    await deleteLocaleMenuItem(menuId, menuItemId, lang);
+  const deleteLocaleHandler = useCallback(async (lang, menuItemId) => {
+    await deleteMenuItemLocale(menuId, menuItemId, lang);
   }, []);
 
   const menuItemActionsClickHandler = useCallback(
@@ -260,8 +260,14 @@ const MenuItemsEditor = props => {
                             menuClasses.priceField
                           )}
                           label={MenuLabels.PRICE}
-                          validators={['required']}
-                          errorMessages={FormValidationErrorsLabels.REQUIRED}
+                          validators={[
+                            'required',
+                            `matchRegexp:${RegexExpressions.EURO}`,
+                          ]}
+                          errorMessages={[
+                            FormValidationErrorsLabels.REQUIRED,
+                            FormValidationErrorsLabels.CURRENCY,
+                          ]}
                           name="price"
                           onChange={onChangeValueHandler}
                           value={ui.editMode.data.value.price}
@@ -316,7 +322,7 @@ const MenuItemsEditor = props => {
                       </IconButton>
                     }
                     title={data.locales[defaultLanguage].name}
-                    subheader={!menu.info.setMenu && data.price}
+                    subheader={!menu.info.setMenu && `${data.price}€`}
                   />
                   <CardContent className={menuClasses.cardContent}>
                     <Box>

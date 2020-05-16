@@ -23,7 +23,7 @@ const NewMenuItemDialog = props => {
   const commonClasses = useCommonStyles();
   const menuClasses = useMenuStyles();
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locale, LocalizedFields } = constants;
+  const { Locale, LocalizedFields, RegexExpressions } = constants;
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -113,8 +113,14 @@ const NewMenuItemDialog = props => {
                       menuClasses.priceField
                     )}
                     label={MenuLabels.PRICE}
-                    validators={['required']}
-                    errorMessages={FormValidationErrorsLabels.REQUIRED}
+                    validators={[
+                      'required',
+                      `matchRegexp:${RegexExpressions.EURO}`,
+                    ]}
+                    errorMessages={[
+                      FormValidationErrorsLabels.REQUIRED,
+                      FormValidationErrorsLabels.CURRENCY,
+                    ]}
                     name="price"
                     onChange={onChangeValueHandler}
                     value={ui.insertMode.data.value.price}

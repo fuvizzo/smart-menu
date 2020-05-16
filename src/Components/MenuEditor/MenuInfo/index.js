@@ -56,7 +56,7 @@ const MenuInfoEditor = props => {
     menu,
     ui,
     createNewLocaleMenuInfo,
-    deleteLocale,
+    deleteMenuInfoLocale,
     showActionsPopover,
     hideActionsPopover,
     updateMenuInfo,
@@ -70,7 +70,7 @@ const MenuInfoEditor = props => {
   } = props;
 
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { LocalizedFields, SupportedLanguages, Locale } = constants;
+  const { Locale, RegexExpressions } = constants;
 
   const {
     Labels: {
@@ -88,10 +88,14 @@ const MenuInfoEditor = props => {
   const showMenuItemEditForm = ui.editMode.enabled && !ui.editMode.childItem;
 
   const createNewLocaleHandler = useCallback(async () => {
-    const { id: menuItemId, value: newLocale } = ui.insertMode.data;
-    await createNewLocaleMenuInfo(menuId, menuItemId, newLocale);
+    const { value: newLocale } = ui.insertMode.data;
+    await createNewLocaleMenuInfo(menuId, newLocale);
     disableInsertMode();
   }, [ui.insertMode.data]);
+
+  const deleteLocaleHandler = useCallback(async lang => {
+    await deleteMenuInfoLocale(menuId, lang);
+  }, []);
 
   const languageTabsPanelClickHandler = (event, menuItemId) => {
     disableInsertMode();
@@ -103,9 +107,8 @@ const MenuInfoEditor = props => {
   };
 
   const updateMenuInfoHandler = useCallback(async () => {
-    const menuItemId = ui.editMode.data.id;
     const body = ui.editMode.data.value;
-    await updateMenuInfo(menuId, menuItemId, body);
+    await updateMenuInfo(menuId, body);
     disableEditMode();
   }, [ui.editMode.data.value, ui.editMode.data.id]);
 
@@ -134,7 +137,11 @@ const MenuInfoEditor = props => {
 
   const onChangeValueHandler = useCallback(
     event => onChangeInputValueHandler(event, ui, editData, insertData),
-    [ui.editMode.enabled, ui.insertMode.enabled]
+    [
+      ui.editMode.enabled,
+      ui.editMode.data.setMenuEnabled,
+      ui.insertMode.enabled,
+    ]
   );
 
   useEffect(() => {
@@ -229,8 +236,14 @@ const MenuInfoEditor = props => {
                         menuClasses.priceField
                       )}
                       label={MenuLabels.PRICE}
-                      validators={['required']}
-                      errorMessages={FormValidationErrorsLabels.REQUIRED}
+                      validators={[
+                        'required',
+                        `matchRegexp:${RegexExpressions.EURO}`,
+                      ]}
+                      errorMessages={[
+                        FormValidationErrorsLabels.REQUIRED,
+                        FormValidationErrorsLabels.CURRENCY,
+                      ]}
                       name="setMenu"
                       onChange={onChangeValueHandler}
                       value={ui.editMode.data.value.setMenu}
@@ -278,7 +291,7 @@ const MenuInfoEditor = props => {
                         <span style={{ color: '#3f51b5' }}>
                           {MenuLabels.SET_MENU}:{' '}
                         </span>
-                        <span>{menu.info.setMenu}</span>
+                        <span>{menu.info.setMenu}€</span>
                       </div>
                     ) : (
                       MenuLabels.MENU
@@ -321,7 +334,7 @@ const MenuInfoEditor = props => {
                   data={menu.info}
                   createNewLocale={createNewLocaleHandler}
                   updateData={updateMenuInfoHandler}
-                  /*  deleteLocale={deleteLocaleHandler} */
+                  deleteLocale={deleteLocaleHandler}
                   onChangeValue={onChangeValueHandler}
                 />
               </Collapse>

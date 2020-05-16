@@ -184,12 +184,12 @@ const LanguageTabsPanel = props => {
       {ui.confirmationDialog.open && ui.confirmationDialog.childItem && (
         <ConfirmationDialog
           open={ui.confirmationDialog.open}
-          action={ConfirmationActions.DELETE_LOCALE_MENU_ITEM}
+          action={ConfirmationActions.DELETE_MENU_ITEM_LOCALE}
           handleClose={closeConfirmationDialog}
           onConfirm={() => {
             deleteLocale(
-              ui.confirmationDialog.data.id,
-              ui.confirmationDialog.data.value
+              ui.confirmationDialog.data.value,
+              ui.confirmationDialog.data.id
             );
             closeConfirmationDialog();
             const left = Object.keys(locales).length - 1;

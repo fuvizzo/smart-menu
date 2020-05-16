@@ -43,7 +43,7 @@ const SectionHeader = props => {
     <Toolbar className={classes.toolbar}>
       <Typography className={classes.header} component="h1">
         {SectionLabels.MENU_EDITOR}: {menuTitle}{' '}
-        {menu.info.setMenu && `(${menu.info.setMenu})`}
+        {menu.info.setMenu && `(${menu.info.setMenu}€)`}
       </Typography>
       <IconButton
         edge="end"

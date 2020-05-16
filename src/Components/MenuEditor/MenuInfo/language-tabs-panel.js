@@ -25,7 +25,7 @@ const LanguageTabsPanel = props => {
       <LocaleEditor
         {...props}
         labels={{
-          name: MenuLabels.DISH_NAME,
+          name: MenuLabels.MENU_NAME,
           description: MenuLabels.DESCRIPTION,
         }}
       />

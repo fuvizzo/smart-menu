@@ -170,7 +170,7 @@ const MenuList = props => {
                         <span style={{ color: '#3f51b5' }}>
                           {MenuLabels.SET_MENU}:{' '}
                         </span>
-                        <span>{menu.info.setMenu}</span>
+                        <span>{`${menu.info.setMenu}€`}</span>
                       </div>
                     ) : (
                       MenuLabels.MENU
