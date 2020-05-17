@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 
 import { connect } from 'react-redux';
 import AuthRoute from '../Auth/auth-route';
-import useStyles from './styles';
+import useStyles, {HeaderContainer} from './styles';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,8 +21,16 @@ import UserDashboard from '../UserDashboard/index';
 
 import { getPublishedMenu } from '../../Actions/menu-actions';
 
+import jsonMock from './../../Mock/mock-data.json';
+
+import Header from "./Header";
+import Menu from "./Menu";
+import Container from "@material-ui/core/Container";
+
 const App = props => {
   const classes = useStyles();
+  const { public: { menu } } = props;
+  const mockData = jsonMock.users['OIRnMadgbecau6O6QL9xlyqoBkI2'];
 
   useEffect(() => {
     props.getPublishedMenu(
@@ -84,8 +92,13 @@ const App = props => {
 
       <Switch>
         <Route exact path="/">
-          <h3>Home content</h3>
-          {JSON.stringify(props.public.menu)}
+          <HeaderContainer maxWidth="lg">
+            <Header data={mockData.business} />
+            <Menu
+              colors={mockData.business.colorPalette}
+              data={mockData.menus['9b940e13-f7c2-4df1-a1ae-eeaad721039b']}
+            />
+          </HeaderContainer>
         </Route>
         <Route path="/pricing">
           <Pricing />
