@@ -1,4 +1,7 @@
 {
+  "urlToUserIdMappings": {
+    "OIRnMadgbecau6O6QL9xlyqoBkI2": "restaurant-leka"
+  },
   "users": {
     "OIRnMadgbecau6O6QL9xlyqoBkI2": {
       "menus": {
@@ -94,7 +97,8 @@
           "primary": "#58a758",
           "secondary": "#351a07",
           "accent": "red"
-        }
+        },
+        "headerBanner": null
       },
       "account": {
         "settings": {

@@ -12,10 +12,13 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './styles';
-import { useHistory, useLocation } from 'react-router-dom';
+import constants from '../../Constants/index';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as userActions from '../../Actions/index';
 import Copyright from '../Common/copyright';
+
+const { Locales } = constants;
 
 const emptySignInState = {
   email: 'fulvio.cusimano@gmail.com',
@@ -24,6 +27,14 @@ const emptySignInState = {
 const SignIn = props => {
   console.count('SignIn renders');
   const history = useHistory();
+  const {
+    Labels: {
+      Account: AccountLabels,
+      Sections: SectionLabels,
+      Actions: ActionLabels,
+      Hints: HintLabels,
+    },
+  } = Locales[props.defaultLanguage];
 
   const classes = useStyles();
   const [loginData, setLoginData] = useState(emptySignInState);
@@ -54,7 +65,7 @@ const SignIn = props => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {SectionLabels.SIGN_IN}
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -63,7 +74,7 @@ const SignIn = props => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={AccountLabels.EMAIL_ADDRESS}
               name="email"
               onChange={onChangeValueHandler}
               value={loginData.email}
@@ -78,7 +89,7 @@ const SignIn = props => {
               onChange={onChangeValueHandler}
               value={loginData.password}
               name="password"
-              label="Password"
+              label={AccountLabels.PASSWORD}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -95,17 +106,17 @@ const SignIn = props => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              {ActionLabels.SIGN_IN}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  {HintLabels.PASSWORD_FORGOTTEN}
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/sign-up" component={RouterLink} variant="body2">
+                  {HintLabels.SIGN_UP}
                 </Link>
               </Grid>
             </Grid>
@@ -119,4 +130,10 @@ const SignIn = props => {
   );
 };
 
-export default connect(null, userActions)(SignIn);
+function mapStateToProps(state) {
+  return {
+    defaultLanguage: state.ui.settings.defaultLanguage,
+  };
+}
+
+export default connect(mapStateToProps, userActions)(SignIn);

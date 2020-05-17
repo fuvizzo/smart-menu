@@ -8,36 +8,31 @@ import Link from '@material-ui/core/Link';
 
 import { connect } from 'react-redux';
 import AuthRoute from '../Auth/auth-route';
-import useStyles, {HeaderContainer} from './styles';
+import useStyles, { HeaderContainer } from './styles';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link as RouterLink,
 } from 'react-router-dom';
-import SignIn from '../Auth/signIn';
+import SignIn from '../Auth/sign-in';
+import SignUp from '../Auth/sign-up';
 import Pricing from '../Pricing';
 import UserDashboard from '../UserDashboard/index';
-
-import { getPublishedMenu } from '../../Actions/menu-actions';
+import MenuViewer from './menu-viewer';
 
 import jsonMock from './../../Mock/mock-data.json';
 
-import Header from "./Header";
-import Menu from "./Menu";
-import Container from "@material-ui/core/Container";
+import Header from './Header';
+import Menu from './Menu';
+import Container from '@material-ui/core/Container';
 
 const App = props => {
   const classes = useStyles();
-  const { public: { menu } } = props;
+  const {
+    public: { menu },
+  } = props;
   const mockData = jsonMock.users['OIRnMadgbecau6O6QL9xlyqoBkI2'];
-
-  useEffect(() => {
-    props.getPublishedMenu(
-      'OIRnMadgbecau6O6QL9xlyqoBkI2',
-      'd010d4df-0b7a-42b2-9bd9-6971498c6c53'
-    );
-  }, []);
 
   return (
     <Router>
@@ -79,7 +74,7 @@ const App = props => {
             </Link>
           </nav>
           <Button
-            to={`signin`}
+            to={`sign-in`}
             component={RouterLink}
             color="primary"
             variant="outlined"
@@ -103,8 +98,14 @@ const App = props => {
         <Route path="/pricing">
           <Pricing />
         </Route>
-        <Route path="/signin">
+        <Route path="/sign-in">
           <SignIn />
+        </Route>
+        <Route path="/sign-up">
+          <SignUp />
+        </Route>
+        <Route exact path="/:businessUniqueUrlPath">
+          <MenuViewer />
         </Route>
         <AuthRoute path="/dashboard">
           <UserDashboard />
@@ -115,10 +116,7 @@ const App = props => {
 };
 
 function mapStateToProps(state) {
-  return {
-    user: state.user,
-    public: state.public,
-  };
+  return {};
 }
 
-export default connect(mapStateToProps, { getPublishedMenu })(App);
+export default connect(mapStateToProps)(App);

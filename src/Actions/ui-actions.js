@@ -82,3 +82,7 @@ export const setMenuEditorTabsPanelIndex = payload => {
 export const setDashboardDrawerOpen = payload => {
   return { type: UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN, payload };
 };
+
+export const setDefaultSystemLanguage = payload => {
+  return { type: UI_ActionTypes.SET_DEFAULT_SYSTEM_LANGUAGE, payload };
+};

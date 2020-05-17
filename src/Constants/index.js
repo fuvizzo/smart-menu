@@ -42,6 +42,8 @@ export default {
           MENU_EDITOR: 'Menu editor',
           ACCOUNT: 'Account',
           SUBSCRIPTION_STATUS: 'Subscription status',
+          SIGN_IN: 'Sign in',
+          SIGN_UP: 'Sign up',
         },
         Menu: {
           INGREDIENTS_LIST: 'Ingredients list',
@@ -73,11 +75,16 @@ export default {
             `This field '${fieldName}' hasn't been filled up `,
         },
         Hints: {
+          SIGN_IN: 'Already have an account? Sign in',
+          SIGN_UP: "Don't have an account? Sign Up",
+          PASSWORD_FORGOTTEN: 'Forgot password?',
           ADD_MENU_ITEM:
             'Start adding menu items by using the plus icon button in the upper right part of the screen',
         },
         Account: {
           ACCOUNT_OWNER: 'Account owner',
+          EMAIL_ADDRESS: 'Email address',
+          PASSWORD: 'Password',
         },
         Actions: {
           APPLY_CHANGES: 'Apply changes',
@@ -92,6 +99,7 @@ export default {
           SIGN_OUT: 'Logout',
           ADD_NEW_MENU_ITEM: ' Add a new menu item',
           ADD_NEW_MENU: 'Add a new menu',
+          REMEMBER_ME: 'Remember me',
         },
       },
       ConfirmationActions: {

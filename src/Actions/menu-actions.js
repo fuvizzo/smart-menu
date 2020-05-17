@@ -22,7 +22,31 @@ export const getMenus = () => {
   };
 };
 
-export const getPublishedMenu = (userId, menuId) => {
+export const getMenu = uniqueUrlPath => {
+  return async dispatch => {
+    let path, results;
+    const data = { business: null, menus: null };
+    try {
+      path = `urlToUserIdMappings`;
+      results = await firebaseService.orderByValue(path, uniqueUrlPath);
+      const userId = Object.keys(results.val())[0];
+      path = `/users/${userId}`;
+      results = await firebaseService.read(`${path}/business`);
+      data.business = results.val();
+      results = await firebaseService.orderByChild(
+        `${path}/menus`,
+        'published',
+        true
+      );
+      data.menus = results.val();
+      dispatch({ type: MenuActions.GET_MENU, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+/* export const getPublishedMenu = (userId, menuId) => {
   return async dispatch => {
     try {
       const path = `${userMenusPath(userId)}/${menuId}`;
@@ -35,6 +59,7 @@ export const getPublishedMenu = (userId, menuId) => {
     }
   };
 };
+ */
 
 
 export const togglePublishedStatus = (menuId, published) => {

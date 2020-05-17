@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "urlToUserIdMappings": {
+      ".read": "true"
+    },
+    "users": {
+      "$user_id": {
+        ".write": "$user_id === auth.uid",
+        ".read": "$user_id === auth.uid",
+
+        "menus": {
+          ".read": "query.orderByChild == 'published' && query.equalTo == true"
+        },
+        "business": {
+          ".read": "true"
+        }
+      }
+    }
+  }
+}

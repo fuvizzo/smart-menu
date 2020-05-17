@@ -75,7 +75,7 @@ export default new firebaseMock.MockFirebaseSdk(
       return {
         user: {
           uid: 'OIRnMadgbecau6O6QL9xlyqoBkI2',
-
+          email: 'fulvio.cuismano@gmail.com',
           metadata: {
             creationTime: 'Fri, 03 Apr 2020 15:16:34 GMT',
             lastSignInTime: null,

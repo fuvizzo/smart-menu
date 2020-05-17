@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUserSettings } from '../../Actions/index';
 import MenuEditor from '../MenuEditor/';
 import MenuList from './menu-list';
 import Dashboard from '../Dashboard/index';
@@ -49,6 +48,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  updateUserSettings,
-})(UserDashboard);
+export default connect(mapStateToProps)(UserDashboard);

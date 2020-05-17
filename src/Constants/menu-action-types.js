@@ -1,4 +1,4 @@
-export const GET_PUBLISHED_MENU = '@@MENU/GET_PUBLISHED_MENU';
+export const GET_MENU = '@@MENU/GET_MENU';
 export const SORT_MENU = '@@MENU/SORT_MENU';
 export const GET_MENUS = '@@MENU/GET_MENUS';
 
