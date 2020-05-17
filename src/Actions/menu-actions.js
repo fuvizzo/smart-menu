@@ -10,7 +10,7 @@ const INFO = 'info';
 
 const userMenusPath = userId => `/users/${userId}/menus`;
 
-export const getMenus = () => {
+/* export const getMenus = () => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
     const path = userMenusPath(userId);
@@ -22,7 +22,7 @@ export const getMenus = () => {
       console.log(error);
     }
   };
-};
+}; */
 
 export const getMenu = uniqueUrlPath => {
   return async dispatch => {

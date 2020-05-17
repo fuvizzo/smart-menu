@@ -23,7 +23,7 @@ const AuthRoute = ({ user, children, ...rest }) => {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.account.user,
   };
 }
 

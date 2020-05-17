@@ -1,6 +1,7 @@
 import uiReducer from './ui-reducer';
-import userReducer from './user-reducer';
+import accountReducer from './account-reducer';
 import menuReducer from './menu-reducer';
+import businessReducer from './business-reducer';
 
 import { GET_MENU } from './../Constants/menu-action-types';
 import { cloneDeep } from 'lodash';
@@ -20,4 +21,10 @@ function publicReducer(state = initialState, action) {
   }
 }
 
-export { publicReducer, uiReducer, userReducer, menuReducer };
+export {
+  publicReducer,
+  uiReducer,
+  accountReducer,
+  businessReducer,
+  menuReducer,
+};

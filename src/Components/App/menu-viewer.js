@@ -29,7 +29,7 @@ const MenuViewer = props => {
 };
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.account.user,
     public: state.public,
   };
 }

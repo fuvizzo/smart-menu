@@ -15,21 +15,25 @@ export default new firebaseMock.MockFirebaseSdk(
         val: null,
       };
       if (path === '/urlToUserIdMappings') {
+        const once = event => {
+          if (event === 'value') {
+            const val = () => {
+              return {
+                OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka',
+              };
+            };
+            data.val = val;
+            return Promise.resolve(data);
+          }
+        };
+
+        child.once = once;
+
         child.orderByValue = event => {
           const equalTo = event => {
             console.log(event);
             return {
-              once: event => {
-                if (event === 'value') {
-                  const val = () => {
-                    return {
-                      OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka',
-                    };
-                  };
-                  data.val = val;
-                  return Promise.resolve(data);
-                }
-              },
+              once,
             };
           };
           return {

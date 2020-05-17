@@ -91,6 +91,7 @@ export default {
           PROCEED: 'Proceed',
           CANCEL: 'Cancel',
           SAVE: 'Save',
+          PREVIEW: 'Preview',
           EDIT: 'Edit',
           CREATE: 'Create',
           DELETE: 'Delete',

@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import {
   publicReducer,
-  userReducer,
+  accountReducer,
   menuReducer,
+  businessReducer,
   uiReducer,
 } from '../Reducers/index';
 //import { typoedWordsMiddleware } from '../Middleware/index';
@@ -12,10 +13,11 @@ import storage from 'redux-persist/lib/storage';
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  account: accountReducer,
   menus: menuReducer,
   ui: uiReducer,
   public: publicReducer,
+  business: businessReducer,
 });
 
 const persistConfig = {

@@ -2,6 +2,7 @@ class FirebaseService {
   #database = null;
   #auth = null;
   #root = '/users';
+
   constructor(firebase) {
     this.#database = firebase.database();
     this.#auth = firebase.auth();
@@ -20,12 +21,12 @@ class FirebaseService {
           password
         );
 
-        const userRootRef = this.#database.ref(
+        const usersRootRef = this.#database.ref(
           `${this.#root}/${authData.user.uid}`
         );
 
-        const userData = await userRootRef.once('value');
-        return { user: authData.user, account: userData.val().account };
+        const userData = await usersRootRef.once('value');
+        return { authData: authData.user, userData: userData.val() };
       } catch (error) {
         console.log(error);
       }

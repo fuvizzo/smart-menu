@@ -1,0 +1,1 @@
+export const GET_BUSINESS = '@@BUSINESS/GET_BUSINESS';

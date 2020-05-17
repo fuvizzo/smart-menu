@@ -12,7 +12,7 @@ const Subscription = props => {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.account.user,
     ui: state.ui,
   };
 }

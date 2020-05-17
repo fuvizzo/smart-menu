@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
 import MenuImage from '../../Assets/menu.png';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -31,11 +30,7 @@ import { isEmpty } from 'lodash';
 import Truncate from 'react-truncate';
 
 import * as uiActions from '../../Actions/ui-actions';
-import {
-  getMenus,
-  deleteMenu,
-  togglePublishedStatus,
-} from '../../Actions/menu-actions';
+import { deleteMenu, togglePublishedStatus } from '../../Actions/menu-actions';
 import useStyles from './styles';
 
 const { ConfirmationActions, Locales } = constants;
@@ -85,9 +80,9 @@ const MenuList = props => {
     closeConfirmationDialog();
   }, []);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     props.getMenus();
-  }, []);
+  }, []); */
 
   return (
     <Box p={2}>
@@ -142,6 +137,17 @@ const MenuList = props => {
               <DeleteIcon />
             </ListItemIcon>
             <ListItemText primary={ActionsLabels.DELETE} />
+          </ListItem>
+          <ListItem
+            aria-label="edit"
+            button
+            /* to={`./menu-editor/${ui.actionsPopover.menuId}`} */
+            component={RouterLink}
+          >
+            <ListItemIcon>
+              <VisibilityIcon />
+            </ListItemIcon>
+            <ListItemText primary={ActionsLabels.PREVIEW} />
           </ListItem>
         </MenuActions>
 
@@ -248,9 +254,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   ...uiActions,
   ...{
-    getMenus,
     deleteMenu,
-    //createNewMenu,
     togglePublishedStatus,
   },
 })(MenuList);

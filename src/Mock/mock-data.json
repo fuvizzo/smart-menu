@@ -101,12 +101,13 @@
         "headerBanner": null
       },
       "account": {
-        "settings": {
-          "defaultLanguage": "it"
-        },
         "user": {
           "firstName": "Fulvio",
           "lastName": "Cusimano"
+        },
+        "subscriptionStatus": {
+          "type": 0,
+          "expirationTime": "1589756060"
         }
       }
     }
