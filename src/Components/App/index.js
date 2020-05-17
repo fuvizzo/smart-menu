@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,6 @@ import Link from '@material-ui/core/Link';
 
 import { connect } from 'react-redux';
 import AuthRoute from '../Auth/auth-route';
-import useStyles, { HeaderContainer } from './styles';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,18 +20,10 @@ import Pricing from '../Pricing';
 import UserDashboard from '../UserDashboard/index';
 import MenuViewer from './menu-viewer';
 
-import jsonMock from './../../Mock/mock-data.json';
-
-import Header from './Header';
-import Menu from './Menu';
-import Container from '@material-ui/core/Container';
+import useStyles from './styles';
 
 const App = props => {
   const classes = useStyles();
-  const {
-    public: { menu },
-  } = props;
-  const mockData = jsonMock.users['OIRnMadgbecau6O6QL9xlyqoBkI2'];
 
   return (
     <Router>
@@ -86,15 +77,7 @@ const App = props => {
       </AppBar>
 
       <Switch>
-        <Route exact path="/">
-          <HeaderContainer maxWidth="lg">
-            <Header data={mockData.business} />
-            <Menu
-              colors={mockData.business.colorPalette}
-              data={mockData.menus['9b940e13-f7c2-4df1-a1ae-eeaad721039b']}
-            />
-          </HeaderContainer>
-        </Route>
+        <Route exact path="/"></Route>
         <Route path="/pricing">
           <Pricing />
         </Route>
@@ -115,7 +98,7 @@ const App = props => {
   );
 };
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
 }
 

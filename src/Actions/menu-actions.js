@@ -3,9 +3,11 @@ import firebaseService from '../Firebase/index';
 
 import { v1 as uuidv1 } from 'uuid';
 
+const URL_TO_USER_ID_MAPPINGS = '/urlToUserIdMappings';
 const LOCALES = 'locales';
 const ITEMS = 'items';
 const INFO = 'info';
+
 const userMenusPath = userId => `/users/${userId}/menus`;
 
 export const getMenus = () => {
@@ -27,8 +29,10 @@ export const getMenu = uniqueUrlPath => {
     let path, results;
     const data = { business: null, menus: null };
     try {
-      path = `urlToUserIdMappings`;
-      results = await firebaseService.orderByValue(path, uniqueUrlPath);
+      results = await firebaseService.orderByValue(
+        URL_TO_USER_ID_MAPPINGS,
+        uniqueUrlPath
+      );
       const userId = Object.keys(results.val())[0];
       path = `/users/${userId}`;
       results = await firebaseService.read(`${path}/business`);
@@ -45,22 +49,6 @@ export const getMenu = uniqueUrlPath => {
     }
   };
 };
-
-/* export const getPublishedMenu = (userId, menuId) => {
-  return async dispatch => {
-    try {
-      const path = `${userMenusPath(userId)}/${menuId}`;
-      const results = await firebaseService.read(path);
-      const data = results.val();
-
-      dispatch({ type: MenuActions.GET_PUBLISHED_MENU, payload: data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
- */
-
 
 export const togglePublishedStatus = (menuId, published) => {
   return async (dispatch, getState) => {

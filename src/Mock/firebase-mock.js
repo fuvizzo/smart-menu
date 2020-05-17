@@ -14,6 +14,30 @@ export default new firebaseMock.MockFirebaseSdk(
       const data = {
         val: null,
       };
+      if (path === '/urlToUserIdMappings') {
+        child.orderByValue = event => {
+          const equalTo = event => {
+            console.log(event);
+            return {
+              once: event => {
+                if (event === 'value') {
+                  const val = () => {
+                    return {
+                      OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka',
+                    };
+                  };
+                  data.val = val;
+                  return Promise.resolve(data);
+                }
+              },
+            };
+          };
+          return {
+            equalTo,
+          };
+        };
+      }
+
       if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2') {
         child.once = event => {
           if (event === 'value') {
@@ -26,7 +50,42 @@ export default new firebaseMock.MockFirebaseSdk(
         };
       }
 
+      if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/business') {
+        child.once = event => {
+          if (event === 'value') {
+            const val = () => {
+              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.business;
+            };
+            data.val = val;
+            return Promise.resolve(data);
+          }
+        };
+      }
+
       if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus') {
+        child.orderByChild = event => {
+          const equalTo = event => {
+            console.log(event);
+            return {
+              once: event => {
+                if (event === 'value') {
+                  const val = () => {
+                    delete jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menus[
+                      'd010d4df-0b7a-42b2-9bd9-6971498c6c53'
+                    ];
+                    return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.menus;
+                  };
+                  data.val = val;
+                  return Promise.resolve(data);
+                }
+              },
+            };
+          };
+          return {
+            equalTo,
+          };
+        };
+
         child.once = event => {
           if (event === 'value') {
             const val = () => {

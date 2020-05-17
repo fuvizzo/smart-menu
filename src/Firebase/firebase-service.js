@@ -43,7 +43,9 @@ class FirebaseService {
   orderByChild = async (path, name, value) =>
     this.#database.ref(path).orderByChild(name).equalTo(value).once('value');
 
-  orderByValue = async (path, value) =>
-    this.#database.ref(path).orderByValue().equalTo(value).once('value');
+  orderByValue = async (path, value) => {
+    const x = this.#database.ref(path).orderByValue();
+    return x.equalTo(value).once('value');
+  };
 }
 export default FirebaseService;

@@ -12,7 +12,7 @@ function publicReducer(state = initialState, action) {
 
   switch (action.type) {
     case GET_MENU:
-      newState.menu = action.payload;
+      newState.data = action.payload;
       return newState;
 
     default:
