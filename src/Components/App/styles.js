@@ -1,15 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
-import Container from "@material-ui/core/Container";
+import Container from '@material-ui/core/Container';
 
 const HeaderContainer = styled(Container)`
   display: flex;
   flex-direction: column;
 `;
 
-export {
-  HeaderContainer,
-}
+export { HeaderContainer };
 
 export default makeStyles(theme => ({
   '@global': {

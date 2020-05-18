@@ -78,6 +78,7 @@ export default {
         Hints: {
           UNIQUE_URL_PATH:
             'This is a user friendly ID you will bind your business with and let the users navigate to your menus easier!',
+          LOGO: 'Your business logo will be shown on the menu page',
           SIGN_IN: 'Already have an account? Sign in',
           SIGN_UP: "Don't have an account? Sign Up",
           PASSWORD_FORGOTTEN: 'Forgot password?',
@@ -87,6 +88,8 @@ export default {
         Business: {
           NAME: 'Business name',
           UNIQUE_URL_PATH: 'Unique URL path',
+          LOGO: 'Business logo',
+          HEADER_BANNER: 'Header banner (reccomended size: 1024 x 300 px)',
         },
         Account: {
           ACCOUNT_OWNER: 'Account owner',
