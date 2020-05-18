@@ -18,8 +18,9 @@ import SignIn from '../Auth/sign-in';
 import SignUp from '../Auth/sign-up';
 import Pricing from '../Pricing';
 import UserDashboard from '../UserDashboard/index';
-import MenuViewer from './menu-viewer';
+import MenuPreviewer from '../UserDashboard/menu-previewer';
 
+import MenuViewer from './menu-viewer';
 import useStyles from './styles';
 
 const App = props => {
@@ -27,7 +28,6 @@ const App = props => {
 
   return (
     <Router>
-      {/* {!props.user && <Redirect from="/" to="signin" />} */}
       <CssBaseline />
       <AppBar
         position="static"
@@ -87,9 +87,12 @@ const App = props => {
         <Route path="/sign-up">
           <SignUp />
         </Route>
-        <Route exact path="/:businessUniqueUrlPath">
+        <Route exact path="/:uniqueBusinessUrlPath">
           <MenuViewer />
         </Route>
+        <AuthRoute path="/menu-preview/:uniqueBusinessUrlPath">
+          <MenuPreviewer />
+        </AuthRoute>
         <AuthRoute path="/dashboard">
           <UserDashboard />
         </AuthRoute>

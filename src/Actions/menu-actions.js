@@ -1,6 +1,6 @@
 import * as MenuActions from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
-
+import { isEmpty } from 'lodash';
 import { v1 as uuidv1 } from 'uuid';
 
 const URL_TO_USER_ID_MAPPINGS = '/urlToUserIdMappings';
@@ -11,26 +11,57 @@ const INFO = 'info';
 const userMenusPath = userId => `/users/${userId}/menus`;
 const getUserId = getState => getState().account.user.userId;
 
+const getUserIdFromUrl = async uniqueUrlPath => {
+  const results = await firebaseService.orderByValue(
+    URL_TO_USER_ID_MAPPINGS,
+    uniqueUrlPath
+  );
+  const data = results.val();
+  return isEmpty(data) ? null : Object.keys(data)[0];
+};
+
 export const getMenu = uniqueUrlPath => {
   return async dispatch => {
     let path, results;
-    const data = { business: null, menus: null };
+    const data = { business: null, menu: null };
     try {
-      results = await firebaseService.orderByValue(
-        URL_TO_USER_ID_MAPPINGS,
-        uniqueUrlPath
-      );
-      const userId = Object.keys(results.val())[0];
-      path = `/users/${userId}`;
-      results = await firebaseService.read(`${path}/business`);
-      data.business = results.val();
-      results = await firebaseService.orderByChild(
-        `${path}/menus`,
-        'published',
-        true
-      );
-      data.menus = results.val();
-      dispatch({ type: MenuActions.GET_MENU, payload: data });
+      const userId = await getUserIdFromUrl(uniqueUrlPath);
+      if (userId) {
+        path = `/users/${userId}`;
+        results = await firebaseService.read(`${path}/business`);
+        data.business = results.val();
+        results = await firebaseService.orderByChild(
+          `${path}/menus`,
+          'published',
+          true
+        );
+        const list = results.val();
+        data.menu = {
+          list,
+          defaultMenuId: Object.keys(list)[0],
+        };
+        dispatch({ type: MenuActions.GET_MENU, payload: data });
+      } else {
+        console.log('Menu not found! TODO: implement some redirect here');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getPreviewMenu = menuId => {
+  return (dispatch, getState) => {
+    const state = getState();
+    try {
+      const menu = {
+        list: state.menus,
+        defaultMenuId: menuId,
+      };
+      dispatch({
+        type: MenuActions.GET_MENU,
+        payload: { business: state.business, menu },
+      });
     } catch (error) {
       console.log(error);
     }

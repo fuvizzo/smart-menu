@@ -17,10 +17,8 @@ export default new firebaseMock.MockFirebaseSdk(
       if (path === '/urlToUserIdMappings') {
         const once = event => {
           if (event === 'value') {
-            const val = () => {
-              return {
-                OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka',
-              };
+            const val = event => {
+              return { OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka' };
             };
             data.val = val;
             return Promise.resolve(data);
@@ -30,11 +28,16 @@ export default new firebaseMock.MockFirebaseSdk(
         child.once = once;
 
         child.orderByValue = event => {
-          const equalTo = event => {
-            console.log(event);
-            return {
-              once,
-            };
+          const equalTo = value => {
+            console.log(value);
+            if (
+              Object.values(jsonMock.urlToUserIdMappings).some(
+                item => item === value && value === 'restaurant-leka'
+              )
+            )
+              return {
+                once,
+              };
           };
           return {
             equalTo,

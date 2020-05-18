@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
@@ -9,27 +9,34 @@ import Header from './Header';
 import Menu from './Menu';
 
 const MenuViewer = props => {
-  const { businessUniqueUrlPath } = useParams();
-  const { data } = props.public;
+  const { uniqueBusinessUrlPath } = useParams();
+  const {
+    public: { data },
+    isPreview,
+  } = props;
+
   useEffect(() => {
-    props.getMenu(businessUniqueUrlPath);
+    const getMenu = async () => {
+      await props.getMenu(uniqueBusinessUrlPath);
+    };
+    if (!isPreview) getMenu();
   }, []);
 
   return (
-    !isEmpty(props.public) && (
+    !isEmpty(data) && (
       <HeaderContainer maxWidth="lg">
         <Header data={data.business} />
         <Menu
           colors={data.business.colorPalette}
-          data={data.menus['9b940e13-f7c2-4df1-a1ae-eeaad721039b']}
+          data={data.menu.list[data.menu.defaultMenuId]}
         />
       </HeaderContainer>
     )
   );
 };
+
 function mapStateToProps(state) {
   return {
-    user: state.account.user,
     public: state.public,
   };
 }

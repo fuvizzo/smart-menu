@@ -40,6 +40,7 @@ const MenuList = props => {
   const {
     menus,
     ui,
+    business,
     showActionsPopover,
     hideActionsPopover,
     openConfirmationDialog,
@@ -79,10 +80,6 @@ const MenuList = props => {
     await props.deleteMenu(menuId);
     closeConfirmationDialog();
   }, []);
-
-  /*   useEffect(() => {
-    props.getMenus();
-  }, []); */
 
   return (
     <Box p={2}>
@@ -141,7 +138,14 @@ const MenuList = props => {
           <ListItem
             aria-label="edit"
             button
-            /* to={`./menu-editor/${ui.actionsPopover.menuId}`} */
+            onClick={() => {
+              const menuId = ui.actionsPopover.menuId;
+              const menuPreviewPath =
+                business.uniqueBusinessUrlPath || 'name-of-your-business-here';
+              window.open(`/menu-preview/${menuPreviewPath}?menu-id=${menuId}`);
+              hideActionsPopover();
+              setActionPopoverAnchorEl(null);
+            }}
             component={RouterLink}
           >
             <ListItemIcon>
@@ -247,6 +251,7 @@ const MenuList = props => {
 function mapStateToProps(state) {
   return {
     menus: state.menus,
+    business: state.business,
     ui: state.ui,
   };
 }
