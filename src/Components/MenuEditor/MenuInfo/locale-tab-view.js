@@ -14,7 +14,7 @@ const { Locales } = constants;
 const LocaleTabView = props => {
   const {
     localeActionsPopoverId,
-    handleLocaleActionsClick,
+    localeActionsClickHandler,
     ui,
     lang,
     locale,
@@ -47,7 +47,7 @@ const LocaleTabView = props => {
         <IconButton
           edge="end"
           aria-describedby={localeActionsPopoverId}
-          onClick={event => handleLocaleActionsClick(event, lang)}
+          onClick={event => localeActionsClickHandler(event, lang)}
         >
           <MoreVertIcon />
         </IconButton>

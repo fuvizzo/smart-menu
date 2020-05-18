@@ -22,7 +22,7 @@ import Typography from '@material-ui/core/Typography';
 import LocaleEditor from '../base-locale-editor';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
-import MenuInfoActions from '../../UserDashboard/popover-actions';
+import { PopoverComponent as MenuInfoActionsPopover } from '../../Common';
 import CardActions from '@material-ui/core/CardActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
@@ -150,7 +150,7 @@ const MenuInfoEditor = props => {
       justify="flex-start"
       alignItems="flex-start"
     >
-      <MenuInfoActions
+      <MenuInfoActionsPopover
         id={menuInfoActionsPopoverId}
         open={menuInfoActionsPopoverOpen}
         anchorEl={actionPopoverAnchorEl}
@@ -173,7 +173,7 @@ const MenuInfoEditor = props => {
           </ListItemIcon>
           <ListItemText primary={ActionsLabels.EDIT} />
         </ListItem>
-      </MenuInfoActions>
+      </MenuInfoActionsPopover>
 
       <Grid item xs={12}>
         <Card width={1} elevation={2}>

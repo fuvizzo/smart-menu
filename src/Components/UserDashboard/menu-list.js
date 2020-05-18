@@ -19,7 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MenuActions from './popover-actions';
+
+import { PopoverComponent as MenuActionsPopover } from '../Common';
 import ConfirmationDialog from './confirmation-dialog';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -100,7 +101,7 @@ const MenuList = props => {
           handleClose={closeConfirmationDialog}
           onConfirm={() => deleteMenuHandler(ui.confirmationDialog.data.id)}
         />
-        <MenuActions
+        <MenuActionsPopover
           id={menuActionsPopoverId}
           open={menuActionsPopoverOpen}
           anchorEl={actionPopoverAnchorEl}
@@ -153,7 +154,7 @@ const MenuList = props => {
             </ListItemIcon>
             <ListItemText primary={ActionsLabels.PREVIEW} />
           </ListItem>
-        </MenuActions>
+        </MenuActionsPopover>
 
         {Object.keys(menus).map(key => {
           const menu = menus[key];

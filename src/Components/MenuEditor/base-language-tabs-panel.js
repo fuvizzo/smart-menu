@@ -18,7 +18,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
-import LocaleActions from '../UserDashboard/popover-actions';
+
+import { PopoverComponent as LocaleActionsPopover } from '../Common';
+
 import { connect } from 'react-redux';
 import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
@@ -144,7 +146,7 @@ const LanguageTabsPanel = props => {
     );
   }, [ui.actionsPopover.lang]);
 
-  const handleLocaleActionsClick = useCallback(
+  const localeActionsClickHandler = useCallback(
     (event, lang) => {
       if (localeActionsPopoverOpen) {
         setActionPopoverAnchorEl(null);
@@ -198,11 +200,11 @@ const LanguageTabsPanel = props => {
           data={Languages[ui.confirmationDialog.data.value]}
         />
       )}
-      <LocaleActions
+      <LocaleActionsPopover
         id={localeActionsPopoverId}
         open={localeActionsPopoverOpen}
         anchorEl={actionPopoverAnchorEl}
-        handleClose={handleLocaleActionsClick}
+        handleClose={localeActionsClickHandler}
       >
         <ListItem onClick={onEditClickHandler} aria-label="edit" button>
           <ListItemIcon>
@@ -216,7 +218,7 @@ const LanguageTabsPanel = props => {
           </ListItemIcon>
           <ListItemText primary={ActionsLabels.DELETE} />
         </ListItem>
-      </LocaleActions>
+      </LocaleActionsPopover>
       <AppBar position="static">
         <Tabs
           value={tabValue}
@@ -296,7 +298,7 @@ const LanguageTabsPanel = props => {
                 ) : (
                   createChildrenWithProps(tabView, {
                     localeActionsPopoverId,
-                    handleLocaleActionsClick,
+                    localeActionsClickHandler,
                     locale,
                     lang,
                   })

@@ -18,6 +18,12 @@ export default makeStyles(theme => ({
   label: {
     fontSize: 12,
   },
+  popoverHint: {
+    maxWidth: 300,
+  },
+  header: {
+    flexGrow: 1,
+  },
   textField: {},
   buttonBar: {
     display: 'flex',

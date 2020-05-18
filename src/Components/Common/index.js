@@ -1,5 +1,5 @@
 import React from 'react';
-
+import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Popover from '@material-ui/core/Popover';
 
 const styles = theme => ({
   root: {
@@ -80,4 +81,55 @@ const TabPanel = props => {
   );
 };
 
-export { DialogTitle, DialogContent, DialogActions, TabPanel };
+const PopoverComponent = ({
+  id,
+  open,
+  anchorEl,
+  handleClose,
+  children,
+  leftOrigin = false,
+}) => {
+  const originSettings = leftOrigin
+    ? {
+        anchorOrigin: {
+          vertical: 'center',
+          horizontal: 'right',
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'left',
+        },
+      }
+    : {
+        anchorOrigin: {
+          vertical: 'center',
+          horizontal: 'center',
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+      };
+  return (
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      anchorOrigin={originSettings.anchorOrigin}
+      transformOrigin={originSettings.transformOrigin}
+    >
+      <Box>
+        <List component="div">{children}</List>
+      </Box>
+    </Popover>
+  );
+};
+
+export {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TabPanel,
+  PopoverComponent,
+};

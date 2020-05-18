@@ -4,6 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import StorefrontIcon from '@material-ui/icons/Storefront';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { signOut } from '../../Actions/index';
 import { connect } from 'react-redux';
@@ -47,6 +48,12 @@ const LeftMenu = props => {
             <ShoppingCartIcon />
           </ListItemIcon>
           <ListItemText primary={SectionLabels.SUBSCRIPTION_STATUS} />
+        </ListItem>
+        <ListItem button to="/dashboard/business" component={RouterLink}>
+          <ListItemIcon>
+            <StorefrontIcon />
+          </ListItemIcon>
+          <ListItemText primary={SectionLabels.BUSINESS} />
         </ListItem>
         <ListItem button to="/dashboard/account" component={RouterLink}>
           <ListItemIcon>

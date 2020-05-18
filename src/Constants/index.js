@@ -42,6 +42,7 @@ export default {
           MENU_EDITOR: 'Menu editor',
           ACCOUNT: 'Account',
           SUBSCRIPTION_STATUS: 'Subscription status',
+          BUSINESS: 'My business',
           SIGN_IN: 'Sign in',
           SIGN_UP: 'Sign up',
         },
@@ -75,11 +76,17 @@ export default {
             `This field '${fieldName}' hasn't been filled up `,
         },
         Hints: {
+          UNIQUE_URL_PATH:
+            'This is a user friendly ID you will bind your business with and let the users navigate to your menus easier!',
           SIGN_IN: 'Already have an account? Sign in',
           SIGN_UP: "Don't have an account? Sign Up",
           PASSWORD_FORGOTTEN: 'Forgot password?',
           ADD_MENU_ITEM:
             'Start adding menu items by using the plus icon button in the upper right part of the screen',
+        },
+        Business: {
+          NAME: 'Business name',
+          UNIQUE_URL_PATH: 'Unique URL path',
         },
         Account: {
           ACCOUNT_OWNER: 'Account owner',

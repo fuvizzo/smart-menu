@@ -1,5 +1,5 @@
 import * as UI_ActionTypes from '../Constants/ui-action-types';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isUndefined } from 'lodash';
 
 const initialState = {
   settings: {
@@ -43,7 +43,9 @@ function uiReducer(state = initialState, action) {
       state.confirmationDialog = action.payload;
       break;
     case UI_ActionTypes.SHOW_ACTIONS_POPOVER:
-      state.actionsPopover = action.payload;
+      state.actionsPopover = isUndefined(action.payload)
+        ? initialState.actionsPopover
+        : action.payload;
       break;
     case UI_ActionTypes.HIDE_ACTIONS_POPOVER:
       state.actionsPopover = initialState.actionsPopover;

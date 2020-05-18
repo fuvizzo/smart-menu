@@ -25,7 +25,8 @@ import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
-import MenuItemActions from '../../UserDashboard/popover-actions';
+import { PopoverComponent as MenuItemActionsPopover } from '../../Common';
+
 import CardActions from '@material-ui/core/CardActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
@@ -169,7 +170,7 @@ const MenuItemsEditor = props => {
           onConfirm={() => deleteMenuItemHandler(ui.confirmationDialog.data.id)}
         />
       )}
-      <MenuItemActions
+      <MenuItemActionsPopover
         id={menuItemActionsPopoverId}
         open={menuItemActionsPopoverOpen}
         anchorEl={actionPopoverAnchorEl}
@@ -211,7 +212,7 @@ const MenuItemsEditor = props => {
           </ListItemIcon>
           <ListItemText primary={ActionsLabels.DELETE} />
         </ListItem>
-      </MenuItemActions>
+      </MenuItemActionsPopover>
       {menuItemKeys.length === 0 ? (
         <Grid item xs={12}>
           <Card width={1} elevation={2} className={menuClasses.emptyMenu}>

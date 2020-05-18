@@ -15,9 +15,7 @@ export function signInWithEmailAndPassword(email, password) {
 
       const results = await firebaseService.read(URL_TO_USER_ID_MAPPINGS);
       if (results.val()) {
-        data.userData.business.uniqueBusinessUrlPath = results.val()[
-          data.authData.uid
-        ];
+        data.userData.business.uniqueUrlPath = results.val()[data.authData.uid];
       }
       dispatch({ type: SIGN_IN, payload: data });
       dispatch({ type: GET_MENUS, payload: data.userData.menus });

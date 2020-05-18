@@ -8,10 +8,11 @@ import MenuListSectionHeader from './section-header';
 import MenuEditorSectionHeader from '../MenuEditor/section-header';
 import SubscriptionSectionHeader from '../Subscription/section-header';
 import AccountSectionHeader from '../Account/section-header';
+import BusinessSectionHeader from '../Business/section-header';
 import { Switch, useRouteMatch } from 'react-router-dom';
 import Subscription from '../Subscription';
 import Account from '../Account';
-
+import Business from '../Business';
 const UserDashboard = () => {
   const { path } = useRouteMatch();
 
@@ -20,6 +21,11 @@ const UserDashboard = () => {
       <AuthRoute path={`${path}/account`}>
         <Dashboard sectionHeader={<AccountSectionHeader />}>
           <Account />
+        </Dashboard>
+      </AuthRoute>
+      <AuthRoute path={`${path}/business`}>
+        <Dashboard sectionHeader={<BusinessSectionHeader />}>
+          <Business />
         </Dashboard>
       </AuthRoute>
       <AuthRoute path={`${path}/menu-editor/:menuId`}>
