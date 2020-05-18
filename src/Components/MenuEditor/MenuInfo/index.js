@@ -19,7 +19,6 @@ import Switch from '@material-ui/core/Switch';
 import FormControl from '@material-ui/core/FormControl';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { cloneDeep } from 'lodash';
 import LocaleEditor from '../base-locale-editor';
 import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
@@ -108,7 +107,7 @@ const MenuInfoEditor = props => {
 
   const toggleSetMenuOptionHandler = useCallback(
     value => {
-      const data = cloneDeep(ui.editMode.data);
+      const data = ui.editMode.data;
       data.setMenuEnabled = value;
       if (!value) data.value.setMenu = null;
       editData(data);
@@ -162,7 +161,7 @@ const MenuInfoEditor = props => {
             hideActionsPopover();
             setActionPopoverAnchorEl(null);
             enableEditMode({
-              value: cloneDeep(menu.info),
+              value: menu.info,
               setMenuEnabled: !!menu.info.setMenu,
             });
           }}

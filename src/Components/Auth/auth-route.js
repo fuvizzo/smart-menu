@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-const AuthRoute = ({ user, children, ...rest }) => {
+const AuthRoute = ({ account, children, ...rest }) => {
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        user ? (
+        account ? (
           children
         ) : (
           <Redirect
@@ -23,7 +23,7 @@ const AuthRoute = ({ user, children, ...rest }) => {
 
 function mapStateToProps(state) {
   return {
-    user: state.account.user,
+    account: state.account,
   };
 }
 

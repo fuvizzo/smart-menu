@@ -15,7 +15,6 @@ import { DialogActions, DialogTitle, DialogContent } from '../../Common';
 import MenuItem from '@material-ui/core/MenuItem';
 import { disableInsertMode, insertData } from '../../../Actions/ui-actions';
 import { createNewMenuItem } from '../../../Actions/menu-actions';
-import { cloneDeep } from 'lodash';
 import useCommonStyles from '../../Common/styles';
 import useMenuStyles from '../styles';
 
@@ -40,7 +39,7 @@ const NewMenuItemDialog = props => {
       const input = event.currentTarget;
       const currentValue =
         input.type !== '' ? input.value : input.dataset.value;
-      const data = cloneDeep(ui.insertMode.data);
+      const data = ui.insertMode.data;
       if (LocalizedFields.some(field => field === input.name)) {
         data.value.locales[defaultLanguage][input.name] = currentValue;
       } else {

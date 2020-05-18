@@ -22,7 +22,6 @@ import LocaleActions from '../UserDashboard/popover-actions';
 import { connect } from 'react-redux';
 import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
-import { cloneDeep } from 'lodash';
 import Button from '@material-ui/core/Button';
 import useCommonStyles from '../Common/styles';
 import { TabPanel } from '../Common';

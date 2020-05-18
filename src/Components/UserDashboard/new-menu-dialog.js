@@ -5,15 +5,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Box from '@material-ui/core/Box';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Typography from '@material-ui/core/Typography';
-import { cloneDeep } from 'lodash';
 
 import LocaleEditor from '../MenuEditor/base-locale-editor';
 import { disableInsertMode, insertData } from '../../Actions/ui-actions';
 import { createNewMenu } from '../../Actions/menu-actions';
 import { DialogActions, DialogTitle, DialogContent } from '../Common';
 import constants from '../../Constants';
-import useCommonStyles from '../Common/styles';
-import useMenuStyles from '../MenuEditor/styles';
 
 const NewMenuDialog = props => {
   const { ui } = props;
@@ -27,7 +24,7 @@ const NewMenuDialog = props => {
     event => {
       const input = event.currentTarget;
       const currentValue = input.value;
-      const data = cloneDeep(ui.insertMode.data);
+      const data = ui.insertMode.data;
       data.value.info.locales[defaultLanguage][input.name] = currentValue;
       props.insertData(data);
     },

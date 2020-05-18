@@ -32,56 +32,56 @@ const initialState = {
 };
 
 function uiReducer(state = initialState, action) {
-  const ui = cloneDeep(state);
   switch (action.type) {
     case UI_ActionTypes.SET_DEFAULT_SYSTEM_LANGUAGE:
-      ui.settings.defaultLanguage = action.payload;
-      return ui;
+      state.settings.defaultLanguage = action.payload;
+      break;
     case UI_ActionTypes.CLOSE_CONFIRMATION_DIALOG:
-      ui.confirmationDialog = initialState.confirmationDialog;
-      return ui;
+      state.confirmationDialog = initialState.confirmationDialog;
+      break;
     case UI_ActionTypes.OPEN_CONFIRMATION_DIALOG:
-      ui.confirmationDialog = action.payload;
-      return ui;
+      state.confirmationDialog = action.payload;
+      break;
     case UI_ActionTypes.SHOW_ACTIONS_POPOVER:
-      ui.actionsPopover = action.payload;
-      return ui;
+      state.actionsPopover = action.payload;
+      break;
     case UI_ActionTypes.HIDE_ACTIONS_POPOVER:
-      ui.actionsPopover = initialState.actionsPopover;
-      return ui;
+      state.actionsPopover = initialState.actionsPopover;
+      break;
     case UI_ActionTypes.EDIT_DATA:
-      ui.editMode.data = action.payload;
-      return ui;
+      state.editMode.data = action.payload;
+      break;
     case UI_ActionTypes.ENABLE_EDIT_MODE:
-      ui.editMode = action.payload;
-      return ui;
+      state.editMode = action.payload;
+      break;
     case UI_ActionTypes.DISABLE_EDIT_MODE:
-      ui.editMode = initialState.editMode;
-      return ui;
+      state.editMode = initialState.editMode;
+      break;
     case UI_ActionTypes.EXPAND_LANGUAGE_TABS_PANEL:
-      ui.languageTabsPanel = action.payload;
-      return ui;
+      state.languageTabsPanel = action.payload;
+      break;
     case UI_ActionTypes.COLLAPSE_LANGUAGE_TABS_PANEL:
-      ui.languageTabsPanel = initialState.languageTabsPanel;
-      return ui;
+      state.languageTabsPanel = initialState.languageTabsPanel;
+      break;
     case UI_ActionTypes.INSERT_DATA:
-      ui.insertMode.data = action.payload;
-      return ui;
+      state.insertMode.data = action.payload;
+      break;
     case UI_ActionTypes.ENABLE_INSERT_MODE:
-      ui.insertMode = action.payload;
-      return ui;
+      state.insertMode = action.payload;
+      break;
     case UI_ActionTypes.DISABLE_INSERT_MODE:
-      ui.insertMode = initialState.insertMode;
-      return ui;
+      state.insertMode = initialState.insertMode;
+      break;
     case UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX:
-      ui.menuEditorTabsPanel.index = action.payload;
-      return ui;
+      state.menuEditorTabsPanel.index = action.payload;
+      break;
     case UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN:
-      ui.dashboardDrawerOpen = action.payload;
-      return ui;
+      state.dashboardDrawerOpen = action.payload;
+      break;
     default:
       return state;
   }
+  return cloneDeep(state);
 }
 
 export default uiReducer;

@@ -21,7 +21,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { cloneDeep } from 'lodash';
 import LocaleEditor from './locale-editor';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -183,7 +182,7 @@ const MenuItemsEditor = props => {
             setActionPopoverAnchorEl(null);
             enableEditMode({
               id: menuItemId,
-              value: cloneDeep(menu.items[menuItemId]),
+              value: menu.items[menuItemId],
             });
           }}
           aria-label="edit"

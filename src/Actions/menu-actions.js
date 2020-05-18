@@ -9,20 +9,7 @@ const ITEMS = 'items';
 const INFO = 'info';
 
 const userMenusPath = userId => `/users/${userId}/menus`;
-
-/* export const getMenus = () => {
-  return async (dispatch, getState) => {
-    const userId = getState().user.userId;
-    const path = userMenusPath(userId);
-    try {
-      const results = await firebaseService.read(path);
-      const data = results.val();
-      dispatch({ type: MenuActions.GET_MENUS, payload: data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}; */
+const getUserId = getState => getState().account.user.userId;
 
 export const getMenu = uniqueUrlPath => {
   return async dispatch => {
@@ -52,7 +39,7 @@ export const getMenu = uniqueUrlPath => {
 
 export const togglePublishedStatus = (menuId, published) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
       path,
@@ -76,7 +63,7 @@ export const sortMenu = menuId => {
 
 export const createNewMenu = body => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const menuId = uuidv1();
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
@@ -97,7 +84,7 @@ export const createNewMenu = body => {
 
 export const deleteMenu = menuId => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}`;
 
     try {
@@ -115,7 +102,7 @@ export const deleteMenu = menuId => {
 export const createNewMenuItem = (menuId, body) => {
   return async (dispatch, getState) => {
     const menuItemId = uuidv1();
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     const data = {
@@ -136,7 +123,7 @@ export const createNewMenuItem = (menuId, body) => {
 
 export const deleteMenuItem = (menuId, menuItemId) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     try {
@@ -153,7 +140,7 @@ export const deleteMenuItem = (menuId, menuItemId) => {
 
 export const updateMenuItem = (menuId, menuItemId, body) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     const data = {
@@ -174,7 +161,7 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
 
 export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${body.lang}`;
@@ -203,7 +190,7 @@ export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
 
 export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${lang}`;
@@ -227,7 +214,7 @@ export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
 
 export const createNewLocaleMenuInfo = (menuId, body) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${INFO}/${LOCALES}/${
       body.lang
     }`;
@@ -255,7 +242,7 @@ export const createNewLocaleMenuInfo = (menuId, body) => {
 
 export const updateMenuInfo = (menuId, body) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${INFO}`;
 
     const data = {
@@ -276,7 +263,7 @@ export const updateMenuInfo = (menuId, body) => {
 
 export const deleteMenuInfoLocale = (menuId, lang) => {
   return async (dispatch, getState) => {
-    const userId = getState().user.userId;
+    const userId = getUserId(getState);
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${INFO}/${LOCALES}/${lang}`;
