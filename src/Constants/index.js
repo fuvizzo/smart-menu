@@ -19,6 +19,7 @@ export default {
   },
   Locales: {
     en: {
+      BUSINESS_TYPES: ['Restaurant', 'Bar', 'Cafeteria', 'Cafe', 'Pub'],
       DISH_TYPES: [
         'Starters',
         'Main Courses',
@@ -98,6 +99,7 @@ export default {
             SECONDARY_COLOR: 'Secondary color',
             ACCENT: 'Accent',
           },
+          TYPE: 'Type',
         },
         Account: {
           FIRST_NAME: 'First name',

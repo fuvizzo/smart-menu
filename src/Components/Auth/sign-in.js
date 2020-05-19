@@ -16,6 +16,7 @@ import constants from '../../Constants/index';
 import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as userActions from '../../Actions/index';
+import LoginImage from '../../Assets/login-wallpaper.jpg';
 import Copyright from '../Common/copyright';
 
 const { Locales } = constants;
@@ -58,7 +59,9 @@ const SignIn = props => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={false} sm={4} md={7} className={classes.image}>
+        <img src={LoginImage} alt="login-wallpaper" />
+      </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>

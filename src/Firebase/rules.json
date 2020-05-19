@@ -1,20 +1,28 @@
 {
-  "rules": {
-    "urlToUserIdMappings": {
-      ".read": "true"
-    },
-    "users": {
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {     
+    "urlToBusinessMappings": {
+      "$uniqueUrlPathId":{
+       ".read": "true",
+       ".write": "(!data.exists() && root.child('users').hasChild(auth.uid)) || data.child('userId').val() == auth.uid"
+     }     
+    }, 
+    "users": {     
       "$user_id": {
+        // grants read and write access to the owner of this user account
+        // whose uid must exactly match the key ($user_id)
         ".write": "$user_id === auth.uid",
-        ".read": "$user_id === auth.uid",
-
-        "menus": {
-          ".read": "query.orderByChild == 'published' && query.equalTo == true"
-        },
-        "business": {
-          ".read": "true"
-        }
-      }
-    }
+        ".read":  "$user_id === auth.uid",   
+        //".validate": "newData.hasChildren(['menus','businesses', 'account'])",
+              
+        "menus": {           
+         ".read": "query.orderByChild == 'published' && query.equalTo == true" 
+         }, 
+         "business": {
+           ".read": "true"
+         }
+       }       
+     }
   }
 }
+ 

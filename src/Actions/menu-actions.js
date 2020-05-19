@@ -28,11 +28,12 @@ export const getMenu = uniqueUrlPath => {
           `${path}/businesses/${businessId}`
         );
         data.business = results.val();
-        results = await firebaseService.orderByChild(
-          `${path}/menus`,
-          'published',
-          true
-        );
+        /*  console.log(
+          (await firebaseService.orderByChild(`${path}/menus`, 'published', true)).read()
+        ); */
+        results = await firebaseService
+          .orderByChild(`${path}/menus`, 'published', true)
+          .read();
         const list = results.val();
         data.menu = {
           list,

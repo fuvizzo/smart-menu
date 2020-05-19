@@ -5,7 +5,7 @@ export default makeStyles(theme => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    /*  backgroundImage: 'url(https://source.unsplash.com/random)', */
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
@@ -30,5 +30,11 @@ export default makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  selectorWrapper: {
+    display: 'flex',
+    '&>div': {
+      flexGrow: 1,
+    },
   },
 }));

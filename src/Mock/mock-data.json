@@ -102,7 +102,7 @@
       },
       "businesses": {
         "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
-          "type": "Restaurant",
+          "type": "0",
           "name": "LEKA",
           "logo": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png",
           "colorPalette": {

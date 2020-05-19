@@ -8,6 +8,8 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -19,28 +21,9 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as userActions from '../../Actions/index';
 import Copyright from '../Common/copyright';
+import useStyles from './styles';
 
 const { Locales } = constants;
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
 const SignUp = props => {
   const { signUp, defaultLanguage } = props;
@@ -52,15 +35,17 @@ const SignUp = props => {
       Account: AccountLabels,
       Sections: SectionLabels,
       Actions: ActionLabels,
+      Business: BusinessLabels,
       Hints: HintLabels,
       FormValidationErrors,
     },
+    BUSINESS_TYPES: BusinessTypes,
   } = locale;
 
-  const onSignUpClickHandler = async (values, { setSubmitting }) => {
+  const onSignUpClickHandler = async (data, { setSubmitting }) => {
     setSubmitting(false);
-    const { firstName, lastName, email, password } = values;
-    await signUp(firstName, lastName, email, password);
+
+    await signUp(data);
     history.push('dashboard/menu-list');
   };
 
@@ -69,6 +54,8 @@ const SignUp = props => {
     lastName: 'Boldrini',
     email: 'marco.boldrini@gmail.com',
     passord: '12345678',
+    businessName: 'Momenti',
+    businessType: '0',
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -110,6 +97,35 @@ const SignUp = props => {
                     name="lastName"
                     autoComplete="lname"
                   />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    component={TextField}
+                    autoComplete="bname"
+                    name="businessName"
+                    variant="outlined"
+                    fullWidth
+                    id="businessName"
+                    label={BusinessLabels.NAME}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} className={classes.selectorWrapper}>
+                  <Field
+                    component={TextField}
+                    select
+                    variant="outlined"
+                    label={BusinessLabels.TYPE}
+                    name="businessType"
+                  >
+                    {BusinessTypes.map((businessType, index) => {
+                      return (
+                        <MenuItem key={index} value={index}>
+                          {businessType}
+                        </MenuItem>
+                      );
+                    })}
+                  </Field>
                 </Grid>
                 <Grid item xs={12}>
                   <Field

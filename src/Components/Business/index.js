@@ -17,6 +17,7 @@ import { TextField } from 'formik-material-ui';
 
 import { PopoverComponent as Popover } from '../Common';
 import * as uiActions from '../../Actions/ui-actions';
+import * as businessActions from '../../Actions/business-actions';
 import constants from '../../Constants/index';
 import useCommonStyles from '../Common/styles';
 import useDashboardStyles from '../Dashboard/styles';
@@ -72,12 +73,16 @@ const ColorSelector = props => {
 const Business = props => {
   const {
     ui,
-    business,
+    businesses,
     hideActionsPopover,
     showActionsPopover,
     enableEditMode,
     disableEditMode,
+    updateBusiness,
   } = props;
+
+  const businessId = Object.keys(businesses)[0];
+  const business = Object.values(businesses)[0];
   const defaultLanguage = ui.settings.defaultLanguage;
   const locale = Locales[defaultLanguage];
   const {
@@ -106,9 +111,7 @@ const Business = props => {
     enableEditMode(business);
   }, [ui.editMode.data]);
 
-  const onEditColorClickHandler = useCallback(() => {
-    enableEditMode(business, true);
-  }, [ui.editMode.data]);
+  const onEditColorClickHandler = useCallback(() => {}, []);
 
   const popoverClickHandler = useCallback(
     (event, data) => {
@@ -121,6 +124,15 @@ const Business = props => {
       }
     },
     [popoverOpen]
+  );
+
+  const onBusinessUpdateHandler = useCallback(
+    async (data, { setSubmitting }) => {
+      setSubmitting(false);
+      await updateBusiness(businessId, data);
+      disableEditMode();
+    },
+    []
   );
 
   const editModeEnabled = ui.editMode.enabled && !ui.editMode.chilItem;
@@ -160,9 +172,7 @@ const Business = props => {
             <Formik
               initialValues={ui.editMode.data}
               validationSchema={createBusinessSchema(FormValidationErrors)}
-              onSubmit={(values, { setSubmitting }) => {
-                setSubmitting(false);
-              }}
+              onSubmit={onBusinessUpdateHandler}
             >
               {({ submitForm, isSubmitting, values }) => (
                 <Form>
@@ -340,9 +350,11 @@ const Business = props => {
 
 function mapStateToProps(state) {
   return {
-    business: state.business,
+    businesses: state.businesses,
     ui: state.ui,
   };
 }
 
-export default connect(mapStateToProps, uiActions)(Business);
+export default connect(mapStateToProps, { ...businessActions, ...uiActions })(
+  Business
+);
