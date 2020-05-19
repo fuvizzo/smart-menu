@@ -1,8 +1,20 @@
 {
-  "urlToUserIdMappings": {
-    "OIRnMadgbecau6O6QL9xlyqoBkI2": "restaurant-leka"
+  "urlToBusinessMappings": {
+    "restaurant-leka": {
+      "businessId": "d5d1bb90-7d6c-490f-8871-f4368a19416c",
+      "userId": "OIRnMadgbecau6O6QL9xlyqoBkI2"
+    }
   },
   "users": {
+    "Oeifjiwfjw9034opkw6QL9xlyqoBkI1": {
+      "account": {
+        "user": {
+          "firstName": "Marco",
+          "lastName": "Boldrini"
+        }
+      }
+    },
+
     "OIRnMadgbecau6O6QL9xlyqoBkI2": {
       "menus": {
         "9b940e13-f7c2-4df1-a1ae-eeaad721039b": {
@@ -88,16 +100,18 @@
           }
         }
       },
-      "business": {
-        "type": "Restaurant",
-        "name": "LEKA",
-        "logo": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png",
-        "colorPalette": {
-          "primary": "#58a758",
-          "secondary": "#351a07",
-          "accent": "red"
-        },
-        "headerBanner": null
+      "businesses": {
+        "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
+          "type": "Restaurant",
+          "name": "LEKA",
+          "logo": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png",
+          "colorPalette": {
+            "primary": "#58a758",
+            "secondary": "#351a07",
+            "accent": "red"
+          },
+          "headerBanner": null
+        }
       },
       "account": {
         "user": {

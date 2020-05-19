@@ -7,11 +7,14 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './Store/index';
 
 import { PersistGate } from 'redux-persist/integration/react';
+import { StylesProvider } from '@material-ui/styles';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <StylesProvider injectFirst>
+          <App />
+        </StylesProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

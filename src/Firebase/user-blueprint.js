@@ -1,15 +1,17 @@
-export default (firstName, lastName) => ({
+export default (firstName, lastName, businessId) => ({
   menus: {},
-  business: {
-    type: null,
-    name: null,
-    logo: null,
-    colorPalette: {
-      primary: null,
-      secondary: null,
-      accent: null,
+  businesses: {
+    [businessId]: {
+      type: null,
+      name: null,
+      logo: null,
+      colorPalette: {
+        primary: null,
+        secondary: null,
+        accent: null,
+      },
+      headerBanner: null,
     },
-    headerBanner: null,
   },
   account: {
     user: {

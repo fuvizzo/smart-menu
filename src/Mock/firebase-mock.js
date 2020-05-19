@@ -14,11 +14,11 @@ export default new firebaseMock.MockFirebaseSdk(
       const data = {
         val: null,
       };
-      if (path === '/urlToUserIdMappings') {
+      if (path.includes('/urlToBusinessMappings')) {
         const once = event => {
           if (event === 'value') {
-            const val = event => {
-              return { OIRnMadgbecau6O6QL9xlyqoBkI2: 'restaurant-leka' };
+            const val = () => {
+              return jsonMock.urlToBusinessMappings[path.split('/')[2]];
             };
             data.val = val;
             return Promise.resolve(data);
@@ -30,14 +30,10 @@ export default new firebaseMock.MockFirebaseSdk(
         child.orderByValue = event => {
           const equalTo = value => {
             console.log(value);
-            if (
-              Object.values(jsonMock.urlToUserIdMappings).some(
-                item => item === value && value === 'restaurant-leka'
-              )
-            )
-              return {
-                once,
-              };
+            /*   if (<some condition>) */
+            return {
+              once,
+            };
           };
           return {
             equalTo,
@@ -57,11 +53,13 @@ export default new firebaseMock.MockFirebaseSdk(
         };
       }
 
-      if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/business') {
+      if (path.includes('businesses')) {
         child.once = event => {
           if (event === 'value') {
             const val = () => {
-              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.business;
+              return jsonMock.users.OIRnMadgbecau6O6QL9xlyqoBkI2.businesses[
+                'd5d1bb90-7d6c-490f-8871-f4368a19416c'
+              ];
             };
             data.val = val;
             return Promise.resolve(data);
@@ -107,16 +105,7 @@ export default new firebaseMock.MockFirebaseSdk(
           return Promise.resolve();
         };
       }
-      if (path.split('/').length >= 5) {
-        child.set = event => {
-          return Promise.resolve();
-        };
-        child.remove = event => {
-          return Promise.resolve();
-        };
-        child.update = event => {
-          return Promise.resolve();
-        };
+      if (path.split('/').length >= 5 && path.includes('menus')) {
         child.once = event => {
           if (event === 'value') {
             const segs = path.split('/');
@@ -131,6 +120,16 @@ export default new firebaseMock.MockFirebaseSdk(
           }
         };
       }
+
+      child.set = event => {
+        return Promise.resolve();
+      };
+      child.remove = event => {
+        return Promise.resolve();
+      };
+      child.update = event => {
+        return Promise.resolve();
+      };
       return child;
     }
     return mockDatabase;
@@ -142,6 +141,19 @@ export default new firebaseMock.MockFirebaseSdk(
         user: {
           uid: 'OIRnMadgbecau6O6QL9xlyqoBkI2',
           email: 'fulvio.cuismano@gmail.com',
+          metadata: {
+            creationTime: 'Fri, 03 Apr 2020 15:16:34 GMT',
+            lastSignInTime: null,
+          },
+        },
+      };
+    };
+
+    mockAuth.createUserWithEmailAndPassword = (email, password) => {
+      return {
+        user: {
+          uid: 'Oeifjiwfjw9034opkw6QL9xlyqoBkI1',
+          email: 'marco.boldrini@gmail.com',
           metadata: {
             creationTime: 'Fri, 03 Apr 2020 15:16:34 GMT',
             lastSignInTime: null,

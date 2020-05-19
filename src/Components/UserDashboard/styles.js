@@ -36,4 +36,12 @@ export default makeStyles(theme => ({
     paddingBottom: 10,
     fontSize: 12,
   },
+  emptyMenuList: {
+    height: 250,
+    display: 'flex',
+    alignItems: 'center',
+    '& > *': {
+      flex: 1,
+    },
+  },
 }));

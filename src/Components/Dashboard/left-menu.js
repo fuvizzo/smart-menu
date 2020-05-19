@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorefrontIcon from '@material-ui/icons/Storefront';
+import Box from '@material-ui/core/Box';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { signOut } from '../../Actions/index';
 import { connect } from 'react-redux';
@@ -16,7 +17,7 @@ import constants from '../../Constants/index';
 const { Locales } = constants;
 
 const LeftMenu = props => {
-  const { defaultLanguage } = props;
+  const { defaultLanguage, children } = props;
 
   const signOutHandler = useCallback(() => {
     props.signOut();
@@ -27,9 +28,10 @@ const LeftMenu = props => {
   } = Locales[defaultLanguage];
 
   return (
-    <div>
+    <Box ml={1}>
+      {children}
       <Divider />
-      <List>
+      <List component="div">
         <ListItem button to="/dashboard/menu-list" component={RouterLink}>
           <ListItemIcon>
             <AssignmentIcon />
@@ -38,7 +40,7 @@ const LeftMenu = props => {
         </ListItem>
       </List>
       <Divider />
-      <List>
+      <List component="div">
         <ListItem
           to="/dashboard/subscription-status"
           component={RouterLink}
@@ -63,7 +65,7 @@ const LeftMenu = props => {
         </ListItem>
       </List>
       <Divider />
-      <List>
+      <List component="div">
         <ListItem button onClick={signOutHandler}>
           <ListItemIcon>
             <ExitToAppIcon />
@@ -71,7 +73,7 @@ const LeftMenu = props => {
           <ListItemText primary={ActionsLabels.SIGN_OUT} />
         </ListItem>
       </List>
-    </div>
+    </Box>
   );
 };
 

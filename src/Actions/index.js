@@ -1,15 +1,16 @@
 import * as UserActions from '../Constants/account-action-types';
-import { GET_BUSINESS } from '../Constants/business-action-types';
+import { GET_BUSINESSES } from '../Constants/business-action-types';
 import { GET_MENUS } from '../Constants/menu-action-types';
 import createUserBlueprint from '../Firebase/user-blueprint';
+import { v1 as uuidv1 } from 'uuid';
 import firebaseService from '../Firebase';
 
-const URL_TO_USER_ID_MAPPINGS = '/urlToUserIdMappings';
+const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 const USERS = '/users';
 
 const setUpStore = (authData, userData, dispatch) => {
   dispatch({ type: GET_MENUS, payload: userData.menus });
-  dispatch({ type: GET_BUSINESS, payload: userData.business });
+  dispatch({ type: GET_BUSINESSES, payload: userData.businesses });
   dispatch({
     type: UserActions.SIGN_IN,
     payload: {
@@ -30,9 +31,12 @@ export function signInWithEmailAndPassword(email, password) {
         await firebaseService.read(`${USERS}/${authData.user.uid}`)
       ).val();
 
-      const results = await firebaseService.read(URL_TO_USER_ID_MAPPINGS);
+      const results = await firebaseService.read(URL_TO_BUSINESS_MAPPINGS);
       if (results.val()) {
-        userData.business.uniqueUrlPath = results.val()[authData.user.uid];
+        const data = results.val();
+        const uniqueUrlPath = Object.keys(data)[0];
+        const { businessId } = Object.values(data)[0];
+        userData.businesses[businessId].uniqueUrlPath = uniqueUrlPath;
       }
       setUpStore(authData, userData, dispatch);
     } catch (error) {
@@ -48,7 +52,8 @@ export function signUp(firstName, lastName, email, password) {
         email,
         password
       );
-      const newUser = createUserBlueprint(firstName, lastName);
+      const businessId = uuidv1();
+      const newUser = createUserBlueprint(firstName, lastName, businessId);
       const data = {
         path: `${USERS}/${authData.user.uid}`,
         body: newUser,

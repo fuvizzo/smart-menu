@@ -1,9 +1,9 @@
 import * as MenuActions from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
-import { isEmpty } from 'lodash';
+
 import { v1 as uuidv1 } from 'uuid';
 
-const URL_TO_USER_ID_MAPPINGS = '/urlToUserIdMappings';
+const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 const LOCALES = 'locales';
 const ITEMS = 'items';
 const INFO = 'info';
@@ -11,24 +11,22 @@ const INFO = 'info';
 const userMenusPath = userId => `/users/${userId}/menus`;
 const getUserId = getState => getState().account.user.userId;
 
-const getUserIdFromUrl = async uniqueUrlPath => {
-  const results = await firebaseService.orderByValue(
-    URL_TO_USER_ID_MAPPINGS,
-    uniqueUrlPath
-  );
-  const data = results.val();
-  return isEmpty(data) ? null : Object.keys(data)[0];
-};
-
 export const getMenu = uniqueUrlPath => {
   return async dispatch => {
     let path, results;
     const data = { business: null, menu: null };
     try {
-      const userId = await getUserIdFromUrl(uniqueUrlPath);
-      if (userId) {
+      results = await firebaseService.read(
+        `${URL_TO_BUSINESS_MAPPINGS}/${uniqueUrlPath}`
+      );
+      const mapping = results.val();
+
+      if (mapping) {
+        const { userId, businessId } = mapping;
         path = `/users/${userId}`;
-        results = await firebaseService.read(`${path}/business`);
+        results = await firebaseService.read(
+          `${path}/businesses/${businessId}`
+        );
         data.business = results.val();
         results = await firebaseService.orderByChild(
           `${path}/menus`,
@@ -54,13 +52,17 @@ export const getPreviewMenu = menuId => {
   return (dispatch, getState) => {
     const state = getState();
     try {
+      const businessId = state.menus[menuId].businessId;
+      const business = businessId
+        ? state.businesses[businessId]
+        : Object.values(state.businesses)[0];
       const menu = {
         list: state.menus,
         defaultMenuId: menuId,
       };
       dispatch({
         type: MenuActions.GET_MENU,
-        payload: { business: state.business, menu },
+        payload: { business, menu },
       });
     } catch (error) {
       console.log(error);

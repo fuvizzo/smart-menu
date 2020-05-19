@@ -39,6 +39,7 @@ export default makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  logo: {},
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -61,6 +62,7 @@ export default makeStyles(theme => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
+    marginTop: 60,
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',

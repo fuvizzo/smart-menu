@@ -54,6 +54,7 @@ export default {
           DISH_NAME: 'Dish name',
           MENU_NAME: 'Menu name',
           EMPTY_MENU: "The current menu doesn't have any items yet",
+          EMPTY_MENU_LIST: 'There are no menus yet',
           CATEGORY: 'Category',
           DESCRIPTION: 'Description',
           PRICE: 'Price (€)',
@@ -82,6 +83,8 @@ export default {
           SIGN_IN: 'Already have an account? Sign in',
           SIGN_UP: "Don't have an account? Sign Up",
           PASSWORD_FORGOTTEN: 'Forgot password?',
+          ADD_MENU:
+            'Start creating a new menu by using the plus icon button in the upper right part of the screen',
           ADD_MENU_ITEM:
             'Start adding menu items by using the plus icon button in the upper right part of the screen',
         },
@@ -121,6 +124,7 @@ export default {
           ADD_NEW_MENU_ITEM: ' Add a new menu item',
           ADD_NEW_MENU: 'Add a new menu',
           REMEMBER_ME: 'Remember me',
+          BACK_TO_DASHBOARD: 'Back to dashboard',
         },
       },
       ConfirmationActions: {

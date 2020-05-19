@@ -10,15 +10,16 @@ const initialState = {
   settings: {
     defaultLanguage: 'en',
   },
+  showHeader: true,
   data: null,
 };
 
 function publicReducer(state = initialState, action) {
+  state.showHeader = true;
   switch (action.type) {
     case GET_MENU:
       state.data = action.payload;
       break;
-
     default:
       return state;
   }

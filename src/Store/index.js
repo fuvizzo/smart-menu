@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
   menus: menuReducer,
   ui: uiReducer,
   public: persistReducer(publicPersistConfig, publicReducer),
-  business: businessReducer,
+  businesses: businessReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

@@ -59,8 +59,22 @@ const Dashboard = props => {
         }}
         open={open}
       >
-        <LeftMenu />
+        <Box>
+          <Box p={2}>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.logo}
+            >
+              Smart Menu!!
+            </Typography>
+          </Box>
+          <LeftMenu />
+        </Box>
       </Drawer>
+
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
           <Paper>{children}</Paper>
