@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import MenuViewer from '../App/menu-viewer';
+import MenuViewer from '../MenuViewer/menu-viewer';
 
 import { useLocation } from 'react-router-dom';
 import { getPreviewMenu } from '../../Actions/menu-actions';

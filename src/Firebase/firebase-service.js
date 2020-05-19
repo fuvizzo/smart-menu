@@ -1,7 +1,6 @@
 class FirebaseService {
   #database = null;
   #auth = null;
-  #root = '/users';
 
   constructor(firebase) {
     this.#database = firebase.database();
@@ -13,24 +12,13 @@ class FirebaseService {
   }
 
   auth = {
+    createUserWithEmailAndPassword: async (email, password) =>
+      await this.#auth.createUserWithEmailAndPassword(email, password),
+
+    signInWithEmailAndPassword: async (email, password) =>
+      await this.#auth.signInWithEmailAndPassword(email, password),
+
     signOut: async () => this.#auth.signOut(),
-    signInWithEmailAndPassword: async (email, password) => {
-      try {
-        const authData = await this.#auth.signInWithEmailAndPassword(
-          email,
-          password
-        );
-
-        const usersRootRef = this.#database.ref(
-          `${this.#root}/${authData.user.uid}`
-        );
-
-        const userData = await usersRootRef.once('value');
-        return { authData: authData.user, userData: userData.val() };
-      } catch (error) {
-        console.log(error);
-      }
-    },
   };
 
   create = async ({ path, body }) => this.#database.ref(path).set(body);

@@ -1,6 +1,5 @@
-import * as Yup from 'yup';
-
-/* const price = Yup.string().required();
+/*import * as Yup from 'yup';
+ const price = Yup.string().required();
 const category = Yup.string().required();
 const name = Yup.string().required();
 

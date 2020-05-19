@@ -90,11 +90,21 @@ export default {
           UNIQUE_URL_PATH: 'Unique URL path',
           LOGO: 'Business logo',
           HEADER_BANNER: 'Header banner (reccomended size: 1024 x 300 px)',
+          Customization: {
+            PRIMARY_COLOR: 'Primary color',
+            SECONDARY_COLOR: 'Secondary color',
+            ACCENT: 'Accent',
+          },
         },
         Account: {
+          FIRST_NAME: 'First name',
+          LAST_NAME: 'Last name',
+
           ACCOUNT_OWNER: 'Account owner',
           EMAIL_ADDRESS: 'Email address',
           PASSWORD: 'Password',
+          NEWS_LETTER:
+            'I want to receive news, marketing promotions and updates via email.',
         },
         Actions: {
           APPLY_CHANGES: 'Apply changes',

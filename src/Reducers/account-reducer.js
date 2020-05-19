@@ -8,13 +8,18 @@ function accountReducer(state = initialState, action) {
     case SIGN_OUT:
       return initialState;
     case SIGN_IN:
+      const {
+        uid: userId,
+        email,
+        metadata: { creationTime, lastSignInTime },
+      } = action.payload.authData.user;
       const user = {
         ...action.payload.userData.account.user,
         ...{
-          userId: action.payload.authData.uid,
-          email: action.payload.authData.email,
-          creationTime: action.payload.authData.metadata.creationTime,
-          lastSignInTime: action.payload.authData.metadata.lastSignInTime,
+          userId,
+          email,
+          creationTime,
+          lastSignInTime,
         },
       };
       return cloneDeep({

@@ -2,7 +2,6 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
@@ -12,9 +11,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { signUp as createSignUpSchema } from '../../Schemas/account';
 import constants from '../../Constants/index';
-import { useHistory, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as userActions from '../../Actions/index';
 import Copyright from '../Common/copyright';
@@ -42,15 +43,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
+  const { signUp, defaultLanguage } = props;
   const classes = useStyles();
+  const history = useHistory();
+  const locale = Locales[defaultLanguage];
   const {
     Labels: {
       Account: AccountLabels,
       Sections: SectionLabels,
       Actions: ActionLabels,
       Hints: HintLabels,
+      FormValidationErrors,
     },
-  } = Locales[props.defaultLanguage];
+  } = locale;
+
+  const onSignUpClickHandler = async (values, { setSubmitting }) => {
+    setSubmitting(false);
+    const { firstName, lastName, email, password } = values;
+    await signUp(firstName, lastName, email, password);
+    history.push('dashboard/menu-list');
+  };
+
+  const initialValues = {
+    firstName: 'Marco',
+    lastName: 'Boldrini',
+    email: 'marco.boldrini@gmail.com',
+    passord: '12345678',
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -59,80 +78,91 @@ const SignUp = props => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          {SectionLabels.SIGN_UP}
         </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
+        <Formik
+          initialValues={initialValues}
+          validationSchema={createSignUpSchema(FormValidationErrors)}
+          onSubmit={onSignUpClickHandler}
+        >
+          {({ submitForm, isSubmitting, values }) => (
+            <Form className={classes.form}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    component={TextField}
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    fullWidth
+                    id="firstName"
+                    label={AccountLabels.FIRST_NAME}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    component={TextField}
+                    variant="outlined"
+                    fullWidth
+                    id="lastName"
+                    label={AccountLabels.LAST_NAME}
+                    name="lastName"
+                    autoComplete="lname"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    component={TextField}
+                    variant="outlined"
+                    fullWidth
+                    id="email"
+                    label={AccountLabels.EMAIL_ADDRESS}
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    component={TextField}
+                    variant="outlined"
+                    fullWidth
+                    name="password"
+                    label={AccountLabels.PASSWORD}
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value="allowExtraEmails" color="primary" />
+                    }
+                    label={AccountLabels.NEWS_LETTER}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
                 fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                {ActionLabels.SIGN_UP}
+              </Button>
+            </Form>
+          )}
+        </Formik>
+
+        <Grid container justify="flex-end">
+          <Grid item>
+            <Link to="/sign-in" component={RouterLink} variant="body2">
+              {HintLabels.SIGN_IN}
+            </Link>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to="/sign-in" component={RouterLink} variant="body2">
-                {HintLabels.SIGN_IN}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+        </Grid>
       </div>
       <Box mt={5}>
         <Copyright />
@@ -143,7 +173,7 @@ const SignUp = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    defaultLanguage: state.public.settings.defaultLanguage,
   };
 }
 

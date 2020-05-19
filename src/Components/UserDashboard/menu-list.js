@@ -142,7 +142,7 @@ const MenuList = props => {
             onClick={() => {
               const menuId = ui.actionsPopover.menuId;
               const menuPreviewPath =
-                business.uniqueBusinessUrlPath || 'name-of-your-business-here';
+                business.uniqueUrlPath || 'name-of-your-business-here';
               window.open(`/menu-preview/${menuPreviewPath}?menu-id=${menuId}`);
               hideActionsPopover();
               setActionPopoverAnchorEl(null);

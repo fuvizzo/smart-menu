@@ -12,22 +12,29 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
-  account: accountReducer,
-  menus: menuReducer,
-  ui: uiReducer,
-  public: publicReducer,
-  business: businessReducer,
-});
-
-const persistConfig = {
-  key: 'appStore',
+const rootPersistConfig = {
+  key: 'privateStore',
   storage,
   debug: true,
   blacklist: 'public',
   //whitelist: 'user',
 };
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const publicPersistConfig = {
+  key: 'publicStore',
+  storage,
+  blacklist: 'data',
+};
+
+const rootReducer = combineReducers({
+  account: accountReducer,
+  menus: menuReducer,
+  ui: uiReducer,
+  public: persistReducer(publicPersistConfig, publicReducer),
+  business: businessReducer,
+});
+
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 const store = createStore(
   persistedReducer,
