@@ -1,47 +1,42 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import constants from '../../../Constants/index';
+import constants from '../../Constants';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 
-import { DialogActions, DialogTitle, DialogContent } from '../../Common';
+import { DialogTitle, DialogContent } from '../Common';
 
 import { SketchPicker } from 'react-color';
-import useCommonStyles from '../../Common/styles';
-import useMenuStyles from '../styles';
 
 const ColorPickerDialog = props => {
-  const { ui, onChangeCompleteHandler, value } = props;
+  const { ui, onChangeCompleteHandler, state, onCloseHandler } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locales, LocalizedFields } = constants;
+  const { Locales } = constants;
   const {
-    Labels: { Actions: ActionsLabels },
+    Labels: { Actions: ActionsLabels, Business: BusinessLabels },
   } = Locales[defaultLanguage];
 
   return (
-    ui.editMode.enabled &&
-    !ui.editMode.childItem && (
-      <Dialog
-        onClose={props.disableInsertMode}
-        aria-labelledby="new-menu-item-dialog-title"
-        open={ui.insertMode.enabled}
-      >
-        <DialogTitle
-          id="new-menu-item-dialog-title"
-          onClose={props.disableInsertMode}
-        >
-          <Typography color="secondary">
-            {ActionsLabels.ADD_NEW_MENU_ITEM}
-          </Typography>
-        </DialogTitle>
-        <DialogContent dividers>
-          <SketchPicker
-            color={value}
-            onChangeComplete={onChangeCompleteHandler}
-          />
-        </DialogContent>
-      </Dialog>
-    )
+    <Dialog
+      onClose={onCloseHandler}
+      aria-labelledby="color-picker-dialog-title"
+      open={state.open}
+    >
+      <DialogTitle id="color-picker-dialog-title" onClose={onCloseHandler}>
+        <Typography color="secondary">
+          {ActionsLabels.EDIT_COLOR}{' '}
+          {BusinessLabels.ColorPalette[state.name.toUpperCase()]}
+        </Typography>
+      </DialogTitle>
+      <DialogContent dividers>
+        <SketchPicker
+          color={state.color.hex}
+          onChangeComplete={({ hex }) =>
+            onChangeCompleteHandler(hex, state.name)
+          }
+        />
+      </DialogContent>
+    </Dialog>
   );
 };
 

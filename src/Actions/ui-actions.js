@@ -87,6 +87,6 @@ export const setDefaultSystemLanguage = payload => {
   return { type: UI_Actions.SET_DEFAULT_SYSTEM_LANGUAGE, payload };
 };
 
-export const showError = payload => {
-  return { type: UI_Actions.SHOW_ERROR, payload };
+export const setError = payload => {
+  return { type: UI_Actions.SET_ERROR, payload };
 };

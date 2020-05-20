@@ -71,6 +71,28 @@ export default {
           ITEMS: 'Items',
           INFO: 'Info',
         },
+        Business: {
+          NAME: 'Business name',
+          UNIQUE_URL_PATH: 'Unique URL path',
+          LOGO: 'Business logo',
+          HEADER_BANNER: 'Header banner (reccomended size: 1024 x 300 px)',
+          ColorPalette: {
+            PRIMARY: 'Primary color',
+            SECONDARY: 'Secondary color',
+            ACCENT: 'Accent',
+          },
+          TYPE: 'Type',
+        },
+        Account: {
+          FIRST_NAME: 'First name',
+          LAST_NAME: 'Last name',
+
+          ACCOUNT_OWNER: 'Account owner',
+          EMAIL_ADDRESS: 'Email address',
+          PASSWORD: 'Password',
+          NEWS_LETTER:
+            'I want to receive news, marketing promotions and updates via email.',
+        },
         FormValidationErrors: {
           REQUIRED: 'This field is required',
           CURRENCY: 'This field must be in the € format (ex: 10,50)',
@@ -97,29 +119,8 @@ export default {
           ADD_MENU_ITEM:
             'Start adding menu items by using the plus icon button in the upper right part of the screen',
         },
-        Business: {
-          NAME: 'Business name',
-          UNIQUE_URL_PATH: 'Unique URL path',
-          LOGO: 'Business logo',
-          HEADER_BANNER: 'Header banner (reccomended size: 1024 x 300 px)',
-          Customization: {
-            PRIMARY_COLOR: 'Primary color',
-            SECONDARY_COLOR: 'Secondary color',
-            ACCENT: 'Accent',
-          },
-          TYPE: 'Type',
-        },
-        Account: {
-          FIRST_NAME: 'First name',
-          LAST_NAME: 'Last name',
-
-          ACCOUNT_OWNER: 'Account owner',
-          EMAIL_ADDRESS: 'Email address',
-          PASSWORD: 'Password',
-          NEWS_LETTER:
-            'I want to receive news, marketing promotions and updates via email.',
-        },
         Actions: {
+          EDIT_COLOR: 'Edit color',
           APPLY_CHANGES: 'Apply changes',
           PROCEED: 'Proceed',
           CANCEL: 'Cancel',

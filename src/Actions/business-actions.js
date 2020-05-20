@@ -17,6 +17,7 @@ export const updateBusiness = (businessId, body) => {
       Labels: { FormValidationErrors },
     } = Locales[state.ui.settings.defaultLanguage];
     let data;
+
     try {
       const oldUniqueUrlPath = getState().businesses[businessId].uniqueUrlPath;
 
@@ -41,12 +42,13 @@ export const updateBusiness = (businessId, body) => {
           await firebaseService.update(data);
         } else {
           dispatch({
-            type: UI_Actions.SHOW_ERROR,
+            type: UI_Actions.SET_ERROR,
             payload: {
               type: ErrorTypes.BACK_END_DATA_VALIDATION,
               message: FormValidationErrors.UNIQUE_URL_PATH_ALREADY_IN_USE,
             },
           });
+
           return;
         }
       }
@@ -61,6 +63,9 @@ export const updateBusiness = (businessId, body) => {
       dispatch({
         type: BusinessActions.UPDATE_BUSINESS,
         payload: { businessId, value: body },
+      });
+      dispatch({
+        type: UI_Actions.SET_ERROR,
       });
     } catch (error) {
       console.log(error);

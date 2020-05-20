@@ -9,66 +9,22 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
 import EditIcon from '@material-ui/icons/Edit';
-import HelpIcon from '@material-ui/icons/Help';
+import { HelpIcon } from '../Common/styles';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
-
+import { ColorBox, ColorEditor } from './color-palette';
 import { PopoverComponent as Popover } from '../Common';
 import * as uiActions from '../../Actions/ui-actions';
 import * as businessActions from '../../Actions/business-actions';
 import constants from '../../Constants/index';
 import useCommonStyles from '../Common/styles';
-import useDashboardStyles from '../Dashboard/styles';
 import useStyles from './styles';
 import createBusinessSchema from '../../Schemas/business';
 
 const { Locales } = constants;
-
-const ColorSelector = props => {
-  const {
-    value,
-    onEditClickHandler,
-    editModeEnabled = false,
-    locale,
-    label,
-  } = props;
-  const commonClasses = useCommonStyles();
-  const {
-    Labels: { Actions: ActionsLabels },
-  } = locale;
-  const classes = useStyles();
-  return (
-    <Box mb={2}>
-      <Typography
-        className={commonClasses.label}
-        color="textSecondary"
-        variant="h1"
-      >
-        {label}
-      </Typography>
-      <Box mt={0.5} className={classes.colorPicker}>
-        <Box
-          mt={2}
-          style={{
-            backgroundColor: value,
-          }}
-          className={classes.colorBox}
-        />
-        {editModeEnabled && (
-          <Button
-            color="secondary"
-            onClick={onEditClickHandler}
-            className={classes.colorPickerButton}
-          >
-            {ActionsLabels.EDIT}
-          </Button>
-        )}
-      </Box>
-    </Box>
-  );
-};
 
 const Business = props => {
   const {
@@ -99,10 +55,8 @@ const Business = props => {
 
   const popoverOpen = Boolean(popoverAnchorEl);
   const popoverId = popoverOpen ? 'business-actions-popover' : undefined;
-  const onChangeValueHandler = () => {};
 
   const commonClasses = useCommonStyles();
-  const dashboardClasses = useDashboardStyles();
   const classes = useStyles();
 
   const onEditClickHandler = useCallback(() => {
@@ -130,7 +84,6 @@ const Business = props => {
     async (data, { setSubmitting }) => {
       setSubmitting(false);
       await updateBusiness(businessId, data);
-
       if (!ui.error.type) disableEditMode();
     },
     [ui.error]
@@ -139,7 +92,7 @@ const Business = props => {
   const editModeEnabled = ui.editMode.enabled && !ui.editMode.chilItem;
 
   useEffect(() => {
-    //disableEditMode();
+    disableEditMode();
   }, []);
   return (
     <>
@@ -173,7 +126,9 @@ const Business = props => {
             <Formik
               initialValues={ui.editMode.data}
               validationSchema={createBusinessSchema(FormValidationErrors)}
-              onSubmit={onBusinessUpdateHandler}
+              onSubmit={(data, { setSubmitting }) => {
+                onBusinessUpdateHandler(data, { setSubmitting });
+              }}
             >
               {({ submitForm, isSubmitting, values }) => (
                 <Form>
@@ -188,28 +143,15 @@ const Business = props => {
                   </Box>
                   <Box mb={3}>
                     <Field
-                      helperText={ui.error.message}
                       component={TextField}
                       name="uniqueUrlPath"
                       type="text"
                       label={BusinessLabels.UNIQUE_URL_PATH}
                       value={values.uniqueUrlPath}
                     />
+                    <FormHelperText error>{ui.error.message}</FormHelperText>
                   </Box>
-
-                  <ColorSelector
-                    label={BusinessLabels.Customization.PRIMARY_COLOR}
-                    locale={locale}
-                    value={values.colorPalette.primary}
-                    editModeEnabled={true}
-                    onEditClickHandler={onEditColorClickHandler}
-                  />
-                  <ColorSelector
-                    label={BusinessLabels.Customization.SECONDARY_COLOR}
-                    locale={locale}
-                    value={values.colorPalette.secondary}
-                    editModeEnabled={true}
-                  />
+                  <ColorEditor locale={locale} data={ui.editMode.data} />
 
                   {isSubmitting && <LinearProgress />}
                   <Box className={commonClasses.buttonBar}>
@@ -225,7 +167,7 @@ const Business = props => {
             </Formik>
           </>
         ) : (
-          <>
+          <Box className={classes.wrapper}>
             <Toolbar disableGutters="true" className={commonClasses.toolbar}>
               <Box className={commonClasses.header}>
                 <Typography
@@ -271,15 +213,20 @@ const Business = props => {
                 {business.uniqueUrlPath || WarningMessages.MISSING_FIELD}
               </Typography>
             </Box>
-            <ColorSelector
-              label={BusinessLabels.Customization.PRIMARY_COLOR}
+            <ColorBox
+              name="primary"
               locale={locale}
               value={business.colorPalette.primary}
             />
-            <ColorSelector
-              label={BusinessLabels.Customization.SECONDARY_COLOR}
+            <ColorBox
+              name="secondary"
               locale={locale}
               value={business.colorPalette.secondary}
+            />
+            <ColorBox
+              name="accent"
+              locale={locale}
+              value={business.colorPalette.accent}
             />
             <Box mb={2}>
               <Typography
@@ -343,7 +290,7 @@ const Business = props => {
                 <Typography> {WarningMessages.MISSING_FIELD} </Typography>
               )}
             </Box>
-          </>
+          </Box>
         )}
       </Box>
     </>

@@ -84,8 +84,8 @@ function uiReducer(state = initialState, action) {
     case UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN:
       state.dashboardDrawerOpen = action.payload;
       break;
-    case UI_ActionTypes.SHOW_ERROR:
-      state.error = action.payload;
+    case UI_ActionTypes.SET_ERROR:
+      state.error = action.payload || initialState.error;
       break;
     default:
       return state;

@@ -9,7 +9,7 @@ import MenuEditorSectionHeader from '../MenuEditor/section-header';
 import SubscriptionSectionHeader from '../Subscription/section-header';
 import AccountSectionHeader from '../Account/section-header';
 import BusinessSectionHeader from '../Business/section-header';
-import { Switch, useRouteMatch, Redirect, useLocation } from 'react-router-dom';
+import { Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import Subscription from '../Subscription';
 import Account from '../Account';
 import Business from '../Business';

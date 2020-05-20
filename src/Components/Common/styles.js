@@ -1,4 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import HelpIconMUI from '@material-ui/icons/Help';
+
+const HelpIcon = styled(HelpIconMUI)`
+  font-size: 1rem;
+`;
+
+export { HelpIcon };
+
 export default makeStyles(theme => ({
   /* root: {
     flexGrow: 1,
