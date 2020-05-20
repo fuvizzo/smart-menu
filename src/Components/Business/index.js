@@ -130,9 +130,10 @@ const Business = props => {
     async (data, { setSubmitting }) => {
       setSubmitting(false);
       await updateBusiness(businessId, data);
-      disableEditMode();
+
+      if (!ui.error.type) disableEditMode();
     },
-    []
+    [ui.error]
   );
 
   const editModeEnabled = ui.editMode.enabled && !ui.editMode.chilItem;
@@ -187,6 +188,7 @@ const Business = props => {
                   </Box>
                   <Box mb={3}>
                     <Field
+                      helperText={ui.error.message}
                       component={TextField}
                       name="uniqueUrlPath"
                       type="text"

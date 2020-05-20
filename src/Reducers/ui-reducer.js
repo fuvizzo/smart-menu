@@ -29,6 +29,8 @@ const initialState = {
     index: 0,
   },
   dashboardDrawerOpen: false,
+  showLoader: false,
+  error: {},
 };
 
 function uiReducer(state = initialState, action) {
@@ -58,6 +60,7 @@ function uiReducer(state = initialState, action) {
       break;
     case UI_ActionTypes.DISABLE_EDIT_MODE:
       state.editMode = initialState.editMode;
+      state.error = initialState.error;
       break;
     case UI_ActionTypes.EXPAND_LANGUAGE_TABS_PANEL:
       state.languageTabsPanel = action.payload;
@@ -73,12 +76,16 @@ function uiReducer(state = initialState, action) {
       break;
     case UI_ActionTypes.DISABLE_INSERT_MODE:
       state.insertMode = initialState.insertMode;
+      state.error = initialState.error;
       break;
     case UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX:
       state.menuEditorTabsPanel.index = action.payload;
       break;
     case UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN:
       state.dashboardDrawerOpen = action.payload;
+      break;
+    case UI_ActionTypes.SHOW_ERROR:
+      state.error = action.payload;
       break;
     default:
       return state;

@@ -1,6 +1,10 @@
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
+  ErrorTypes: {
+    BACK_END_DATA_VALIDATION: 'BACK-END DATA VALIDATION',
+    AUTHENTICATION: 'AUTHENTICATION',
+  },
   RegexExpressions: {
     EURO: new RegExp(/^\d+(?:,\d{1,2})?$/).source,
   },
@@ -70,6 +74,8 @@ export default {
         FormValidationErrors: {
           REQUIRED: 'This field is required',
           CURRENCY: 'This field must be in the € format (ex: 10,50)',
+          UNIQUE_URL_PATH_ALREADY_IN_USE:
+            'The unique URL path you chose is already used. Please choose a different one',
         },
         Common: {
           SHOW_OTHER_LANGUAGES: 'Show Other languages',
