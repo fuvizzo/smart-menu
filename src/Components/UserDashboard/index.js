@@ -9,47 +9,50 @@ import MenuEditorSectionHeader from '../MenuEditor/section-header';
 import SubscriptionSectionHeader from '../Subscription/section-header';
 import AccountSectionHeader from '../Account/section-header';
 import BusinessSectionHeader from '../Business/section-header';
-import { Switch, useRouteMatch } from 'react-router-dom';
+import { Switch, useRouteMatch, Redirect, useLocation } from 'react-router-dom';
 import Subscription from '../Subscription';
 import Account from '../Account';
 import Business from '../Business';
-const UserDashboard = () => {
+const UserDashboard = props => {
   const { path } = useRouteMatch();
-
+  // console.log(useLocation());
   return (
-    <Switch>
-      <AuthRoute path={`${path}/account`}>
-        <Dashboard sectionHeader={<AccountSectionHeader />}>
-          <Account />
-        </Dashboard>
-      </AuthRoute>
-      <AuthRoute path={`${path}/business`}>
-        <Dashboard sectionHeader={<BusinessSectionHeader />}>
-          <Business />
-        </Dashboard>
-      </AuthRoute>
-      <AuthRoute path={`${path}/menu-editor/:menuId`}>
-        <Dashboard sectionHeader={<MenuEditorSectionHeader />}>
-          <MenuEditor />
-        </Dashboard>
-      </AuthRoute>
-      <AuthRoute path={`${path}/subscription-status`}>
-        <Dashboard sectionHeader={<SubscriptionSectionHeader />}>
-          <Subscription />
-        </Dashboard>
-      </AuthRoute>
-      <AuthRoute exact path={`${path}/menu-list`}>
-        <Dashboard sectionHeader={<MenuListSectionHeader />}>
-          <MenuList />
-        </Dashboard>
-      </AuthRoute>
-    </Switch>
+    <>
+      <Redirect to={`${path}/menu-list`} />
+      <Switch>
+        <AuthRoute path={`${path}/account`}>
+          <Dashboard sectionHeader={<AccountSectionHeader />}>
+            <Account />
+          </Dashboard>
+        </AuthRoute>
+        <AuthRoute path={`${path}/business`}>
+          <Dashboard sectionHeader={<BusinessSectionHeader />}>
+            <Business />
+          </Dashboard>
+        </AuthRoute>
+        <AuthRoute path={`${path}/menu-editor/:menuId`}>
+          <Dashboard sectionHeader={<MenuEditorSectionHeader />}>
+            <MenuEditor />
+          </Dashboard>
+        </AuthRoute>
+        <AuthRoute path={`${path}/subscription-status`}>
+          <Dashboard sectionHeader={<SubscriptionSectionHeader />}>
+            <Subscription />
+          </Dashboard>
+        </AuthRoute>
+        <AuthRoute exact path={`${path}/menu-list`}>
+          <Dashboard sectionHeader={<MenuListSectionHeader />}>
+            <MenuList />
+          </Dashboard>
+        </AuthRoute>
+      </Switch>
+    </>
   );
 };
 
 function mapStateToProps(state) {
   return {
-    user: state.account.user,
+    account: state.account,
     defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }

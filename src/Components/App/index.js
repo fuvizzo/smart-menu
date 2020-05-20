@@ -16,6 +16,8 @@ import {
   Switch,
   Route,
   Link as RouterLink,
+  Redirect,
+  useLocation,
 } from 'react-router-dom';
 import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
@@ -33,6 +35,7 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
     Labels: { Sections: SectionLabels, Actions: ActionsLabels },
   } = Locales[defaultLanguage];
 
+  console.log(useLocation());
   return (
     <>
       <CssBaseline />
@@ -59,7 +62,7 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
               className={classes.link}
               to="/"
             >
-              Home
+              {SectionLabels.HOME}
             </Link>
             <Link
               component={RouterLink}
@@ -68,7 +71,7 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
               className={classes.link}
               to="/pricing"
             >
-              Pricing
+              {SectionLabels.PRICING}
             </Link>
           </nav>
 
@@ -131,4 +134,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default App;
+export default connect(mapStateToProps)(App);

@@ -110,7 +110,8 @@
             "secondary": "#351a07",
             "accent": "red"
           },
-          "headerBanner": null
+          "headerBanner": null,
+          "uniqueUrlPath": "restaurant-leka"
         }
       },
       "account": {

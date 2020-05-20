@@ -46,6 +46,8 @@ export default {
           BUSINESS: 'My business',
           SIGN_IN: 'Sign in',
           SIGN_UP: 'Sign up',
+          PRICING: 'Pricing',
+          HOME: 'Home',
         },
         Menu: {
           INGREDIENTS_LIST: 'Ingredients list',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
 import { isEmpty } from 'lodash';
 import { HeaderContainer } from './styles';
@@ -23,7 +23,10 @@ const MenuViewer = props => {
   }, []);
 
   return (
-    !isEmpty(data) && (
+    !isEmpty(data) &&
+    (data.notFound ? (
+      <Redirect to="/" />
+    ) : (
       <HeaderContainer maxWidth="lg">
         <Header data={data.business} />
         <Menu
@@ -31,7 +34,7 @@ const MenuViewer = props => {
           data={data.menu.list[data.menu.defaultMenuId]}
         />
       </HeaderContainer>
-    )
+    ))
   );
 };
 

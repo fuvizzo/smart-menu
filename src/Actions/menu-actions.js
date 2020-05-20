@@ -28,9 +28,7 @@ export const getMenu = uniqueUrlPath => {
           `${path}/businesses/${businessId}`
         );
         data.business = results.val();
-        /*  console.log(
-          (await firebaseService.orderByChild(`${path}/menus`, 'published', true)).read()
-        ); */
+
         results = await firebaseService
           .orderByChild(`${path}/menus`, 'published', true)
           .read();
@@ -41,7 +39,7 @@ export const getMenu = uniqueUrlPath => {
         };
         dispatch({ type: MenuActions.GET_MENU, payload: data });
       } else {
-        console.log('Menu not found! TODO: implement some redirect here');
+        dispatch({ type: MenuActions.GET_MENU, payload: { notFound: true } });
       }
     } catch (error) {
       console.log(error);

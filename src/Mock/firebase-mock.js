@@ -29,7 +29,6 @@ export default new firebaseMock.MockFirebaseSdk(
 
         child.orderByValue = event => {
           const equalTo = value => {
-            console.log(value);
             /*   if (<some condition>) */
             return {
               once,
@@ -70,7 +69,6 @@ export default new firebaseMock.MockFirebaseSdk(
       if (path === '/users/OIRnMadgbecau6O6QL9xlyqoBkI2/menus') {
         child.orderByChild = event => {
           const equalTo = event => {
-            console.log(event);
             return {
               once: event => {
                 if (event === 'value') {
