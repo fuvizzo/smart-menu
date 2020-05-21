@@ -12,6 +12,7 @@ const skipKeys = [
   'redux-persist localStorage test',
   'firebase:sentinel',
   'persist:publicStore',
+  'persist:privateStore',
 ];
 window.addEventListener('storage', e => {
   if (!skipKeys.some(key => key === e.key)) window.location.href = '/';

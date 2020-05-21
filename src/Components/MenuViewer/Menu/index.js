@@ -38,38 +38,50 @@ function Menu(props) {
 
   return (
     <MenuContainer maxWidth="md">
-      <LanguageSelector
-        colors={colors}
-        defaultLanguage={defaultLanguage}
-        providedLanguages={providedLanguages}
-      />
-      {localeInfo ? (
-        <>
-          <Title color={colors.primary}>{localeInfo.name}</Title>
-          <Description>{localeInfo.description}</Description>
-        </>
-      ) : (
-        <span style={{ color: 'red' }}>
-          Menu info are missing for this language
+      {providedLanguages.length === 0 ? (
+        <span style={{ width: '300px', color: 'red' }}>
+          Here goes the language selector but so far the list of the provided
+          languages is empty. Open this menu in the dashboard, go to language
+          settings tab and enable the languages you want to show this menu in.
         </span>
+      ) : (
+        <>
+          <LanguageSelector
+            colors={colors}
+            defaultLanguage={defaultLanguage}
+            providedLanguages={providedLanguages}
+          />
+          {localeInfo ? (
+            <>
+              <Title color={colors.primary}>{localeInfo.name}</Title>
+              <Description>{localeInfo.description}</Description>
+            </>
+          ) : (
+            <span style={{ color: 'red' }}>
+              Menu info are missing for this language
+            </span>
+          )}
+          <CategoriesContainer>
+            {Object.values(groupDishesByCategory(items)).map(
+              (category, index) => (
+                <CategoryWrapper key={index}>
+                  <CategoryText color={colors.secondary}>
+                    {MenuItemTypes[index]}
+                  </CategoryText>
+                  {category.map((item, index) => (
+                    <Dish
+                      key={index}
+                      colors={colors}
+                      data={item}
+                      defaultLanguage={defaultLanguage}
+                    />
+                  ))}
+                </CategoryWrapper>
+              )
+            )}
+          </CategoriesContainer>
+        </>
       )}
-      <CategoriesContainer>
-        {Object.values(groupDishesByCategory(items)).map((category, index) => (
-          <CategoryWrapper key={index}>
-            <CategoryText color={colors.secondary}>
-              {MenuItemTypes[index]}
-            </CategoryText>
-            {category.map((item, index) => (
-              <Dish
-                key={index}
-                colors={colors}
-                data={item}
-                defaultLanguage={defaultLanguage}
-              />
-            ))}
-          </CategoryWrapper>
-        ))}
-      </CategoriesContainer>
     </MenuContainer>
   );
 }
