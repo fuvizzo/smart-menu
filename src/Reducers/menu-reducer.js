@@ -13,7 +13,10 @@ function menuReducer(state = initialState, action) {
       state[action.payload].items = sort(menuItems);
       break;
     case MenuActions.MOCK_UNLOCALIZED_MENUS:
-      state = mockUnlocalizedMenus(state, action.payload);
+      state = mockUnlocalizedMenus(
+        action.payload.menus,
+        action.payload.defaultLanguage
+      );
       break;
     case MenuActions.CREATE_MENU:
       state[action.payload.menuId] = action.payload.value;

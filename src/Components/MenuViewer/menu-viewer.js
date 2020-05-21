@@ -11,10 +11,17 @@ import Menu from './Menu';
 const MenuViewer = props => {
   const { uniqueBusinessUrlPath } = useParams();
   const {
-    public: { data },
+    public: {
+      data,
+      settings: { defaultLanguage: publicDefaultLanguage },
+    },
     isPreview,
+    systemDefaultLanguage,
   } = props;
 
+  const defaultLanguage = isPreview
+    ? systemDefaultLanguage
+    : publicDefaultLanguage;
   useEffect(() => {
     const getMenu = async () => {
       await props.getMenu(uniqueBusinessUrlPath);
@@ -28,8 +35,9 @@ const MenuViewer = props => {
       <Redirect to="/" />
     ) : (
       <HeaderContainer maxWidth="lg">
-        <Header data={data.business} />
+        <Header defaultLanguage={defaultLanguage} data={data.business} />
         <Menu
+          defaultLanguage={defaultLanguage}
           colors={data.business.colorPalette}
           data={data.menu.list[data.menu.defaultMenuId]}
         />
@@ -41,6 +49,7 @@ const MenuViewer = props => {
 function mapStateToProps(state) {
   return {
     public: state.public,
+    systemDefaultLanguage: state.ui.settings.defaultLanguage,
   };
 }
 

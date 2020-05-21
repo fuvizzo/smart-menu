@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import MenuContainer, {
   CategoryText,
   CategoriesContainer,
@@ -9,6 +9,7 @@ import MenuContainer, {
 } from './styles';
 import Constants from '../../../Constants';
 import Dish from './Dish';
+const { Locales } = Constants;
 
 function Menu(props) {
   function groupDishesByCategory(items) {
@@ -24,8 +25,15 @@ function Menu(props) {
   const {
     data: { info, items },
     colors,
+    defaultLanguage,
   } = props;
-  const { name, description } = info.locales['en'];
+  const MenuItemTypeCategory = info.menuItemTypeCategory || 'FOOD_AND_DRINKS';
+
+  const {
+    MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
+  } = Locales[defaultLanguage];
+  const localeInfo = info.locales[defaultLanguage];
+  const { name, description } = localeInfo;
   return (
     <MenuContainer maxWidth="md">
       <Title color={colors.primary}>{name}</Title>
@@ -34,11 +42,18 @@ function Menu(props) {
         {Object.values(groupDishesByCategory(items)).map((category, index) => (
           <CategoryWrapper key={index}>
             <CategoryText color={colors.secondary}>
-              {Constants.Locales['en'].DISH_TYPES[index]}
+              {MenuItemTypes[index]}
             </CategoryText>
-            {category.map((item, index) => (
-              <Dish key={index} colors={colors} data={item} />
-            ))}
+            {category
+              .filter(item => item.locales[defaultLanguage])
+              .map((item, index) => (
+                <Dish
+                  key={index}
+                  colors={colors}
+                  data={item}
+                  defaultLanguage={defaultLanguage}
+                />
+              ))}
           </CategoryWrapper>
         ))}
       </CategoriesContainer>

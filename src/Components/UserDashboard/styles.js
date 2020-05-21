@@ -36,6 +36,10 @@ export default makeStyles(theme => ({
     paddingBottom: 10,
     fontSize: 12,
   },
+  warning: {
+    fontSize: '0.8rem',
+    color: 'yellow',
+  },
   emptyMenuList: {
     height: 250,
     display: 'flex',

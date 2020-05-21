@@ -265,7 +265,16 @@ const MenuInfoEditor = props => {
                     <MoreVertIcon />
                   </IconButton>
                 }
-                title={data.locales[defaultLanguage].name}
+                title={
+                  <Typography
+                    className={
+                      data.locales[defaultLanguage].warning &&
+                      commonClasses.warning
+                    }
+                  >
+                    {data.locales[defaultLanguage].name}
+                  </Typography>
+                }
               />
               <CardContent className={menuClasses.cardContent}>
                 <Box>

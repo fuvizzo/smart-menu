@@ -1,16 +1,30 @@
 import React from 'react';
 
-import DishContainer, {Description, DishMeta, Ingredients, Price, Title} from "./styles";
+import DishContainer, {
+  Description,
+  DishMeta,
+  Ingredients,
+  Price,
+  Title,
+} from './styles';
 
-const Dish = props => (
-  <DishContainer color={props.colors.primary}>
-    <DishMeta>
-      <Title>{props.data.locales['en'].name}</Title>
-      <Price>{props.data.price} €</Price>
-    </DishMeta>
-    {props.data.locales['en'].description && <Description>{props.data.locales['en'].description}</Description>}
-    {props.data.locales['en'].ingredients && <Ingredients>{props.data.locales['en'].ingredients}</Ingredients>}
-  </DishContainer>
-);
+const Dish = props => {
+  const {
+    defaultLanguage,
+    data: { locales },
+    colors,
+  } = props;
+  const locale = locales[defaultLanguage];
+  return (
+    <DishContainer color={colors.primary}>
+      <DishMeta>
+        <Title>{locale.name}</Title>
+        <Price>{props.data.price} €</Price>
+      </DishMeta>
+      {locale.description && <Description>{locale.description}</Description>}
+      {locale.ingredients && <Ingredients>{locale.ingredients}</Ingredients>}
+    </DishContainer>
+  );
+};
 
 export default Dish;

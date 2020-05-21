@@ -24,6 +24,7 @@ const NewMenuItemDialog = props => {
   const menuClasses = useMenuStyles();
   const defaultLanguage = ui.settings.defaultLanguage;
   const { Locales, LocalizedFields, RegexExpressions } = constants;
+  const MenuItemTypeCategory = 'FOOD_AND_DRINKS';
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -31,7 +32,7 @@ const NewMenuItemDialog = props => {
       FormValidationErrors: FormValidationErrorsLabels,
     },
 
-    DISH_TYPES: DishTypes,
+    MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
   } = Locales[defaultLanguage];
 
   const onChangeValueHandler = useCallback(
@@ -93,10 +94,10 @@ const NewMenuItemDialog = props => {
                     onChangeValueHandler(event);
                   }}
                 >
-                  {DishTypes.map((dishType, index) => {
+                  {MenuItemTypes.map((itemType, index) => {
                     return (
                       <MenuItem key={index} value={index}>
-                        {dishType}
+                        {itemType}
                       </MenuItem>
                     );
                   })}

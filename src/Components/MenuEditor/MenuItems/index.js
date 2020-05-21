@@ -78,6 +78,9 @@ const MenuItemsEditor = props => {
     ConfirmationActions,
   } = constants;
 
+  const MenuItemTypeCategory =
+    menu.info.menuItemTypeCategory || 'FOOD_AND_DRINKS';
+
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -87,7 +90,7 @@ const MenuItemsEditor = props => {
       FormValidationErrors: FormValidationErrorsLabels,
       Hints: HintLabels,
     },
-    DISH_TYPES: DishTypes,
+    MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
   } = Locales[defaultLanguage];
 
   const languageTabsPanelClickHandler = (event, menuItemId) => {
@@ -259,10 +262,10 @@ const MenuItemsEditor = props => {
                           }}
                           value={ui.editMode.data.value.category}
                         >
-                          {DishTypes.map((dishType, index) => {
+                          {MenuItemTypes.map((itemType, index) => {
                             return (
                               <MenuItem key={index} value={index}>
-                                {dishType}
+                                {itemType}
                               </MenuItem>
                             );
                           })}
@@ -328,7 +331,7 @@ const MenuItemsEditor = props => {
                             backgroundColor: DishTypesColorMap[data.category],
                           }}
                         >
-                          {DishTypes[data.category].substr(0, 1)}
+                          {MenuItemTypes[data.category].substr(0, 1)}
                         </Avatar>
                       }
                       action={
@@ -341,7 +344,16 @@ const MenuItemsEditor = props => {
                           <MoreVertIcon />
                         </IconButton>
                       }
-                      title={data.locales[defaultLanguage].name}
+                      title={
+                        <Typography
+                          className={
+                            data.locales[defaultLanguage].warning &&
+                            commonClasses.warning
+                          }
+                        >
+                          {data.locales[defaultLanguage].name}
+                        </Typography>
+                      }
                       subheader={!menu.info.setMenu && `${data.price}€`}
                     />
                     <CardContent className={menuClasses.cardContent}>

@@ -98,7 +98,21 @@ export const sortMenu = menuId => {
 };
 
 export const mockUnlocalizedMenus = defaultLanguage => {
-  return { type: MenuActions.MOCK_UNLOCALIZED_MENUS, payload: defaultLanguage };
+  return async (dispatch, getState) => {
+    try {
+      const userId = getUserId(getState);
+      const menus = (await firebaseService.read(userMenusPath(userId))).val();
+      dispatch({
+        type: MenuActions.MOCK_UNLOCALIZED_MENUS,
+        payload: {
+          menus,
+          defaultLanguage,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const createNewMenu = body => {

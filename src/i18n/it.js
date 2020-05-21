@@ -1,13 +1,23 @@
 export default {
   BUSINESS_TYPES: ['Ristorante', 'Bar', 'Caffeteria', 'Cafe', 'Pub'],
-  DISH_TYPES: [
-    'Antipasti',
-    'Primi',
-    'Secondi',
-    'Contorni',
-    'Desserts',
-    'Bibite',
-  ],
+  MenuItemTypes: {
+    FOOD_AND_DRINKS: [
+      'Antipasti',
+      'Primi',
+      'Secondi',
+      'Contorni',
+      'Desserts',
+      'Bibite',
+    ],
+    WINE_CHART: [
+      'Bollicine/spumanti',
+      'Vini rossi',
+      'Vini bianchi',
+      'Vini rosè',
+      'Vini da dessert',
+      'Liquori e distillati',
+    ],
+  },
   DEFAULT_LANGUAGE: 'Lingua stabilita',
   Languages: {
     en: 'Inglese',
@@ -78,6 +88,7 @@ export default {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
     },
     Warnings: {
+      MISSING_NAME: 'NOME_MANCANTE',
       MISSING_FIELD: 'Questo campo non è stato ancora riempito',
       getMissingFieldDetailedMessage: fieldName =>
         `Il campo '${fieldName}' non è stato ancora riempito`,

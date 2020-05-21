@@ -33,6 +33,9 @@ export default makeStyles(theme => ({
   header: {
     flexGrow: 1,
   },
+  warning: {
+    color: 'yellow',
+  },
   textField: {},
   buttonBar: {
     display: 'flex',

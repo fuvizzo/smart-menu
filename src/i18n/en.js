@@ -1,13 +1,16 @@
 export default {
   BUSINESS_TYPES: ['Restaurant', 'Bar', 'Cafeteria', 'Cafe', 'Pub'],
-  DISH_TYPES: [
-    'Starters',
-    'Main Courses',
-    'Seconds',
-    'Side Dishes',
-    'Desserts',
-    'Drinks',
-  ],
+  MenuItemTypes: {
+    FOOD_AND_DRINKS: [
+      'Starters',
+      'Main Courses',
+      'Seconds',
+      'Side Dishes',
+      'Desserts',
+      'Drinks',
+    ],
+    WINE_CHART: [],
+  },
   DEFAULT_LANGUAGE: 'Default language',
   Languages: {
     en: 'English',
@@ -78,6 +81,7 @@ export default {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',
     },
     Warnings: {
+      MISSING_NAME: 'MISSING_NAME',
       MISSING_FIELD: "This field hasn't been filled up",
       getMissingFieldDetailedMessage: fieldName =>
         `The field '${fieldName}' hasn't been filled up`,

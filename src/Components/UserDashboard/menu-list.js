@@ -206,7 +206,16 @@ const MenuList = props => {
                         <MoreVertIcon />
                       </IconButton>
                     }
-                    title={menu.info.locales[defaultLanguage].name}
+                    title={
+                      <Typography
+                        className={
+                          menu.info.locales[defaultLanguage].warning &&
+                          classes.warning
+                        }
+                      >
+                        {menu.info.locales[defaultLanguage].name}
+                      </Typography>
+                    }
                     subheader={
                       menu.info.setMenu ? (
                         <div>
