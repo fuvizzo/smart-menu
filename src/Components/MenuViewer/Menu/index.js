@@ -1,5 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
+
+import LanguageSelector from './../LanguageSelector';
+
 import MenuContainer, {
   CategoryText,
   CategoriesContainer,
@@ -23,7 +25,7 @@ function Menu(props) {
   }
 
   const {
-    data: { info, items },
+    data: { providedLanguages, info, items },
     colors,
     defaultLanguage,
   } = props;
@@ -33,27 +35,38 @@ function Menu(props) {
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
   } = Locales[defaultLanguage];
   const localeInfo = info.locales[defaultLanguage];
-  const { name, description } = localeInfo;
+
   return (
     <MenuContainer maxWidth="md">
-      <Title color={colors.primary}>{name}</Title>
-      <Description>{description}</Description>
+      <LanguageSelector
+        colors={colors}
+        defaultLanguage={defaultLanguage}
+        providedLanguages={providedLanguages}
+      />
+      {localeInfo ? (
+        <>
+          <Title color={colors.primary}>{localeInfo.name}</Title>
+          <Description>{localeInfo.description}</Description>
+        </>
+      ) : (
+        <span style={{ color: 'red' }}>
+          Menu info are missing for this language
+        </span>
+      )}
       <CategoriesContainer>
         {Object.values(groupDishesByCategory(items)).map((category, index) => (
           <CategoryWrapper key={index}>
             <CategoryText color={colors.secondary}>
               {MenuItemTypes[index]}
             </CategoryText>
-            {category
-              .filter(item => item.locales[defaultLanguage])
-              .map((item, index) => (
-                <Dish
-                  key={index}
-                  colors={colors}
-                  data={item}
-                  defaultLanguage={defaultLanguage}
-                />
-              ))}
+            {category.map((item, index) => (
+              <Dish
+                key={index}
+                colors={colors}
+                data={item}
+                defaultLanguage={defaultLanguage}
+              />
+            ))}
           </CategoryWrapper>
         ))}
       </CategoriesContainer>

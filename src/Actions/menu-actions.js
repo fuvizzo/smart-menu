@@ -115,6 +115,26 @@ export const mockUnlocalizedMenus = defaultLanguage => {
   };
 };
 
+export const setProvidedLanguages = (menuId, providedLanguages) => {
+  return async (dispatch, getState) => {
+    const userId = getUserId(getState);
+    const path = `${userMenusPath(userId)}/${menuId}`;
+    const data = {
+      path,
+      body: { providedLanguages },
+    };
+    try {
+      await firebaseService.update(data);
+      dispatch({
+        type: MenuActions.SET_PROVIDED_LANGUAGES,
+        payload: { menuId, value: providedLanguages },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const createNewMenu = body => {
   return async (dispatch, getState) => {
     const userId = getUserId(getState);

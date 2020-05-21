@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, Redirect } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
+
 import { isEmpty } from 'lodash';
 import { HeaderContainer } from './styles';
 
@@ -13,15 +14,11 @@ const MenuViewer = props => {
   const {
     public: {
       data,
-      settings: { defaultLanguage: publicDefaultLanguage },
+      settings: { defaultLanguage },
     },
     isPreview,
-    systemDefaultLanguage,
   } = props;
 
-  const defaultLanguage = isPreview
-    ? systemDefaultLanguage
-    : publicDefaultLanguage;
   useEffect(() => {
     const getMenu = async () => {
       await props.getMenu(uniqueBusinessUrlPath);
@@ -35,7 +32,7 @@ const MenuViewer = props => {
       <Redirect to="/" />
     ) : (
       <HeaderContainer maxWidth="lg">
-        <Header defaultLanguage={defaultLanguage} data={data.business} />
+        <Header data={data.business} />
         <Menu
           defaultLanguage={defaultLanguage}
           colors={data.business.colorPalette}
@@ -49,7 +46,6 @@ const MenuViewer = props => {
 function mapStateToProps(state) {
   return {
     public: state.public,
-    systemDefaultLanguage: state.ui.settings.defaultLanguage,
   };
 }
 

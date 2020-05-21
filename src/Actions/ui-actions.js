@@ -90,3 +90,7 @@ export const setDefaultSystemLanguage = payload => {
 export const setError = payload => {
   return { type: UI_Actions.SET_ERROR, payload };
 };
+
+export const setDefaultPublicLanguage = payload => {
+  return { type: UI_Actions.SET_DEFAULT_PUBLIC_LANGUAGE, payload };
+};

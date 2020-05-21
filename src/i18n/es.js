@@ -49,6 +49,8 @@ export default {
       PUBLISHED: 'Published',
       ITEMS: 'Items',
       INFO: 'Info',
+      LANGUAGE_SETTINGS: 'Language settings',
+      PROVIDED_LANGUAGES: 'Contents for the current menu will be provided in',
     },
     Business: {
       NAME: 'Business name',

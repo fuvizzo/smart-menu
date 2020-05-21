@@ -18,7 +18,7 @@ const UserDashboard = props => {
   // console.log(useLocation());
   return (
     <>
-      <Redirect to={`${path}/menu-list`} />
+      {/*       <Redirect to={`${path}/menu-list`} /> */}
       <Switch>
         <AuthRoute path={`${path}/account`}>
           <Dashboard sectionHeader={<AccountSectionHeader />}>

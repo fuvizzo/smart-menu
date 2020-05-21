@@ -56,6 +56,8 @@ export default {
       PUBLISHED: 'Pubblicato',
       ITEMS: 'Elementi',
       INFO: 'Info',
+      LANGUAGE_SETTINGS: 'Impostazioni lingua',
+      PROVIDED_LANGUAGES: 'Il menu corrente sarà consultabile in:',
     },
     Business: {
       NAME: "Nome dell'attività",

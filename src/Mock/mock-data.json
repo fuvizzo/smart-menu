@@ -36,6 +36,7 @@
     "OIRnMadgbecau6O6QL9xlyqoBkI2": {
       "menus": {
         "9b940e13-f7c2-4df1-a1ae-eeaad721039b": {
+          "providedLanguages": ["en", "it"],
           "published": true,
           "info": {
             "locales": {
@@ -72,6 +73,7 @@
           }
         },
         "d010d4df-0b7a-42b2-9bd9-6971498c6c53": {
+          "providedLanguages": [],
           "published": false,
           "info": {
             "locales": {

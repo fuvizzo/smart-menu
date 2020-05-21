@@ -15,7 +15,7 @@ const Dish = props => {
     colors,
   } = props;
   const locale = locales[defaultLanguage];
-  return (
+  return locale ? (
     <DishContainer color={colors.primary}>
       <DishMeta>
         <Title>{locale.name}</Title>
@@ -24,6 +24,10 @@ const Dish = props => {
       {locale.description && <Description>{locale.description}</Description>}
       {locale.ingredients && <Ingredients>{locale.ingredients}</Ingredients>}
     </DishContainer>
+  ) : (
+    <span style={{ color: 'red' }}>
+      The menu item descrition is missing for this language
+    </span>
   );
 };
 

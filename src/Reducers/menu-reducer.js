@@ -8,6 +8,9 @@ function menuReducer(state = initialState, action) {
     case MenuActions.GET_MENUS:
       state = action.payload;
       break;
+    case MenuActions.SET_PROVIDED_LANGUAGES:
+      state[action.payload.menuId].providedLanguages = action.payload.value;
+      break;
     case MenuActions.SORT_MENU:
       const menuItems = state[action.payload].items;
       state[action.payload].items = sort(menuItems);

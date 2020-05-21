@@ -8,17 +8,25 @@ import { store, persistor } from './Store/index';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { StylesProvider } from '@material-ui/styles';
+const skipKeys = [
+  'redux-persist localStorage test',
+  'firebase:sentinel',
+  'persist:publicStore',
+];
+window.addEventListener('storage', e => {
+  if (!skipKeys.some(key => key === e.key)) window.location.href = '/';
+});
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <StylesProvider injectFirst>
-          <App />
-        </StylesProvider>
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  /*  <React.StrictMode> */
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <StylesProvider injectFirst>
+        <App />
+      </StylesProvider>
+    </PersistGate>
+  </Provider>,
+  /* </React.StrictMode> */ document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

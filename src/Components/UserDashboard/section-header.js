@@ -12,6 +12,7 @@ const { Locales } = constants;
 
 const emptyMenuData = defaultLanguage => ({
   published: false,
+  providedLanguages: [defaultLanguage],
   items: {},
   info: {
     locales: {

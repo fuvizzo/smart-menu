@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 
 import MenuItemsEditor from './MenuItems';
 import MenuInfoEditor from './MenuInfo';
+import MenuLanguageSettingEditor from './MenuLanguageSetting';
 import { TabPanel } from '../Common';
 import constants from '../../Constants/index';
 import * as uiActions from '../../Actions/ui-actions';
@@ -56,6 +57,7 @@ const MenuEditor = props => {
       >
         <Tab label={MenuLabels.ITEMS} {...a11yProps(0)} />
         <Tab label={MenuLabels.INFO} {...a11yProps(1)} />
+        <Tab label={MenuLabels.LANGUAGE_SETTINGS} {...a11yProps(2)} />
       </Tabs>
       <TabPanel
         value={ui.menuEditorTabsPanel.index}
@@ -75,6 +77,16 @@ const MenuEditor = props => {
       >
         <Box mt={1.5}>
           <MenuInfoEditor menu={menu} />
+        </Box>
+      </TabPanel>
+      <TabPanel
+        value={ui.menuEditorTabsPanel.index}
+        index={2}
+        ariaLabelledByPrefix="menu-editor-tab"
+        idPrefix="menu-editor-tabpanel"
+      >
+        <Box mt={1.5}>
+          <MenuLanguageSettingEditor menu={menu} />
         </Box>
       </TabPanel>
     </>

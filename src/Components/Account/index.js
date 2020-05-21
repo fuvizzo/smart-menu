@@ -61,13 +61,13 @@ const Account = props => {
         <FormLabel
           className={commonClasses.label}
           component="legend"
-          id="dish-select-label"
+          id="language-select-label"
         >
           {DEFAULT_LANGUAGE}
         </FormLabel>
 
         <RadioGroup
-          aria-label="dish-select-label"
+          aria-label="language-select-label"
           value={defaultLanguage}
           onChange={onChangeValueHandler}
         >

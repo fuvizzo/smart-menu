@@ -1,29 +1,37 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import EditIcon from '@material-ui/icons/Edit';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+  CardHeader,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Card,
+  Grid,
+  Button,
+  Box,
+  FormControlLabel,
+  Switch,
+  FormControl,
+  CardContent,
+  Typography,
+  Collapse,
+  CardActions,
+} from '@material-ui/core';
+
+import {
+  MoreVert as MoreVertIcon,
+  Edit as EditIcon,
+  ExpandMore as ExpandMoreIcon,
+} from '@material-ui/icons';
+
 import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import FormControl from '@material-ui/core/FormControl';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+
 import LocaleEditor from '../base-locale-editor';
-import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
 import { PopoverComponent as MenuInfoActionsPopover } from '../../Common';
-import CardActions from '@material-ui/core/CardActions';
+
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 import { onChangeInputValueHandler } from '../handlers';

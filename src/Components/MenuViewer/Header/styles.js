@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from "@material-ui/core/Container";
+import Container from '@material-ui/core/Container';
 
 const HeaderContainer = styled(Container)`
   display: flex;
@@ -17,9 +17,6 @@ const Title = styled.h2`
   margin: 0;
 `;
 
-export {
-  Logo,
-  Title,
-}
+export { Logo, Title };
 
 export default HeaderContainer;
