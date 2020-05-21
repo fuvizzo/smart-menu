@@ -1,6 +1,6 @@
 import * as MenuActions from './../Constants/menu-action-types';
 import { cloneDeep } from 'lodash';
-import { sort } from '../Helpers/index';
+import { sort, mockUnlocalizedMenus } from '../Helpers/index';
 const initialState = {};
 
 function menuReducer(state = initialState, action) {
@@ -11,6 +11,9 @@ function menuReducer(state = initialState, action) {
     case MenuActions.SORT_MENU:
       const menuItems = state[action.payload].items;
       state[action.payload].items = sort(menuItems);
+      break;
+    case MenuActions.MOCK_UNLOCALIZED_MENUS:
+      state = mockUnlocalizedMenus(state, action.payload);
       break;
     case MenuActions.CREATE_MENU:
       state[action.payload.menuId] = action.payload.value;

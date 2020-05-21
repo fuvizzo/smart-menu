@@ -32,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "nodemon": "nodemon   test/server-local.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +51,8 @@
     ]
   },
   "devDependencies": {
-    "firebase-mock": "^2.3.2"
+    "esm": "^3.2.25",
+    "firebase-mock": "^2.3.2",
+    "nodemon": "^2.0.4"
   }
 }

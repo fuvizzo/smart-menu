@@ -1,5 +1,7 @@
 export const GET_MENU = '@@MENU/GET_MENU';
 export const SORT_MENU = '@@MENU/SORT_MENU';
+export const MOCK_UNLOCALIZED_MENUS = '@@MENU/MOCK_UNLOCALIZED_MENUS';
+
 export const GET_MENUS = '@@MENU/GET_MENUS';
 
 export const TOGGLE_PUBLISHED = '@@MENU/TOGGLE_PUBLISHED';

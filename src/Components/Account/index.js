@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
@@ -8,7 +8,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import * as uiActions from '../../Actions/ui-actions';
+import { setDefaultSystemLanguage } from '../../Actions/ui-actions';
+import { mockUnlocalizedMenus } from '../../Actions/menu-actions';
 import constants from '../../Constants/index';
 import useCommonStyles from '../Common/styles';
 
@@ -23,7 +24,13 @@ const Account = props => {
     DEFAULT_LANGUAGE,
   } = Locales[defaultLanguage];
 
-  const onChangeValueHandler = () => {};
+  const onChangeValueHandler = useCallback(
+    (event, value) => {
+      props.setDefaultSystemLanguage(value);
+      props.mockUnlocalizedMenus(value);
+    },
+    [defaultLanguage]
+  );
 
   const commonClasses = useCommonStyles();
   return (
@@ -92,4 +99,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, uiActions)(Account);
+export default connect(mapStateToProps, {
+  setDefaultSystemLanguage,
+  mockUnlocalizedMenus,
+})(Account);

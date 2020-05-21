@@ -16,8 +16,6 @@ import {
   Switch,
   Route,
   Link as RouterLink,
-  Redirect,
-  useLocation,
 } from 'react-router-dom';
 import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
@@ -35,7 +33,6 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
     Labels: { Sections: SectionLabels, Actions: ActionsLabels },
   } = Locales[defaultLanguage];
 
-  console.log(useLocation());
   return (
     <>
       <CssBaseline />
@@ -91,7 +88,7 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
   );
 });
 
-const App = props => {
+const App = () => {
   return (
     <Router>
       <Switch>

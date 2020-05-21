@@ -1,0 +1,133 @@
+export default {
+  BUSINESS_TYPES: ['Ristorante', 'Bar', 'Caffeteria', 'Cafe', 'Pub'],
+  DISH_TYPES: [
+    'Antipasti',
+    'Primi',
+    'Secondi',
+    'Contorni',
+    'Desserts',
+    'Bibite',
+  ],
+  DEFAULT_LANGUAGE: 'Lingua stabilita',
+  Languages: {
+    en: 'Inglese',
+    es: 'Spagnolo',
+    cat: 'Catalano',
+    it: 'Italiano',
+    fr: 'Francese',
+  },
+  Labels: {
+    Sections: {
+      DASHBOARD: 'Dashboard',
+      MENU_LIST: 'Lista menu',
+      MENU_EDITOR: 'Menu editor',
+      ACCOUNT: 'Account',
+      SUBSCRIPTION_STATUS: "Stato dell'abbonamento",
+      BUSINESS: 'La mia attività',
+      SIGN_IN: 'Entra',
+      SIGN_UP: 'Registrati',
+      PRICING: 'Costo del servizio',
+      HOME: 'Home',
+    },
+    Menu: {
+      INGREDIENTS_LIST: 'Lista ingredienti',
+      MENU: 'Menu',
+      TYPE: 'Tipo di menù',
+      SET_MENU: 'Menù a prezzo fisso',
+      DISH_NAME: 'Nome del piatto',
+      MENU_NAME: 'Nome del menù',
+      EMPTY_MENU: 'Il menu corrente non contiene ancora nessun elemento',
+      EMPTY_MENU_LIST: 'Non è stato creato ancora alcun menù',
+      CATEGORY: 'Categoria',
+      DESCRIPTION: 'Descrizione',
+      PRICE: 'Prezzo (€)',
+      LANGUAGE: 'Lingua',
+      UNPUBLISHED: 'Non pubblicato',
+      PUBLISHED: 'Pubblicato',
+      ITEMS: 'Elementi',
+      INFO: 'Info',
+    },
+    Business: {
+      NAME: "Nome dell'attività",
+      UNIQUE_URL_PATH: 'Percorso URL univoco',
+      LOGO: 'Logo attività',
+      HEADER_BANNER: 'Header banner (dimensioni suggerite: 1024 x 300 px)',
+      ColorPalette: {
+        PRIMARY: 'Colore primario',
+        SECONDARY: 'Colore secondario',
+        ACCENT: "Colore d'accento",
+      },
+      TYPE: 'Tipo',
+    },
+    Account: {
+      FIRST_NAME: 'Nome',
+      LAST_NAME: 'Cognome',
+      ACCOUNT_OWNER: "Proprietario dell'account",
+      EMAIL_ADDRESS: 'Indirizzo email',
+      PASSWORD: 'Password',
+      NEWS_LETTER:
+        'Voglio ricevere news, promozioni commerciali ed aggiornamenti via email',
+    },
+    FormValidationErrors: {
+      REQUIRED: 'Questo campo è richiesto',
+      CURRENCY: 'Questo campo deve essere in formato € (es: 10,50)',
+      UNIQUE_URL_PATH_ALREADY_IN_USE:
+        'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
+    },
+    Common: {
+      SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
+    },
+    Warnings: {
+      MISSING_FIELD: 'Questo campo non è stato ancora riempito',
+      getMissingFieldDetailedMessage: fieldName =>
+        `Il campo '${fieldName}' non è stato ancora riempito`,
+    },
+    Hints: {
+      UNIQUE_URL_PATH:
+        'Questo parametro è un ID di facile utilizzo a cui verrà connessa la tua attività in modo che i tui clienti podranno accedere ai tuoi menù in modo semplice',
+      LOGO: 'Il logo della tua attivtà cerrà mostrato nella pagina del menù',
+      SIGN_IN: 'Possiedi già un account? Entra',
+      SIGN_UP: 'Non possiedi ancora un account? Registrati',
+      PASSWORD_FORGOTTEN: 'Password dimenticata?',
+      ADD_MENU:
+        "Inizia a creare un nuovo menù cliccando sul bottono col simbolo 'più' in alto a destra dello schermo",
+      ADD_MENU_ITEM:
+        "Inizia ad aggiungere elementi al menù cliccando sul bottono col simbolo 'più' in alto a destra dello schermo",
+    },
+    Actions: {
+      EDIT_COLOR: 'Cambia colore',
+      APPLY_CHANGES: 'Conferma le modifiche',
+      PROCEED: 'Procedi',
+      CANCEL: 'Annulla',
+      SAVE: 'Salva',
+      SELECT: 'Seleziona',
+      PREVIEW: 'Preview',
+      EDIT: 'Modifica',
+      CREATE: 'Crea',
+      DELETE: 'Elimina',
+      SIGN_IN: 'Entra',
+      SIGN_UP: 'Registrati',
+      SIGN_OUT: 'Esci',
+      ADD_NEW_MENU_ITEM: 'Aggiungi un nuovo elemento',
+      ADD_NEW_MENU: 'Aggiungi un nuovo menù',
+      REMEMBER_ME: 'Ricordami',
+      BACK_TO_DASHBOARD: 'Torna alla dashboard',
+    },
+  },
+  ConfirmationActions: {
+    DELETE_MENU: {
+      getTitle: name => `Elimina il menù '${name}'`,
+      getContent: name => `Clicca su procedi per eliminare il menù '${name}'`,
+    },
+    DELETE_MENU_ITEM: {
+      getTitle: itemName => `Elimina l'elemento del menù '${itemName}'`,
+      getContent: itemName =>
+        `Clicca su procedi per eliminare l'elemento selezionato '${itemName}'`,
+    },
+    DELETE_MENU_ITEM_LOCALE: {
+      getTitle: lang => `Elimina la traduzione in '${lang}'`,
+      getContent: lang =>
+        `Clicca su procedi per eliminare la traduzione in '${lang}' per l'elemento selezionato`,
+    },
+  },
+};

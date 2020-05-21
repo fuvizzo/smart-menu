@@ -33,11 +33,15 @@ export const getMenu = uniqueUrlPath => {
           .orderByChild(`${path}/menus`, 'published', true)
           .read();
         const list = results.val();
-        data.menu = {
-          list,
-          defaultMenuId: Object.keys(list)[0],
-        };
-        dispatch({ type: MenuActions.GET_MENU, payload: data });
+        if (list) {
+          data.menu = {
+            list,
+            defaultMenuId: Object.keys(list)[0],
+          };
+          dispatch({ type: MenuActions.GET_MENU, payload: data });
+        } else {
+          dispatch({ type: MenuActions.GET_MENU, payload: { notFound: true } });
+        }
       } else {
         dispatch({ type: MenuActions.GET_MENU, payload: { notFound: true } });
       }
@@ -91,6 +95,10 @@ export const togglePublishedStatus = (menuId, published) => {
 
 export const sortMenu = menuId => {
   return { type: MenuActions.SORT_MENU, payload: menuId };
+};
+
+export const mockUnlocalizedMenus = defaultLanguage => {
+  return { type: MenuActions.MOCK_UNLOCALIZED_MENUS, payload: defaultLanguage };
 };
 
 export const createNewMenu = body => {

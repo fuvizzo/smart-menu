@@ -3,13 +3,20 @@ import { connect } from 'react-redux';
 import constants from '../../Constants';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
-import { DialogTitle, DialogContent } from '../Common';
+import { DialogTitle, DialogContent, DialogActions } from '../Common';
 
 import { SketchPicker } from 'react-color';
 
 const ColorPickerDialog = props => {
-  const { ui, onChangeCompleteHandler, state, onCloseHandler } = props;
+  const {
+    ui,
+    onChangeCompleteHandler,
+    state,
+    onCloseHandler,
+    onSelectColorHandler,
+  } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
   const { Locales } = constants;
   const {
@@ -24,7 +31,6 @@ const ColorPickerDialog = props => {
     >
       <DialogTitle id="color-picker-dialog-title" onClose={onCloseHandler}>
         <Typography color="secondary">
-          {ActionsLabels.EDIT_COLOR}{' '}
           {BusinessLabels.ColorPalette[state.name.toUpperCase()]}
         </Typography>
       </DialogTitle>
@@ -36,6 +42,17 @@ const ColorPickerDialog = props => {
           }
         />
       </DialogContent>
+      <DialogActions>
+        <Button
+          size="small"
+          onClick={onSelectColorHandler}
+          autoFocus
+          color="primary"
+          variant="contained"
+        >
+          {ActionsLabels.SELECT}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

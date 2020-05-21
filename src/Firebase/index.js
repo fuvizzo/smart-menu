@@ -14,4 +14,4 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export default new FirebaseService(firebase);
+export default new FirebaseService(firebaseMock);

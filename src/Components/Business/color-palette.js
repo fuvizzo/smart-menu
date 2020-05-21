@@ -80,12 +80,17 @@ export const ColorEditor = ({ data, locale, onChangeCompleteHandler }) => {
         open={colorPickerDialogState.open}
         onCloseHandler={() => setColorPickerDialogState(defaultState)}
         state={colorPickerDialogState}
+        onSelectColorHandler={() => {
+          data.colorPalette[colorPickerDialogState.name] =
+            colorPickerDialogState.color.hex;
+          setColorPickerDialogState(defaultState);
+        }}
         onChangeCompleteHandler={(hex, name) => {
           setColorPickerDialogState({
             ...colorPickerDialogState,
             color: { hex },
           });
-          data.colorPalette[name] = hex;
+          /*   data.colorPalette[name] = hex; */
         }}
       />
       {items.map((item, index) => {
