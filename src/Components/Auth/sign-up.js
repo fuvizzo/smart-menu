@@ -22,7 +22,7 @@ import { TextField } from 'formik-material-ui';
 
 import { signUp as createSignUpSchema } from '../../Schemas/account';
 import constants from '../../Constants/index';
-import * as userActions from '../../Actions/index';
+import { signUp } from '../../Actions/index';
 import Copyright from '../Common/copyright';
 import useStyles from './styles';
 
@@ -48,7 +48,7 @@ const SignUp = props => {
   const onSignUpClickHandler = async (data, { setSubmitting }) => {
     setSubmitting(false);
 
-    await signUp(data);
+    await props.signUp(data);
     history.push('dashboard/menu-list');
   };
 
@@ -195,4 +195,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, userActions)(SignUp);
+export default connect(mapStateToProps, { signUp })(SignUp);

@@ -3,6 +3,7 @@ import MUI_HelpIcon from '@material-ui/icons/Help';
 import {
   Box,
   Typography,
+  List,
   FormControl as MUI_FormControl,
   withStyles,
 } from '@material-ui/core';

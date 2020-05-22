@@ -87,6 +87,7 @@ export default {
       CURRENCY: 'Questo campo deve essere in formato € (es: 10,50)',
       UNIQUE_URL_PATH_ALREADY_IN_USE:
         'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
+      INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',

@@ -56,7 +56,6 @@ const MenuItemsEditor = props => {
 
   const dashboardClasses = useDashboardStyles();
   const menuClasses = useMenuStyles();
-  const commonClasses = useCommonStyles();
   const {
     menu,
     ui,

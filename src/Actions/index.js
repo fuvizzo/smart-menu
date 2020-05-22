@@ -20,7 +20,7 @@ const setUpStore = (authData, userData, dispatch) => {
   });
 };
 
-export function signInWithEmailAndPassword(email, password) {
+export const signInWithEmailAndPassword = (email, password) => {
   return async dispatch => {
     try {
       const authData = await firebaseService.auth.signInWithEmailAndPassword(
@@ -37,7 +37,7 @@ export function signInWithEmailAndPassword(email, password) {
       dispatch({ type: UserActions.SHOW_AUTH_ERROR, payload: error });
     }
   };
-}
+};
 export function signUp({
   firstName,
   lastName,
@@ -85,7 +85,7 @@ export function signUp({
   };
 }
 
-export function signOut() {
+export const signOut = () => {
   return async dispatch => {
     try {
       await firebaseService.auth.signOut();
@@ -95,4 +95,16 @@ export function signOut() {
       dispatch({ type: UserActions.SHOW_AUTH_ERROR, payload: error });
     }
   };
-}
+};
+
+export const submitResetPasswordRequest = email => {
+  return async dispatch => {
+    try {
+      await firebaseService.auth.sendPasswordResetEmail(email);
+      /* dispatch({ type: UserActions.SIGN_OUT }); */
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: UserActions.SHOW_AUTH_ERROR, payload: error });
+    }
+  };
+};

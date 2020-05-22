@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { Button } from '@material-ui/core/';
-import { AppBar, Toolbar, ToolbarTitle, Link, RouterLink } from './styles';
+import { Button, Typography, ListItem } from '@material-ui/core/';
+import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
 import AuthRoute from '../Auth/auth-route';
 import SignIn from '../Auth/sign-in';
 import SignUp from '../Auth/sign-up';
@@ -32,16 +32,18 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
             {!props.user && <div>Smart menu</div>}
           </ToolbarTitle>
           <nav>
-            <RouterLink to="/">
-              <Link variant="button" color="textPrimary">
-                {SectionLabels.HOME}
-              </Link>
-            </RouterLink>
-            <RouterLink to="/pricing">
-              <Link variant="button" color="textPrimary" to="/pricing">
-                {SectionLabels.PRICING}
-              </Link>
-            </RouterLink>
+            <NavList component="div">
+              <ListItem button component={RouterLink} to="/">
+                <Typography color="textPrimary">
+                  {SectionLabels.HOME}
+                </Typography>
+              </ListItem>
+              <ListItem button component={RouterLink} to="/pricing">
+                <Typography color="textPrimary" to="/pricing">
+                  {SectionLabels.PRICING}
+                </Typography>
+              </ListItem>
+            </NavList>
           </nav>
 
           <Button

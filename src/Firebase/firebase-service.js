@@ -19,6 +19,13 @@ class FirebaseService {
       await this.#auth.signInWithEmailAndPassword(email, password),
 
     signOut: async () => this.#auth.signOut(),
+
+    sendPasswordResetEmail: async email => {
+      const actionCodeSettings = {
+        url: process.env.REACT_APP_BACK_END_URL,
+      };
+      await this.#auth.sendPasswordResetEmail(email, actionCodeSettings);
+    },
   };
 
   create = async ({ path, body }) => this.#database.ref(path).set(body);

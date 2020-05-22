@@ -13,7 +13,7 @@ import {
   TextField,
   FormControlLabel,
 } from '@material-ui/core';
-
+import PasswordResetDialog from './password-reset-dialog';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import constants from '../../Constants/index';
@@ -28,8 +28,9 @@ const emptySignInState = {
   password: 'password',
 };
 const SignIn = props => {
-  console.count('SignIn renders');
+  const [passwordResetDialogOpen, setPasswordResetDialogOpen] = useState(false);
   const history = useHistory();
+  console.log(process.env.REACT_APP_BACK_END_URL);
   const {
     Labels: {
       Account: AccountLabels,
@@ -59,78 +60,91 @@ const SignIn = props => {
     [loginData]
   );
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={4} md={7} className={classes.image}>
-        <img src={LoginImage} alt="login-wallpaper" />
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {SectionLabels.SIGN_IN}
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label={AccountLabels.EMAIL_ADDRESS}
-              name="email"
-              onChange={onChangeValueHandler}
-              value={loginData.email}
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              onChange={onChangeValueHandler}
-              value={loginData.password}
-              name="password"
-              label={AccountLabels.PASSWORD}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              onClick={loginHandler}
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              {ActionLabels.SIGN_IN}
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {HintLabels.PASSWORD_FORGOTTEN}
-                </Link>
+    <>
+      <PasswordResetDialog
+        open={passwordResetDialogOpen}
+        onCloseHandler={() => setPasswordResetDialogOpen(false)}
+      />
+      <Grid container component="main" className={classes.root}>
+        <Grid item xs={false} sm={4} md={7} className={classes.image}>
+          <img src={LoginImage} alt="login-wallpaper" />
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {SectionLabels.SIGN_IN}
+            </Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label={AccountLabels.EMAIL_ADDRESS}
+                name="email"
+                onChange={onChangeValueHandler}
+                value={loginData.email}
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                onChange={onChangeValueHandler}
+                value={loginData.password}
+                name="password"
+                label={AccountLabels.PASSWORD}
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                onClick={loginHandler}
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                {ActionLabels.SIGN_IN}
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link
+                    href="#"
+                    onClick={event => {
+                      event.preventDefault();
+                      setPasswordResetDialogOpen(true);
+                    }}
+                    variant="body2"
+                  >
+                    {HintLabels.PASSWORD_FORGOTTEN}
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to="/sign-up" component={RouterLink} variant="body2">
+                    {HintLabels.SIGN_UP}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link to="/sign-up" component={RouterLink} variant="body2">
-                  {HintLabels.SIGN_UP}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
+              <Box mt={5}>
+                <Copyright />
+              </Box>
+            </form>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
