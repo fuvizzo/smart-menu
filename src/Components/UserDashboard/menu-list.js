@@ -148,8 +148,7 @@ const MenuList = props => {
               const business = businessId
                 ? businesses[businessId]
                 : Object.values(businesses)[0];
-              const menuPreviewPath =
-                business.uniqueUrlPath || 'name-of-your-business-here';
+              const menuPreviewPath = business.uniqueUrlPath;
               window.open(`/menu-preview/${menuPreviewPath}?menu-id=${menuId}`);
               hideActionsPopover();
               setActionPopoverAnchorEl(null);

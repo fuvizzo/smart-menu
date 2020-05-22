@@ -1,35 +1,39 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import CardHeader from '@material-ui/core/CardHeader';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+  CardHeader,
+  TextField,
+  IconButton,
+  Button,
+  Typography,
+  ListItem,
+  Box,
+  CardContent,
+  MenuItem,
+  ListItemText,
+  Card,
+  CardActions,
+  Grid,
+  FormControl,
+  Avatar,
+  Collapse,
+  ListItemIcon,
+} from '@material-ui/core/';
+
+import {
+  Edit as EditIcon,
+  MoreVert as MoreVertIcon,
+  ExpandMore as ExpandMoreIcon,
+  Delete as DeleteIcon,
+} from '@material-ui/icons/';
+
 import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
 import ConfirmationDialog from '../../UserDashboard/confirmation-dialog';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
 import LocaleEditor from './locale-editor';
-import Avatar from '@material-ui/core/Avatar';
-import Collapse from '@material-ui/core/Collapse';
 import LanguageTabsPanel from './language-tabs-panel';
 import { PopoverComponent as MenuItemActionsPopover } from '../../Common';
-
-import CardActions from '@material-ui/core/CardActions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-
 import { onChangeInputValueHandler } from '../handlers';
 import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';

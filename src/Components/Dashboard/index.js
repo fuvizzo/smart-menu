@@ -18,7 +18,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { setDashboardDrawerOpen } from '../../Actions/ui-actions';
 import useStyles from './styles';
 
-import LeftMenu from './left-menu';
 const Dashboard = props => {
   console.count('Dashboard renders');
   const { ui, children } = props;
@@ -71,7 +70,7 @@ const Dashboard = props => {
               Smart Menu!!
             </Typography>
           </Box>
-          <LeftMenu />
+          {props.leftMenu}
         </Box>
       </Drawer>
 

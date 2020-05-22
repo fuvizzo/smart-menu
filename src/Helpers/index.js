@@ -29,3 +29,16 @@ export const mockUnlocalizedMenus = (list, defaultLanguage) => {
   });
   return list;
 };
+
+export const downLoadSvgImage = (htmlElementId, name) => {
+  function download(dataURL) {
+    var dl = document.createElement('a');
+    document.body.appendChild(dl); // This line makes it work in Firefox.
+    dl.setAttribute('href', dataURL);
+    dl.setAttribute('download', `${name}.svg`);
+    dl.click();
+  }
+  const svg = document.getElementById(htmlElementId);
+  var svgAsXML = new XMLSerializer().serializeToString(svg);
+  download(`data:image/svg+xml,${encodeURIComponent(svgAsXML)}`);
+};

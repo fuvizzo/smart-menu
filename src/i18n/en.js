@@ -51,6 +51,8 @@ export default {
       INFO: 'Info',
       LANGUAGE_SETTINGS: 'Language settings',
       PROVIDED_LANGUAGES: 'Contents for the current menu will be provided in:',
+      QR_CODE: 'QR code of the menu page',
+      WEB_LINK: 'Web address of the menu page',
     },
     Business: {
       NAME: 'Business name',
@@ -118,6 +120,8 @@ export default {
       ADD_NEW_MENU: 'Add a new menu',
       REMEMBER_ME: 'Remember me',
       BACK_TO_DASHBOARD: 'Back to dashboard',
+      DOWNLOAD: 'Download',
+      PRINT: 'Print',
     },
   },
   ConfirmationActions: {

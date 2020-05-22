@@ -1,5 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
+
+import { makeStyles, styled } from '@material-ui/core/styles';
+import { QRCodeIcon as QRCode } from '../SVGs';
+
+export const QRCodeIcon = styled(QRCode)({
+  fontSize: '1.51rem',
+});
+
 export default makeStyles(theme => ({
   cardGrid: {
     minWidth: 300,
@@ -15,6 +22,7 @@ export default makeStyles(theme => ({
     height: 80,
   },
   media: {
+    backgroundSize: '80%',
     height: 0,
     paddingTop: '56.25%', // 16:9
   },

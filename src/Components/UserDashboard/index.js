@@ -13,6 +13,16 @@ import { Switch, useRouteMatch, Redirect } from 'react-router-dom';
 import Subscription from '../Subscription';
 import Account from '../Account';
 import Business from '../Business';
+import LeftMenu from '../UserDashboard/left-menu';
+
+const DashboardWrapper = props => {
+  return (
+    <Dashboard leftMenu={<LeftMenu />} {...props}>
+      {props.children}
+    </Dashboard>
+  );
+};
+
 const UserDashboard = props => {
   const { path } = useRouteMatch();
   // console.log(useLocation());
@@ -21,29 +31,29 @@ const UserDashboard = props => {
       {/*       <Redirect to={`${path}/menu-list`} /> */}
       <Switch>
         <AuthRoute path={`${path}/account`}>
-          <Dashboard sectionHeader={<AccountSectionHeader />}>
+          <DashboardWrapper sectionHeader={<AccountSectionHeader />}>
             <Account />
-          </Dashboard>
+          </DashboardWrapper>
         </AuthRoute>
         <AuthRoute path={`${path}/business`}>
-          <Dashboard sectionHeader={<BusinessSectionHeader />}>
+          <DashboardWrapper sectionHeader={<BusinessSectionHeader />}>
             <Business />
-          </Dashboard>
+          </DashboardWrapper>
         </AuthRoute>
         <AuthRoute path={`${path}/menu-editor/:menuId`}>
-          <Dashboard sectionHeader={<MenuEditorSectionHeader />}>
+          <DashboardWrapper sectionHeader={<MenuEditorSectionHeader />}>
             <MenuEditor />
-          </Dashboard>
+          </DashboardWrapper>
         </AuthRoute>
         <AuthRoute path={`${path}/subscription-status`}>
-          <Dashboard sectionHeader={<SubscriptionSectionHeader />}>
+          <DashboardWrapper sectionHeader={<SubscriptionSectionHeader />}>
             <Subscription />
-          </Dashboard>
+          </DashboardWrapper>
         </AuthRoute>
         <AuthRoute exact path={`${path}/menu-list`}>
-          <Dashboard sectionHeader={<MenuListSectionHeader />}>
+          <DashboardWrapper sectionHeader={<MenuListSectionHeader />}>
             <MenuList />
-          </Dashboard>
+          </DashboardWrapper>
         </AuthRoute>
       </Switch>
     </>

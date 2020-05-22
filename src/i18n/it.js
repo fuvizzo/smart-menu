@@ -58,6 +58,8 @@ export default {
       INFO: 'Info',
       LANGUAGE_SETTINGS: 'Impostazioni lingua',
       PROVIDED_LANGUAGES: 'Il menu corrente sarà consultabile in:',
+      QR_CODE: 'QR code della pagina dei menù',
+      WEB_LINK: 'Indirizzo web della pagina dei menù',
     },
     Business: {
       NAME: "Nome dell'attività",
@@ -125,6 +127,8 @@ export default {
       ADD_NEW_MENU: 'Aggiungi un nuovo menù',
       REMEMBER_ME: 'Ricordami',
       BACK_TO_DASHBOARD: 'Torna alla dashboard',
+      DOWNLOAD: 'Scarica',
+      PRINT: 'Stampa',
     },
   },
   ConfirmationActions: {

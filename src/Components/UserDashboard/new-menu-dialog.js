@@ -1,21 +1,18 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import Box from '@material-ui/core/Box';
+import { Button, Dialog, Box, Typography } from '@material-ui/core/';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import Typography from '@material-ui/core/Typography';
 
 import LocaleEditor from '../MenuEditor/base-locale-editor';
 import { disableInsertMode, insertData } from '../../Actions/ui-actions';
 import { createNewMenu } from '../../Actions/menu-actions';
 import { DialogActions, DialogTitle, DialogContent } from '../Common';
 import constants from '../../Constants';
-
+const { Locales } = constants;
 const NewMenuDialog = props => {
   const { ui } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locales } = constants;
+
   const {
     Labels: { Actions: ActionsLabels, Menu: MenuLabels },
   } = Locales[defaultLanguage];

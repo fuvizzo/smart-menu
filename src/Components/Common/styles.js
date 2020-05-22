@@ -1,12 +1,15 @@
-import { makeStyles } from '@material-ui/core/styles';
-import styled from 'styled-components';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import HelpIconMUI from '@material-ui/icons/Help';
+import { Typography } from '@material-ui/core';
+const HelpIcon = styled(HelpIconMUI)({
+  fontSize: '1rem',
+});
 
-const HelpIcon = styled(HelpIconMUI)`
-  font-size: 1rem;
-`;
+const Label = styled(Typography)({
+  fontSize: 12,
+});
 
-export { HelpIcon };
+export { HelpIcon, Label };
 
 export default makeStyles(theme => ({
   /* root: {
