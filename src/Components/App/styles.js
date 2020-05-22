@@ -1,48 +1,33 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { styled, withStyles, createMuiTheme } from '@material-ui/core/styles';
+import {
+  AppBar as MUI_AppBar,
+  Toolbar as MUI_Toolbar,
+  Typography as MUI_Typography,
+  Link as MUI_Link,
+} from '@material-ui/core/';
 
-export default makeStyles(theme => ({
-  '@global': {
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: 'none',
-    },
-  },
-  appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  toolbar: {
-    flexWrap: 'wrap',
-  },
-  toolbarTitle: {
-    flexGrow: 1,
-  },
-  link: {
-    margin: theme.spacing(1, 1.5),
-  },
-  heroContent: {
-    padding: theme.spacing(8, 0, 6),
-  },
-  cardHeader: {
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[200]
-        : theme.palette.grey[700],
-  },
-  cardPricing: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    marginBottom: theme.spacing(2),
-  },
-  footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-    },
-  },
-}));
+import { Link as RouterDomLink } from 'react-router-dom';
+
+const theme = createMuiTheme();
+
+const AppBar = styled(MUI_AppBar)({
+  borderBottom: `1px solid ${theme.palette.divider}`,
+});
+
+const Toolbar = styled(MUI_Toolbar)({
+  flexWrap: 'wrap',
+});
+
+const ToolbarTitle = styled(MUI_Typography)({
+  flexGrow: 1,
+});
+
+const Link = styled(MUI_Link)({
+  margin: theme.spacing(1, 1.5),
+});
+
+const RouterLink = styled(RouterDomLink)({
+  textDecoration: 'none',
+});
+
+export { AppBar, Toolbar, ToolbarTitle, Link, RouterLink };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   CardHeader,
-  TextField,
+  Select,
   IconButton,
   Button,
   Typography,
@@ -15,7 +15,6 @@ import {
   Card,
   CardActions,
   Grid,
-  FormControl,
   Avatar,
   Collapse,
   ListItemIcon,
@@ -39,7 +38,12 @@ import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';
 import * as menuActions from '../../../Actions/menu-actions';
 import useDashboardStyles from '../../UserDashboard/styles';
-import useCommonStyles from '../../Common/styles';
+import useCommonStyles, {
+  Label,
+  ShortFormFieldWrapper,
+  ButtonBar,
+  FormControl,
+} from '../../Common/styles';
 import useMenuStyles from '../styles';
 
 const MenuItemsEditor = props => {
@@ -254,47 +258,45 @@ const MenuItemsEditor = props => {
                     onError={errors => console.log(errors)}
                   >
                     <Box p={2}>
-                      <FormControl className={commonClasses.formControl}>
-                        <TextField
-                          select
-                          className={commonClasses.selectField}
-                          label={MenuLabels.CATEGORY}
-                          name="category"
-                          onChange={event => {
-                            event.currentTarget.name = event.target.name;
-                            onChangeValueHandler(event);
-                          }}
-                          value={ui.editMode.data.value.category}
-                        >
-                          {MenuItemTypes.map((itemType, index) => {
-                            return (
-                              <MenuItem key={index} value={index}>
-                                {itemType}
-                              </MenuItem>
-                            );
-                          })}
-                        </TextField>
+                      <FormControl>
+                        <ShortFormFieldWrapper>
+                          <Select
+                            label={MenuLabels.CATEGORY}
+                            name="category"
+                            onChange={event => {
+                              event.currentTarget.name = event.target.name;
+                              onChangeValueHandler(event);
+                            }}
+                            value={ui.editMode.data.value.category}
+                          >
+                            {MenuItemTypes.map((itemType, index) => {
+                              return (
+                                <MenuItem key={index} value={index}>
+                                  {itemType}
+                                </MenuItem>
+                              );
+                            })}
+                          </Select>
+                        </ShortFormFieldWrapper>
                       </FormControl>
                       {!menu.info.setMenu && (
-                        <FormControl className={commonClasses.formControl}>
-                          <TextValidator
-                            className={clsx(
-                              commonClasses.textField,
-                              menuClasses.priceField
-                            )}
-                            label={MenuLabels.PRICE}
-                            validators={[
-                              'required',
-                              `matchRegexp:${RegexExpressions.EURO}`,
-                            ]}
-                            errorMessages={[
-                              FormValidationErrorsLabels.REQUIRED,
-                              FormValidationErrorsLabels.CURRENCY,
-                            ]}
-                            name="price"
-                            onChange={onChangeValueHandler}
-                            value={ui.editMode.data.value.price}
-                          />
+                        <FormControl>
+                          <ShortFormFieldWrapper>
+                            <TextValidator
+                              label={MenuLabels.PRICE}
+                              validators={[
+                                'required',
+                                `matchRegexp:${RegexExpressions.EURO}`,
+                              ]}
+                              errorMessages={[
+                                FormValidationErrorsLabels.REQUIRED,
+                                FormValidationErrorsLabels.CURRENCY,
+                              ]}
+                              name="price"
+                              onChange={onChangeValueHandler}
+                              value={ui.editMode.data.value.price}
+                            />
+                          </ShortFormFieldWrapper>
                         </FormControl>
                       )}
                       {Object.keys(ui.editMode.data.value.locales)
@@ -310,7 +312,7 @@ const MenuItemsEditor = props => {
                             />
                           );
                         })}
-                      <Box className={commonClasses.buttonBar}>
+                      <ButtonBar>
                         <Button variant="contained" onClick={disableEditMode}>
                           {ActionsLabels.CANCEL}
                         </Button>
@@ -321,7 +323,7 @@ const MenuItemsEditor = props => {
                         >
                           {ActionsLabels.APPLY_CHANGES}
                         </Button>
-                      </Box>
+                      </ButtonBar>
                     </Box>
                   </ValidatorForm>
                 ) : (
@@ -350,9 +352,8 @@ const MenuItemsEditor = props => {
                       }
                       title={
                         <Typography
-                          className={
-                            data.locales[defaultLanguage].warning &&
-                            commonClasses.warning
+                          color={
+                            data.locales[defaultLanguage].warning && 'secondary'
                           }
                         >
                           {data.locales[defaultLanguage].name}
@@ -362,13 +363,9 @@ const MenuItemsEditor = props => {
                     />
                     <CardContent className={menuClasses.cardContent}>
                       <Box>
-                        <Typography
-                          className={commonClasses.label}
-                          color="textSecondary"
-                          variant="h3"
-                        >
+                        <Label color="textSecondary" variant="h3">
                           {MenuLabels.DESCRIPTION}
-                        </Typography>
+                        </Label>
                       </Box>
                       <Box mt={0.5}>
                         <Typography>
@@ -377,13 +374,9 @@ const MenuItemsEditor = props => {
                         </Typography>
                       </Box>
                       <Box mt={2}>
-                        <Typography
-                          className={commonClasses.label}
-                          color="textSecondary"
-                          variant="h3"
-                        >
+                        <Label color="textSecondary" variant="h3">
                           {MenuLabels.INGREDIENTS_LIST}
-                        </Typography>
+                        </Label>
                       </Box>
                       <Box mt={0.5}>
                         <Typography>

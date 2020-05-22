@@ -13,8 +13,8 @@ import {
   Box,
   FormControlLabel,
   Switch,
-  FormControl,
   CardContent,
+  FormControl,
   Typography,
   Collapse,
   CardActions,
@@ -39,7 +39,7 @@ import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';
 import * as menuActions from '../../../Actions/menu-actions';
 import useDashboardStyles from '../../UserDashboard/styles';
-import useCommonStyles from '../../Common/styles';
+import useCommonStyles, { Label, ButtonBar } from '../../Common/styles';
 import useMenuStyles from '../styles';
 
 const MenuInfoEditor = props => {
@@ -230,12 +230,9 @@ const MenuInfoEditor = props => {
                   }
                 />
                 {ui.editMode.data.setMenuEnabled && (
-                  <FormControl className={commonClasses.formControl}>
+                  <FormControl>
                     <TextValidator
-                      className={clsx(
-                        commonClasses.textField,
-                        menuClasses.priceField
-                      )}
+                      className={menuClasses.priceField}
                       label={MenuLabels.PRICE}
                       validators={[
                         'required',
@@ -251,14 +248,14 @@ const MenuInfoEditor = props => {
                     />
                   </FormControl>
                 )}
-                <Box className={commonClasses.buttonBar}>
+                <ButtonBar>
                   <Button variant="contained" onClick={disableEditMode}>
                     {ActionsLabels.CANCEL}
                   </Button>
                   <Button variant="contained" color="primary" type="submit">
                     {ActionsLabels.APPLY_CHANGES}
                   </Button>
-                </Box>
+                </ButtonBar>
               </Box>
             </ValidatorForm>
           ) : (
@@ -275,10 +272,7 @@ const MenuInfoEditor = props => {
                 }
                 title={
                   <Typography
-                    className={
-                      data.locales[defaultLanguage].warning &&
-                      commonClasses.warning
-                    }
+                    color={data.locales[defaultLanguage].warning && 'secondary'}
                   >
                     {data.locales[defaultLanguage].name}
                   </Typography>
@@ -286,13 +280,9 @@ const MenuInfoEditor = props => {
               />
               <CardContent className={menuClasses.cardContent}>
                 <Box>
-                  <Typography
-                    className={commonClasses.label}
-                    color="textSecondary"
-                    variant="h3"
-                  >
+                  <Label color="textSecondary" variant="h3">
                     {MenuLabels.TYPE}
-                  </Typography>
+                  </Label>
                 </Box>
                 <Box mt={0.5}>
                   <Typography>
@@ -309,13 +299,9 @@ const MenuInfoEditor = props => {
                   </Typography>
                 </Box>
                 <Box mt={2}>
-                  <Typography
-                    className={commonClasses.label}
-                    color="textSecondary"
-                    variant="h3"
-                  >
+                  <Label color="textSecondary" variant="h3">
                     {MenuLabels.DESCRIPTION}
-                  </Typography>
+                  </Label>
                 </Box>
                 <Box mt={0.5}>
                   <Typography>

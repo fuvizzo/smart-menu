@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
+import {
+  Paper,
+  Container,
+  Typography,
+  Toolbar,
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+} from '@material-ui/core';
+
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+} from '@material-ui/icons';
 
 import Copyright from '../Common/copyright';
-import Paper from '@material-ui/core/Paper';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-
 import { setDashboardDrawerOpen } from '../../Actions/ui-actions';
 import useStyles from './styles';
 
@@ -26,7 +29,6 @@ const Dashboard = props => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}

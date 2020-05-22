@@ -1,26 +1,34 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  TextField,
+  Button,
+  LinearProgress,
+  IconButton,
+  ListItem,
+  FormHelperText,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Typography,
+  Toolbar,
+} from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Box from '@material-ui/core/Box';
 import EditIcon from '@material-ui/icons/Edit';
-import { HelpIcon } from '../Common/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
 import { ColorBox, ColorEditor } from './color-palette';
 import { PopoverComponent as Popover } from '../Common';
 import * as uiActions from '../../Actions/ui-actions';
 import * as businessActions from '../../Actions/business-actions';
 import constants from '../../Constants/index';
-import useCommonStyles from '../Common/styles';
+import {
+  PopoverHint,
+  Header,
+  ButtonBar,
+  Label,
+  HelpIcon,
+} from '../Common/styles';
 import useStyles from './styles';
 import createBusinessSchema from '../../Schemas/business';
 
@@ -56,7 +64,6 @@ const Business = props => {
   const popoverOpen = Boolean(popoverAnchorEl);
   const popoverId = popoverOpen ? 'business-actions-popover' : undefined;
 
-  const commonClasses = useCommonStyles();
   const classes = useStyles();
 
   const onEditClickHandler = useCallback(() => {
@@ -103,9 +110,9 @@ const Business = props => {
         handleClose={popoverClickHandler}
         leftOrigin={true}
       >
-        <Box className={commonClasses.popoverHint} p={2}>
+        <PopoverHint p={2}>
           <Typography>{ui.actionsPopover.message}</Typography>
-        </Box>
+        </PopoverHint>
       </Popover>
       <Popover
         id={popoverId}
@@ -154,31 +161,27 @@ const Business = props => {
                   <ColorEditor locale={locale} data={ui.editMode.data} />
 
                   {isSubmitting && <LinearProgress />}
-                  <Box className={commonClasses.buttonBar}>
+                  <ButtonBar>
                     <Button variant="contained" onClick={disableEditMode}>
                       {ActionsLabels.CANCEL}
                     </Button>
                     <Button variant="contained" color="primary" type="submit">
                       {ActionsLabels.APPLY_CHANGES}
                     </Button>
-                  </Box>
+                  </ButtonBar>
                 </Form>
               )}
             </Formik>
           </>
         ) : (
           <Box className={classes.wrapper}>
-            <Toolbar disableGutters="true" className={commonClasses.toolbar}>
-              <Box className={commonClasses.header}>
-                <Typography
-                  className={commonClasses.label}
-                  color="textSecondary"
-                  variant="h1"
-                >
+            <Toolbar disableGutters="true">
+              <Header>
+                <Label color="textSecondary" variant="h1">
                   {BusinessLabels.NAME}
-                </Typography>
+                </Label>
                 <Typography>{business.name}</Typography>
-              </Box>
+              </Header>
               <IconButton
                 edge="end"
                 aria-describedby={popoverId}
@@ -190,11 +193,7 @@ const Business = props => {
               </IconButton>
             </Toolbar>
             <Box mb={2}>
-              <Typography
-                className={commonClasses.label}
-                color="textSecondary"
-                variant="h1"
-              >
+              <Label color="textSecondary" variant="h1">
                 {BusinessLabels.UNIQUE_URL_PATH}
                 <IconButton
                   size="small"
@@ -208,7 +207,7 @@ const Business = props => {
                 >
                   <HelpIcon aria-describedby={popoverId} />
                 </IconButton>
-              </Typography>
+              </Label>
               <Typography>
                 {business.uniqueUrlPath || WarningMessages.MISSING_FIELD}
               </Typography>
@@ -229,11 +228,7 @@ const Business = props => {
               value={business.colorPalette.accent}
             />
             <Box mb={2}>
-              <Typography
-                className={commonClasses.label}
-                color="textSecondary"
-                variant="h1"
-              >
+              <Label color="textSecondary" variant="h1">
                 {BusinessLabels.LOGO}
                 <IconButton
                   size="small"
@@ -247,7 +242,7 @@ const Business = props => {
                 >
                   <HelpIcon aria-describedby={popoverId} />
                 </IconButton>
-              </Typography>
+              </Label>
 
               {business.logo ? (
                 <img
@@ -260,11 +255,7 @@ const Business = props => {
               )}
             </Box>
             <Box mb={2} p={0}>
-              <Typography
-                className={commonClasses.label}
-                color="textSecondary"
-                variant="h1"
-              >
+              <Label color="textSecondary" variant="h1">
                 {BusinessLabels.HEADER_BANNER}
                 <IconButton
                   size="small"
@@ -278,7 +269,7 @@ const Business = props => {
                 >
                   <HelpIcon aria-describedby={popoverId} />
                 </IconButton>
-              </Typography>
+              </Label>
 
               {business.headerBanner ? (
                 <img

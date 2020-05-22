@@ -17,7 +17,7 @@ export default makeStyles(theme => ({
   },
 
   priceField: {
-    maxWidth: 130,
+    maxWidth: 150,
   },
   emptyMenu: {
     height: 250,

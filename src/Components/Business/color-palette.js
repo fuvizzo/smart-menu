@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { Box, Button } from '@material-ui/core';
 import ColorPicker from './color-picker';
-import { Button } from '@material-ui/core';
 
-import constants from '../../Constants/index';
-import useCommonStyles from '../Common/styles';
+import { Label } from '../Common/styles';
 import useStyles from './styles';
 
 export const ColorBox = props => {
@@ -16,20 +13,15 @@ export const ColorBox = props => {
     locale,
     name,
   } = props;
-  const commonClasses = useCommonStyles();
   const {
     Labels: { Actions: ActionsLabels, Business: BusinessLabels },
   } = locale;
   const classes = useStyles();
   return (
     <Box mb={2}>
-      <Typography
-        className={commonClasses.label}
-        color="textSecondary"
-        variant="h1"
-      >
+      <Label color="textSecondary" variant="h1">
         {BusinessLabels.ColorPalette[name.toUpperCase()]}
-      </Typography>
+      </Label>
       <Box mt={0.5} className={classes.colorPicker}>
         <Box
           mt={2}

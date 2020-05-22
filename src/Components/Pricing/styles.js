@@ -1,48 +1,32 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { styled, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import {
+  Container,
+  CardHeader as MUI_CardHeader,
+  Box,
+} from '@material-ui/core/';
 
-export default makeStyles(theme => ({
-  '@global': {
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: 'none',
-    },
-  },
-  appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  toolbar: {
-    flexWrap: 'wrap',
-  },
-  toolbarTitle: {
-    flexGrow: 1,
-  },
-  link: {
-    margin: theme.spacing(1, 1.5),
-  },
-  heroContent: {
-    padding: theme.spacing(8, 0, 6),
-  },
-  cardHeader: {
+const theme = createMuiTheme();
+
+const HeroContent = withStyles(theme => ({
+  root: { padding: theme.spacing(8, 0, 6) },
+}))(Container);
+
+const CardHeader = withStyles(theme => ({
+  root: {
     backgroundColor:
       theme.palette.type === 'light'
         ? theme.palette.grey[200]
         : theme.palette.grey[700],
   },
-  cardPricing: {
+}))(MUI_CardHeader);
+
+const PricingBox = withStyles({
+  root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'baseline',
     marginBottom: theme.spacing(2),
   },
-  footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-    },
-  },
-}));
+})(Box);
+
+export { HeroContent, CardHeader, PricingBox };

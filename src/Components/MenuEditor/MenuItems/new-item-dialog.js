@@ -1,26 +1,27 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import constants from '../../../Constants/index';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
+
+import {
+  Box,
+  MenuItem,
+  Typography,
+  TextField,
+  Button,
+  Dialog,
+} from '@material-ui/core';
 import LocaleEditor from './locale-editor';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import Typography from '@material-ui/core/Typography';
 
 import { DialogActions, DialogTitle, DialogContent } from '../../Common';
 
-import MenuItem from '@material-ui/core/MenuItem';
 import { disableInsertMode, insertData } from '../../../Actions/ui-actions';
 import { createNewMenuItem } from '../../../Actions/menu-actions';
-import useCommonStyles from '../../Common/styles';
+import { ShortFormFieldWrapper, FormControl } from '../../Common/styles';
 import useMenuStyles from '../styles';
 
 const NewMenuItemDialog = props => {
   const { ui } = props;
-  const commonClasses = useCommonStyles();
   const menuClasses = useMenuStyles();
   const defaultLanguage = ui.settings.defaultLanguage;
   const { Locales, LocalizedFields, RegexExpressions } = constants;
@@ -80,49 +81,49 @@ const NewMenuItemDialog = props => {
         >
           <DialogContent dividers>
             <Box pb={0}>
-              <FormControl className={commonClasses.formControl}>
-                <TextValidator
-                  select
-                  value={ui.insertMode.data.value.category}
-                  validators={['required']}
-                  errorMessages={FormValidationErrorsLabels.REQUIRED}
-                  className={commonClasses.selectField}
-                  label={MenuLabels.CATEGORY}
-                  name="category"
-                  onChange={event => {
-                    event.currentTarget.name = event.target.name;
-                    onChangeValueHandler(event);
-                  }}
-                >
-                  {MenuItemTypes.map((itemType, index) => {
-                    return (
-                      <MenuItem key={index} value={index}>
-                        {itemType}
-                      </MenuItem>
-                    );
-                  })}
-                </TextValidator>
+              <FormControl>
+                <ShortFormFieldWrapper>
+                  <TextField
+                    select
+                    value={ui.insertMode.data.value.category}
+                    validators={['required']}
+                    errorMessages={FormValidationErrorsLabels.REQUIRED}
+                    label={MenuLabels.CATEGORY}
+                    name="category"
+                    onChange={event => {
+                      event.currentTarget.name = event.target.name;
+                      onChangeValueHandler(event);
+                    }}
+                  >
+                    {MenuItemTypes.map((itemType, index) => {
+                      return (
+                        <MenuItem key={index} value={index}>
+                          {itemType}
+                        </MenuItem>
+                      );
+                    })}
+                  </TextField>
+                </ShortFormFieldWrapper>
               </FormControl>
               {!ui.insertMode.data.setMenu && (
-                <FormControl className={commonClasses.formControl}>
-                  <TextValidator
-                    className={clsx(
-                      commonClasses.textField,
-                      menuClasses.priceField
-                    )}
-                    label={MenuLabels.PRICE}
-                    validators={[
-                      'required',
-                      `matchRegexp:${RegexExpressions.EURO}`,
-                    ]}
-                    errorMessages={[
-                      FormValidationErrorsLabels.REQUIRED,
-                      FormValidationErrorsLabels.CURRENCY,
-                    ]}
-                    name="price"
-                    onChange={onChangeValueHandler}
-                    value={ui.insertMode.data.value.price}
-                  />
+                <FormControl>
+                  <ShortFormFieldWrapper>
+                    <TextValidator
+                      className={menuClasses.priceField}
+                      label={MenuLabels.PRICE}
+                      validators={[
+                        'required',
+                        `matchRegexp:${RegexExpressions.EURO}`,
+                      ]}
+                      errorMessages={[
+                        FormValidationErrorsLabels.REQUIRED,
+                        FormValidationErrorsLabels.CURRENCY,
+                      ]}
+                      name="price"
+                      onChange={onChangeValueHandler}
+                      value={ui.insertMode.data.value.price}
+                    />
+                  </ShortFormFieldWrapper>
                 </FormControl>
               )}
               <LocaleEditor

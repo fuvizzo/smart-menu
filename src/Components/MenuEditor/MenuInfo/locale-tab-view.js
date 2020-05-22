@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Toolbar from '@material-ui/core/Toolbar';
 import useStyles from './../styles';
-import useCommonStyles from '../../Common/styles';
+import { Label } from '../../Common/styles';
 
 const { Locales } = constants;
 
@@ -21,7 +21,6 @@ const LocaleTabView = props => {
   } = props;
 
   const defaultLanguage = ui.settings.defaultLanguage;
-  const commonClasses = useCommonStyles();
 
   const classes = useStyles();
   const {
@@ -32,13 +31,9 @@ const LocaleTabView = props => {
     <>
       <Toolbar className={classes.toolbar}>
         <Box mt={1} className={classes.header}>
-          <Typography
-            className={commonClasses.label}
-            color="textSecondary"
-            variant="h3"
-          >
+          <Label color="textSecondary" variant="h3">
             {MenuLabels.MENU_NAME}
-          </Typography>
+          </Label>
           <Box mt={0.5}>
             <Typography component="h3">{locale.name}</Typography>
           </Box>
@@ -53,13 +48,9 @@ const LocaleTabView = props => {
         </IconButton>
       </Toolbar>
       <Box mt={2}>
-        <Typography
-          className={commonClasses.label}
-          color="textSecondary"
-          variant="h3"
-        >
+        <Label color="textSecondary" variant="h3">
           {MenuLabels.DESCRIPTION}
-        </Typography>
+        </Label>
       </Box>
       <Box mt={0.5}>
         <Typography variant="body2" color="textPrimary" component="p">

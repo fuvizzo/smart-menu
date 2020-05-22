@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import useStyles from './styles';
 import * as uiActions from '../../Actions/ui-actions';
 import Button from '@material-ui/core/Button';
-import useCommonStyles from '../Common/styles';
+import { ButtonBar } from '../Common/styles';
 import { TabPanel } from '../Common';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 
@@ -45,8 +45,6 @@ const a11yProps = index => ({
 });
 
 const TabLocaleEditor = props => {
-  const commonClasses = useCommonStyles();
-
   const { updateData, actionsLabels, disableEditMode, children } = props;
   return (
     <ValidatorForm
@@ -56,14 +54,14 @@ const TabLocaleEditor = props => {
       <Box pt={3}>
         {children}
 
-        <Box className={commonClasses.buttonBar}>
+        <ButtonBar>
           <Button variant="contained" onClick={disableEditMode}>
             {actionsLabels.CANCEL}
           </Button>
           <Button variant="contained" color="primary" type="submit">
             {actionsLabels.APPLY_CHANGES}
           </Button>
-        </Box>
+        </ButtonBar>
       </Box>
     </ValidatorForm>
   );

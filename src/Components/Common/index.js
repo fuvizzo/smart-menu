@@ -1,14 +1,17 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  IconButton,
+  Popover,
+  Box,
+  Typography,
+  DialogTitle as MUIDialogTitle,
+  DialogContent as MUIDialogContent,
+  DialogActions as MUIDialogActions,
+} from '@material-ui/core';
+
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Popover from '@material-ui/core/Popover';
 
 const styles = theme => ({
   root: {
@@ -26,7 +29,7 @@ const styles = theme => ({
 const DialogTitle = withStyles(styles)(props => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MUIDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
@@ -37,7 +40,7 @@ const DialogTitle = withStyles(styles)(props => {
           <CloseIcon />
         </IconButton>
       ) : null}
-    </MuiDialogTitle>
+    </MUIDialogTitle>
   );
 });
 
@@ -47,14 +50,14 @@ const DialogContent = withStyles(theme => ({
     flexWrap: 'wrap',
     padding: theme.spacing(2),
   },
-}))(MuiDialogContent);
+}))(MUIDialogContent);
 
 const DialogActions = withStyles(theme => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
-}))(MuiDialogActions);
+}))(MUIDialogActions);
 
 const TabPanel = props => {
   const {

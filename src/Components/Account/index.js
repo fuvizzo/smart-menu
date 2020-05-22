@@ -1,19 +1,21 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
-import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Typography,
+} from '@material-ui/core/';
+
+import { Label, FormControl } from '../Common/styles';
 import { setDefaultSystemLanguage } from '../../Actions/ui-actions';
 import { mockUnlocalizedMenus } from '../../Actions/menu-actions';
 import constants from '../../Constants/index';
-import useCommonStyles from '../Common/styles';
 
 const { Locales } = constants;
+
 const Account = props => {
   const { ui } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
@@ -32,39 +34,26 @@ const Account = props => {
     [defaultLanguage]
   );
 
-  const commonClasses = useCommonStyles();
   return (
     <Box p={2}>
       <Box pb={2} p={0}>
-        <Typography
-          className={commonClasses.label}
-          color="textSecondary"
-          variant="h1"
-        >
+        <Label color="textSecondary" variant="h1">
           {AccountLabels.ACCOUNT_OWNER}
-        </Typography>
+        </Label>
         <Typography>
           {props.user.firstName} {props.user.lastName}
         </Typography>
       </Box>
       <Box pb={2} p={0}>
-        <Typography
-          className={commonClasses.label}
-          color="textSecondary"
-          variant="h1"
-        >
+        <Label color="textSecondary" variant="h1">
           {AccountLabels.EMAIL_ADDRESS}
-        </Typography>
+        </Label>
         <Typography>{props.user.email}</Typography>
       </Box>
-      <FormControl component="fieldset" className={commonClasses.formControl}>
-        <FormLabel
-          className={commonClasses.label}
-          component="legend"
-          id="language-select-label"
-        >
+      <FormControl component="fieldset">
+        <Label color="textSecondary" variant="h1" id="language-select-label">
           {DEFAULT_LANGUAGE}
-        </FormLabel>
+        </Label>
 
         <RadioGroup
           aria-label="language-select-label"

@@ -1,21 +1,16 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import StarIcon from '@material-ui/icons/StarBorder';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import Copyright from '../Common/copyright';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Button,
+  Container,
+  Typography,
+} from '@material-ui/core';
 
-import useStyles from './styles';
+import { HeroContent, CardHeader, PricingBox } from './styles';
 
 const tiers = [
   {
@@ -56,43 +51,11 @@ const tiers = [
     buttonVariant: 'outlined',
   },
 ];
-const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: [
-      'Cool stuff',
-      'Random feature',
-      'Team feature',
-      'Developer stuff',
-      'Another one',
-    ],
-  },
-  {
-    title: 'Resources',
-    description: [
-      'Resource',
-      'Resource name',
-      'Another resource',
-      'Final resource',
-    ],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
-];
 
 export default function Pricing() {
-  const classes = useStyles();
-
   return (
-    <React.Fragment>
-      {/* Hero unit */}
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+    <>
+      <HeroContent maxWidth="sm" component="main">
         <Typography
           component="h1"
           variant="h2"
@@ -112,7 +75,7 @@ export default function Pricing() {
           with this layout. It&apos;s built with default Material-UI components
           with little customization.
         </Typography>
-      </Container>
+      </HeroContent>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
@@ -132,17 +95,16 @@ export default function Pricing() {
                   titleTypographyProps={{ align: 'center' }}
                   subheaderTypographyProps={{ align: 'center' }}
                   action={tier.title === 'Pro' ? <StarIcon /> : null}
-                  className={classes.cardHeader}
                 />
                 <CardContent>
-                  <div className={classes.cardPricing}>
+                  <PricingBox>
                     <Typography component="h2" variant="h3" color="textPrimary">
                       ${tier.price}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                       /mo
                     </Typography>
-                  </div>
+                  </PricingBox>
                   <ul>
                     {tier.description.map(line => (
                       <Typography
@@ -158,7 +120,7 @@ export default function Pricing() {
                 </CardContent>
                 <CardActions>
                   <Button
-                    fullwidth
+                    fullWidth
                     variant={tier.buttonVariant}
                     color="primary"
                   >
@@ -170,31 +132,6 @@ export default function Pricing() {
           ))}
         </Grid>
       </Container>
-      {/* Footer */}
-      <Container maxWidth="md" component="footer" className={classes.footer}>
-        <Grid container spacing={4} justify="space-evenly">
-          {footers.map(footer => (
-            <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                {footer.title}
-              </Typography>
-              <ul>
-                {footer.description.map(item => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Grid>
-          ))}
-        </Grid>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-      {/* End footer */}
-    </React.Fragment>
+    </>
   );
 }

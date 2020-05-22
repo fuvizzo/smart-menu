@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FormControl from '@material-ui/core/FormControl';
 import { TextValidator } from 'react-material-ui-form-validator';
 import constants from '../../Constants/index';
-import useStyles from '../Common/styles';
+import useStyles, { FormControl } from '../Common/styles';
 import TextField from '@material-ui/core/TextField';
 
 const { Locales } = constants;
@@ -19,13 +18,11 @@ const LocaleEditor = props => {
   const {
     Labels: { FormValidationErrors: FormValidationErrorsLabels },
   } = Locales[defaultLanguage];
-  const classes = useStyles();
 
   return (
     <>
-      <FormControl className={classes.formControl}>
+      <FormControl>
         <TextValidator
-          className={classes.textField}
           label={labels.name}
           name="name"
           onChange={onChangeValue}
@@ -36,10 +33,9 @@ const LocaleEditor = props => {
           inputProps={{ 'data-lang': lang }}
         />
       </FormControl>
-      <FormControl className={classes.formControl}>
+      <FormControl>
         <TextField
           multiline={true}
-          className={classes.textField}
           label={labels.description}
           inputProps={{ 'data-lang': lang }}
           name="description"

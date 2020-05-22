@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
+import {
+  Card,
+  Box,
+  FormControlLabel,
+  FormGroup,
+  Checkbox,
+  FormLabel,
+  Grid,
+} from '@material-ui/core';
+
 import { useParams } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { setProvidedLanguages } from '../../../Actions/menu-actions';
 import constants from '../../../Constants/index';
-import useCommonStyles from '../../Common/styles';
+import { FormControl, Label } from '../../Common/styles';
 
 const { Locales } = constants;
 const MenuLanguageSettingEditor = props => {
@@ -42,7 +44,6 @@ const MenuLanguageSettingEditor = props => {
     [menu.providedLanguages.length]
   );
 
-  const commonClasses = useCommonStyles();
   return (
     <Grid
       container
@@ -54,16 +55,9 @@ const MenuLanguageSettingEditor = props => {
       <Grid item xs={12}>
         <Card width={1} elevation={2}>
           <Box p={2}>
-            <FormControl
-              component="fieldset"
-              className={commonClasses.formControl}
-            >
-              <FormLabel
-                className={commonClasses.label}
-                component="legend"
-                id="language-select-label"
-              >
-                {MenuLabels.PROVIDED_LANGUAGES}
+            <FormControl component="fieldset">
+              <FormLabel component="legend" id="language-select-label">
+                <Label>{MenuLabels.PROVIDED_LANGUAGES}</Label>
               </FormLabel>
 
               <FormGroup

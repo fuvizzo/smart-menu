@@ -46,7 +46,7 @@ export default makeStyles(theme => ({
   },
   warning: {
     fontSize: '0.8rem',
-    color: 'yellow',
+    color: '#f50057',
   },
   emptyMenuList: {
     height: 250,

@@ -1,24 +1,27 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import MenuItem from '@material-ui/core/MenuItem';
+import { connect } from 'react-redux';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import {
+  Container,
+  Typography,
+  MenuItem,
+  Box,
+  Grid,
+  Link,
+  Checkbox,
+  FormControlLabel,
+  Avatar,
+  Button,
+} from '@material-ui/core';
+
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
+
 import { signUp as createSignUpSchema } from '../../Schemas/account';
 import constants from '../../Constants/index';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
 import * as userActions from '../../Actions/index';
 import Copyright from '../Common/copyright';
 import useStyles from './styles';
@@ -59,7 +62,6 @@ const SignUp = props => {
   };
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
