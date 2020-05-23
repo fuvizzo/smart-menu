@@ -1,31 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-} from 'react-router-dom';
+import { Switch, Route, useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Button, Typography, ListItem } from '@material-ui/core/';
-import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
-import AuthRoute from '../Auth/auth-route';
 import SignIn from './sign-in';
 import SignUp from './sign-up';
-import Pricing from '../Pricing';
+import ResetPassword from './reset-password';
 import { handleAuthOperations } from '../../Actions';
-import UserDashboard from '../UserDashboard/index';
-import MenuPreviewer from '../UserDashboard/menu-previewer';
-import MenuViewer from '../MenuViewer/menu-viewer';
 import AuthSectionContainer from './section-container';
 import constants from '../../Constants/index';
+import { Typography, Box } from '@material-ui/core';
 
 const { Locales } = constants;
 
 const AuthOperations = props => {
-  const { defaultLanguage } = props;
+  const { defaultLanguage, authOperation } = props;
   const { path } = useRouteMatch();
 
   const history = useHistory();
@@ -38,7 +26,7 @@ const AuthOperations = props => {
   const signUpPath = `${path}/sign-up`;
 
   const {
-    Labels: { Sections: SectionLabels, Actions: ActionsLabels },
+    Labels: { Sections: SectionLabels },
   } = Locales[defaultLanguage];
 
   useEffect(() => {
@@ -65,11 +53,26 @@ const AuthOperations = props => {
           </AuthSectionContainer>
         </Route>
         <Route path={signUpPath}>
-          <SignUp />
+          <AuthSectionContainer sectionLabel={SectionLabels.SIGN_UP}>
+            <SignUp />
+          </AuthSectionContainer>
         </Route>
-        <Route path={`${path}/reset-password`}>
-          <AuthSectionContainer />
-        </Route>
+        {authOperation && (
+          <Route path={`${path}/reset-password`}>
+            <AuthSectionContainer
+              sectionLabel={
+                <Box>
+                  {SectionLabels.RESET_PASSWORD}
+                  <Box m={2}>
+                    <Typography> {authOperation.email}</Typography>
+                  </Box>
+                </Box>
+              }
+            >
+              <ResetPassword />
+            </AuthSectionContainer>
+          </Route>
+        )}
       </Switch>
     </>
   );
@@ -77,7 +80,7 @@ const AuthOperations = props => {
 
 function mapStateToProps(state) {
   return {
-    account: state.account,
+    authOperation: state.public.authOperation,
     defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }

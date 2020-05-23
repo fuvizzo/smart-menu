@@ -135,16 +135,22 @@ export default new firebaseMock.MockFirebaseSdk(
   // use null if your code does not use AUTHENTICATION
   () => {
     mockAuth.signInWithEmailAndPassword = (email, password) => {
-      return {
-        user: {
-          uid: 'OIRnMadgbecau6O6QL9xlyqoBkI2',
-          email: 'fulvio.cuismano@gmail.com',
-          metadata: {
-            creationTime: 'Fri, 03 Apr 2020 15:16:34 GMT',
-            lastSignInTime: null,
+      if (password === '123456')
+        return Promise.resolve({
+          user: {
+            uid: 'OIRnMadgbecau6O6QL9xlyqoBkI2',
+            email: 'fulvio.cuismano@gmail.com',
+            metadata: {
+              creationTime: 'Fri, 03 Apr 2020 15:16:34 GMT',
+              lastSignInTime: null,
+            },
           },
-        },
-      };
+        });
+      return Promise.reject({
+        code: 'auth/login',
+        message: 'The password is wrong. ',
+        a: null,
+      });
     };
 
     mockAuth.createUserWithEmailAndPassword = (email, password) => {
@@ -161,24 +167,32 @@ export default new firebaseMock.MockFirebaseSdk(
     };
 
     mockAuth.signOut = () => {
-      return {
+      return Promise.resolve({
         user: null,
-      };
+      });
     };
 
-    mockAuth.verifyPasswordResetCode = oobCode => {
-      if (oobCode === 'error')
+    mockAuth.verifyPasswordResetCode = actionCode => {
+      if (actionCode === 'error')
         return Promise.reject({
           code: 'auth/expired-action-code',
           message: 'The action code has expired. ',
           a: null,
         });
-      return 'fulvio.cusimano@gmail.com';
+      return Promise.resolve('fulvio.cusimano@gmail.com');
     };
 
     mockAuth.sendPasswordResetEmail = email => {};
 
-    mockAuth.confirmPasswordReset = (actionCode, newPassword) => {};
+    mockAuth.confirmPasswordReset = (actionCode, newPassword) => {
+      if (actionCode === 'error1')
+        return Promise.reject({
+          code: 'auth/expired-action-code',
+          message: 'The action code has expired. ',
+          a: null,
+        });
+      return Promise.resolve();
+    };
 
     return mockAuth;
   },

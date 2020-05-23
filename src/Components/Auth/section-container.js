@@ -1,9 +1,10 @@
 import React from 'react';
-import { Avatar, Typography, Grid, Paper } from '@material-ui/core';
+import { Avatar, Typography, Grid, Paper, Box } from '@material-ui/core';
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import LoginImage from '../../Assets/login-wallpaper.jpg';
+import Copyright from '../Common/copyright';
 
 const AuthSectionContainer = props => {
   const { sectionLabel, children } = props;
@@ -23,8 +24,11 @@ const AuthSectionContainer = props => {
           <Typography component="h1" variant="h5">
             {sectionLabel}
           </Typography>
-          {children}
+          <Box mt={2}>{children}</Box>
         </div>
+        <Box m={5}>
+          <Copyright />
+        </Box>
       </Grid>
     </Grid>
   );

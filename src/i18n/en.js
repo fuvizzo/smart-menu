@@ -31,6 +31,7 @@ export default {
       SIGN_UP: 'Sign up',
       PRICING: 'Pricing',
       HOME: 'Home',
+      RESET_PASSWORD: 'Reset your password',
     },
     Menu: {
       INGREDIENTS_LIST: 'Ingredients list',
@@ -72,6 +73,7 @@ export default {
       ACCOUNT_OWNER: 'Account owner',
       EMAIL_ADDRESS: 'Email address',
       PASSWORD: 'Password',
+      CONFIRM_PASSWORD: 'Confirm password',
       NEWS_LETTER:
         'I want to receive news, marketing promotions and updates via email.',
     },

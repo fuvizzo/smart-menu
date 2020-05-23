@@ -28,28 +28,31 @@ const setUpStore = (authData, userData, dispatch) => {
   });
 };
 
-export const signInWithEmailAndPassword = (email, password) => {
-  return async dispatch => {
-    try {
-      const authData = await firebaseService.auth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-      const userData = (
-        await firebaseService.read(`${USERS}/${authData.user.uid}`)
-      ).val();
+const basicSignIn = async (email, password, dispatch) => {
+  const authData = await firebaseService.auth.signInWithEmailAndPassword(
+    email,
+    password
+  );
+  const userData = (
+    await firebaseService.read(`${USERS}/${authData.user.uid}`)
+  ).val();
 
-      setUpStore(authData, userData, dispatch);
+  setUpStore(authData, userData, dispatch);
+};
+
+export const signInWithEmailAndPassword = ({ email, password }) => {
+  return async dispatch => {
+    let isAuthenticated = false;
+    try {
+      await basicSignIn(email, password, dispatch);
+      isAuthenticated = true;
     } catch (error) {
-      console.log(error);
       dispatch({
         type: SET_ERROR,
-        payload: {
-          type: ErrorTypes.AUTHENTICATION,
-          error,
-        },
+        payload: buildError(error),
       });
     }
+    return isAuthenticated;
   };
 };
 
@@ -62,6 +65,7 @@ export const signUp = ({
   businessType,
 }) => {
   return async dispatch => {
+    let isAuthenticated = false;
     try {
       const authData = await firebaseService.auth.createUserWithEmailAndPassword(
         email,
@@ -93,13 +97,14 @@ export const signUp = ({
       await firebaseService.create(urlToBusinessMappingData);
 
       setUpStore(authData, user, dispatch);
+      isAuthenticated = true;
     } catch (error) {
-      console.log(error);
       dispatch({
         type: SET_ERROR,
         payload: buildError(error),
       });
     }
+    return isAuthenticated;
   };
 };
 
@@ -109,7 +114,6 @@ export const signOut = () => {
       await firebaseService.auth.signOut();
       dispatch({ type: UserActions.SIGN_OUT });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: SET_ERROR,
         payload: buildError(error),
@@ -123,8 +127,22 @@ export const submitResetPasswordRequest = email => {
     try {
       await firebaseService.auth.sendPasswordResetEmail(email);
     } catch (error) {
-      console.log(error);
       dispatch({ type: SET_ERROR, payload: buildError(error) });
+    }
+  };
+};
+
+export const resetPassword = (actionCode, password, email) => {
+  return async dispatch => {
+    try {
+      await firebaseService.auth.confirmPasswordReset(actionCode, password);
+      await basicSignIn(email, password, dispatch);
+    } catch (error) {
+      dispatch({
+        type: SET_ERROR,
+        payload: buildError(error),
+      });
+      return;
     }
   };
 };
@@ -145,6 +163,7 @@ export const handleAuthOperations = (query, language) => {
             type: UserActions.COMPLETE_AUTH_OPERATION,
             payload: {
               mode,
+              actionCode,
               email,
             },
           });
@@ -153,10 +172,6 @@ export const handleAuthOperations = (query, language) => {
           return;
       }
     } catch (error) {
-      console.log({
-        mode,
-        error,
-      });
       dispatch({
         type: SET_ERROR,
         payload: buildError(error),

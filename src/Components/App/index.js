@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -18,7 +18,6 @@ import constants from '../../Constants/index';
 const { Locales, ErrorTypes } = constants;
 
 const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
-  const [openWarningSnackbar, setOpenWarningSnackbar] = useState(true);
   const { children, account, publicDefaultLanguage, error } = props;
 
   const {
@@ -31,10 +30,9 @@ const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
         <Snackbar
           severity="warning"
           onCloseHandler={() => {
-            setOpenWarningSnackbar(false);
             props.setError();
           }}
-          open={openWarningSnackbar}
+          open={!!error}
         >
           {error.message}
         </Snackbar>
