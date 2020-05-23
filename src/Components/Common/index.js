@@ -1,10 +1,12 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
+import MuiAlert from '@material-ui/lab/Alert';
 import {
   IconButton,
   Popover,
   Box,
+  Snackbar as MUISnackbar,
   Typography,
   DialogTitle as MUIDialogTitle,
   DialogContent as MUIDialogContent,
@@ -25,6 +27,10 @@ const styles = theme => ({
     color: theme.palette.grey[500],
   },
 });
+
+const Alert = props => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
 
 const DialogTitle = withStyles(styles)(props => {
   const { children, classes, onClose, ...other } = props;
@@ -131,10 +137,33 @@ const PopoverComponent = ({
   );
 };
 
+const Snackbar = props => {
+  const {
+    open,
+    onCloseHandler,
+    severity,
+    children,
+    autoHideDuration = 6000,
+  } = props;
+
+  return (
+    <MUISnackbar
+      open={open}
+      autoHideDuration={autoHideDuration}
+      onClose={onCloseHandler}
+    >
+      <Alert onClose={onCloseHandler} severity={severity}>
+        {children}
+      </Alert>
+    </MUISnackbar>
+  );
+};
+
 export {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Snackbar,
   TabPanel,
   PopoverComponent,
 };

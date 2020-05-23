@@ -1,32 +1,16 @@
 class FirebaseService {
   #database = null;
-  #auth = null;
 
   constructor(firebase) {
     this.#database = firebase.database();
-    this.#auth = firebase.auth();
+    this.auth = firebase.auth();
 
-    this.#auth.onAuthStateChanged(user => {
+    this.auth.onAuthStateChanged(user => {
       console.log(user);
     });
   }
 
-  auth = {
-    createUserWithEmailAndPassword: async (email, password) =>
-      await this.#auth.createUserWithEmailAndPassword(email, password),
-
-    signInWithEmailAndPassword: async (email, password) =>
-      await this.#auth.signInWithEmailAndPassword(email, password),
-
-    signOut: async () => this.#auth.signOut(),
-
-    sendPasswordResetEmail: async email => {
-      const actionCodeSettings = {
-        url: process.env.REACT_APP_BACK_END_URL,
-      };
-      await this.#auth.sendPasswordResetEmail(email, actionCodeSettings);
-    },
-  };
+  auth = this.auth;
 
   create = async ({ path, body }) => this.#database.ref(path).set(body);
 

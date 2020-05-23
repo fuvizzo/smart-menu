@@ -1,31 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Button, Typography, ListItem } from '@material-ui/core/';
 import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
 import AuthRoute from '../Auth/auth-route';
-import SignIn from '../Auth/sign-in';
-import SignUp from '../Auth/sign-up';
-import Pricing from '../Pricing';
 
+import Pricing from '../Pricing';
+import AuthOperations from '../Auth';
 import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
 import MenuViewer from '../MenuViewer/menu-viewer';
-
+import { Snackbar } from '../Common';
+import { setError } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 
-const { Locales } = constants;
+const { Locales, ErrorTypes } = constants;
 
-const PublicMasterPage = connect(mapStateToProps)(props => {
-  const { children, account, defaultLanguage } = props;
+const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
+  const [openWarningSnackbar, setOpenWarningSnackbar] = useState(true);
+  const { children, account, publicDefaultLanguage, error } = props;
 
   const {
     Labels: { Sections: SectionLabels, Actions: ActionsLabels },
-  } = Locales[defaultLanguage];
+  } = Locales[publicDefaultLanguage];
 
   return (
     <>
+      {error && error.type === ErrorTypes.AUTHENTICATION && (
+        <Snackbar
+          severity="warning"
+          onCloseHandler={() => {
+            setOpenWarningSnackbar(false);
+            props.setError();
+          }}
+          open={openWarningSnackbar}
+        >
+          {error.message}
+        </Snackbar>
+      )}
       <AppBar position="static" color="default" elevation={0}>
         <Toolbar>
           <ToolbarTitle variant="h6" color="inherit" noWrap>
@@ -47,7 +60,7 @@ const PublicMasterPage = connect(mapStateToProps)(props => {
           </nav>
 
           <Button
-            to={account ? '/dashboard/menu-list' : 'sign-in'}
+            to={account ? '/dashboard/menu-list' : '/authentication/sign-in'}
             component={RouterLink}
             color="primary"
             variant="outlined"
@@ -73,14 +86,10 @@ const App = () => {
             <Pricing />
           </PublicMasterPage>
         </Route>
-        <Route path="/sign-in">
+
+        <Route path="/authentication">
           <PublicMasterPage>
-            <SignIn />
-          </PublicMasterPage>
-        </Route>
-        <Route path="/sign-up">
-          <PublicMasterPage>
-            <SignUp />
+            <AuthOperations />
           </PublicMasterPage>
         </Route>
         <Route exact path="/:uniqueBusinessUrlPath">
@@ -100,7 +109,8 @@ const App = () => {
 function mapStateToProps(state) {
   return {
     account: state.account,
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    error: state.ui.error,
+    publicDefaultLanguage: state.public.ui.settings.defaultLanguage,
   };
 }
 

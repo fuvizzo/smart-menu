@@ -30,7 +30,7 @@ const initialState = {
   },
   dashboardDrawerOpen: false,
   showLoader: false,
-  error: {},
+  error: null,
 };
 
 function uiReducer(state = initialState, action) {

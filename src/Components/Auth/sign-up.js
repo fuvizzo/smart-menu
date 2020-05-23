@@ -191,7 +191,7 @@ const SignUp = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.public.settings.defaultLanguage,
+    defaultLanguage: state.public.ui.settings.defaultLanguage,
   };
 }
 

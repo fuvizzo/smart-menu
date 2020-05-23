@@ -14,7 +14,9 @@ const MenuViewer = props => {
   const {
     public: {
       data,
-      settings: { defaultLanguage },
+      ui: {
+        settings: { defaultLanguage },
+      },
     },
     isPreview,
   } = props;

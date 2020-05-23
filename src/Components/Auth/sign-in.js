@@ -65,85 +65,74 @@ const SignIn = props => {
         open={passwordResetDialogOpen}
         onCloseHandler={() => setPasswordResetDialogOpen(false)}
       />
-      <Grid container component="main" className={classes.root}>
-        <Grid item xs={false} sm={4} md={7} className={classes.image}>
-          <img src={LoginImage} alt="login-wallpaper" />
+      <form className={classes.form} noValidate>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label={AccountLabels.EMAIL_ADDRESS}
+          name="email"
+          onChange={onChangeValueHandler}
+          value={loginData.email}
+          autoComplete="email"
+          autoFocus
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          onChange={onChangeValueHandler}
+          value={loginData.password}
+          name="password"
+          label={AccountLabels.PASSWORD}
+          type="password"
+          id="password"
+          autoComplete="current-password"
+        />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          onClick={loginHandler}
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          {ActionLabels.SIGN_IN}
+        </Button>
+        <Grid container>
+          <Grid item xs>
+            <Link
+              href="#"
+              onClick={event => {
+                event.preventDefault();
+                setPasswordResetDialogOpen(true);
+              }}
+              variant="body2"
+            >
+              {HintLabels.PASSWORD_FORGOTTEN}
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link
+              to="/authentication/sign-up"
+              component={RouterLink}
+              variant="body2"
+            >
+              {HintLabels.SIGN_UP}
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              {SectionLabels.SIGN_IN}
-            </Typography>
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label={AccountLabels.EMAIL_ADDRESS}
-                name="email"
-                onChange={onChangeValueHandler}
-                value={loginData.email}
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                onChange={onChangeValueHandler}
-                value={loginData.password}
-                name="password"
-                label={AccountLabels.PASSWORD}
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                onClick={loginHandler}
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                {ActionLabels.SIGN_IN}
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    href="#"
-                    onClick={event => {
-                      event.preventDefault();
-                      setPasswordResetDialogOpen(true);
-                    }}
-                    variant="body2"
-                  >
-                    {HintLabels.PASSWORD_FORGOTTEN}
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/sign-up" component={RouterLink} variant="body2">
-                    {HintLabels.SIGN_UP}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Box mt={5}>
-                <Copyright />
-              </Box>
-            </form>
-          </div>
-        </Grid>
-      </Grid>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </form>
     </>
   );
 };

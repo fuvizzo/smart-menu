@@ -165,6 +165,21 @@ export default new firebaseMock.MockFirebaseSdk(
         user: null,
       };
     };
+
+    mockAuth.verifyPasswordResetCode = oobCode => {
+      if (oobCode === 'error')
+        return Promise.reject({
+          code: 'auth/expired-action-code',
+          message: 'The action code has expired. ',
+          a: null,
+        });
+      return 'fulvio.cusimano@gmail.com';
+    };
+
+    mockAuth.sendPasswordResetEmail = email => {};
+
+    mockAuth.confirmPasswordReset = (actionCode, newPassword) => {};
+
     return mockAuth;
   },
   // use null if your code does not use FIRESTORE
