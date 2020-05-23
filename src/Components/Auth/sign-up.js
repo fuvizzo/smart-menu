@@ -49,7 +49,7 @@ const SignUp = props => {
     email: '',
     passord: '',
     businessName: '',
-    businessType: '',
+    businessType: '0',
   };
   return (
     <>

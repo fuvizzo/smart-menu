@@ -3,22 +3,22 @@ import React from 'react';
 import LanguageSelector from './../LanguageSelector';
 
 import MenuContainer, {
-  CategoryText,
-  CategoriesContainer,
-  CategoryWrapper,
+  TypeText,
+  TypesContainer,
+  TypeWrapper,
   Description,
   Title,
 } from './styles';
 import Constants from '../../../Constants';
-import Dish from './Dish';
+import MenuItem from './MenuItem';
 const { Locales } = Constants;
 
 function Menu(props) {
-  function groupDishesByCategory(items) {
+  function groupMenuItemsByType(items) {
     /*  console.log(items);
     console.log(items.values); */
     return Object.values(items).reduce((results, item) => {
-      (results[item.category] = results[item.category] || []).push(item);
+      (results[item.type] = results[item.type] || []).push(item);
       //console.log(results);
       return results;
     }, {});
@@ -61,25 +61,23 @@ function Menu(props) {
               Menu info are missing for this language
             </span>
           )}
-          <CategoriesContainer>
-            {Object.values(groupDishesByCategory(items)).map(
-              (category, index) => (
-                <CategoryWrapper key={index}>
-                  <CategoryText color={colors.secondary}>
-                    {MenuItemTypes[index]}
-                  </CategoryText>
-                  {category.map((item, index) => (
-                    <Dish
-                      key={index}
-                      colors={colors}
-                      data={item}
-                      defaultLanguage={defaultLanguage}
-                    />
-                  ))}
-                </CategoryWrapper>
-              )
-            )}
-          </CategoriesContainer>
+          <TypesContainer>
+            {Object.values(groupMenuItemsByType(items)).map((type, index) => (
+              <TypeWrapper key={index}>
+                <TypeText color={colors.secondary}>
+                  {MenuItemTypes[index]}
+                </TypeText>
+                {type.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    colors={colors}
+                    data={item}
+                    defaultLanguage={defaultLanguage}
+                  />
+                ))}
+              </TypeWrapper>
+            ))}
+          </TypesContainer>
         </>
       )}
     </MenuContainer>

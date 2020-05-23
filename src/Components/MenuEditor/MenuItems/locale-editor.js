@@ -18,7 +18,7 @@ const LocaleEditor = props => {
     <BaseLocaleEditor
       {...props}
       labels={{
-        name: MenuLabels.DISH_NAME,
+        name: MenuLabels.NAME,
         description: MenuLabels.DESCRIPTION,
       }}
     >

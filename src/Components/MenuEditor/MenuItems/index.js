@@ -81,7 +81,7 @@ const MenuItemsEditor = props => {
   const {
     RegexExpressions,
     Locales,
-    DishTypesColorMap,
+    MenuItemTypesColorMap,
     ConfirmationActions,
   } = constants;
 
@@ -261,12 +261,12 @@ const MenuItemsEditor = props => {
                         <ShortFormFieldWrapper>
                           <Select
                             label={MenuLabels.CATEGORY}
-                            name="category"
+                            name="type"
                             onChange={event => {
                               event.currentTarget.name = event.target.name;
                               onChangeValueHandler(event);
                             }}
-                            value={ui.editMode.data.value.category}
+                            value={ui.editMode.data.value.type}
                           >
                             {MenuItemTypes.map((itemType, index) => {
                               return (
@@ -333,10 +333,10 @@ const MenuItemsEditor = props => {
                         <Avatar
                           aria-label="recipe"
                           style={{
-                            backgroundColor: DishTypesColorMap[data.category],
+                            backgroundColor: MenuItemTypesColorMap[data.type],
                           }}
                         >
-                          {MenuItemTypes[data.category].substr(0, 1)}
+                          {MenuItemTypes[data.type].substr(0, 1)}
                         </Avatar>
                       }
                       action={

@@ -13,7 +13,7 @@ const { Locales } = constants;
 
 const emptyMenuItemData = defaultLanguage => ({
   price: '',
-  category: '',
+  type: '',
   locales: {
     [defaultLanguage]: {
       description: '',

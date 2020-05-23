@@ -37,7 +37,7 @@ export default {
       MENU: 'Normal menu',
       TYPE: 'Menu type',
       SET_MENU: 'Set menu',
-      DISH_NAME: 'Dish name',
+      NAME: 'Dish name',
       MENU_NAME: 'Menu name',
       EMPTY_MENU: "The current menu doesn't have any items yet",
       EMPTY_MENU_LIST: 'There are no menus yet',

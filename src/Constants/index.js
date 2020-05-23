@@ -10,7 +10,7 @@ export default {
   RegexExpressions: {
     EURO: new RegExp(/^\d+(?:,\d{1,2})?$/).source,
   },
-  DishTypesColorMap: [
+  MenuItemTypesColorMap: [
     '#36bff4',
     '#36f456',
     '#ffd96d',

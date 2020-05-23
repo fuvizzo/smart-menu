@@ -30,7 +30,7 @@ const LocaleTabView = props => {
       <Toolbar className={classes.toolbar}>
         <Box mt={1} className={classes.header}>
           <Label color="textSecondary" variant="h3">
-            {MenuLabels.DISH_NAME}
+            {MenuLabels.NAME}
           </Label>
           <Box mt={0.5}>
             <Typography component="h3">{locale.name}</Typography>

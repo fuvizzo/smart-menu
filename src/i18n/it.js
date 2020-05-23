@@ -44,7 +44,7 @@ export default {
       MENU: 'Menu',
       TYPE: 'Tipo di menù',
       SET_MENU: 'Menù a prezzo fisso',
-      DISH_NAME: 'Nome del piatto',
+      NAME: 'Nome',
       MENU_NAME: 'Nome del menù',
       EMPTY_MENU: 'Il menu corrente non contiene ancora nessun elemento',
       EMPTY_MENU_LIST: 'Non è stato creato ancora alcun menù',

@@ -75,21 +75,18 @@ const NewMenuItemDialog = props => {
             {ActionsLabels.ADD_NEW_MENU_ITEM}
           </Typography>
         </DialogTitle>
-        <ValidatorForm
-          onSubmit={createNewMenuItemHandler}
-          onError={errors => console.log(errors)}
-        >
+        <ValidatorForm onSubmit={createNewMenuItemHandler}>
           <DialogContent dividers>
             <Box pb={0}>
               <FormControl>
                 <ShortFormFieldWrapper>
                   <TextField
                     select
-                    value={ui.insertMode.data.value.category}
+                    value={ui.insertMode.data.value.type}
                     validators={['required']}
                     errorMessages={FormValidationErrorsLabels.REQUIRED}
                     label={MenuLabels.CATEGORY}
-                    name="category"
+                    name="type"
                     onChange={event => {
                       event.currentTarget.name = event.target.name;
                       onChangeValueHandler(event);
