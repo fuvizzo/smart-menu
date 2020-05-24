@@ -37,7 +37,7 @@ const MenuViewer = props => {
         <Header data={data.business} />
         <Menu
           defaultLanguage={defaultLanguage}
-          colors={data.business.colorPalette}
+          colors={data.business.theme.colorPalette}
           data={data.menu.list[data.menu.defaultMenuId]}
         />
       </HeaderContainer>

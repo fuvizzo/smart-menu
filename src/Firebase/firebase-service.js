@@ -1,8 +1,10 @@
 class FirebaseService {
   #database = null;
+  #storage = null;
 
   constructor(firebase) {
     this.#database = firebase.database();
+    this.#storage = firebase.storage();
     this.auth = firebase.auth();
 
     this.auth.onAuthStateChanged(user => {
@@ -12,6 +14,18 @@ class FirebaseService {
 
   auth = this.auth;
 
+  storage = {
+    getDownloadURL: async path => {
+      const resource = await this.#storage.ref(path);
+      return await resource.getDownloadURL();
+    },
+    uploadFile: async (path, file, metadata = null) => {
+      const resource = await this.#storage.ref(path);
+      return await (metadata
+        ? resource.put(file, metadata)
+        : resource.put(file));
+    },
+  };
   create = async ({ path, body }) => this.#database.ref(path).set(body);
 
   delete = async path => this.#database.ref(path).remove();

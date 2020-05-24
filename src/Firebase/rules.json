@@ -16,10 +16,21 @@
         //".validate": "newData.hasChildren(['menus','businesses', 'account'])",
 
         "menus": {
-          ".read": "query.orderByChild == 'published' && query.equalTo == true"
+          ".read": "query.orderByChild == 'published' && query.equalTo == true",
+          "info": {
+            ".validate": "newData.child('type').val().matches(/^[0-1]$/) "
+          },
+          "items": {
+            "$item_id": {
+              ".validate": "newData.child('type').val().matches(/^[0-5]$/) "
+            }
+          }
         },
         "businesses": {
-          ".read": "true"
+          ".read": "true",
+          "$business_id": {
+            ".validate": "newData.child('type').val().matches(/^[0-4]$/)"
+          }
         }
       }
     }

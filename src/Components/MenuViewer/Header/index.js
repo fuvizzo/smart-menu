@@ -4,11 +4,14 @@ import HeaderContainer, { Logo, Title } from './styles';
 
 const Header = props => {
   const {
-    data: { name, logo },
+    data: {
+      name,
+      media: { logo },
+    },
   } = props;
   return (
     <HeaderContainer maxWidth="md">
-      {logo ? <Logo src={logo} /> : <Title>{name}</Title>}
+      {logo ? <Logo src={logo.url} /> : <Title>{name}</Title>}
     </HeaderContainer>
   );
 };

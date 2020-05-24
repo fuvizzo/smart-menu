@@ -68,6 +68,7 @@ const MenuLanguageSettingEditor = props => {
                   (lang, index) => {
                     return (
                       <FormControlLabel
+                        key={index}
                         control={
                           <Checkbox
                             color="secondary"

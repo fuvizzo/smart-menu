@@ -45,6 +45,7 @@ export const signInWithEmailAndPassword = ({ email, password }) => {
     let isAuthenticated = false;
     try {
       await basicSignIn(email, password, dispatch);
+
       isAuthenticated = true;
     } catch (error) {
       dispatch({

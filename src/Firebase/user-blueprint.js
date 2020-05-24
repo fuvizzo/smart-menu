@@ -17,16 +17,15 @@ export default (
       menus: {},
       businesses: {
         [businessId]: {
-          type: businessType,
-          name: businessName,
-          uniqueUrlPath,
-          logo: null,
-          colorPalette: {
-            primary: null,
-            secondary: null,
-            accent: null,
+          info: { type: businessType, name: businessName, uniqueUrlPath },
+          media: { logo: null, headerBanner: null },
+          theme: {
+            colorPalette: {
+              primary: null,
+              secondary: null,
+              accent: null,
+            },
           },
-          headerBanner: null,
         },
       },
       account: {

@@ -18,16 +18,22 @@
         },
         "businesses": {
           "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
-            "type": "0",
-            "name": "LEKA",
-            "logo": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png",
-            "colorPalette": {
-              "primary": "#58a758",
-              "secondary": "#351a07",
-              "accent": "red"
+            "info": {
+              "type": "0",
+              "name": "Momenti",
+              "uniqueUrlPath": "restaurant-momenti"
             },
-            "headerBanner": null,
-            "uniqueUrlPath": "restaurant-leka"
+            "media": {
+              "logo": null,
+              "headerBanner": null
+            },
+            "theme": {
+              "colorPalette": {
+                "primary": "#58a758",
+                "secondary": "#351a07",
+                "accent": "red"
+              }
+            }
           }
         }
       }
@@ -124,16 +130,24 @@
       },
       "businesses": {
         "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
-          "type": "0",
-          "name": "LEKA",
-          "logo": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png",
-          "colorPalette": {
-            "primary": "#58a758",
-            "secondary": "#351a07",
-            "accent": "red"
+          "info": {
+            "type": "0",
+            "name": "LEKA",
+            "uniqueUrlPath": "restaurant-leka"
           },
-          "headerBanner": null,
-          "uniqueUrlPath": "restaurant-leka"
+          "media": {
+            "logo": {
+              "url": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png"
+            },
+            "headerBanner": null
+          },
+          "theme": {
+            "colorPalette": {
+              "primary": "#58a758",
+              "secondary": "#351a07",
+              "accent": "red"
+            }
+          }
         }
       },
       "account": {

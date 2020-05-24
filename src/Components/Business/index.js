@@ -5,6 +5,7 @@ import {
   LinearProgress,
   IconButton,
   ListItem,
+  MenuItem,
   FormHelperText,
   ListItemIcon,
   ListItemText,
@@ -14,7 +15,7 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
-
+import ImageSelector from './image-selector';
 import { TextField } from 'formik-material-ui';
 import { Formik, Form, Field } from 'formik';
 import { ColorBox, ColorEditor } from './color-palette';
@@ -43,6 +44,7 @@ const Business = props => {
     enableEditMode,
     disableEditMode,
     updateBusiness,
+    updateBusinessMedia,
   } = props;
 
   const businessId = Object.keys(businesses)[0];
@@ -57,6 +59,7 @@ const Business = props => {
       Hints: HintLabels,
       FormValidationErrors,
     },
+    BUSINESS_TYPES: BusinessTypes,
   } = locale;
 
   const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
@@ -131,7 +134,7 @@ const Business = props => {
         {editModeEnabled ? (
           <>
             <Formik
-              initialValues={ui.editMode.data}
+              initialValues={ui.editMode.data.info}
               validationSchema={createBusinessSchema(FormValidationErrors)}
               onSubmit={(data, { setSubmitting }) => {
                 onBusinessUpdateHandler(data, { setSubmitting });
@@ -139,6 +142,23 @@ const Business = props => {
             >
               {({ submitForm, isSubmitting, values }) => (
                 <Form>
+                  <Box mb={3}>
+                    <Field
+                      component={TextField}
+                      select
+                      label={BusinessLabels.TYPE}
+                      name="type"
+                      value={values.type}
+                    >
+                      {BusinessTypes.map((businessType, index) => {
+                        return (
+                          <MenuItem key={index} value={index}>
+                            {businessType}
+                          </MenuItem>
+                        );
+                      })}
+                    </Field>
+                  </Box>
                   <Box mt={1} mb={3}>
                     <Field
                       component={TextField}
@@ -148,6 +168,7 @@ const Business = props => {
                       value={values.name}
                     />
                   </Box>
+
                   <Box mb={3}>
                     <Field
                       component={TextField}
@@ -159,7 +180,7 @@ const Business = props => {
 
                     <FormHelperText error>{ui.error.message}</FormHelperText>
                   </Box>
-                  <ColorEditor locale={locale} data={ui.editMode.data} />
+                  {/*  <ColorEditor locale={locale} data={ui.editMode.data.theme} /> */}
 
                   {isSubmitting && <LinearProgress />}
                   <ButtonBar>
@@ -179,9 +200,9 @@ const Business = props => {
             <Toolbar disableGutters="true">
               <Header>
                 <Label color="textSecondary" variant="h1">
-                  {BusinessLabels.NAME}
+                  {BusinessLabels.TYPE}
                 </Label>
-                <Typography>{business.name}</Typography>
+                <Typography>{BusinessTypes[business.info.type]}</Typography>
               </Header>
               <IconButton
                 edge="end"
@@ -193,6 +214,12 @@ const Business = props => {
                 <MoreVertIcon />
               </IconButton>
             </Toolbar>
+            <Box mb={2}>
+              <Label color="textSecondary" variant="h1">
+                {BusinessLabels.NAME}
+              </Label>
+              <Typography>{business.info.name}</Typography>
+            </Box>
             <Box mb={2}>
               <Label color="textSecondary" variant="h1">
                 {BusinessLabels.UNIQUE_URL_PATH}
@@ -210,80 +237,91 @@ const Business = props => {
                 </IconButton>
               </Label>
               <Typography>
-                {business.uniqueUrlPath || WarningMessages.MISSING_FIELD}
+                {business.info.uniqueUrlPath || WarningMessages.MISSING_FIELD}
               </Typography>
-            </Box>
-            <ColorBox
-              name="primary"
-              locale={locale}
-              value={business.colorPalette.primary}
-            />
-            <ColorBox
-              name="secondary"
-              locale={locale}
-              value={business.colorPalette.secondary}
-            />
-            <ColorBox
-              name="accent"
-              locale={locale}
-              value={business.colorPalette.accent}
-            />
-            <Box mb={2}>
-              <Label color="textSecondary" variant="h1">
-                {BusinessLabels.LOGO}
-                <IconButton
-                  size="small"
-                  edge="end"
-                  onClick={event =>
-                    popoverClickHandler(event, {
-                      type: 'hint',
-                      message: HintLabels.LOGO,
-                    })
-                  }
-                >
-                  <HelpIcon aria-describedby={popoverId} />
-                </IconButton>
-              </Label>
-
-              {business.logo ? (
-                <img
-                  className={classes.logo}
-                  src={business.logo}
-                  alt="business-logo"
-                />
-              ) : (
-                <Typography> {WarningMessages.MISSING_FIELD} </Typography>
-              )}
-            </Box>
-            <Box mb={2} p={0}>
-              <Label color="textSecondary" variant="h1">
-                {BusinessLabels.HEADER_BANNER}
-                <IconButton
-                  size="small"
-                  edge="end"
-                  onClick={event =>
-                    popoverClickHandler(event, {
-                      type: 'hint',
-                      message: HintLabels.HEADER_BANNER,
-                    })
-                  }
-                >
-                  <HelpIcon aria-describedby={popoverId} />
-                </IconButton>
-              </Label>
-
-              {business.headerBanner ? (
-                <img
-                  className={classes.headerBanner}
-                  src={business.headerBanner}
-                  alt="business-header-banner"
-                />
-              ) : (
-                <Typography> {WarningMessages.MISSING_FIELD} </Typography>
-              )}
             </Box>
           </Box>
         )}
+      </Box>
+      <Box p={2}>
+        <ColorBox
+          name="primary"
+          locale={locale}
+          value={business.theme.colorPalette.primary}
+        />
+        <ColorBox
+          name="secondary"
+          locale={locale}
+          value={business.theme.colorPalette.secondary}
+        />
+        <ColorBox
+          name="accent"
+          locale={locale}
+          value={business.theme.colorPalette.accent}
+        />
+        <Box mb={2}>
+          <Label color="textSecondary" variant="h1">
+            {BusinessLabels.LOGO}
+            <IconButton
+              size="small"
+              edge="end"
+              onClick={event =>
+                popoverClickHandler(event, {
+                  type: 'hint',
+                  message: HintLabels.LOGO,
+                })
+              }
+            >
+              <HelpIcon aria-describedby={popoverId} />
+            </IconButton>
+          </Label>
+
+          {business.media.logo ? (
+            <>
+              <img
+                className={classes.logo}
+                src={business.media.logo.url}
+                alt="business-logo"
+              />
+              <ImageSelector
+                onChange={file => {
+                  console.log(file);
+                  const newFilename = `logo.${file.name.split('.')[1]}`;
+                  updateBusinessMedia(businessId, file, 'logo', newFilename);
+                }}
+              />
+            </>
+          ) : (
+            <Typography> {WarningMessages.MISSING_FIELD} </Typography>
+          )}
+        </Box>
+        <Box mb={2} p={0}>
+          <Label color="textSecondary" variant="h1">
+            {BusinessLabels.HEADER_BANNER}
+            <IconButton
+              size="small"
+              edge="end"
+              onClick={event =>
+                popoverClickHandler(event, {
+                  type: 'hint',
+                  message: HintLabels.HEADER_BANNER,
+                })
+              }
+            >
+              <HelpIcon aria-describedby={popoverId} />
+            </IconButton>
+          </Label>
+
+          {business.media.headerBanner ? (
+            <img
+              className={classes.headerBanner}
+              src={business.media.headerBanner.url}
+              alt="business-header-banner"
+            />
+          ) : (
+            <Typography> {WarningMessages.MISSING_FIELD} </Typography>
+          )}
+        </Box>
       </Box>
     </>
   );
