@@ -1,328 +1,79 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
+
 import { connect } from 'react-redux';
-import {
-  Button,
-  LinearProgress,
-  IconButton,
-  ListItem,
-  MenuItem,
-  FormHelperText,
-  ListItemIcon,
-  ListItemText,
-  Box,
-  Typography,
-  Toolbar,
-} from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import EditIcon from '@material-ui/icons/Edit';
-import ImageSelector from './image-selector';
-import { TextField } from 'formik-material-ui';
-import { Formik, Form, Field } from 'formik';
-import { ColorBox, ColorEditor } from './color-palette';
-import { PopoverComponent as Popover } from '../Common';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+
+import BusinessInfoEditor from './info-editor';
+import BusinessMediaAndThemeEditor from './media-theme-editor';
+import { TabPanel } from '../Common';
+import constants from '../../Constants/index';
 import * as uiActions from '../../Actions/ui-actions';
 import * as businessActions from '../../Actions/business-actions';
-import constants from '../../Constants/index';
-import {
-  PopoverHint,
-  Header,
-  ButtonBar,
-  Label,
-  HelpIcon,
-} from '../Common/styles';
-import useStyles from './styles';
-import createBusinessSchema from '../../Schemas/business';
 
-const { Locales } = constants;
+const a11yProps = index => ({
+  id: `business-editor-tab-${index}`,
+  'aria-controls': `business-editor-tabpanel-${index}`,
+});
 
-const Business = props => {
+const BusinessEditor = props => {
   const {
     ui,
     businesses,
-    hideActionsPopover,
-    showActionsPopover,
-    enableEditMode,
     disableEditMode,
-    updateBusiness,
-    updateBusinessMedia,
+    setBusinessEditorTabsPanelIndex,
   } = props;
 
-  const businessId = Object.keys(businesses)[0];
-  const business = Object.values(businesses)[0];
   const defaultLanguage = ui.settings.defaultLanguage;
-  const locale = Locales[defaultLanguage];
+  const { Locales } = constants;
   const {
-    Labels: {
-      Business: BusinessLabels,
-      Actions: ActionsLabels,
-      Warnings: WarningMessages,
-      Hints: HintLabels,
-      FormValidationErrors,
-    },
-    BUSINESS_TYPES: BusinessTypes,
-  } = locale;
+    Labels: { Business: BusinessLabels },
+  } = Locales[defaultLanguage];
 
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState(null);
-
-  const popoverOpen = Boolean(popoverAnchorEl);
-  const popoverId = popoverOpen ? 'business-actions-popover' : undefined;
-
-  const classes = useStyles();
-
-  const onEditClickHandler = useCallback(() => {
-    hideActionsPopover();
-    setPopoverAnchorEl(null);
-    enableEditMode(business);
-  }, [ui.editMode.data]);
-
-  const onEditColorClickHandler = useCallback(() => {}, []);
-
-  const popoverClickHandler = useCallback(
-    (event, data) => {
-      if (popoverOpen) {
-        setPopoverAnchorEl(null);
-        hideActionsPopover();
-      } else {
-        setPopoverAnchorEl(event.currentTarget);
-        showActionsPopover(data);
-      }
-    },
-    [popoverOpen]
-  );
-
-  const onBusinessUpdateHandler = useCallback(
-    async (data, { setSubmitting }) => {
-      setSubmitting(false);
-      await updateBusiness(businessId, data);
-      if (!ui.error.type) disableEditMode();
-    },
-    [ui.error]
-  );
-
-  const editModeEnabled = ui.editMode.enabled && !ui.editMode.chilItem;
+  const businessData = {
+    businessId: Object.keys(businesses)[0],
+    business: Object.values(businesses)[0],
+  };
 
   useEffect(() => {
     disableEditMode();
   }, []);
+
   return (
     <>
-      <Popover
-        id={popoverId}
-        open={popoverOpen && ui.actionsPopover.type === 'hint'}
-        anchorEl={popoverAnchorEl}
-        handleClose={popoverClickHandler}
-        leftOrigin={true}
+      <Tabs
+        value={ui.businessEditorTabsPanel.index}
+        onChange={(event, value) => {
+          if (ui.businessEditorTabsPanel.index !== value) {
+            setBusinessEditorTabsPanelIndex(value);
+          }
+        }}
+        aria-label="business editor tabs"
       >
-        <PopoverHint p={2}>
-          <Typography>{ui.actionsPopover.message}</Typography>
-        </PopoverHint>
-      </Popover>
-      <Popover
-        id={popoverId}
-        open={popoverOpen && ui.actionsPopover.type === 'actions'}
-        anchorEl={popoverAnchorEl}
-        handleClose={popoverClickHandler}
+        <Tab label={BusinessLabels.INFO} {...a11yProps(0)} />
+        <Tab label={BusinessLabels.MEDIA_AND_THEME} {...a11yProps(1)} />
+      </Tabs>
+      <TabPanel
+        value={ui.businessEditorTabsPanel.index}
+        index={0}
+        ariaLabelledByPrefix="business-editor-tab"
+        idPrefix="business-editor-tabpanel"
       >
-        <ListItem onClick={onEditClickHandler} aria-label="edit" button>
-          <ListItemIcon>
-            <EditIcon />
-          </ListItemIcon>
-          <ListItemText primary={ActionsLabels.EDIT} />
-        </ListItem>
-      </Popover>
-      <Box p={2}>
-        {editModeEnabled ? (
-          <>
-            <Formik
-              initialValues={ui.editMode.data.info}
-              validationSchema={createBusinessSchema(FormValidationErrors)}
-              onSubmit={(data, { setSubmitting }) => {
-                onBusinessUpdateHandler(data, { setSubmitting });
-              }}
-            >
-              {({ submitForm, isSubmitting, values }) => (
-                <Form>
-                  <Box mb={3}>
-                    <Field
-                      component={TextField}
-                      select
-                      label={BusinessLabels.TYPE}
-                      name="type"
-                      value={values.type}
-                    >
-                      {BusinessTypes.map((businessType, index) => {
-                        return (
-                          <MenuItem key={index} value={index}>
-                            {businessType}
-                          </MenuItem>
-                        );
-                      })}
-                    </Field>
-                  </Box>
-                  <Box mt={1} mb={3}>
-                    <Field
-                      component={TextField}
-                      name="name"
-                      type="text"
-                      label={BusinessLabels.NAME}
-                      value={values.name}
-                    />
-                  </Box>
-
-                  <Box mb={3}>
-                    <Field
-                      component={TextField}
-                      name="uniqueUrlPath"
-                      type="text"
-                      label={BusinessLabels.UNIQUE_URL_PATH}
-                      value={values.uniqueUrlPath}
-                    />
-
-                    <FormHelperText error>{ui.error.message}</FormHelperText>
-                  </Box>
-                  {/*  <ColorEditor locale={locale} data={ui.editMode.data.theme} /> */}
-
-                  {isSubmitting && <LinearProgress />}
-                  <ButtonBar>
-                    <Button variant="contained" onClick={disableEditMode}>
-                      {ActionsLabels.CANCEL}
-                    </Button>
-                    <Button variant="contained" color="primary" type="submit">
-                      {ActionsLabels.APPLY_CHANGES}
-                    </Button>
-                  </ButtonBar>
-                </Form>
-              )}
-            </Formik>
-          </>
-        ) : (
-          <Box className={classes.wrapper}>
-            <Toolbar disableGutters="true">
-              <Header>
-                <Label color="textSecondary" variant="h1">
-                  {BusinessLabels.TYPE}
-                </Label>
-                <Typography>{BusinessTypes[business.info.type]}</Typography>
-              </Header>
-              <IconButton
-                edge="end"
-                aria-describedby={popoverId}
-                onClick={event =>
-                  popoverClickHandler(event, { type: 'actions' })
-                }
-              >
-                <MoreVertIcon />
-              </IconButton>
-            </Toolbar>
-            <Box mb={2}>
-              <Label color="textSecondary" variant="h1">
-                {BusinessLabels.NAME}
-              </Label>
-              <Typography>{business.info.name}</Typography>
-            </Box>
-            <Box mb={2}>
-              <Label color="textSecondary" variant="h1">
-                {BusinessLabels.UNIQUE_URL_PATH}
-                <IconButton
-                  size="small"
-                  edge="end"
-                  onClick={event =>
-                    popoverClickHandler(event, {
-                      type: 'hint',
-                      message: HintLabels.UNIQUE_URL_PATH,
-                    })
-                  }
-                >
-                  <HelpIcon aria-describedby={popoverId} />
-                </IconButton>
-              </Label>
-              <Typography>
-                {business.info.uniqueUrlPath || WarningMessages.MISSING_FIELD}
-              </Typography>
-            </Box>
-          </Box>
-        )}
-      </Box>
-      <Box p={2}>
-        <ColorBox
-          name="primary"
-          locale={locale}
-          value={business.theme.colorPalette.primary}
-        />
-        <ColorBox
-          name="secondary"
-          locale={locale}
-          value={business.theme.colorPalette.secondary}
-        />
-        <ColorBox
-          name="accent"
-          locale={locale}
-          value={business.theme.colorPalette.accent}
-        />
-        <Box mb={2}>
-          <Label color="textSecondary" variant="h1">
-            {BusinessLabels.LOGO}
-            <IconButton
-              size="small"
-              edge="end"
-              onClick={event =>
-                popoverClickHandler(event, {
-                  type: 'hint',
-                  message: HintLabels.LOGO,
-                })
-              }
-            >
-              <HelpIcon aria-describedby={popoverId} />
-            </IconButton>
-          </Label>
-
-          {business.media.logo ? (
-            <>
-              <img
-                className={classes.logo}
-                src={business.media.logo.url}
-                alt="business-logo"
-              />
-              <ImageSelector
-                onChange={file => {
-                  console.log(file);
-                  const newFilename = `logo.${file.name.split('.')[1]}`;
-                  updateBusinessMedia(businessId, file, 'logo', newFilename);
-                }}
-              />
-            </>
-          ) : (
-            <Typography> {WarningMessages.MISSING_FIELD} </Typography>
-          )}
+        <Box mt={1.5}>
+          <BusinessInfoEditor businessData={businessData} />
         </Box>
-        <Box mb={2} p={0}>
-          <Label color="textSecondary" variant="h1">
-            {BusinessLabels.HEADER_BANNER}
-            <IconButton
-              size="small"
-              edge="end"
-              onClick={event =>
-                popoverClickHandler(event, {
-                  type: 'hint',
-                  message: HintLabels.HEADER_BANNER,
-                })
-              }
-            >
-              <HelpIcon aria-describedby={popoverId} />
-            </IconButton>
-          </Label>
-
-          {business.media.headerBanner ? (
-            <img
-              className={classes.headerBanner}
-              src={business.media.headerBanner.url}
-              alt="business-header-banner"
-            />
-          ) : (
-            <Typography> {WarningMessages.MISSING_FIELD} </Typography>
-          )}
+      </TabPanel>
+      <TabPanel
+        value={ui.businessEditorTabsPanel.index}
+        index={1}
+        ariaLabelledByPrefix="business-editor-tab"
+        idPrefix="business-editor-tabpanel"
+      >
+        <Box mt={1.5}>
+          <BusinessMediaAndThemeEditor businessData={businessData} />
         </Box>
-      </Box>
+      </TabPanel>
     </>
   );
 };
@@ -334,6 +85,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { ...businessActions, ...uiActions })(
-  Business
+export default connect(mapStateToProps, { ...uiActions, ...businessActions })(
+  BusinessEditor
 );

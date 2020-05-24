@@ -79,6 +79,8 @@ export default {
         ACCENT: "Colore d'accento",
       },
       TYPE: 'Tipo',
+      INFO: 'Info',
+      MEDIA_AND_THEME: 'Media e tema',
     },
     Account: {
       FIRST_NAME: 'Nome',

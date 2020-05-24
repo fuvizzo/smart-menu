@@ -71,6 +71,8 @@ export default {
         ACCENT: 'Acento',
       },
       TYPE: 'Tipo',
+      INFO: 'Info',
+      MEDIA_AND_THEME: 'Media and theme',
     },
     Account: {
       FIRST_NAME: 'Nombre',

@@ -83,6 +83,8 @@ export default {
         ACCENT: 'Accent',
       },
       TYPE: 'Type',
+      INFO: 'Info',
+      MEDIA_AND_THEME: 'Media and theme',
     },
     Account: {
       FIRST_NAME: 'First name',
