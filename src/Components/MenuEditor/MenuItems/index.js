@@ -83,10 +83,10 @@ const MenuItemsEditor = props => {
     Locales,
     MenuItemTypesColorMap,
     ConfirmationActions,
+    MenuTypes,
   } = constants;
 
-  const MenuItemTypeCategory =
-    menu.info.menuItemTypeCategory || 'FOOD_AND_DRINKS';
+  const MenuItemTypeCategory = MenuTypes[menu.info.type];
 
   const {
     Labels: {
@@ -268,7 +268,7 @@ const MenuItemsEditor = props => {
                             }}
                             value={ui.editMode.data.value.type}
                           >
-                            {MenuItemTypes.map((itemType, index) => {
+                            {MenuItemTypes.ITEM_LIST.map((itemType, index) => {
                               return (
                                 <MenuItem key={index} value={index}>
                                   {itemType}
@@ -336,7 +336,7 @@ const MenuItemsEditor = props => {
                             backgroundColor: MenuItemTypesColorMap[data.type],
                           }}
                         >
-                          {MenuItemTypes[data.type].substr(0, 1)}
+                          {MenuItemTypes.ITEM_LIST[data.type].substr(0, 1)}
                         </Avatar>
                       }
                       action={

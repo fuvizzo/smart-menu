@@ -56,6 +56,7 @@ const SectionHeader = props => {
             id: menuId,
             value: emptyMenuItemData(defaultLanguage),
             setMenu: menu.info.setMenu,
+            menuType: menu.info.type,
           });
         }}
       >

@@ -19,7 +19,7 @@ function publicReducer(state = initialState, action) {
       state.data = action.payload;
       break;
     case SET_DEFAULT_PUBLIC_LANGUAGE:
-      state.settings.ui.defaultLanguage = action.payload;
+      state.ui.settings.defaultLanguage = action.payload;
       break;
     case COMPLETE_AUTH_OPERATION:
       state.authOperation = action.payload;

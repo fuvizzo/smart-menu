@@ -1,22 +1,29 @@
 export default {
   BUSINESS_TYPES: ['Ristorante', 'Bar', 'Caffeteria', 'Cafe', 'Pub'],
+
   MenuItemTypes: {
-    FOOD_AND_DRINKS: [
-      'Antipasti',
-      'Primi',
-      'Secondi',
-      'Contorni',
-      'Desserts',
-      'Bibite',
-    ],
-    WINE_CHART: [
-      'Bollicine/spumanti',
-      'Vini rossi',
-      'Vini bianchi',
-      'Vini rosè',
-      'Vini da dessert',
-      'Liquori e distillati',
-    ],
+    FoodAndDrinks: {
+      LABEL: 'Food and drinks',
+      ITEM_LIST: [
+        'Antipasti',
+        'Primi',
+        'Secondi',
+        'Contorni',
+        'Desserts',
+        'Bibite',
+      ],
+    },
+    WineChart: {
+      LABEL: '',
+      ITEM_LIST: [
+        'Bollicine/spumanti',
+        'Vini rossi',
+        'Vini bianchi',
+        'Vini rosè',
+        'Vini da dessert',
+        'Liquori e distillati',
+      ],
+    },
   },
   DEFAULT_LANGUAGE: 'Lingua stabilita',
   Languages: {

@@ -11,7 +11,7 @@ import MenuContainer, {
 } from './styles';
 import Constants from '../../../Constants';
 import MenuItem from './MenuItem';
-const { Locales } = Constants;
+const { Locales, MenuTypes } = Constants;
 
 function Menu(props) {
   function groupMenuItemsByType(items) {
@@ -29,7 +29,7 @@ function Menu(props) {
     colors,
     defaultLanguage,
   } = props;
-  const MenuItemTypeCategory = info.menuItemTypeCategory || 'FOOD_AND_DRINKS';
+  const MenuItemTypeCategory = MenuTypes[info.type];
 
   const {
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
@@ -65,7 +65,7 @@ function Menu(props) {
             {Object.values(groupMenuItemsByType(items)).map((type, index) => (
               <TypeWrapper key={index}>
                 <TypeText color={colors.secondary}>
-                  {MenuItemTypes[index]}
+                  {MenuItemTypes.ITEM_LIST[index]}
                 </TypeText>
                 {type.map((item, index) => (
                   <MenuItem

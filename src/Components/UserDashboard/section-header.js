@@ -15,6 +15,7 @@ const emptyMenuData = defaultLanguage => ({
   providedLanguages: [defaultLanguage],
   items: {},
   info: {
+    type: '',
     locales: {
       [defaultLanguage]: {
         description: '',

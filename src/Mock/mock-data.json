@@ -39,6 +39,7 @@
           "providedLanguages": ["en", "it"],
           "published": true,
           "info": {
+            "type": "0",
             "locales": {
               "en": {
                 "name": "Dinner Menu",
@@ -76,6 +77,7 @@
           "providedLanguages": [],
           "published": false,
           "info": {
+            "type": "0",
             "locales": {
               "en": {
                 "name": "Menu of the day",

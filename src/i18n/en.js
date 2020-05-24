@@ -1,15 +1,32 @@
 export default {
   BUSINESS_TYPES: ['Restaurant', 'Bar', 'Cafeteria', 'Cafe', 'Pub'],
+  MenuTypes: {
+    FOOD_AND_DRINKS: 'Food and drinks',
+    WINE_CHART: 'Wine chart',
+  },
   MenuItemTypes: {
-    FOOD_AND_DRINKS: [
-      'Starters',
-      'Main Courses',
-      'Seconds',
-      'Side Dishes',
-      'Desserts',
-      'Drinks',
-    ],
-    WINE_CHART: [],
+    FoodAndDrinks: {
+      LABEL: 'Food and drinks',
+      ITEM_LIST: [
+        'Starters',
+        'Main Courses',
+        'Seconds',
+        'Side Dishes',
+        'Desserts',
+        'Drinks',
+      ],
+    },
+    WineChart: {
+      LABEL: 'Wine chart',
+      ITEM_LIST: [
+        'Bubbles/sparkling',
+        'Red wines',
+        'Rosè wines',
+        'Vini rosè',
+        'Dessert wines',
+        'Liqueurs and spirits',
+      ],
+    },
   },
   DEFAULT_LANGUAGE: 'Default language',
   Languages: {

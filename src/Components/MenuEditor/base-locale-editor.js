@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { TextValidator } from 'react-material-ui-form-validator';
 import constants from '../../Constants/index';
-import useStyles, { FormControl } from '../Common/styles';
+import { FormControl } from '../Common/styles';
 import TextField from '@material-ui/core/TextField';
 
 const { Locales } = constants;
