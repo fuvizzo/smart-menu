@@ -35,9 +35,12 @@ const ResetPassword = props => {
 
   const onSubmitClickHandler = async (data, { setSubmitting }) => {
     setSubmitting(false);
-
-    await props.resetPassword(actionCode, data.password, email);
-    history.push('/dashboard/menu-list');
+    const isAuthenticated = await props.resetPassword(
+      actionCode,
+      data.password,
+      email
+    );
+    if (isAuthenticated) history.push('/dashboard/menu-list');
   };
 
   return (

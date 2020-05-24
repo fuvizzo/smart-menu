@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import {
-  TextField,
   Button,
   LinearProgress,
   IconButton,
@@ -16,6 +15,7 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
 
+import { TextField } from 'formik-material-ui';
 import { Formik, Form, Field } from 'formik';
 import { ColorBox, ColorEditor } from './color-palette';
 import { PopoverComponent as Popover } from '../Common';
@@ -156,6 +156,7 @@ const Business = props => {
                       label={BusinessLabels.UNIQUE_URL_PATH}
                       value={values.uniqueUrlPath}
                     />
+
                     <FormHelperText error>{ui.error.message}</FormHelperText>
                   </Box>
                   <ColorEditor locale={locale} data={ui.editMode.data} />

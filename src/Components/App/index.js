@@ -26,7 +26,7 @@ const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
 
   return (
     <>
-      {error && error.type === ErrorTypes.AUTHENTICATION && (
+      {error.type === ErrorTypes.AUTHENTICATION && (
         <Snackbar
           severity="warning"
           onCloseHandler={() => {

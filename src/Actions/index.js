@@ -134,16 +134,18 @@ export const submitResetPasswordRequest = email => {
 
 export const resetPassword = (actionCode, password, email) => {
   return async dispatch => {
+    let isAuthenticated = false;
     try {
       await firebaseService.auth.confirmPasswordReset(actionCode, password);
       await basicSignIn(email, password, dispatch);
+      isAuthenticated = true;
     } catch (error) {
       dispatch({
         type: SET_ERROR,
         payload: buildError(error),
       });
-      return;
     }
+    return isAuthenticated;
   };
 };
 

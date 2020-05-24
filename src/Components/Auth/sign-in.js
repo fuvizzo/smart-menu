@@ -85,10 +85,10 @@ const SignIn = props => {
                   autoComplete="current-password"
                 />
               </Grid>
-              <FormControlLabel
+              {/*  <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
             </Grid>
             <Button
               type="submit"
