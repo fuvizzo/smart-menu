@@ -11,11 +11,13 @@ function businessReducer(state = initialState, action) {
     case BusinessActions.UPDATE_BUSINESS_INFO:
       state[action.payload.businessId].info = action.payload.value;
       break;
-    case BusinessActions.UPDATE_BUSINESS_MEDIA:
+    case BusinessActions.UPLOAD_BUSINESS_MEDIA:
       state[action.payload.businessId].media[action.payload.type] =
         action.payload.value;
       break;
-
+    case BusinessActions.DELETE_BUSINESS_MEDIA:
+      state[action.payload.businessId].media[action.payload.type] = null;
+      break;
     default:
       return state;
   }

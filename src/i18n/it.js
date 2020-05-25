@@ -139,6 +139,9 @@ export default {
       BACK_TO_DASHBOARD: 'Torna alla dashboard',
       DOWNLOAD: 'Scarica',
       PRINT: 'Stampa',
+      REPLACE: 'Cambia',
+      REMOVE: 'Rimuovi',
+      ADD: 'Carica',
     },
   },
   ConfirmationActions: {

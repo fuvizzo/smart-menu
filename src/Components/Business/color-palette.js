@@ -88,6 +88,7 @@ export const ColorEditor = ({ data, locale, onChangeCompleteHandler }) => {
       {items.map((item, index) => {
         return (
           <ColorBox
+            key={index}
             editModeEnabled
             locale={locale}
             value={item.value}

@@ -144,6 +144,9 @@ export default {
       BACK_TO_DASHBOARD: 'Back to dashboard',
       DOWNLOAD: 'Download',
       PRINT: 'Print',
+      REPLACE: 'Replace',
+      REMOVE: 'Remove',
+      ADD: 'ADD',
     },
   },
   ConfirmationActions: {

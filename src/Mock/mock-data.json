@@ -136,9 +136,7 @@
             "uniqueUrlPath": "restaurant-leka"
           },
           "media": {
-            "logo": {
-              "url": "https://restauranteleka.com/wp-content/uploads/2020/01/leka-logo-2020-04-e1579728133825.png"
-            },
+            "logo": null,
             "headerBanner": null
           },
           "theme": {

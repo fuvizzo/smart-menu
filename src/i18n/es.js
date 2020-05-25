@@ -131,6 +131,9 @@ export default {
       BACK_TO_DASHBOARD: 'Volver al panel de control',
       DOWNLOAD: 'Baja',
       PRINT: 'Imprime',
+      REPLACE: 'Replaza',
+      REMOVE: 'Quita',
+      ADD: 'Sube',
     },
   },
   ConfirmationActions: {

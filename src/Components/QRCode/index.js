@@ -64,7 +64,7 @@ const QRCodeDialog = props => {
 
 function mapStateToProps(state) {
   return {
-    uniqueUrlPath: Object.values(state.businesses)[0].uniqueUrlPath,
+    uniqueUrlPath: Object.values(state.businesses)[0].info.uniqueUrlPath,
     defaultLanguage: state.ui.settings.defaultLanguage,
   };
 }

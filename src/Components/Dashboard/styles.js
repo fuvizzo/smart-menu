@@ -40,7 +40,6 @@ export default makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
-  logo: {},
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',

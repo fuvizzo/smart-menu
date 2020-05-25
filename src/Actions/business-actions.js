@@ -74,11 +74,31 @@ export const updateBusiness = (businessId, body) => {
   };
 };
 
-export const updateBusinessMedia = (
+export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userId = state.account.user.userId;
+
+    try {
+      const basePath = `${userBusinessesPath(userId)}/${businessId}`;
+      await firebaseService.storage.deleteFile(
+        `${basePath}/${fileName}.${fileExt}`
+      );
+      dispatch({
+        type: BusinessActions.DELETE_BUSINESS_MEDIA,
+        payload: { businessId, type: fileName },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const uploadBusinessMedia = (
   businessId,
   img,
   type,
-  newFilename,
+  onUploading,
   metadata = null
 ) => {
   return async (dispatch, getState) => {
@@ -87,24 +107,27 @@ export const updateBusinessMedia = (
 
     try {
       const basePath = `${userBusinessesPath(userId)}/${businessId}`;
-
-      const result = await firebaseService.storage.uploadFile(
+      const imageType = img.type.split('/')[1];
+      const newFilename = `${type}.${imageType}`;
+      const uploadTask = await firebaseService.storage.uploadFile(
         `${basePath}/${newFilename}`,
         img,
+        onUploading,
         metadata
       );
 
-      const url = await result.ref.getDownloadURL();
+      const url = await uploadTask.ref.getDownloadURL();
 
       const data = {
         path: `${basePath}/${MEDIA}/${type}`,
         body: {
           url,
+          imageType,
         },
       };
       await firebaseService.update(data);
       dispatch({
-        type: BusinessActions.UPDATE_BUSINESS_MEDIA,
+        type: BusinessActions.UPLOAD_BUSINESS_MEDIA,
         payload: { businessId, type, value: data.body },
       });
     } catch (error) {

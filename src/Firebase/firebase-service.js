@@ -19,11 +19,14 @@ class FirebaseService {
       const resource = await this.#storage.ref(path);
       return await resource.getDownloadURL();
     },
-    uploadFile: async (path, file, metadata = null) => {
-      const resource = await this.#storage.ref(path);
-      return await (metadata
+    deleteFile: async path => this.#storage.ref(path).delete(),
+    uploadFile: async (path, file, onUploading, metadata = null) => {
+      const resource = this.#storage.ref(path);
+      const uploadTask = metadata
         ? resource.put(file, metadata)
-        : resource.put(file));
+        : resource.put(file);
+      uploadTask.on('state_changed', onUploading);
+      return await uploadTask;
     },
   };
   create = async ({ path, body }) => this.#database.ref(path).set(body);
