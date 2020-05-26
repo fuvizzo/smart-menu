@@ -20,7 +20,7 @@ const MenuLanguageSettingEditor = props => {
   const { menuId } = useParams();
   const { ui, menu } = props;
   const defaultLanguage = ui.settings.defaultLanguage;
-
+  const providedLanguages = menu.providedLanguages || [];
   const {
     Labels: { Menu: MenuLabels },
     Languages,
@@ -28,11 +28,11 @@ const MenuLanguageSettingEditor = props => {
 
   const onChangeValueHandler = useCallback(
     event => {
-      let languages = [...menu.providedLanguages];
+      let languages = [...providedLanguages];
       const selectedLang = event.target.name;
       if (
-        (menu.providedLanguages.length === 0 ||
-          menu.providedLanguages.some(lang => lang !== selectedLang)) &&
+        (providedLanguages.length === 0 ||
+          providedLanguages.some(lang => lang !== selectedLang)) &&
         event.target.checked
       ) {
         languages.push(selectedLang);
@@ -41,7 +41,7 @@ const MenuLanguageSettingEditor = props => {
       }
       props.setProvidedLanguages(menuId, languages);
     },
-    [menu.providedLanguages.length]
+    [providedLanguages.length]
   );
 
   return (
@@ -64,25 +64,23 @@ const MenuLanguageSettingEditor = props => {
                 aria-label="language-select-label"
                 onChange={onChangeValueHandler}
               >
-                {constants.SupportedLanguages.filter(lang => Locales[lang]).map(
-                  (lang, index) => {
-                    return (
-                      <FormControlLabel
-                        key={index}
-                        control={
-                          <Checkbox
-                            color="secondary"
-                            checked={menu.providedLanguages.some(
-                              value => value === lang
-                            )}
-                            name={lang}
-                          />
-                        }
-                        label={Languages[lang]}
-                      />
-                    );
-                  }
-                )}
+                {Object.keys(Locales).map((lang, index) => {
+                  return (
+                    <FormControlLabel
+                      key={index}
+                      control={
+                        <Checkbox
+                          color="secondary"
+                          checked={providedLanguages.some(
+                            value => value === lang
+                          )}
+                          name={lang}
+                        />
+                      }
+                      label={Languages[lang]}
+                    />
+                  );
+                })}
               </FormGroup>
             </FormControl>
           </Box>

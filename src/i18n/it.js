@@ -102,7 +102,7 @@ export default {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
     },
     Warnings: {
-      MISSING_NAME: 'NOME_MANCANTE',
+      MISSING_NAME: 'Nome mancante',
       MISSING_FIELD: 'Questo campo non è stato ancora riempito',
       getMissingFieldDetailedMessage: fieldName =>
         `Il campo '${fieldName}' non è stato ancora riempito`,

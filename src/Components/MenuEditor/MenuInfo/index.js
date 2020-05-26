@@ -270,11 +270,25 @@ const MenuInfoEditor = props => {
                   </IconButton>
                 }
                 title={
-                  <Typography
-                    color={data.locales[defaultLanguage].warning && 'secondary'}
-                  >
-                    {data.locales[defaultLanguage].name}
-                  </Typography>
+                  <>
+                    <Box>
+                      <Label color="textSecondary" variant="h3">
+                        {MenuLabels.MENU_NAME}
+                      </Label>
+                    </Box>
+                    <Box mt={0.5}>
+                      <Typography
+                        color={
+                          data.locales[defaultLanguage].name ===
+                          WarningMessages.MISSING_NAME
+                            ? 'secondary'
+                            : 'initial'
+                        }
+                      >
+                        {data.locales[defaultLanguage].name}
+                      </Typography>
+                    </Box>
+                  </>
                 }
               />
               <CardContent className={menuClasses.cardContent}>
