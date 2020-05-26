@@ -90,6 +90,9 @@ const App = () => {
             <AuthOperations />
           </PublicMasterPage>
         </Route>
+        <Route exact path="/:uniqueBusinessUrlPath/menu/:menuId">
+          <MenuViewer />
+        </Route>
         <Route exact path="/:uniqueBusinessUrlPath">
           <MenuViewer />
         </Route>

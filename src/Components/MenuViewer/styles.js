@@ -6,4 +6,12 @@ const HeaderContainer = styled(Container)`
   flex-direction: column;
 `;
 
-export { HeaderContainer };
+const MenuCardWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+  margin-left: -10px;
+  margin-right: -10px;
+`;
+
+export { HeaderContainer, MenuCardWrapper };

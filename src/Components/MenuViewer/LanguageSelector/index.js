@@ -21,7 +21,7 @@ const LanguageSelector = props => {
           return (
             <LanguageListItem
               button
-              color={colors.primary}
+              color={colors}
               selected={defaultLanguage === lang}
               key={index}
               onClick={() => onSelectLanguageHandler(lang)}

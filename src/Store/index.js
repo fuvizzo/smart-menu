@@ -43,7 +43,6 @@ const store = createStore(
   //applyMiddleware(typoedWordsMiddleware,thunk)
 );
 
-store.subscribe(() => console.log('Look ma, Redux!!'));
 const persistor = persistStore(store);
 
 export { persistor, store };

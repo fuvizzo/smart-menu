@@ -8,7 +8,7 @@ class FirebaseService {
     this.auth = firebase.auth();
 
     this.auth.onAuthStateChanged(user => {
-      console.log(user);
+      // console.log(user);
     });
   }
 

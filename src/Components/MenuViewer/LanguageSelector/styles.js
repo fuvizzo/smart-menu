@@ -16,9 +16,11 @@ const LanguageList = withStyles({
 
 const LanguageListItem = withStyles({
   root: {
-    color: props => props.color,
+    color: props => props.color ? props.color : 'black',
     '&.Mui-selected': {
-      border: props => `1px solid ${props.color}`,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: props => props.color ? props.color : 'black',
       backgroundColor: 'transparent',
     },
   },

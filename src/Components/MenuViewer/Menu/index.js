@@ -11,19 +11,10 @@ import MenuContainer, {
 } from './styles';
 import Constants from '../../../Constants';
 import MenuItem from './MenuItem';
+import {groupMenuItemsByType} from '../Helpers';
 const { Locales, MenuTypes } = Constants;
 
 function Menu(props) {
-  function groupMenuItemsByType(items) {
-    /*  console.log(items);
-    console.log(items.values); */
-    return Object.values(items).reduce((results, item) => {
-      (results[item.type] = results[item.type] || []).push(item);
-      //console.log(results);
-      return results;
-    }, {});
-  }
-
   const {
     data: { providedLanguages, info, items },
     colors,
@@ -37,7 +28,7 @@ function Menu(props) {
   const localeInfo = info.locales[defaultLanguage];
 
   return (
-    <MenuContainer maxWidth="md">
+    <MenuContainer>
       {providedLanguages.length === 0 ? (
         <span style={{ width: '300px', color: 'red' }}>
           Here goes the language selector but so far the list of the provided
@@ -47,7 +38,6 @@ function Menu(props) {
       ) : (
         <>
           <LanguageSelector
-            colors={colors}
             defaultLanguage={defaultLanguage}
             providedLanguages={providedLanguages}
           />

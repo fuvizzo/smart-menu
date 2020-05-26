@@ -10,7 +10,7 @@ const Header = props => {
     },
   } = props;
   return (
-    <HeaderContainer maxWidth="md">
+    <HeaderContainer maxWidth="lg">
       {logo ? <Logo src={logo.url} /> : <Title>{name}</Title>}
     </HeaderContainer>
   );

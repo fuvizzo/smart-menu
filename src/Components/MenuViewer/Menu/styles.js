@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Container from '@material-ui/core/Container';
 
-const MenuContainer = styled(Container)`
+const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: -40px;

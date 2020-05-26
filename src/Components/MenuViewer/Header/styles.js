@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import Container from '@material-ui/core/Container';
 
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled.div`
   display: flex;
   margin-top: 40px;
   align-items: flex-end;
