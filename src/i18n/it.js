@@ -1,22 +1,29 @@
 export default {
   BUSINESS_TYPES: ['Ristorante', 'Bar', 'Caffeteria', 'Cafe', 'Pub'],
+
   MenuItemTypes: {
-    FOOD_AND_DRINKS: [
-      'Antipasti',
-      'Primi',
-      'Secondi',
-      'Contorni',
-      'Desserts',
-      'Bibite',
-    ],
-    WINE_CHART: [
-      'Bollicine/spumanti',
-      'Vini rossi',
-      'Vini bianchi',
-      'Vini rosè',
-      'Vini da dessert',
-      'Liquori e distillati',
-    ],
+    FoodAndDrinks: {
+      LABEL: 'Food and drinks',
+      ITEM_LIST: [
+        'Antipasti',
+        'Primi',
+        'Secondi',
+        'Contorni',
+        'Desserts',
+        'Bibite',
+      ],
+    },
+    WineChart: {
+      LABEL: '',
+      ITEM_LIST: [
+        'Bollicine/spumanti',
+        'Vini rossi',
+        'Vini bianchi',
+        'Vini rosè',
+        'Vini da dessert',
+        'Liquori e distillati',
+      ],
+    },
   },
   DEFAULT_LANGUAGE: 'Lingua stabilita',
   Languages: {
@@ -44,7 +51,7 @@ export default {
       MENU: 'Menu',
       TYPE: 'Tipo di menù',
       SET_MENU: 'Menù a prezzo fisso',
-      DISH_NAME: 'Nome del piatto',
+      NAME: 'Nome',
       MENU_NAME: 'Nome del menù',
       EMPTY_MENU: 'Il menu corrente non contiene ancora nessun elemento',
       EMPTY_MENU_LIST: 'Non è stato creato ancora alcun menù',
@@ -72,6 +79,8 @@ export default {
         ACCENT: "Colore d'accento",
       },
       TYPE: 'Tipo',
+      INFO: 'Info',
+      MEDIA_AND_THEME: 'Media e tema',
     },
     Account: {
       FIRST_NAME: 'Nome',
@@ -87,6 +96,7 @@ export default {
       CURRENCY: 'Questo campo deve essere in formato € (es: 10,50)',
       UNIQUE_URL_PATH_ALREADY_IN_USE:
         'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
+      INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
@@ -129,6 +139,9 @@ export default {
       BACK_TO_DASHBOARD: 'Torna alla dashboard',
       DOWNLOAD: 'Scarica',
       PRINT: 'Stampa',
+      REPLACE: 'Cambia',
+      REMOVE: 'Rimuovi',
+      ADD: 'Carica',
     },
   },
   ConfirmationActions: {

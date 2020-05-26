@@ -56,7 +56,6 @@ const MenuItemsEditor = props => {
 
   const dashboardClasses = useDashboardStyles();
   const menuClasses = useMenuStyles();
-  const commonClasses = useCommonStyles();
   const {
     menu,
     ui,
@@ -82,12 +81,12 @@ const MenuItemsEditor = props => {
   const {
     RegexExpressions,
     Locales,
-    DishTypesColorMap,
+    MenuItemTypesColorMap,
     ConfirmationActions,
+    MenuTypes,
   } = constants;
 
-  const MenuItemTypeCategory =
-    menu.info.menuItemTypeCategory || 'FOOD_AND_DRINKS';
+  const MenuItemTypeCategory = MenuTypes[menu.info.type];
 
   const {
     Labels: {
@@ -262,14 +261,14 @@ const MenuItemsEditor = props => {
                         <ShortFormFieldWrapper>
                           <Select
                             label={MenuLabels.CATEGORY}
-                            name="category"
+                            name="type"
                             onChange={event => {
                               event.currentTarget.name = event.target.name;
                               onChangeValueHandler(event);
                             }}
-                            value={ui.editMode.data.value.category}
+                            value={ui.editMode.data.value.type}
                           >
-                            {MenuItemTypes.map((itemType, index) => {
+                            {MenuItemTypes.ITEM_LIST.map((itemType, index) => {
                               return (
                                 <MenuItem key={index} value={index}>
                                   {itemType}
@@ -334,10 +333,10 @@ const MenuItemsEditor = props => {
                         <Avatar
                           aria-label="recipe"
                           style={{
-                            backgroundColor: DishTypesColorMap[data.category],
+                            backgroundColor: MenuItemTypesColorMap[data.type],
                           }}
                         >
-                          {MenuItemTypes[data.category].substr(0, 1)}
+                          {MenuItemTypes.ITEM_LIST[data.type].substr(0, 1)}
                         </Avatar>
                       }
                       action={

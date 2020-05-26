@@ -13,7 +13,7 @@ const { Locales } = constants;
 
 const emptyMenuItemData = defaultLanguage => ({
   price: '',
-  category: '',
+  type: '',
   locales: {
     [defaultLanguage]: {
       description: '',
@@ -56,6 +56,7 @@ const SectionHeader = props => {
             id: menuId,
             value: emptyMenuItemData(defaultLanguage),
             setMenu: menu.info.setMenu,
+            menuType: menu.info.type,
           });
         }}
       >

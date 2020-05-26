@@ -2,14 +2,7 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import constants from '../../../Constants/index';
 
-import {
-  Box,
-  MenuItem,
-  Typography,
-  TextField,
-  Button,
-  Dialog,
-} from '@material-ui/core';
+import { Box, MenuItem, Typography, Button, Dialog } from '@material-ui/core';
 import LocaleEditor from './locale-editor';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
@@ -24,8 +17,8 @@ const NewMenuItemDialog = props => {
   const { ui } = props;
   const menuClasses = useMenuStyles();
   const defaultLanguage = ui.settings.defaultLanguage;
-  const { Locales, LocalizedFields, RegexExpressions } = constants;
-  const MenuItemTypeCategory = 'FOOD_AND_DRINKS';
+  const { Locales, LocalizedFields, RegexExpressions, MenuTypes } = constants;
+  const MenuItemTypeCategory = MenuTypes[ui.insertMode.data.menuType];
   const {
     Labels: {
       Actions: ActionsLabels,
@@ -75,34 +68,31 @@ const NewMenuItemDialog = props => {
             {ActionsLabels.ADD_NEW_MENU_ITEM}
           </Typography>
         </DialogTitle>
-        <ValidatorForm
-          onSubmit={createNewMenuItemHandler}
-          onError={errors => console.log(errors)}
-        >
+        <ValidatorForm onSubmit={createNewMenuItemHandler}>
           <DialogContent dividers>
             <Box pb={0}>
               <FormControl>
                 <ShortFormFieldWrapper>
-                  <TextField
+                  <TextValidator
                     select
-                    value={ui.insertMode.data.value.category}
+                    value={ui.insertMode.data.value.type}
                     validators={['required']}
                     errorMessages={FormValidationErrorsLabels.REQUIRED}
                     label={MenuLabels.CATEGORY}
-                    name="category"
+                    name="type"
                     onChange={event => {
                       event.currentTarget.name = event.target.name;
                       onChangeValueHandler(event);
                     }}
                   >
-                    {MenuItemTypes.map((itemType, index) => {
+                    {MenuItemTypes.ITEM_LIST.map((itemType, index) => {
                       return (
                         <MenuItem key={index} value={index}>
                           {itemType}
                         </MenuItem>
                       );
                     })}
-                  </TextField>
+                  </TextValidator>
                 </ShortFormFieldWrapper>
               </FormControl>
               {!ui.insertMode.data.setMenu && (

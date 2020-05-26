@@ -35,7 +35,6 @@ const LeftMenu = props => {
 
   return (
     <>
-      {' '}
       <QRCodeDialog
         open={qRCodeDialogOpen}
         onCloseHandler={() => setQRCodeDialogOpen(false)}

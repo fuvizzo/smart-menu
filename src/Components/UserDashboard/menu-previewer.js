@@ -6,13 +6,16 @@ import { useLocation } from 'react-router-dom';
 import { getPreviewMenu } from '../../Actions/menu-actions';
 const MenuPreviewer = props => {
   const query = useQuery();
+
   useEffect(() => {
     const menuId = query.get('menu-id');
     props.getPreviewMenu(menuId);
   }, []);
+
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
+
   return <MenuViewer isPreview={true} />;
 };
 

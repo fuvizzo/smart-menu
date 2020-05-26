@@ -1,26 +1,34 @@
 class FirebaseService {
   #database = null;
-  #auth = null;
+  #storage = null;
 
   constructor(firebase) {
     this.#database = firebase.database();
-    this.#auth = firebase.auth();
+    this.#storage = firebase.storage();
+    this.auth = firebase.auth();
 
-    this.#auth.onAuthStateChanged(user => {
+    this.auth.onAuthStateChanged(user => {
       console.log(user);
     });
   }
 
-  auth = {
-    createUserWithEmailAndPassword: async (email, password) =>
-      await this.#auth.createUserWithEmailAndPassword(email, password),
+  auth = this.auth;
 
-    signInWithEmailAndPassword: async (email, password) =>
-      await this.#auth.signInWithEmailAndPassword(email, password),
-
-    signOut: async () => this.#auth.signOut(),
+  storage = {
+    getDownloadURL: async path => {
+      const resource = await this.#storage.ref(path);
+      return await resource.getDownloadURL();
+    },
+    deleteFile: async path => this.#storage.ref(path).delete(),
+    uploadFile: async (path, file, onUploading, metadata = null) => {
+      const resource = this.#storage.ref(path);
+      const uploadTask = metadata
+        ? resource.put(file, metadata)
+        : resource.put(file);
+      uploadTask.on('state_changed', onUploading);
+      return await uploadTask;
+    },
   };
-
   create = async ({ path, body }) => this.#database.ref(path).set(body);
 
   delete = async path => this.#database.ref(path).remove();

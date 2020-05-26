@@ -1,4 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
+import { Form } from 'formik';
+import { Box } from '@material-ui/core';
+
+const PasswordResetDialogContent = styled(Box)({
+  minWidth: 400,
+});
+
+export { PasswordResetDialogContent };
 
 export default makeStyles(theme => ({
   root: {
@@ -15,7 +23,7 @@ export default makeStyles(theme => ({
     backgroundPosition: 'center',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(4, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

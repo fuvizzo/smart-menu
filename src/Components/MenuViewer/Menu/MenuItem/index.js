@@ -1,14 +1,14 @@
 import React from 'react';
 
-import DishContainer, {
+import MenuItemContainer, {
   Description,
-  DishMeta,
+  MenuItemMeta,
   Ingredients,
   Price,
   Title,
 } from './styles';
 
-const Dish = props => {
+const MenuItem = props => {
   const {
     defaultLanguage,
     data: { locales },
@@ -16,14 +16,14 @@ const Dish = props => {
   } = props;
   const locale = locales[defaultLanguage];
   return locale ? (
-    <DishContainer color={colors.primary}>
-      <DishMeta>
+    <MenuItemContainer color={colors.primary}>
+      <MenuItemMeta>
         <Title>{locale.name}</Title>
         <Price>{props.data.price} €</Price>
-      </DishMeta>
+      </MenuItemMeta>
       {locale.description && <Description>{locale.description}</Description>}
       {locale.ingredients && <Ingredients>{locale.ingredients}</Ingredients>}
-    </DishContainer>
+    </MenuItemContainer>
   ) : (
     <span style={{ color: 'red' }}>
       The menu item descrition is missing for this language
@@ -31,4 +31,4 @@ const Dish = props => {
   );
 };
 
-export default Dish;
+export default MenuItem;

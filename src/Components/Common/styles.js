@@ -1,5 +1,8 @@
 import { makeStyles, styled } from '@material-ui/core/styles';
-import MUI_HelpIcon from '@material-ui/icons/Help';
+import {
+  Help as MUI_HelpIcon,
+  BrokenImage as MUI_BrokenImage,
+} from '@material-ui/icons';
 import {
   Box,
   Typography,
@@ -9,6 +12,11 @@ import {
 
 const HelpIcon = styled(MUI_HelpIcon)({
   fontSize: '1rem',
+});
+
+const BrokenImage = styled(MUI_BrokenImage)({
+  fontSize: '6rem',
+  fill: '#e6e6e6',
 });
 
 const Label = styled(Typography)({
@@ -28,7 +36,9 @@ const ButtonBar = withStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     '& > *': {
-      margin: theme.spacing(1),
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+      marginLeft: theme.spacing(2),
     },
   },
 }))(Box);
@@ -54,6 +64,7 @@ const PopoverHint = styled(Box)({
 
 export {
   HelpIcon,
+  BrokenImage,
   Label,
   FormControl,
   ButtonBar,

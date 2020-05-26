@@ -44,7 +44,7 @@ export const ColorBox = props => {
   );
 };
 
-export const ColorEditor = ({ data, locale, onChangeCompleteHandler }) => {
+export const ColorEditor = ({ data, locale, onSelectColorHandler }) => {
   const defaultState = {
     name: '',
     open: false,
@@ -73,8 +73,10 @@ export const ColorEditor = ({ data, locale, onChangeCompleteHandler }) => {
         onCloseHandler={() => setColorPickerDialogState(defaultState)}
         state={colorPickerDialogState}
         onSelectColorHandler={() => {
-          data.colorPalette[colorPickerDialogState.name] =
-            colorPickerDialogState.color.hex;
+          onSelectColorHandler(
+            colorPickerDialogState.name,
+            colorPickerDialogState.color.hex
+          );
           setColorPickerDialogState(defaultState);
         }}
         onChangeCompleteHandler={(hex, name) => {
@@ -82,12 +84,12 @@ export const ColorEditor = ({ data, locale, onChangeCompleteHandler }) => {
             ...colorPickerDialogState,
             color: { hex },
           });
-          /*   data.colorPalette[name] = hex; */
         }}
       />
       {items.map((item, index) => {
         return (
           <ColorBox
+            key={index}
             editModeEnabled
             locale={locale}
             value={item.value}

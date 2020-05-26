@@ -8,9 +8,20 @@ function businessReducer(state = initialState, action) {
     case BusinessActions.GET_BUSINESSES:
       state = action.payload;
       break;
-    case BusinessActions.UPDATE_BUSINESS:
-      state[action.payload.businessId] = action.payload.value;
+    case BusinessActions.UPDATE_BUSINESS_INFO:
+      state[action.payload.businessId].info = action.payload.value;
       break;
+    case BusinessActions.UPLOAD_BUSINESS_MEDIA:
+      state[action.payload.businessId].media[action.payload.type] =
+        action.payload.value;
+      break;
+    case BusinessActions.DELETE_BUSINESS_MEDIA:
+      state[action.payload.businessId].media[action.payload.type] = null;
+      break;
+    case BusinessActions.UPDATE_BUSINESS_THEME:
+      state[action.payload.businessId].theme = action.payload.value;
+      break;
+
     default:
       return state;
   }

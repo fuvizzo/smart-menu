@@ -39,7 +39,7 @@ import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';
 import * as menuActions from '../../../Actions/menu-actions';
 import useDashboardStyles from '../../UserDashboard/styles';
-import useCommonStyles, { Label, ButtonBar } from '../../Common/styles';
+import { Label, ButtonBar } from '../../Common/styles';
 import useMenuStyles from '../styles';
 
 const MenuInfoEditor = props => {
@@ -52,7 +52,6 @@ const MenuInfoEditor = props => {
 
   const dashboardClasses = useDashboardStyles();
   const menuClasses = useMenuStyles();
-  const commonClasses = useCommonStyles();
   const {
     menu,
     ui,

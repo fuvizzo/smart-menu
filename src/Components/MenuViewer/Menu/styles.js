@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from "@material-ui/core/Container";
+import Container from '@material-ui/core/Container';
 
 const MenuContainer = styled(Container)`
   display: flex;
@@ -11,23 +11,23 @@ const MenuContainer = styled(Container)`
 const Title = styled.h2`
   margin: 20px auto;
   font-size: 22px;
-  color: ${props => props.color ? props.color : "black"};
+  color: ${props => props.color ? props.color : 'black'};
 `;
 
 const Description = styled.p`
   font-size: 14px;
   line-height: 1.5;
-  color: ${props => props.color ? props.color : "black"};
+  color: ${props => props.color ? props.color : 'black'};
 `;
 
-const CategoryText = styled.h3`
+const TypeText = styled.h3`
   margin: 20px 0px;
   font-size: 22px;
   font-weight: bold;
-  color: ${props => props.color ? props.color : "black"};
+  color: ${props => props.color ? props.color : 'black'};
 `;
 
-const CategoryWrapper = styled.div`
+const TypeWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-start;
@@ -37,7 +37,7 @@ const CategoryWrapper = styled.div`
   }
 `;
 
-const CategoriesContainer = styled(Container)`
+const TypesContainer = styled(Container)`
   display: flex;
   padding: 0;
   flex-direction: column;
@@ -50,9 +50,9 @@ const CategoriesContainer = styled(Container)`
 `;
 
 export {
-  CategoriesContainer,
-  CategoryText,
-  CategoryWrapper,
+  TypesContainer,
+  TypeText,
+  TypeWrapper,
   Description,
   Title,
 }

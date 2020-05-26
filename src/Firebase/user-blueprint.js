@@ -1,5 +1,5 @@
 import constants from '../Constants/index';
-
+import Random from 'randomstring';
 export default (
   firstName,
   lastName,
@@ -8,23 +8,24 @@ export default (
   businessType
 ) => {
   const businessTypeName = constants.Locales.en.BUSINESS_TYPES[businessType];
-  const uniqueUrlPath = `${businessTypeName}-${businessName}`.toLowerCase();
+  const uniqueUrlPath = `${businessTypeName}-${businessName}-${Random.generate(
+    4
+  )}`.toLowerCase();
   return {
     uniqueUrlPath,
     user: {
       menus: {},
       businesses: {
         [businessId]: {
-          type: businessType,
-          name: businessName,
-          uniqueUrlPath,
-          logo: null,
-          colorPalette: {
-            primary: null,
-            secondary: null,
-            accent: null,
+          info: { type: businessType, name: businessName, uniqueUrlPath },
+          media: { logo: null, headerBanner: null },
+          theme: {
+            colorPalette: {
+              primary: null,
+              secondary: null,
+              accent: null,
+            },
           },
-          headerBanner: null,
         },
       },
       account: {

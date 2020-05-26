@@ -3,7 +3,7 @@ import {
   AppBar as MUI_AppBar,
   Toolbar as MUI_Toolbar,
   Typography as MUI_Typography,
-  Link as MUI_Link,
+  List,
 } from '@material-ui/core/';
 
 import { Link as RouterDomLink } from 'react-router-dom';
@@ -22,12 +22,13 @@ const ToolbarTitle = styled(MUI_Typography)({
   flexGrow: 1,
 });
 
-const Link = styled(MUI_Link)({
-  margin: theme.spacing(1, 1.5),
-});
-
 const RouterLink = styled(RouterDomLink)({
   textDecoration: 'none',
 });
 
-export { AppBar, Toolbar, ToolbarTitle, Link, RouterLink };
+const NavList = styled(List)({
+  display: 'flex',
+  marginRight: 20,
+});
+
+export { NavList, AppBar, Toolbar, ToolbarTitle, RouterLink };

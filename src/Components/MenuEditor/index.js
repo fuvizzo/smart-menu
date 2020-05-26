@@ -25,8 +25,8 @@ const MenuEditor = props => {
   const {
     ui,
     menus,
-    disableEditMode,
-    disableInsertMode,
+    /*  disableEditMode,
+    disableInsertMode, */
     collapseLanguageTabsPanel,
     setMenuEditorTabsPanelIndex,
   } = props;
@@ -38,10 +38,10 @@ const MenuEditor = props => {
 
   const menu = menus[menuId];
 
-  useEffect(() => {
+  /*   useEffect(() => {
     disableEditMode();
     disableInsertMode();
-  }, []);
+  }, []); */
 
   return (
     <>

@@ -1,5 +1,6 @@
 import en from '../i18n/en';
 import it from '../i18n/it';
+import es from '../i18n/es';
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
@@ -10,7 +11,8 @@ export default {
   RegexExpressions: {
     EURO: new RegExp(/^\d+(?:,\d{1,2})?$/).source,
   },
-  DishTypesColorMap: [
+  MenuTypes: ['FoodAndDrinks', 'WineChart'],
+  MenuItemTypesColorMap: [
     '#36bff4',
     '#36f456',
     '#ffd96d',
@@ -26,5 +28,6 @@ export default {
   Locales: {
     en,
     it,
+    es,
   },
 };

@@ -2,142 +2,138 @@ import React, { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, Link as RouterLink } from 'react-router-dom';
 import {
-  Avatar,
-  Typography,
   Grid,
-  Box,
-  Paper,
   Link,
   Checkbox,
   Button,
-  TextField,
   FormControlLabel,
 } from '@material-ui/core';
 
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
+import PasswordResetDialog from './password-reset-dialog';
 import useStyles from './styles';
 import constants from '../../Constants/index';
-import * as userActions from '../../Actions/index';
-import LoginImage from '../../Assets/login-wallpaper.jpg';
-import Copyright from '../Common/copyright';
+import { signInWithEmailAndPassword } from '../../Actions/index';
+import { signIn as createSignInSchema } from '../../Schemas/account';
 
 const { Locales } = constants;
 
-const emptySignInState = {
-  email: 'fulvio.cusimano@gmail.com',
-  password: 'password',
+const initialValues = {
+  email: '',
+  password: '',
 };
 const SignIn = props => {
-  console.count('SignIn renders');
+  const [passwordResetDialogOpen, setPasswordResetDialogOpen] = useState(false);
   const history = useHistory();
+
   const {
     Labels: {
       Account: AccountLabels,
-      Sections: SectionLabels,
       Actions: ActionLabels,
       Hints: HintLabels,
+      FormValidationErrors,
     },
   } = Locales[props.defaultLanguage];
 
   const classes = useStyles();
-  const [loginData, setLoginData] = useState(emptySignInState);
 
-  const { signInWithEmailAndPassword } = props;
-  const loginHandler = useCallback(
-    async event => {
-      event.preventDefault();
-      await signInWithEmailAndPassword(loginData.email, loginData.password);
-      history.push('dashboard/menu-list');
-    },
-    [loginData]
-  );
+  const onSubmitClickHandler = async (data, { setSubmitting }) => {
+    setSubmitting(false);
+    const isAuthenticated = await props.signInWithEmailAndPassword(data);
+    if (isAuthenticated) history.push('/dashboard/menu-list');
+  };
 
-  const onChangeValueHandler = useCallback(
-    event => {
-      setLoginData({ ...loginData, [event.target.name]: event.target.value });
-    },
-    [loginData]
-  );
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={4} md={7} className={classes.image}>
-        <img src={LoginImage} alt="login-wallpaper" />
-      </Grid>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {SectionLabels.SIGN_IN}
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label={AccountLabels.EMAIL_ADDRESS}
-              name="email"
-              onChange={onChangeValueHandler}
-              value={loginData.email}
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              onChange={onChangeValueHandler}
-              value={loginData.password}
-              name="password"
-              label={AccountLabels.PASSWORD}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+    <>
+      <PasswordResetDialog
+        open={passwordResetDialogOpen}
+        onCloseHandler={() => setPasswordResetDialogOpen(false)}
+      />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={createSignInSchema(FormValidationErrors)}
+        onSubmit={onSubmitClickHandler}
+      >
+        {({ submitForm, isSubmitting, values }) => (
+          <Form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label={AccountLabels.EMAIL_ADDRESS}
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  fullWidth
+                  component={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  name="password"
+                  label={AccountLabels.PASSWORD}
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+              </Grid>
+              {/*  <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              /> */}
+            </Grid>
             <Button
               type="submit"
               fullWidth
-              onClick={loginHandler}
               variant="contained"
               color="primary"
               className={classes.submit}
             >
               {ActionLabels.SIGN_IN}
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  {HintLabels.PASSWORD_FORGOTTEN}
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/sign-up" component={RouterLink} variant="body2">
-                  {HintLabels.SIGN_UP}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
+          </Form>
+        )}
+      </Formik>
+      <Grid container>
+        <Grid item xs>
+          <Link
+            href="#"
+            onClick={event => {
+              event.preventDefault();
+              setPasswordResetDialogOpen(true);
+            }}
+            variant="body2"
+          >
+            {HintLabels.PASSWORD_FORGOTTEN}
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link
+            to="/authentication/sign-up"
+            component={RouterLink}
+            variant="body2"
+          >
+            {HintLabels.SIGN_UP}
+          </Link>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
 function mapStateToProps(state) {
   return {
     defaultLanguage: state.ui.settings.defaultLanguage,
+    error: state.ui.error,
   };
 }
 
-export default connect(mapStateToProps, userActions)(SignIn);
+export default connect(mapStateToProps, { signInWithEmailAndPassword })(SignIn);

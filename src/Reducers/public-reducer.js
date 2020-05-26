@@ -1,23 +1,28 @@
-import { GET_MENU } from './../Constants/menu-action-types';
-import { SET_DEFAULT_PUBLIC_LANGUAGE } from './../Constants/ui-action-types';
+import { GET_MENU } from '../Constants/menu-action-types';
+import { SET_DEFAULT_PUBLIC_LANGUAGE } from '../Constants/ui-action-types';
+import { COMPLETE_AUTH_OPERATION } from '../Constants/account-action-types';
 import { cloneDeep } from 'lodash';
 
 const initialState = {
-  settings: {
-    defaultLanguage: 'en',
+  ui: {
+    settings: {
+      defaultLanguage: 'en',
+    },
   },
-  showHeader: true,
+  authOperation: null,
   data: null,
 };
 
 function publicReducer(state = initialState, action) {
-  state.showHeader = true;
   switch (action.type) {
     case GET_MENU:
       state.data = action.payload;
       break;
     case SET_DEFAULT_PUBLIC_LANGUAGE:
-      state.settings.defaultLanguage = action.payload;
+      state.ui.settings.defaultLanguage = action.payload;
+      break;
+    case COMPLETE_AUTH_OPERATION:
+      state.authOperation = action.payload;
       break;
     default:
       return state;

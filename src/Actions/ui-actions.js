@@ -79,6 +79,10 @@ export const setMenuEditorTabsPanelIndex = payload => {
   return { type: UI_Actions.SET_MENU_EDITOR_TABS_PANEL_INDEX, payload };
 };
 
+export const setBusinessEditorTabsPanelIndex = payload => {
+  return { type: UI_Actions.SET_BUSINESS_EDITOR_TABS_PANEL_INDEX, payload };
+};
+
 export const setDashboardDrawerOpen = payload => {
   return { type: UI_Actions.SET_DASHBOARD_DRAWER_OPEN, payload };
 };

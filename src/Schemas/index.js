@@ -1,11 +1,11 @@
 /*import * as Yup from 'yup';
  const price = Yup.string().required();
-const category = Yup.string().required();
+const type = Yup.string().required();
 const name = Yup.string().required();
 
 export const createMenuItemSchema = defaultLanguage =>
   Yup.object().shape({
-    category,
+    type,
     price,
     locales: Yup.object().shape({
       [defaultLanguage]: Yup.object().shape({
@@ -16,7 +16,7 @@ export const createMenuItemSchema = defaultLanguage =>
 
 export const createSetMenuItemSchema = defaultLanguage =>
   Yup.object().shape({
-    category,
+    type,
     locales: Yup.object().shape({
       [defaultLanguage]: Yup.object().shape({
         name,

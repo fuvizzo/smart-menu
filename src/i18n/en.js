@@ -1,15 +1,32 @@
 export default {
   BUSINESS_TYPES: ['Restaurant', 'Bar', 'Cafeteria', 'Cafe', 'Pub'],
+  MenuTypes: {
+    FOOD_AND_DRINKS: 'Food and drinks',
+    WINE_CHART: 'Wine chart',
+  },
   MenuItemTypes: {
-    FOOD_AND_DRINKS: [
-      'Starters',
-      'Main Courses',
-      'Seconds',
-      'Side Dishes',
-      'Desserts',
-      'Drinks',
-    ],
-    WINE_CHART: [],
+    FoodAndDrinks: {
+      LABEL: 'Food and drinks',
+      ITEM_LIST: [
+        'Starters',
+        'Main Courses',
+        'Seconds',
+        'Side Dishes',
+        'Desserts',
+        'Drinks',
+      ],
+    },
+    WineChart: {
+      LABEL: 'Wine chart',
+      ITEM_LIST: [
+        'Bubbles/sparkling',
+        'Red wines',
+        'Rosè wines',
+        'Vini rosè',
+        'Dessert wines',
+        'Liqueurs and spirits',
+      ],
+    },
   },
   DEFAULT_LANGUAGE: 'Default language',
   Languages: {
@@ -31,13 +48,14 @@ export default {
       SIGN_UP: 'Sign up',
       PRICING: 'Pricing',
       HOME: 'Home',
+      RESET_PASSWORD: 'Reset your password',
     },
     Menu: {
       INGREDIENTS_LIST: 'Ingredients list',
       MENU: 'Normal menu',
       TYPE: 'Menu type',
       SET_MENU: 'Set menu',
-      DISH_NAME: 'Dish name',
+      NAME: 'Name',
       MENU_NAME: 'Menu name',
       EMPTY_MENU: "The current menu doesn't have any items yet",
       EMPTY_MENU_LIST: 'There are no menus yet',
@@ -65,6 +83,8 @@ export default {
         ACCENT: 'Accent',
       },
       TYPE: 'Type',
+      INFO: 'Info',
+      MEDIA_AND_THEME: 'Media and theme',
     },
     Account: {
       FIRST_NAME: 'First name',
@@ -72,6 +92,7 @@ export default {
       ACCOUNT_OWNER: 'Account owner',
       EMAIL_ADDRESS: 'Email address',
       PASSWORD: 'Password',
+      CONFIRM_PASSWORD: 'Confirm password',
       NEWS_LETTER:
         'I want to receive news, marketing promotions and updates via email.',
     },
@@ -80,6 +101,7 @@ export default {
       CURRENCY: 'This field must be in the € format (ex: 10,50)',
       UNIQUE_URL_PATH_ALREADY_IN_USE:
         'The unique URL path you chose is already used. Please choose a different one',
+      INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',
@@ -122,6 +144,9 @@ export default {
       BACK_TO_DASHBOARD: 'Back to dashboard',
       DOWNLOAD: 'Download',
       PRINT: 'Print',
+      REPLACE: 'Replace',
+      REMOVE: 'Remove',
+      ADD: 'ADD',
     },
   },
   ConfirmationActions: {

@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import constants from '../../Constants';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { Dialog, Typography, Button } from '@material-ui/core';
 
 import { DialogTitle, DialogContent, DialogActions } from '../Common';
 

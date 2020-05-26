@@ -28,6 +28,9 @@ const initialState = {
   menuEditorTabsPanel: {
     index: 0,
   },
+  businessEditorTabsPanel: {
+    index: 0,
+  },
   dashboardDrawerOpen: false,
   showLoader: false,
   error: {},
@@ -80,6 +83,9 @@ function uiReducer(state = initialState, action) {
       break;
     case UI_ActionTypes.SET_MENU_EDITOR_TABS_PANEL_INDEX:
       state.menuEditorTabsPanel.index = action.payload;
+      break;
+    case UI_ActionTypes.SET_BUSINESS_EDITOR_TABS_PANEL_INDEX:
+      state.businessEditorTabsPanel.index = action.payload;
       break;
     case UI_ActionTypes.SET_DASHBOARD_DRAWER_OPEN:
       state.dashboardDrawerOpen = action.payload;
