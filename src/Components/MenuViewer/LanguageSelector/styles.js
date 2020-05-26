@@ -10,6 +10,7 @@ const LanguageList = withStyles({
   root: {
     display: 'flex',
     width: 100,
+    marginBottom: 20,
   },
 })(List);
 
