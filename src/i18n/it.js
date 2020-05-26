@@ -48,7 +48,7 @@ export default {
     },
     Menu: {
       INGREDIENTS_LIST: 'Lista ingredienti',
-      MENU: 'Menu',
+      MENU: 'Menu normale',
       TYPE: 'Tipo di menù',
       SET_MENU: 'Menù a prezzo fisso',
       NAME: 'Nome',
@@ -142,6 +142,7 @@ export default {
       REPLACE: 'Cambia',
       REMOVE: 'Rimuovi',
       ADD: 'Carica',
+      QR_CODE: 'QR code',
     },
   },
   ConfirmationActions: {

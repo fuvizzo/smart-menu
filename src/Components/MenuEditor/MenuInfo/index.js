@@ -208,26 +208,27 @@ const MenuInfoEditor = props => {
                       />
                     );
                   })}
-
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={ui.editMode.data.setMenuEnabled}
-                      onChange={() =>
-                        toggleSetMenuOptionHandler(
-                          !ui.editMode.data.setMenuEnabled
-                        )
-                      }
-                      name="checkedB"
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <Typography variant="body2" color="textSecondary">
-                      {menu.published ? MenuLabels.NORMAL : MenuLabels.SET_MENU}
-                    </Typography>
-                  }
-                />
+                <Box>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={ui.editMode.data.setMenuEnabled}
+                        onChange={() =>
+                          toggleSetMenuOptionHandler(
+                            !ui.editMode.data.setMenuEnabled
+                          )
+                        }
+                        name="checkedB"
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <Typography variant="body2" color="textSecondary">
+                        {MenuLabels.SET_MENU}
+                      </Typography>
+                    }
+                  />
+                </Box>
                 {ui.editMode.data.setMenuEnabled && (
                   <FormControl>
                     <TextValidator
@@ -294,6 +295,17 @@ const MenuInfoEditor = props => {
               <CardContent className={menuClasses.cardContent}>
                 <Box>
                   <Label color="textSecondary" variant="h3">
+                    {MenuLabels.DESCRIPTION}
+                  </Label>
+                </Box>
+                <Box mt={0.5}>
+                  <Typography>
+                    {data.locales[defaultLanguage].description ||
+                      WarningMessages.MISSING_FIELD}
+                  </Typography>
+                </Box>
+                <Box mt={2}>
+                  <Label color="textSecondary" variant="h3">
                     {MenuLabels.TYPE}
                   </Label>
                 </Box>
@@ -311,18 +323,6 @@ const MenuInfoEditor = props => {
                     )}
                   </Typography>
                 </Box>
-                <Box mt={2}>
-                  <Label color="textSecondary" variant="h3">
-                    {MenuLabels.DESCRIPTION}
-                  </Label>
-                </Box>
-                <Box mt={0.5}>
-                  <Typography>
-                    {data.locales[defaultLanguage].description ||
-                      WarningMessages.MISSING_FIELD}
-                  </Typography>
-                </Box>
-
                 <CardActions disableSpacing>
                   <Button
                     color="secondary"

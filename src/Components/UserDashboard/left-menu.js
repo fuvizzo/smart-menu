@@ -82,7 +82,7 @@ const LeftMenu = props => {
             <ListItemIcon>
               <QRCodeIcon />
             </ListItemIcon>
-            <ListItemText primary={ActionsLabels.SIGN_OUT} />
+            <ListItemText primary={ActionsLabels.QR_CODE} />
           </ListItem>
         </List>
 

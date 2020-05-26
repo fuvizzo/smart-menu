@@ -134,6 +134,7 @@ export default {
       REPLACE: 'Replaza',
       REMOVE: 'Quita',
       ADD: 'Sube',
+      QR_CODE: 'Codigo QR',
     },
   },
   ConfirmationActions: {

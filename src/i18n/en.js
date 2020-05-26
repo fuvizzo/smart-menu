@@ -147,6 +147,7 @@ export default {
       REPLACE: 'Replace',
       REMOVE: 'Remove',
       ADD: 'ADD',
+      QR_CODE: 'QR code',
     },
   },
   ConfirmationActions: {

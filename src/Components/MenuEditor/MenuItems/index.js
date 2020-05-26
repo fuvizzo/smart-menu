@@ -38,7 +38,7 @@ import constants from '../../../Constants/index';
 import * as uiActions from '../../../Actions/ui-actions';
 import * as menuActions from '../../../Actions/menu-actions';
 import useDashboardStyles from '../../UserDashboard/styles';
-import useCommonStyles, {
+import {
   Label,
   ShortFormFieldWrapper,
   ButtonBar,
