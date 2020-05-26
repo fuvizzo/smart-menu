@@ -79,6 +79,19 @@
             }
           }
         },
+        "04ef332c-6fc9-4abe-9c82-d797f4796dda": {
+          "providedLanguages": ["en"],
+          "published": true,
+          "info": {
+            "type": "1",
+            "locales": {
+              "en": {
+                "name": "Wine chart"
+              }
+            }
+          }
+        },
+
         "d010d4df-0b7a-42b2-9bd9-6971498c6c53": {
           "providedLanguages": [],
           "published": false,

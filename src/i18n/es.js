@@ -13,7 +13,7 @@ export default {
       ],
     },
     WineChart: {
-      LABEL: 'Carta de los vinos',
+      LABEL: 'Carta de vinos',
       ITEM_LIST: [],
     },
   },

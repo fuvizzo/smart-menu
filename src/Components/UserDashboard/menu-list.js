@@ -1,32 +1,37 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import MenuImage from '../../Assets/menu.png';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import {
+  Card,
+  Avatar,
+  Switch,
+  ListItem,
+  FormControlLabel,
+  ListItemText,
+  ListItemIcon,
+  Typography,
+  CardHeader,
+  Grid,
+  Box,
+  CardMedia,
+  IconButton,
+  CardContent,
+  CardActions,
+} from '@material-ui/core';
 
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {
+  LocalBar as WineChartIcon,
+  Fastfood as FoodAndDrinkIcon,
+  MoreVert as MoreVertIcon,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  Visibility as VisibilityIcon,
+} from '@material-ui/icons';
 
 import { PopoverComponent as MenuActionsPopover } from '../Common';
 import ConfirmationDialog from './confirmation-dialog';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import { Link as RouterLink } from 'react-router-dom';
 import constants from '../../Constants/index';
-
 import { isEmpty } from 'lodash';
 import Truncate from 'react-truncate';
 
@@ -85,6 +90,15 @@ const MenuList = props => {
   }, []);
 
   const menuKeys = Object.keys(menus);
+
+  const MenuIconType = ({ type }) => {
+    switch (type) {
+      case 1:
+        return <WineChartIcon />;
+      default:
+        return <FoodAndDrinkIcon />;
+    }
+  };
 
   return (
     <Box p={2}>
@@ -192,7 +206,7 @@ const MenuList = props => {
                     className={classes.header}
                     avatar={
                       <Avatar aria-label="recipe" className={classes.avatar}>
-                        M
+                        <MenuIconType type={menu.info.type} />
                       </Avatar>
                     }
                     action={
@@ -207,9 +221,11 @@ const MenuList = props => {
                     }
                     title={
                       <Typography
-                        className={
-                          menu.info.locales[defaultLanguage].warning &&
-                          classes.warning
+                        color={
+                          menu.info.locales[defaultLanguage].name ===
+                          WarningMessages.MISSING_NAME
+                            ? 'secondary'
+                            : 'initial'
                         }
                       >
                         {menu.info.locales[defaultLanguage].name}

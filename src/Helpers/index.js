@@ -18,13 +18,13 @@ export const mockUnlocalizedMenus = (list, defaultLanguage) => {
   values.forEach(value => {
     value.info.locales[defaultLanguage] = value.info.locales[
       defaultLanguage
-    ] || { name: WarningMessages.MISSING_NAME, warning: true };
+    ] || { name: WarningMessages.MISSING_NAME };
 
-    const itemValues = Object.values(value.items);
+    const itemValues = Object.values(value.items || {});
     itemValues.forEach(itemValue => {
       itemValue.locales[defaultLanguage] = itemValue.locales[
         defaultLanguage
-      ] || { name: WarningMessages.MISSING_NAME, warning: true };
+      ] || { name: WarningMessages.MISSING_NAME };
     });
   });
   return list;

@@ -77,6 +77,8 @@ const MenuItemsEditor = props => {
     collapseLanguageTabsPanel,
   } = props;
 
+  menu.items = menu.items || {};
+
   const defaultLanguage = ui.settings.defaultLanguage;
   const {
     RegexExpressions,
@@ -352,7 +354,10 @@ const MenuItemsEditor = props => {
                       title={
                         <Typography
                           color={
-                            data.locales[defaultLanguage].warning && 'secondary'
+                            data.locales[defaultLanguage].name ===
+                            WarningMessages.MISSING_NAME
+                              ? 'secondary'
+                              : 'initial'
                           }
                         >
                           {data.locales[defaultLanguage].name}

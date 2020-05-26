@@ -38,11 +38,6 @@ const MenuEditor = props => {
 
   const menu = menus[menuId];
 
-  /*   useEffect(() => {
-    disableEditMode();
-    disableInsertMode();
-  }, []); */
-
   return (
     <>
       <Tabs

@@ -13,14 +13,10 @@ export default makeStyles(theme => ({
     height: '100vh',
   },
   image: {
-    /*  backgroundImage: 'url(https://source.unsplash.com/random)', */
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    width: '100%',
+    height: '100%',
+    display: 'block',
+    objectFit: 'cover',
   },
   paper: {
     margin: theme.spacing(4, 4),

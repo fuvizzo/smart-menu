@@ -13,8 +13,8 @@ const AuthSectionContainer = props => {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <Grid item xs={false} sm={4} md={7} className={classes.image}>
-        <img src={LoginImage} alt="login-wallpaper" />
+      <Grid item xs={false} sm={4} md={7}>
+        <img src={LoginImage} className={classes.image} alt="login-wallpaper" />
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>

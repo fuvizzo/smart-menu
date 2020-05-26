@@ -31,7 +31,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-const { ConfirmationActions, Locales, SupportedLanguages } = constants;
+const { ConfirmationActions, Locales } = constants;
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -112,7 +112,7 @@ const LanguageTabsPanel = props => {
 
   const locales = data.locales;
 
-  const availableLanguages = SupportedLanguages.filter(
+  const availableLanguages = Object.keys(Locales).filter(
     lang => !Object.keys(locales).some(l => l === lang)
   );
 
@@ -133,7 +133,6 @@ const LanguageTabsPanel = props => {
   }, [ui.editMode.data]);
 
   const onDeleteClickHandler = useCallback(() => {
-    hideActionsPopover();
     setActionPopoverAnchorEl(null);
     openConfirmationDialog(
       {
@@ -142,6 +141,7 @@ const LanguageTabsPanel = props => {
       },
       true
     );
+    hideActionsPopover();
   }, [ui.actionsPopover.lang]);
 
   const localeActionsClickHandler = useCallback(
