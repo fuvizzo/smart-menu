@@ -8,10 +8,37 @@ const { ErrorTypes, Locales } = constants;
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 const INFO = 'info';
 const MEDIA = 'media';
+const THEME = 'theme';
 
 const userBusinessesPath = userId => `/users/${userId}/businesses`;
 
-export const updateBusiness = (businessId, body) => {
+export const updateBusinessTheme = (businessId, body) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userId = state.account.user.userId;
+
+    try {
+      const path = `${userBusinessesPath(userId)}/${businessId}/${THEME}`;
+      const data = {
+        path,
+        body,
+      };
+
+      await firebaseService.update(data);
+      dispatch({
+        type: BusinessActions.UPDATE_BUSINESS_THEME,
+        payload: { businessId, value: body },
+      });
+      dispatch({
+        type: UI_Actions.SET_ERROR,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateBusinessInfo = (businessId, body) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userId = state.account.user.userId;

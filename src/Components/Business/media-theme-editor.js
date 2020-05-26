@@ -18,6 +18,7 @@ const BusinessMediaAndThemeEditor = props => {
     hideActionsPopover,
     uploadBusinessMedia,
     deleteBusinessMedia,
+    updateBusinessTheme,
     showActionsPopover,
   } = props;
   const {
@@ -108,7 +109,14 @@ const BusinessMediaAndThemeEditor = props => {
       <Grid item xs={12}>
         <Card width={1} elevation={2}>
           <Box m={2}>
-            <ColorEditor locale={locale} data={businessTheme} />
+            <ColorEditor
+              locale={locale}
+              data={businessTheme}
+              onSelectColorHandler={(name, hex) => {
+                businessTheme.colorPalette[name] = hex;
+                updateBusinessTheme(businessId, businessTheme);
+              }}
+            />
             <MediaBox>
               <Box mb={2}>
                 <Label color="textSecondary" variant="h1">

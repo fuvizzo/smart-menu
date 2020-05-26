@@ -18,6 +18,10 @@ function businessReducer(state = initialState, action) {
     case BusinessActions.DELETE_BUSINESS_MEDIA:
       state[action.payload.businessId].media[action.payload.type] = null;
       break;
+    case BusinessActions.UPDATE_BUSINESS_THEME:
+      state[action.payload.businessId].theme = action.payload.value;
+      break;
+
     default:
       return state;
   }

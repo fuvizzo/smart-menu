@@ -43,7 +43,7 @@ const BusinessEditor = props => {
     showActionsPopover,
     enableEditMode,
     disableEditMode,
-    updateBusiness,
+    updateBusinessInfo,
   } = props;
 
   const {
@@ -93,7 +93,7 @@ const BusinessEditor = props => {
   const onBusinessUpdateHandler = useCallback(
     async (data, { setSubmitting }) => {
       setSubmitting(false);
-      await updateBusiness(businessId, data);
+      await updateBusinessInfo(businessId, data);
       if (!ui.error.type) disableEditMode();
     },
     [ui.error]
