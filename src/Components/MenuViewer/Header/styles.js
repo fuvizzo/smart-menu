@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 
 const HeaderContainer = styled(Container)`
   display: flex;
-  margin-top: 20px;
+  margin-top: 40px;
   align-items: flex-end;
 `;
 

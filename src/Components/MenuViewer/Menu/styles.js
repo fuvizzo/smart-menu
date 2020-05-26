@@ -4,23 +4,26 @@ import Container from "@material-ui/core/Container";
 const MenuContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  margin-top: -24px;
+  margin-top: -40px;
   align-items: flex-end;
 `;
 
 const Title = styled.h2`
-  margin: 0;
-  font-size: 16px;
+  margin: 20px auto;
+  font-size: 22px;
   color: ${props => props.color ? props.color : "black"};
 `;
 
 const Description = styled.p`
+  font-size: 14px;
+  line-height: 1.5;
   color: ${props => props.color ? props.color : "black"};
 `;
 
 const CategoryText = styled.h3`
   margin: 20px 0px;
-  font-size: 18px;
+  font-size: 22px;
+  font-weight: bold;
   color: ${props => props.color ? props.color : "black"};
 `;
 
@@ -29,7 +32,6 @@ const CategoryWrapper = styled.div`
   width: 100%;
   justify-content: flex-start;
   flex-direction: column;
-  margin-bottom: 20px;
   @media (min-width: 797px) {
     width: calc(50% - 40px);
   }
