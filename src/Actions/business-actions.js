@@ -1,29 +1,17 @@
 import * as BusinessActions from '../Constants/business-action-types';
-import * as UI_Actions from '../Constants/ui-action-types';
 import firebaseService from '../Firebase/index';
-import constants from '../Constants';
-
-const { ErrorTypes, Locales } = constants;
+import { dispatchGenericError, getUserIdAndLanguage } from './helpers';
 
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 const INFO = 'info';
 const MEDIA = 'media';
 const THEME = 'theme';
 
-const getErrorLables = language => Locales[language].Labels.Errors;
-
 const userBusinessesPath = userId => `/users/${userId}/businesses`;
-
-const buildError = error => ({
-  ...error,
-  ...{ type: ErrorTypes.SERVER_ERROR },
-});
 
 export const updateBusinessTheme = (businessId, body) => {
   return async (dispatch, getState) => {
-    const state = getState();
-    const userId = state.account.user.userId;
-    const errors = getErrorLables(state.ui.settings.defaultLanguage);
+    const { userId, language } = getUserIdAndLanguage(getState);
     try {
       const path = `${userBusinessesPath(userId)}/${businessId}/${THEME}`;
       const data = {
@@ -38,10 +26,7 @@ export const updateBusinessTheme = (businessId, body) => {
       });
       return true;
     } catch (error) {
-      dispatch({
-        type: UI_Actions.SET_ERROR,
-        payload: buildError({ message: errors.GENERIC }),
-      });
+      dispatchGenericError(dispatch, language);
     }
     return false;
   };
@@ -49,9 +34,7 @@ export const updateBusinessTheme = (businessId, body) => {
 
 export const updateBusinessInfo = (businessId, body) => {
   return async (dispatch, getState) => {
-    const state = getState();
-    const userId = state.account.user.userId;
-    const errors = getErrorLables(state.ui.settings.defaultLanguage);
+    const { userId, language } = getUserIdAndLanguage(getState);
     let data;
 
     try {
@@ -78,12 +61,11 @@ export const updateBusinessInfo = (businessId, body) => {
 
           await firebaseService.update(data);
         } else {
-          dispatch({
-            type: UI_Actions.SET_ERROR,
-            payload: buildError({
-              message: errors.FormValidation.UNIQUE_URL_PATH_ALREADY_IN_USE,
-            }),
-          });
+          dispatchGenericError(
+            dispatch,
+            language,
+            'UNIQUE_URL_PATH_ALREADY_IN_USE'
+          );
           return false;
         }
       }
@@ -101,10 +83,7 @@ export const updateBusinessInfo = (businessId, body) => {
       });
       return true;
     } catch (error) {
-      dispatch({
-        type: UI_Actions.SET_ERROR,
-        payload: buildError({ message: errors.GENERIC }),
-      });
+      dispatchGenericError(dispatch, language);
     }
     return false;
   };
@@ -112,9 +91,7 @@ export const updateBusinessInfo = (businessId, body) => {
 
 export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
   return async (dispatch, getState) => {
-    const state = getState();
-    const userId = state.account.user.userId;
-    const errors = getErrorLables(state.ui.settings.defaultLanguage);
+    const { userId, language } = getUserIdAndLanguage(getState);
     try {
       const basePath = `${userBusinessesPath(userId)}/${businessId}`;
       await firebaseService.storage.deleteFile(
@@ -126,10 +103,7 @@ export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
       });
       return true;
     } catch (error) {
-      dispatch({
-        type: UI_Actions.SET_ERROR,
-        payload: buildError({ message: errors.GENERIC }),
-      });
+      dispatchGenericError(dispatch, language);
     }
     return false;
   };
@@ -143,9 +117,7 @@ export const uploadBusinessMedia = (
   metadata = null
 ) => {
   return async (dispatch, getState) => {
-    const state = getState();
-    const userId = state.account.user.userId;
-    const errors = getErrorLables(state.ui.settings.defaultLanguage);
+    const { userId, language } = getUserIdAndLanguage(getState);
     try {
       const basePath = `${userBusinessesPath(userId)}/${businessId}`;
       const imageType = img.type.split('/')[1];
@@ -173,10 +145,7 @@ export const uploadBusinessMedia = (
       });
       return true;
     } catch (error) {
-      dispatch({
-        type: UI_Actions.SET_ERROR,
-        payload: buildError({ message: errors.GENERIC }),
-      });
+      dispatchGenericError(dispatch, language);
     }
     return false;
   };

@@ -39,7 +39,7 @@ import * as uiActions from '../../Actions/ui-actions';
 import { deleteMenu, togglePublishedStatus } from '../../Actions/menu-actions';
 import useStyles from './styles';
 
-const { ConfirmationActions, Locales } = constants;
+const { Locales } = constants;
 
 const MenuList = props => {
   const [actionPopoverAnchorEl, setActionPopoverAnchorEl] = useState(null);
@@ -61,6 +61,7 @@ const MenuList = props => {
       Warnings: WarningMessages,
       Hints: HintLabels,
     },
+    ConfirmationActions,
   } = Locales[defaultLanguage];
 
   const menuActionsPopoverOpen = Boolean(actionPopoverAnchorEl);
@@ -100,6 +101,21 @@ const MenuList = props => {
     }
   };
 
+  const ConfirmationModal = () => {
+    const menuName =
+      ui.confirmationDialog.data.value.locales[defaultLanguage].name;
+    const action = ConfirmationActions.DELETE_MENU;
+    return (
+      <ConfirmationDialog
+        open={ui.confirmationDialog.open}
+        title={action.getTitle(menuName)}
+        content={action.getContent(menuName)}
+        handleClose={closeConfirmationDialog}
+        onConfirm={() => deleteMenuHandler(ui.confirmationDialog.data.id)}
+      />
+    );
+  };
+
   return (
     <Box p={2}>
       <Grid
@@ -109,16 +125,8 @@ const MenuList = props => {
         justify="flex-start"
         alignItems="flex-start"
       >
-        <ConfirmationDialog
-          open={ui.confirmationDialog.open}
-          action={ConfirmationActions.DELETE_MENU}
-          data={
-            !isEmpty(ui.confirmationDialog.data) &&
-            ui.confirmationDialog.data.value.locales[defaultLanguage].name
-          }
-          handleClose={closeConfirmationDialog}
-          onConfirm={() => deleteMenuHandler(ui.confirmationDialog.data.id)}
-        />
+        {!isEmpty(ui.confirmationDialog.data) && <ConfirmationModal />}
+
         <MenuActionsPopover
           id={menuActionsPopoverId}
           open={menuActionsPopoverOpen}

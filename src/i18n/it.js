@@ -100,6 +100,14 @@ export default {
         INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
       },
       GENERIC: "Si è verificato un errore durante l'operazione",
+      Authentication: {
+        WRONG_PASSWORD: 'Sei sicuro che la password sia quella giusta?',
+        EMAIL_ALREADY_EXISTS:
+          'Questo indirizzo email è già registrato. Usane uno differente, grazie!',
+        INVALID_ACTION_CODE:
+          "Il link non è più valido. Riprova l'operazione di nuovo!",
+        USER_NOT_FOUND: "Sei sicuro che l'indirizzo email sia quello giusto?",
+      },
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',

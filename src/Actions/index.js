@@ -1,20 +1,13 @@
 import * as UserActions from '../Constants/account-action-types';
 import { GET_BUSINESSES } from '../Constants/business-action-types';
-import { SET_ERROR } from '../Constants/ui-action-types';
 import { GET_MENUS } from '../Constants/menu-action-types';
 import createUserBlueprint from '../Firebase/user-blueprint';
 import { v1 as uuidv1 } from 'uuid';
 import firebaseService from '../Firebase';
-import constants from '../Constants';
+import { dispatchAuthenticationError } from './helpers';
 
-const { ErrorTypes } = constants;
 const USERS = '/users';
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
-
-const buildError = error => ({
-  ...error,
-  ...{ type: ErrorTypes.AUTHENTICATION },
-});
 
 const setUpStore = (authData, userData, dispatch) => {
   dispatch({ type: GET_MENUS, payload: userData.menus });
@@ -41,17 +34,15 @@ const basicSignIn = async (email, password, dispatch) => {
 };
 
 export const signInWithEmailAndPassword = ({ email, password }) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let isAuthenticated = false;
     try {
       await basicSignIn(email, password, dispatch);
 
       isAuthenticated = true;
     } catch (error) {
-      dispatch({
-        type: SET_ERROR,
-        payload: buildError(error),
-      });
+      const language = getState().ui.settings.defaultLanguage;
+      dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
   };
@@ -65,7 +56,7 @@ export const signUp = ({
   businessName,
   businessType,
 }) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let isAuthenticated = false;
     try {
       const authData = await firebaseService.auth.createUserWithEmailAndPassword(
@@ -100,60 +91,55 @@ export const signUp = ({
       setUpStore(authData, user, dispatch);
       isAuthenticated = true;
     } catch (error) {
-      dispatch({
-        type: SET_ERROR,
-        payload: buildError(error),
-      });
+      const language = getState().ui.settings.defaultLanguage;
+      dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
   };
 };
 
 export const signOut = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       await firebaseService.auth.signOut();
       dispatch({ type: UserActions.SIGN_OUT });
     } catch (error) {
-      dispatch({
-        type: SET_ERROR,
-        payload: buildError(error),
-      });
+      const language = getState().ui.settings.defaultLanguage;
+      dispatchAuthenticationError(dispatch, language, error);
     }
   };
 };
 
 export const submitResetPasswordRequest = email => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       await firebaseService.auth.sendPasswordResetEmail(email);
     } catch (error) {
-      dispatch({ type: SET_ERROR, payload: buildError(error) });
+      const language = getState().ui.settings.defaultLanguage;
+      dispatchAuthenticationError(dispatch, language, error);
     }
   };
 };
 
 export const resetPassword = (actionCode, password, email) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let isAuthenticated = false;
     try {
       await firebaseService.auth.confirmPasswordReset(actionCode, password);
       await basicSignIn(email, password, dispatch);
       isAuthenticated = true;
     } catch (error) {
-      dispatch({
-        type: SET_ERROR,
-        payload: buildError(error),
-      });
+      const language = getState().ui.settings.defaultLanguage;
+      dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
   };
 };
 
-export const handleAuthOperations = (query, language) => {
+export const handleAuthOperations = (query, lang) => {
   return async dispatch => {
     const mode = query.get('mode');
-    const lang = query.get('lang');
+    const language = query.get('lang') || lang;
     const actionCode = query.get('oobCode');
     try {
       switch (mode) {
@@ -175,10 +161,7 @@ export const handleAuthOperations = (query, language) => {
           return;
       }
     } catch (error) {
-      dispatch({
-        type: SET_ERROR,
-        payload: buildError(error),
-      });
+      dispatchAuthenticationError(dispatch, language, error);
       return;
     }
   };

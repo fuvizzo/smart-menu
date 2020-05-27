@@ -106,6 +106,14 @@ export default {
         OPERATION_ERROR: 'An error occured during the delete operation',
       },
       GENERIC: 'An error occurred during this operation',
+      Authentication: {
+        WRONG_PASSWORD: 'Are you sure the password is the right one?',
+        EMAIL_ALREADY_EXISTS:
+          'This email address is already registered. Please use a different one',
+        INVALID_ACTION_CODE:
+          'The link is no longer valid. Retry the operation from scratch',
+        USER_NOT_FOUND: 'Are you sure the email address is the right one?',
+      },
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',

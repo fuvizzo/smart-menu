@@ -9,8 +9,15 @@ import { DialogActions, DialogTitle, DialogContent } from '../Common';
 
 const { Locales } = constants;
 const ConfirmationDialog = props => {
-  const { onConfirm, open, handleClose, defaultLanguage, data, action } = props;
-  const dialogInfo = Locales[defaultLanguage].ConfirmationActions[action];
+  const {
+    onConfirm,
+    open,
+    handleClose,
+    defaultLanguage,
+    title,
+    content,
+  } = props;
+  const ActionLabels = Locales[defaultLanguage].Labels.Actions;
   return (
     <Dialog
       onClose={handleClose}
@@ -18,14 +25,14 @@ const ConfirmationDialog = props => {
       open={open}
     >
       <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        {dialogInfo.getTitle(data)}
+        {title}
       </DialogTitle>
       <DialogContent>
-        <Typography gutterBottom>{dialogInfo.getContent(data)}</Typography>
+        <Typography gutterBottom>{content}</Typography>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose} color="primary">
-          {Locales[defaultLanguage].Labels.Actions.CANCEL}
+          {ActionLabels.CANCEL}
         </Button>
         <Button
           autoFocus
@@ -35,7 +42,7 @@ const ConfirmationDialog = props => {
           }}
           color="primary"
         >
-          {Locales[defaultLanguage].Labels.Actions.PROCEED}
+          {ActionLabels.PROCEED}
         </Button>
       </DialogActions>
     </Dialog>

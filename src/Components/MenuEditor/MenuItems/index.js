@@ -84,7 +84,7 @@ const MenuItemsEditor = props => {
     RegexExpressions,
     Locales,
     MenuItemTypesColorMap,
-    ConfirmationActions,
+    //ConfirmationActions,
     MenuTypes,
   } = constants;
 
@@ -99,6 +99,7 @@ const MenuItemsEditor = props => {
       Errors: { FormValidation: FormValidationErrors },
       Hints: HintLabels,
     },
+    ConfirmationActions,
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
   } = Locales[defaultLanguage];
 
@@ -165,6 +166,21 @@ const MenuItemsEditor = props => {
 
   const menuItemKeys = Object.keys(menu.items);
 
+  const ConfirmationModal = () => {
+    const menuItemName =
+      ui.confirmationDialog.data.value.locales[defaultLanguage].name;
+    const action = ConfirmationActions.DELETE_MENU_ITEM;
+    return (
+      <ConfirmationDialog
+        open={ui.confirmationDialog.open}
+        title={action.getTitle(menuItemName)}
+        content={action.getContent(menuItemName)}
+        handleClose={closeConfirmationDialog}
+        onConfirm={() => deleteMenuItemHandler(ui.confirmationDialog.data.id)}
+      />
+    );
+  };
+
   return (
     <Grid
       container
@@ -174,13 +190,7 @@ const MenuItemsEditor = props => {
       alignItems="flex-start"
     >
       {ui.confirmationDialog.open && !ui.confirmationDialog.childItem && (
-        <ConfirmationDialog
-          open={ui.confirmationDialog.open}
-          action={ConfirmationActions.DELETE_MENU_ITEM}
-          data={ui.confirmationDialog.data.value.locales[defaultLanguage].name}
-          handleClose={() => closeConfirmationDialog()}
-          onConfirm={() => deleteMenuItemHandler(ui.confirmationDialog.data.id)}
-        />
+        <ConfirmationModal />
       )}
       <MenuItemActionsPopover
         id={menuItemActionsPopoverId}

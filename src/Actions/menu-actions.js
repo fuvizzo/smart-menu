@@ -1,5 +1,6 @@
 import * as MenuActions from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
+import { dispatchGenericError, getUserIdAndLanguage } from './helpers';
 
 import { v1 as uuidv1 } from 'uuid';
 
@@ -9,10 +10,9 @@ const ITEMS = 'items';
 const INFO = 'info';
 
 const userMenusPath = userId => `/users/${userId}/menus`;
-const getUserId = getState => getState().account.user.userId;
 
 export const getMenu = uniqueUrlPath => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     let path, results;
     const data = { business: null, menu: null };
     try {
@@ -46,7 +46,8 @@ export const getMenu = uniqueUrlPath => {
         dispatch({ type: MenuActions.GET_MENU, payload: { notFound: true } });
       }
     } catch (error) {
-      console.log(error);
+      const language = getState().public.ui.seetings.defaultLanguage;
+      dispatchGenericError(dispatch, language);
     }
   };
 };
@@ -75,7 +76,7 @@ export const getPreviewMenu = menuId => {
 
 export const togglePublishedStatus = (menuId, published) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
       path,
@@ -87,9 +88,11 @@ export const togglePublishedStatus = (menuId, published) => {
         type: MenuActions.TOGGLE_PUBLISHED,
         payload: { menuId },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
@@ -99,8 +102,8 @@ export const sortMenu = menuId => {
 
 export const mockUnlocalizedMenus = defaultLanguage => {
   return async (dispatch, getState) => {
+    const { userId, language } = getUserIdAndLanguage(getState);
     try {
-      const userId = getUserId(getState);
       const menus = (await firebaseService.read(userMenusPath(userId))).val();
       dispatch({
         type: MenuActions.MOCK_UNLOCALIZED_MENUS,
@@ -109,15 +112,17 @@ export const mockUnlocalizedMenus = defaultLanguage => {
           defaultLanguage,
         },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const setProvidedLanguages = (menuId, providedLanguages) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
       path,
@@ -129,15 +134,17 @@ export const setProvidedLanguages = (menuId, providedLanguages) => {
         type: MenuActions.SET_PROVIDED_LANGUAGES,
         payload: { menuId, value: providedLanguages },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const createNewMenu = body => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const menuId = uuidv1();
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
@@ -150,15 +157,17 @@ export const createNewMenu = body => {
         type: MenuActions.CREATE_MENU,
         payload: { menuId, value: body },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const deleteMenu = menuId => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}`;
 
     try {
@@ -167,16 +176,18 @@ export const deleteMenu = menuId => {
         type: MenuActions.DELETE_MENU,
         payload: { menuId },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const createNewMenuItem = (menuId, body) => {
   return async (dispatch, getState) => {
     const menuItemId = uuidv1();
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     const data = {
@@ -189,15 +200,17 @@ export const createNewMenuItem = (menuId, body) => {
         type: MenuActions.CREATE_NEW_MENU_ITEM,
         payload: { menuId, menuItemId, value: body },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const deleteMenuItem = (menuId, menuItemId) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     try {
@@ -206,15 +219,17 @@ export const deleteMenuItem = (menuId, menuItemId) => {
         type: MenuActions.DELETE_MENU_ITEM,
         payload: { menuId, menuItemId },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const updateMenuItem = (menuId, menuItemId, body) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${ITEMS}/${menuItemId}`;
 
     const data = {
@@ -227,15 +242,17 @@ export const updateMenuItem = (menuId, menuItemId, body) => {
         type: MenuActions.UPDATE_MENU_ITEM,
         payload: { menuId, menuItemId, value: body },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${body.lang}`;
@@ -256,15 +273,17 @@ export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
           lang: body.lang,
         },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${lang}`;
@@ -280,15 +299,17 @@ export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
           lang,
         },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const createNewLocaleMenuInfo = (menuId, body) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${INFO}/${LOCALES}/${
       body.lang
     }`;
@@ -308,15 +329,17 @@ export const createNewLocaleMenuInfo = (menuId, body) => {
           lang: body.lang,
         },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const updateMenuInfo = (menuId, body) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
     const path = `${userMenusPath(userId)}/${menuId}/${INFO}`;
 
     const data = {
@@ -329,15 +352,18 @@ export const updateMenuInfo = (menuId, body) => {
         type: MenuActions.UPDATE_MENU_INFO,
         payload: { menuId, value: body },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };
 
 export const deleteMenuInfoLocale = (menuId, lang) => {
   return async (dispatch, getState) => {
-    const userId = getUserId(getState);
+    const { userId, language } = getUserIdAndLanguage(getState);
+
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${INFO}/${LOCALES}/${lang}`;
@@ -352,8 +378,10 @@ export const deleteMenuInfoLocale = (menuId, lang) => {
           lang,
         },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatchGenericError(dispatch, language);
     }
+    return false;
   };
 };

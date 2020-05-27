@@ -31,7 +31,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import NewLocaleEditor from './new-locale';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-const { ConfirmationActions, Locales } = constants;
+const { Locales } = constants;
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -107,6 +107,7 @@ const LanguageTabsPanel = props => {
   const classes = useStyles();
   const {
     Languages,
+    ConfirmationActions,
     Labels: { Actions: ActionsLabels },
   } = Locales[defaultLanguage];
 
@@ -178,25 +179,33 @@ const LanguageTabsPanel = props => {
     setTabValue(newValue);
   };
 
+  const ConfirmationModal = () => {
+    const languageName = Languages[ui.confirmationDialog.data.value];
+    const action = ConfirmationActions.DELETE_MENU_ITEM_LOCALE;
+    return (
+      <ConfirmationDialog
+        open={ui.confirmationDialog.open}
+        title={action.getTitle(languageName)}
+        content={action.getContent(languageName)}
+        handleClose={closeConfirmationDialog}
+        onConfirm={() => {
+          deleteLocale(
+            ui.confirmationDialog.data.value,
+            ui.confirmationDialog.data.id
+          );
+          closeConfirmationDialog();
+          const left = Object.keys(locales).length - 1;
+          if (left > 1) setTabValue(0);
+          else collapseLanguageTabsPanel();
+        }}
+      />
+    );
+  };
+
   return (
     <div className={classes.root}>
       {ui.confirmationDialog.open && ui.confirmationDialog.childItem && (
-        <ConfirmationDialog
-          open={ui.confirmationDialog.open}
-          action={ConfirmationActions.DELETE_MENU_ITEM_LOCALE}
-          handleClose={closeConfirmationDialog}
-          onConfirm={() => {
-            deleteLocale(
-              ui.confirmationDialog.data.value,
-              ui.confirmationDialog.data.id
-            );
-            closeConfirmationDialog();
-            const left = Object.keys(locales).length - 1;
-            if (left > 1) setTabValue(0);
-            else collapseLanguageTabsPanel();
-          }}
-          data={Languages[ui.confirmationDialog.data.value]}
-        />
+        <ConfirmationModal />
       )}
       <LocaleActionsPopover
         id={localeActionsPopoverId}

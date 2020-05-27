@@ -20,11 +20,6 @@ export default {
     '#ffa15f',
     '#f44336',
   ],
-  ConfirmationActions: {
-    DELETE_MENU_ITEM: 'DELETE_MENU_ITEM',
-    DELETE_MENU: 'DELETE_MENU',
-    DELETE_MENU_ITEM_LOCALE: 'DELETE_MENU_ITEM_LOCALE',
-  },
   Locales: {
     en,
     it,
