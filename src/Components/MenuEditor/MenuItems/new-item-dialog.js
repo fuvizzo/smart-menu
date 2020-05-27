@@ -23,7 +23,7 @@ const NewMenuItemDialog = props => {
     Labels: {
       Actions: ActionsLabels,
       Menu: MenuLabels,
-      FormValidationErrors: FormValidationErrorsLabels,
+      Errors: { FormValidation: FormValidationErrors },
     },
 
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
@@ -77,7 +77,7 @@ const NewMenuItemDialog = props => {
                     select
                     value={ui.insertMode.data.value.type}
                     validators={['required']}
-                    errorMessages={FormValidationErrorsLabels.REQUIRED}
+                    errorMessages={FormValidationErrors.REQUIRED}
                     label={MenuLabels.CATEGORY}
                     name="type"
                     onChange={event => {
@@ -106,8 +106,8 @@ const NewMenuItemDialog = props => {
                         `matchRegexp:${RegexExpressions.EURO}`,
                       ]}
                       errorMessages={[
-                        FormValidationErrorsLabels.REQUIRED,
-                        FormValidationErrorsLabels.CURRENCY,
+                        FormValidationErrors.REQUIRED,
+                        FormValidationErrors.CURRENCY,
                       ]}
                       name="price"
                       onChange={onChangeValueHandler}

@@ -96,7 +96,7 @@ const MenuItemsEditor = props => {
       Menu: MenuLabels,
       Common: CommonLabels,
       Warnings: WarningMessages,
-      FormValidationErrors: FormValidationErrorsLabels,
+      Errors: { FormValidation: FormValidationErrors },
       Hints: HintLabels,
     },
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
@@ -290,8 +290,8 @@ const MenuItemsEditor = props => {
                                 `matchRegexp:${RegexExpressions.EURO}`,
                               ]}
                               errorMessages={[
-                                FormValidationErrorsLabels.REQUIRED,
-                                FormValidationErrorsLabels.CURRENCY,
+                                FormValidationErrors.REQUIRED,
+                                FormValidationErrors.CURRENCY,
                               ]}
                               name="price"
                               onChange={onChangeValueHandler}

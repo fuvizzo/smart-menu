@@ -6,7 +6,7 @@ export const MediaBox = styled(Box)({
 });
 
 export const EmptyImageMsgBox = styled(Box)({
-  padding: '30px',
+  padding: '50px',
   border: '1px solid #e6e6e6',
 });
 

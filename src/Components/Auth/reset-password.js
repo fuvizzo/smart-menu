@@ -27,7 +27,7 @@ const ResetPassword = props => {
       Account: AccountLabels,
       Actions: ActionLabels,
 
-      FormValidationErrors,
+      Errors: { FormValidation: FormValidationErrors },
     },
   } = Locales[props.defaultLanguage];
 

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Suspense } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { connect } from 'react-redux';
 import { IconButton, Box, Grid, Card, Typography } from '@material-ui/core';
@@ -6,10 +6,11 @@ import { PopoverHint, Label, HelpIcon } from '../Common/styles';
 import { ColorEditor } from './color-palette';
 import ImageSelector from './image-selector';
 import { PopoverComponent as Popover } from '../Common';
-import useStyles, { MediaBox } from './styles';
+import { MediaBox } from './styles';
 import constants from '../../Constants/index';
 import * as uiActions from '../../Actions/ui-actions';
 import * as businessActions from '../../Actions/business-actions';
+import { cloneDeep } from 'lodash';
 
 const BusinessMediaAndThemeEditor = props => {
   const {
@@ -32,7 +33,6 @@ const BusinessMediaAndThemeEditor = props => {
     : undefined;
   const defaultLanguage = ui.settings.defaultLanguage;
   const { Locales } = constants;
-  const classes = useStyles();
 
   const popoverClickHandler = useCallback(
     (event, data) => {
@@ -113,8 +113,9 @@ const BusinessMediaAndThemeEditor = props => {
               locale={locale}
               data={businessTheme}
               onSelectColorHandler={(name, hex) => {
-                businessTheme.colorPalette[name] = hex;
-                updateBusinessTheme(businessId, businessTheme);
+                const theme = cloneDeep(businessTheme);
+                theme.colorPalette[name] = hex;
+                updateBusinessTheme(businessId, theme);
               }}
             />
             <MediaBox>

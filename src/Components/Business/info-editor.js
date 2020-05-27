@@ -59,7 +59,7 @@ const BusinessEditor = props => {
       Actions: ActionsLabels,
       Warnings: WarningMessages,
       Hints: HintLabels,
-      FormValidationErrors,
+      Errors: { FormValidation: FormValidationErrors },
     },
     BUSINESS_TYPES: BusinessTypes,
   } = locale;
@@ -93,8 +93,8 @@ const BusinessEditor = props => {
   const onBusinessUpdateHandler = useCallback(
     async (data, { setSubmitting }) => {
       setSubmitting(false);
-      await updateBusinessInfo(businessId, data);
-      if (!ui.error.type) disableEditMode();
+      const result = await updateBusinessInfo(businessId, data);
+      if (result) disableEditMode();
     },
     [ui.error]
   );
@@ -186,10 +186,6 @@ const BusinessEditor = props => {
                           label={BusinessLabels.UNIQUE_URL_PATH}
                           value={values.uniqueUrlPath}
                         />
-
-                        <FormHelperText error>
-                          {ui.error.message}
-                        </FormHelperText>
                       </Box>
 
                       {isSubmitting && <LinearProgress />}

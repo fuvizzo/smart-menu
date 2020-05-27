@@ -91,12 +91,15 @@ export default {
       NEWS_LETTER:
         'Voglio ricevere news, promozioni commerciali ed aggiornamenti via email',
     },
-    FormValidationErrors: {
-      REQUIRED: 'Questo campo è richiesto',
-      CURRENCY: 'Questo campo deve essere in formato € (es: 10,50)',
-      UNIQUE_URL_PATH_ALREADY_IN_USE:
-        'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
-      INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
+    Errors: {
+      FormValidation: {
+        REQUIRED: 'Questo campo è richiesto',
+        CURRENCY: 'Questo campo deve essere in formato € (es: 10,50)',
+        UNIQUE_URL_PATH_ALREADY_IN_USE:
+          'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
+        INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
+      },
+      GENERIC: "Si è verificato un errore durante l'operazione",
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
@@ -118,6 +121,8 @@ export default {
         "Inizia a creare un nuovo menù cliccando sul bottono col simbolo 'più' in alto a destra dello schermo",
       ADD_MENU_ITEM:
         "Inizia ad aggiungere elementi al menù cliccando sul bottono col simbolo 'più' in alto a destra dello schermo",
+      MAX_FILE_SIZE: 'Dimensione massima del file: 1 MB',
+      SUPPORTED_FILE_EXTENSIONS: 'Estensioni del file supportate: jpg/png',
     },
     Actions: {
       EDIT_COLOR: 'Cambia colore',

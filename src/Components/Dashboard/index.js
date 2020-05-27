@@ -18,17 +18,33 @@ import {
 } from '@material-ui/icons';
 
 import Copyright from '../Common/copyright';
-import { setDashboardDrawerOpen } from '../../Actions/ui-actions';
+import { Snackbar } from '../Common';
+import constants from '../../Constants';
+import { setDashboardDrawerOpen, setError } from '../../Actions/ui-actions';
 import useStyles from './styles';
 
+const { ErrorTypes } = constants;
+
 const Dashboard = props => {
-  console.count('Dashboard renders');
-  const { ui, children } = props;
-  const open = ui.dashboardDrawerOpen;
+  const {
+    ui: { dashboardDrawerOpen: open, error },
+    children,
+  } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      {error.type === ErrorTypes.SERVER_ERROR && (
+        <Snackbar
+          severity="warning"
+          onCloseHandler={() => {
+            props.setError();
+          }}
+          open={!!error}
+        >
+          {error.message}
+        </Snackbar>
+      )}
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
@@ -95,4 +111,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { setDashboardDrawerOpen })(Dashboard);
+export default connect(mapStateToProps, { setDashboardDrawerOpen, setError })(
+  Dashboard
+);

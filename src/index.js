@@ -15,9 +15,9 @@ import {
 } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
-//window.addEventListener('storage', e => {
-//  if (!e.key) window.location.href = '/';
-//});
+window.addEventListener('storage', e => {
+  if (!e.key) window.location.href = '/';
+});
 const theme = createMuiTheme();
 
 ReactDOM.render(

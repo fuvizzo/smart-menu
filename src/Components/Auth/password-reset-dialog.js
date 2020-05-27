@@ -17,7 +17,7 @@ const PasswordResetDialog = props => {
       Actions: ActionsLabels,
       Account: AccountLabels,
       Hints,
-      FormValidationErrors,
+      Errors: { FormValidation: FormValidationErrors },
     },
   } = Locales[defaultLanguage];
 

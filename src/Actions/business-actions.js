@@ -10,13 +10,20 @@ const INFO = 'info';
 const MEDIA = 'media';
 const THEME = 'theme';
 
+const getErrorLables = language => Locales[language].Labels.Errors;
+
 const userBusinessesPath = userId => `/users/${userId}/businesses`;
+
+const buildError = error => ({
+  ...error,
+  ...{ type: ErrorTypes.SERVER_ERROR },
+});
 
 export const updateBusinessTheme = (businessId, body) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userId = state.account.user.userId;
-
+    const errors = getErrorLables(state.ui.settings.defaultLanguage);
     try {
       const path = `${userBusinessesPath(userId)}/${businessId}/${THEME}`;
       const data = {
@@ -29,12 +36,14 @@ export const updateBusinessTheme = (businessId, body) => {
         type: BusinessActions.UPDATE_BUSINESS_THEME,
         payload: { businessId, value: body },
       });
+      return true;
+    } catch (error) {
       dispatch({
         type: UI_Actions.SET_ERROR,
+        payload: buildError({ message: errors.GENERIC }),
       });
-    } catch (error) {
-      console.log(error);
     }
+    return false;
   };
 };
 
@@ -42,13 +51,12 @@ export const updateBusinessInfo = (businessId, body) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userId = state.account.user.userId;
-    const {
-      Labels: { FormValidationErrors },
-    } = Locales[state.ui.settings.defaultLanguage];
+    const errors = getErrorLables(state.ui.settings.defaultLanguage);
     let data;
 
     try {
-      const oldUniqueUrlPath = getState().businesses[businessId].uniqueUrlPath;
+      const oldUniqueUrlPath = getState().businesses[businessId].info
+        .uniqueUrlPath;
 
       const newPath = `${URL_TO_BUSINESS_MAPPINGS}/${body.uniqueUrlPath}`;
 
@@ -72,12 +80,11 @@ export const updateBusinessInfo = (businessId, body) => {
         } else {
           dispatch({
             type: UI_Actions.SET_ERROR,
-            payload: {
-              type: ErrorTypes.BACK_END_DATA_VALIDATION,
-              message: FormValidationErrors.UNIQUE_URL_PATH_ALREADY_IN_USE,
-            },
+            payload: buildError({
+              message: errors.FormValidation.UNIQUE_URL_PATH_ALREADY_IN_USE,
+            }),
           });
-          return;
+          return false;
         }
       }
 
@@ -92,12 +99,14 @@ export const updateBusinessInfo = (businessId, body) => {
         type: BusinessActions.UPDATE_BUSINESS_INFO,
         payload: { businessId, value: body },
       });
+      return true;
+    } catch (error) {
       dispatch({
         type: UI_Actions.SET_ERROR,
+        payload: buildError({ message: errors.GENERIC }),
       });
-    } catch (error) {
-      console.log(error);
     }
+    return false;
   };
 };
 
@@ -105,7 +114,7 @@ export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
   return async (dispatch, getState) => {
     const state = getState();
     const userId = state.account.user.userId;
-
+    const errors = getErrorLables(state.ui.settings.defaultLanguage);
     try {
       const basePath = `${userBusinessesPath(userId)}/${businessId}`;
       await firebaseService.storage.deleteFile(
@@ -115,9 +124,14 @@ export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
         type: BusinessActions.DELETE_BUSINESS_MEDIA,
         payload: { businessId, type: fileName },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: UI_Actions.SET_ERROR,
+        payload: buildError({ message: errors.GENERIC }),
+      });
     }
+    return false;
   };
 };
 
@@ -131,7 +145,7 @@ export const uploadBusinessMedia = (
   return async (dispatch, getState) => {
     const state = getState();
     const userId = state.account.user.userId;
-
+    const errors = getErrorLables(state.ui.settings.defaultLanguage);
     try {
       const basePath = `${userBusinessesPath(userId)}/${businessId}`;
       const imageType = img.type.split('/')[1];
@@ -157,8 +171,13 @@ export const uploadBusinessMedia = (
         type: BusinessActions.UPLOAD_BUSINESS_MEDIA,
         payload: { businessId, type, value: data.body },
       });
+      return true;
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: UI_Actions.SET_ERROR,
+        payload: buildError({ message: errors.GENERIC }),
+      });
     }
+    return false;
   };
 };

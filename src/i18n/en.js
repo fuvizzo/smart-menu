@@ -75,8 +75,8 @@ export default {
     Business: {
       NAME: 'Business name',
       UNIQUE_URL_PATH: 'Unique URL path',
-      LOGO: 'Business logo',
-      HEADER_BANNER: 'Header banner (reccomended size: 1024 x 300 px)',
+      LOGO: 'Business logo (reccomended image size: 200 x 100 px)',
+      HEADER_BANNER: 'Header banner (reccomended image size: 1024 x 300 px)',
       ColorPalette: {
         PRIMARY: 'Primary color',
         SECONDARY: 'Secondary color',
@@ -96,12 +96,16 @@ export default {
       NEWS_LETTER:
         'I want to receive news, marketing promotions and updates via email.',
     },
-    FormValidationErrors: {
-      REQUIRED: 'This field is required',
-      CURRENCY: 'This field must be in the € format (ex: 10,50)',
-      UNIQUE_URL_PATH_ALREADY_IN_USE:
-        'The unique URL path you chose is already used. Please choose a different one',
-      INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
+    Errors: {
+      FormValidation: {
+        REQUIRED: 'This field is required',
+        CURRENCY: 'This field must be in the € format (ex: 10,50)',
+        UNIQUE_URL_PATH_ALREADY_IN_USE:
+          'The unique URL path you chose is already used. Please choose a different one',
+        INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
+        OPERATION_ERROR: 'An error occured during the delete operation',
+      },
+      GENERIC: 'An error occurred during this operation',
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',
@@ -123,6 +127,8 @@ export default {
         'Start creating a new menu by using the plus icon button in the upper right part of the screen',
       ADD_MENU_ITEM:
         'Start adding menu items by using the plus icon button in the upper right part of the screen',
+      MAX_FILE_SIZE: 'Max file size: 1 MB',
+      SUPPORTED_FILE_EXTENSIONS: 'supported file extensions: jpg/png',
     },
     Actions: {
       EDIT_COLOR: 'Edit color',

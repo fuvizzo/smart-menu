@@ -78,7 +78,7 @@ const MenuInfoEditor = props => {
       Menu: MenuLabels,
       Common: CommonLabels,
       Warnings: WarningMessages,
-      FormValidationErrors: FormValidationErrorsLabels,
+      Errors: { FormValidation: FormValidationErrors },
     },
   } = Locales[defaultLanguage];
 
@@ -239,8 +239,8 @@ const MenuInfoEditor = props => {
                         `matchRegexp:${RegexExpressions.EURO}`,
                       ]}
                       errorMessages={[
-                        FormValidationErrorsLabels.REQUIRED,
-                        FormValidationErrorsLabels.CURRENCY,
+                        FormValidationErrors.REQUIRED,
+                        FormValidationErrors.CURRENCY,
                       ]}
                       name="setMenu"
                       onChange={onChangeValueHandler}

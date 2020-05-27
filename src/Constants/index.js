@@ -5,7 +5,7 @@ export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
   ErrorTypes: {
-    BACK_END_DATA_VALIDATION: 'BACK-END DATA VALIDATION',
+    SERVER_ERROR: 'SERVER_ERROR',
     AUTHENTICATION: 'AUTHENTICATION',
   },
   RegexExpressions: {

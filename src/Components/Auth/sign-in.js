@@ -32,7 +32,7 @@ const SignIn = props => {
       Account: AccountLabels,
       Actions: ActionLabels,
       Hints: HintLabels,
-      FormValidationErrors,
+      Errors: { FormValidation: FormValidationErrors },
     },
   } = Locales[props.defaultLanguage];
 

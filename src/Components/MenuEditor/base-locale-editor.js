@@ -16,7 +16,9 @@ const LocaleEditor = props => {
     children,
   } = props;
   const {
-    Labels: { FormValidationErrors: FormValidationErrorsLabels },
+    Labels: {
+      Errors: { FormValidation: FormValidationErrors },
+    },
   } = Locales[defaultLanguage];
 
   return (
@@ -28,7 +30,7 @@ const LocaleEditor = props => {
           onChange={onChangeValue}
           type="text"
           validators={['required']}
-          errorMessages={FormValidationErrorsLabels.REQUIRED}
+          errorMessages={FormValidationErrors.REQUIRED}
           value={data.name}
           inputProps={{ 'data-lang': lang }}
         />

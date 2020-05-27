@@ -32,7 +32,7 @@ const SignUp = props => {
       Actions: ActionLabels,
       Business: BusinessLabels,
       Hints: HintLabels,
-      FormValidationErrors,
+      Errors: { FormValidation: FormValidationErrors },
     },
     BUSINESS_TYPES: BusinessTypes,
   } = locale;
