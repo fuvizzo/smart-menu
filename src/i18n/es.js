@@ -94,7 +94,7 @@ export default {
       GENERIC: 'Se produjo un error durante la operación',
       Authentication: {
         WRONG_PASSWORD: '¿Estás segura/o de que la contraseña es la correcta?',
-        EMAIL_ALREADY_EXISTS:
+        EMAIL_ALREADY_IN_USE:
           'Esta dirección de correo electrónico ya está registrada. ¡Use uno diferente por favor!',
         INVALID_ACTION_CODE:
           'El enlace ya no es válido. ¡Vuelva a intentar la operación desde cero por favor!',

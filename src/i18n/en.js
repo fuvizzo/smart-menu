@@ -108,7 +108,7 @@ export default {
       GENERIC: 'An error occurred during this operation',
       Authentication: {
         WRONG_PASSWORD: 'Are you sure the password is the right one?',
-        EMAIL_ALREADY_EXISTS:
+        EMAIL_ALREADY_IN_USE:
           'This email address is already registered. Please use a different one',
         INVALID_ACTION_CODE:
           'The link is no longer valid. Retry the operation from scratch',

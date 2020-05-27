@@ -24,8 +24,8 @@ export const dispatchAuthenticationError = (dispatch, language, error) => {
   let labelName = null;
   const errorLabels = getErrorLables(language);
   switch (error.code) {
-    case 'auth/email-already-exists':
-      labelName = 'EMAIL_ALREADY_EXISTS';
+    case 'auth/email-already-in-use':
+      labelName = 'EMAIL_ALREADY_IN_USE';
       break;
     case 'auth/invalid-action-code':
       labelName = 'INVALID_ACTION_CODE';
