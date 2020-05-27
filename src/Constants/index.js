@@ -25,4 +25,5 @@ export default {
     it,
     es,
   },
+  APP_NAME: 'SmartMenoos',
 };

@@ -111,6 +111,7 @@ export default {
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
+      LANGUAGE: 'Lingua',
     },
     Warnings: {
       MISSING_NAME: 'Nome mancante',

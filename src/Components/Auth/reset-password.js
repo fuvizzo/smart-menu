@@ -98,7 +98,7 @@ const ResetPassword = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    defaultLanguage: state.public.ui.settings.defaultLanguage,
     authOperation: state.public.authOperation,
   };
 }

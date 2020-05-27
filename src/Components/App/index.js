@@ -1,9 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
-import { Button, Typography, ListItem } from '@material-ui/core/';
-import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
+import {
+  Button,
+  Typography,
+  ListItem,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from '@material-ui/core/';
+import {
+  AppBar,
+  Toolbar,
+  ToolbarTitle,
+  NavList,
+  RouterLink,
+  LangSelector,
+} from './styles';
 import AuthRoute from '../Auth/auth-route';
 
 import Pricing from '../Pricing';
@@ -12,18 +33,23 @@ import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
 import MenuViewer from '../MenuViewer/menu-viewer';
 import { Snackbar } from '../Common';
-import { setError } from '../../Actions/ui-actions';
+import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 
-const { Locales, ErrorTypes } = constants;
+const { Locales, ErrorTypes, APP_NAME } = constants;
 
-const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
+const PublicMasterPage = connect(mapStateToProps, {
+  setError,
+  setDefaultPublicLanguage,
+})(props => {
   const { children, account, publicDefaultLanguage, error } = props;
 
   const {
-    Labels: { Sections: SectionLabels, Actions: ActionsLabels },
+    Labels: { Sections: SectionLabels, Actions: ActionsLabels, Common },
   } = Locales[publicDefaultLanguage];
-
+  const languageChangeHandler = event => {
+    props.setDefaultPublicLanguage(event.target.value);
+  };
   return (
     <>
       {error.type === ErrorTypes.AUTHENTICATION && (
@@ -40,10 +66,10 @@ const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
       <AppBar position="static" color="default" elevation={0}>
         <Toolbar>
           <ToolbarTitle variant="h6" color="inherit" noWrap>
-            {!props.user && <div>Smart menu</div>}
+            {APP_NAME}
           </ToolbarTitle>
           <nav>
-            <NavList component="div">
+            {/*  <NavList component="div">
               <ListItem button component={RouterLink} to="/">
                 <Typography color="textPrimary">
                   {SectionLabels.HOME}
@@ -54,7 +80,7 @@ const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
                   {SectionLabels.PRICING}
                 </Typography>
               </ListItem>
-            </NavList>
+            </NavList> */}
           </nav>
 
           <Button
@@ -65,6 +91,28 @@ const PublicMasterPage = connect(mapStateToProps, { setError })(props => {
           >
             {account ? ActionsLabels.BACK_TO_DASHBOARD : ActionsLabels.SIGN_IN}
           </Button>
+          <Box ml={1}>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="outlined-lang-selector">
+                {Common.LANGUAGE}
+              </InputLabel>
+              <LangSelector
+                labelId="language-select-label"
+                id="language-select"
+                value={publicDefaultLanguage}
+                onChange={languageChangeHandler}
+                label="lang"
+              >
+                {Object.keys(Locales).map((lang, index) => {
+                  return (
+                    <MenuItem value={lang} key={index}>
+                      <em>{lang}</em>
+                    </MenuItem>
+                  );
+                })}
+              </LangSelector>
+            </FormControl>
+          </Box>
         </Toolbar>
       </AppBar>
       {children}
@@ -77,12 +125,11 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <PublicMasterPage />
+          <Redirect to="/authentication/sign-up" />
+          {/* <PublicMasterPage /> */}
         </Route>
         <Route path="/pricing">
-          <PublicMasterPage>
-            <Pricing />
-          </PublicMasterPage>
+          <PublicMasterPage>{/*  <Pricing /> */}</PublicMasterPage>
         </Route>
 
         <Route path="/authentication">

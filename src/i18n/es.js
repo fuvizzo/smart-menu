@@ -104,6 +104,7 @@ export default {
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostrar otros idiomas',
+      LANGUAGE: 'Idioma',
     },
     Warnings: {
       MISSING_NAME: 'Nombre no encontrado',

@@ -23,7 +23,7 @@ import constants from '../../Constants';
 import { setDashboardDrawerOpen, setError } from '../../Actions/ui-actions';
 import useStyles from './styles';
 
-const { ErrorTypes } = constants;
+const { ErrorTypes, APP_NAME } = constants;
 
 const Dashboard = props => {
   const {
@@ -81,11 +81,11 @@ const Dashboard = props => {
             <Typography
               component="h1"
               variant="h6"
-              color="inherit"
+              color="secondary"
               noWrap
               className={classes.logo}
             >
-              Smart Menu!!
+              {APP_NAME}
             </Typography>
           </Box>
           {props.leftMenu}

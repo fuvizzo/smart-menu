@@ -83,7 +83,7 @@ const PasswordResetDialog = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    defaultLanguage: state.public.ui.settings.defaultLanguage,
   };
 }
 export default connect(mapStateToProps, { submitResetPasswordRequest })(

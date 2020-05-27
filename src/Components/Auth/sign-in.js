@@ -131,7 +131,7 @@ const SignIn = props => {
 
 function mapStateToProps(state) {
   return {
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    defaultLanguage: state.public.ui.settings.defaultLanguage,
     error: state.ui.error,
   };
 }

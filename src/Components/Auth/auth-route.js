@@ -11,7 +11,7 @@ const AuthRoute = ({ account, children, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: '/sign-in',
+              pathname: '/authentication/sign-in',
               state: { from: location },
             }}
           />

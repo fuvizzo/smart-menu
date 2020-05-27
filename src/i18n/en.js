@@ -117,6 +117,7 @@ export default {
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',
+      LANGUAGE: 'Lang',
     },
     Warnings: {
       MISSING_NAME: 'MISSING_NAME',

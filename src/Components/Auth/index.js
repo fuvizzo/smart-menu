@@ -81,7 +81,7 @@ const AuthOperations = props => {
 function mapStateToProps(state) {
   return {
     authOperation: state.public.authOperation,
-    defaultLanguage: state.ui.settings.defaultLanguage,
+    defaultLanguage: state.public.ui.settings.defaultLanguage,
   };
 }
 
