@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import {Link} from "react-router-dom";
+import {getCategoryIcon} from "../../Helpers";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,7 +42,11 @@ function MenuCard(props) {
       <Link to={`/${business.info.uniqueUrlPath}/menu/${id}`} style={{ textDecoration: 'none' }} >
         <CardActionArea>
           <CardHeader
-            avatar={<Avatar aria-label="recipe" className={classes.avatar}>R</Avatar>}
+            avatar={
+              <Avatar aria-label="recipe" className={classes.avatar}>
+                {getCategoryIcon(data.info.type)}
+              </Avatar>
+            }
             title={data.info.locales[defaultLanguage].name}
             subheader={data.info.setMenu ? `${data.info.setMenu} €` : null}
           />

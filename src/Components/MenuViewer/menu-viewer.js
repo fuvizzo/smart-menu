@@ -35,9 +35,8 @@ const MenuViewer = props => {
     (data.notFound ? (
       <Redirect to="/" />
     ) : (
-      <HeaderContainer maxWidth="lg">
+      <HeaderContainer maxWidth="md">
         <Header data={data.business} />
-        {console.log(data.menu.list[menuId])}
         {(menuId || data.menu.list.length === 1 || isPreview)
           ? <Menu
               defaultLanguage={defaultLanguage}

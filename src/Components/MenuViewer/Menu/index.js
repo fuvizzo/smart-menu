@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import LanguageSelector from './../LanguageSelector';
 
@@ -8,6 +8,7 @@ import MenuContainer, {
   TypeWrapper,
   Description,
   Title,
+  MenuItemWrapper,
 } from './styles';
 import Constants from '../../../Constants';
 import MenuItem from './MenuItem';
@@ -15,6 +16,16 @@ import {groupMenuItemsByType} from '../Helpers';
 const { Locales, MenuTypes } = Constants;
 
 function Menu(props) {
+  function selectMenuItem(id) {
+    if (!selected.includes(id)) {
+      setSelected(selected.concat(id));
+    } else {
+      setSelected(selected.filter(item => item !== id));
+    }
+  }
+
+  const [selected, setSelected] = useState([]);
+
   const {
     data: { providedLanguages, info, items },
     colors,
@@ -57,13 +68,19 @@ function Menu(props) {
                 <TypeText color={colors.secondary}>
                   {MenuItemTypes.ITEM_LIST[index]}
                 </TypeText>
-                {type.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    colors={colors}
-                    data={item}
-                    defaultLanguage={defaultLanguage}
-                  />
+                {type.map((item, index2) => (
+                  <MenuItemWrapper
+                    key={`${index}-${index2}`}
+                    color={colors.primary}
+                    selected={selected.includes(`${index}-${index2}`)}
+                    onClick={() => selectMenuItem(`${index}-${index2}`)}
+                  >
+                    <MenuItem
+                      colors={colors}
+                      data={item}
+                      defaultLanguage={defaultLanguage}
+                    />
+                  </MenuItemWrapper>
                 ))}
               </TypeWrapper>
             ))}
