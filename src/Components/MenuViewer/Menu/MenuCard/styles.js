@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card as MUI_Card, Avatar as MUI_Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import CardActions from "@material-ui/core/CardActionArea";
+import CardActions from '@material-ui/core/CardActionArea';
 
 const Card = styled(MUI_Card)`
   display: flex;
@@ -16,6 +16,10 @@ const Card = styled(MUI_Card)`
     max-width: 280px;
     width: 33.33%;
   }
+`;
+
+const CardTitle = styled.span`
+  color: ${props => props.color};
 `;
 
 const Avatar = styled(MUI_Avatar)`
@@ -36,4 +40,4 @@ const StyledCardActionArea = styled(CardActions)`
   justify-content: flex-start;
 `;
 
-export { Card, Avatar, StyledLink, StyledCardActionArea };
+export { Card, Avatar, CardTitle, StyledLink, StyledCardActionArea };

@@ -12,7 +12,13 @@ import {
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 
-import {Card, Avatar, StyledLink, StyledCardActionArea} from './styles';
+import {
+  Card,
+  Avatar,
+  CardTitle,
+  StyledLink,
+  StyledCardActionArea,
+} from './styles';
 import Truncate from 'react-truncate';
 import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
@@ -46,7 +52,11 @@ function MenuCard(props) {
                 {getMenuTypeIcon(data.info.type)}
               </Avatar>
             }
-            title={data.info.locales[defaultLanguage].name}
+            title={
+              <CardTitle color={business.theme.colorPalette.secondary}>
+                {data.info.locales[defaultLanguage].name}
+              </CardTitle>
+            }
             subheader={data.info.setMenu ? `${data.info.setMenu} €` : null}
           />
           <CardMedia
