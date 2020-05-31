@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, Redirect, Link, useLocation } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
 import constants from '../../Constants';
 import { isEmpty } from 'lodash';
-import {
-  HeaderContainer,
-  MenuListWrapper,
-  ActionSelectorWrapper,
-  BackLink,
-} from './styles';
+import { MainContainer, MenuListWrapper, LoaderWrapper } from './styles';
 import { setDefaultPublicLanguage } from '../../Actions/ui-actions';
-import LanguageSelector from '../Common/public-language-selector';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Header from './Header';
 import Menu from './Menu';
 import MenuCard from './Menu/MenuCard';
+import Copyright from '../Common/copyright';
 import { Box } from '@material-ui/core';
 
 const { Locales } = constants;
 const MenuViewer = props => {
   const { uniqueBusinessUrlPath, menuId } = useParams();
-  const location = useLocation();
-  console.log(location);
+
   const {
     public: {
       data,
@@ -34,7 +29,7 @@ const MenuViewer = props => {
   } = props;
 
   const {
-    Labels: { Menu: MenuLabels, Common: CommonLabels, Actions: ActionLabels },
+    Labels: { Menu: MenuLabels },
   } = Locales[defaultLanguage];
 
   const languageChangeHandler = event => {
@@ -76,39 +71,39 @@ const MenuViewer = props => {
   };
 
   return (
-    !isEmpty(data) &&
-    (data.notFound ? (
-      <Redirect to="/" />
-    ) : (
-      <HeaderContainer maxWidth="md">
-        <ActionSelectorWrapper>
-          <Box>
-            {location.pathname.includes('menu') && (
-              <BackLink to="../" component={Link} variant="body2">
-                {ActionLabels.BACK_TO_MENU_LIST}
-              </BackLink>
-            )}
-          </Box>
-          <LanguageSelector
-            languageLabel={CommonLabels.LANGUAGE}
-            value={defaultLanguage}
-            onChange={languageChangeHandler}
-          />
-        </ActionSelectorWrapper>
-        <Header data={data.business} />
-        {menuId || data.menu.list.length === 1 || isPreview ? (
-          <Menu
-            defaultLanguage={defaultLanguage}
-            colors={data.business.theme.colorPalette}
-            data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
-          />
+    <>
+      {isEmpty(data) && (
+        <LoaderWrapper>
+          <CircularProgress />
+        </LoaderWrapper>
+      )}
+      {!isEmpty(data) &&
+        (data.notFound ? (
+          <Redirect to="/" />
         ) : (
-          <MenuListWrapper>
-            <MenuCardWrapper />
-          </MenuListWrapper>
-        )}
-      </HeaderContainer>
-    ))
+          <MainContainer maxWidth="md">
+            <Header
+              data={data.business}
+              languageChangeHandler={languageChangeHandler}
+              defaultLanguage={defaultLanguage}
+            />
+            {menuId || data.menu.list.length === 1 || isPreview ? (
+              <Menu
+                defaultLanguage={defaultLanguage}
+                colors={data.business.theme.colorPalette}
+                data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
+              />
+            ) : (
+              <MenuListWrapper>
+                <MenuCardWrapper />
+              </MenuListWrapper>
+            )}
+            <Box mt={2} mb={2}>
+              <Copyright />
+            </Box>
+          </MainContainer>
+        ))}
+    </>
   );
 };
 

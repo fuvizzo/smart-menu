@@ -1,23 +1,17 @@
 import styled from 'styled-components';
-import { Link, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
-const ActionSelectorWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const BackLink = styled(Link)``;
-
-const HeaderContainer = styled(Container)`
+const MainContainer = styled(Container)`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const MenuListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
   margin-top: 20px;
   margin-left: -10px;
@@ -29,4 +23,13 @@ const MenuListWrapper = styled.div`
   }
 `;
 
-export { HeaderContainer, MenuListWrapper, ActionSelectorWrapper, BackLink };
+const LoaderWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+`;
+
+export { MainContainer, MenuListWrapper, LoaderWrapper };
