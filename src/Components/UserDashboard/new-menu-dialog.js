@@ -19,7 +19,7 @@ const NewMenuDialog = props => {
     Labels: {
       Actions: ActionsLabels,
       Menu: MenuLabels,
-      FormValidationErrors: FormValidationErrorsLabels,
+      Errors: { FormValidation: FormValidationErrors },
     },
     MenuItemTypes,
   } = Locales[defaultLanguage];
@@ -68,7 +68,7 @@ const NewMenuDialog = props => {
                     select
                     value={ui.insertMode.data.value.info.type}
                     validators={['required']}
-                    errorMessages={FormValidationErrorsLabels.REQUIRED}
+                    errorMessages={FormValidationErrors.REQUIRED}
                     label={MenuLabels.CATEGORY}
                     name="type"
                     onChange={event => {
