@@ -6,7 +6,7 @@ const HeaderContainer = styled(Container)`
   flex-direction: column;
 `;
 
-const MenuCardWrapper = styled.div`
+const MenuListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,11 +14,11 @@ const MenuCardWrapper = styled.div`
   margin-top: 20px;
   margin-left: -10px;
   margin-right: -10px;
-  
+
   @media (min-width: 580px) {
     margin-top: 50px;
     flex-direction: row;
   }
 `;
 
-export { HeaderContainer, MenuCardWrapper };
+export { HeaderContainer, MenuListWrapper };

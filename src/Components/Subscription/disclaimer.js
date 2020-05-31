@@ -11,7 +11,8 @@ export default props => {
             Ciao {username}!
             <br />
             <br />
-            Grazie per aver scelto i servizi di SmartMenoos!
+            Grazie per aver scelto i servizi di{' '}
+            <span style={{ color: '#f50057' }}>SmartMenoos</span>!
             <br />
             <br />
             Noi tutti siamo andati incontro a tempi difficili da quando il
@@ -41,7 +42,8 @@ export default props => {
             ¡Hola, {username}!             
             <br />             
             <br />
-            ¡Gracias por elegir los servicios de SmartMenoos!             
+            ¡Gracias por elegir los servicios de{' '}
+            <span style={{ color: '#f50057' }}>SmartMenoos</span>!             
             <br />             
             <br />
             Todos pasamos por tiempos muy difíciles desde que se extendió el
@@ -71,7 +73,8 @@ export default props => {
             Hi {username}!
             <br />
             <br />
-            Thanks for choosing SmartMenoos services!
+            Thanks for choosing{' '}
+            <span style={{ color: '#f50057' }}>SmartMenoos</span> services!
             <br />
             <br />
             We all went through very tough times since Coronavirus spread out
@@ -88,7 +91,7 @@ export default props => {
             subscription plans you will be able to sign up with to keep on using
             our services the way they suit better for all your needs.
           </Box>
-          The<span style={{ color: '#f50057' }}>SmartMenoos</span> team
+          The <span style={{ color: '#f50057' }}>SmartMenoos</span> team
         </Box>
       );
   }

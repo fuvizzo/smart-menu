@@ -33,6 +33,7 @@ import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
 import MenuViewer from '../MenuViewer/menu-viewer';
 import { Snackbar } from '../Common';
+import LanguageSelector from '../Common/public-language-selector';
 import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 
@@ -47,9 +48,11 @@ const PublicMasterPage = connect(mapStateToProps, {
   const {
     Labels: { Sections: SectionLabels, Actions: ActionsLabels, Common },
   } = Locales[publicDefaultLanguage];
+
   const languageChangeHandler = event => {
     props.setDefaultPublicLanguage(event.target.value);
   };
+
   return (
     <>
       {error.type === ErrorTypes.AUTHENTICATION && (
@@ -92,26 +95,11 @@ const PublicMasterPage = connect(mapStateToProps, {
             {account ? ActionsLabels.BACK_TO_DASHBOARD : ActionsLabels.SIGN_IN}
           </Button>
           <Box ml={1}>
-            <FormControl variant="outlined">
-              <InputLabel htmlFor="outlined-lang-selector">
-                {Common.LANGUAGE}
-              </InputLabel>
-              <LangSelector
-                labelId="language-select-label"
-                id="language-select"
-                value={publicDefaultLanguage}
-                onChange={languageChangeHandler}
-                label="lang"
-              >
-                {Object.keys(Locales).map((lang, index) => {
-                  return (
-                    <MenuItem value={lang} key={index}>
-                      <em>{lang}</em>
-                    </MenuItem>
-                  );
-                })}
-              </LangSelector>
-            </FormControl>
+            <LanguageSelector
+              languageLabel={Common.LANGUAGE}
+              value={publicDefaultLanguage}
+              onChange={languageChangeHandler}
+            />
           </Box>
         </Toolbar>
       </AppBar>

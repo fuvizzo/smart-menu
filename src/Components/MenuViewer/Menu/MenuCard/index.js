@@ -13,12 +13,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 // Style customizations
 import { StyledCard } from './styles';
-import Truncate from "react-truncate";
-import Button from "@material-ui/core/Button";
-import CardActions from "@material-ui/core/CardActions";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import {Link} from "react-router-dom";
-import {getCategoryIcon} from "../../Helpers";
+import Truncate from 'react-truncate';
+import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import { Link } from 'react-router-dom';
+import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,16 +35,19 @@ const useStyles = makeStyles(() => ({
 
 function MenuCard(props) {
   const classes = useStyles();
-  const {data, defaultLanguage, business, id} = props;
+  const { data, defaultLanguage, business, id } = props;
 
   return (
     <StyledCard className={classes.root}>
-      <Link to={`/${business.info.uniqueUrlPath}/menu/${id}`} style={{ textDecoration: 'none' }} >
+      <Link
+        to={`/${business.info.uniqueUrlPath}/menu/${id}`}
+        style={{ textDecoration: 'none' }}
+      >
         <CardActionArea>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                {getCategoryIcon(data.info.type)}
+                {getMenuTypeIcon(data.info.type)}
               </Avatar>
             }
             title={data.info.locales[defaultLanguage].name}
@@ -52,7 +55,7 @@ function MenuCard(props) {
           />
           <CardMedia
             className={classes.media}
-            image="https://material-ui.com/static/images/cards/paella.jpg"
+            image={getMenuTypeImage(data.info.type)}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">

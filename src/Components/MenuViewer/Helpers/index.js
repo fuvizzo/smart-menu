@@ -1,9 +1,8 @@
 import React from 'react';
-import {
-  LocalBar,
-  Fastfood,
-} from '@material-ui/icons';
-import SvgIcon from "@material-ui/core/SvgIcon";
+import { LocalBar, Fastfood } from '@material-ui/icons';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import FOOD_AND_DRINKS_IMAGE from '../../../Assets/FOOD_AND_DRINKS.jpg';
+import WINE_CHART_IMAGE from '../../../Assets/WINE_CHART.jpg';
 
 export function groupMenuItemsByType(items) {
   return Object.values(items).reduce((results, item) => {
@@ -12,7 +11,7 @@ export function groupMenuItemsByType(items) {
   }, {});
 }
 
-export function getCategoryIcon(type) {
+export function getMenuTypeIcon(type) {
   let icon;
   switch (type) {
     case 0:
@@ -27,4 +26,14 @@ export function getCategoryIcon(type) {
   }
 
   return <SvgIcon component={icon} viewBox="0 0 25 25" />;
+}
+
+export function getMenuTypeImage(type) {
+  switch (type) {
+    case 1:
+      return WINE_CHART_IMAGE;
+    case 0:
+    default:
+      return FOOD_AND_DRINKS_IMAGE;
+  }
 }

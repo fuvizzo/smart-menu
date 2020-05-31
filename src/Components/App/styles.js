@@ -1,21 +1,14 @@
-import { styled, withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { styled, createMuiTheme } from '@material-ui/core/styles';
 import {
   AppBar as MUI_AppBar,
   Toolbar as MUI_Toolbar,
   Typography as MUI_Typography,
   List,
-  Select,
 } from '@material-ui/core/';
 
 import { Link as RouterDomLink } from 'react-router-dom';
 
 const theme = createMuiTheme();
-
-const LangSelector = withStyles({
-  root: {
-    padding: '8.5px 24px 8.5px 10px',
-  },
-})(Select);
 
 const AppBar = styled(MUI_AppBar)({
   borderBottom: `1px solid ${theme.palette.divider}`,
@@ -38,4 +31,4 @@ const NavList = styled(List)({
   marginRight: 20,
 });
 
-export { NavList, AppBar, Toolbar, ToolbarTitle, RouterLink, LangSelector };
+export { NavList, AppBar, Toolbar, ToolbarTitle, RouterLink };

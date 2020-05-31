@@ -59,6 +59,7 @@ export default {
       PROVIDED_LANGUAGES: 'El contenido del menú actual se proporcionará en',
       QR_CODE: 'Codigo QR de la pagina de los menús',
       WEB_LINK: 'Dirección web de la página del menú',
+      NO_MENUS_AVAILABLE: 'No hay cartas disponibles en el idioma que elejiste',
     },
     Business: {
       NAME: 'Nombre comercial',

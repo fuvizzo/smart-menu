@@ -46,7 +46,7 @@ export const getMenu = uniqueUrlPath => {
         dispatch({ type: MenuActions.GET_MENU, payload: { notFound: true } });
       }
     } catch (error) {
-      const language = getState().public.ui.seetings.defaultLanguage;
+      const language = getState().public.ui.settings.defaultLanguage;
       dispatchGenericError(dispatch, language);
     }
   };

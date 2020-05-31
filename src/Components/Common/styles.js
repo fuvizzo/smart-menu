@@ -6,6 +6,7 @@ import {
 import {
   Box,
   Typography,
+  Select,
   FormControl as MUI_FormControl,
   withStyles,
 } from '@material-ui/core';
@@ -62,6 +63,12 @@ const PopoverHint = styled(Box)({
   maxWidth: 300,
 });
 
+const LangSelector = withStyles({
+  root: {
+    padding: '8.5px 24px 8.5px 10px',
+  },
+})(Select);
+
 export {
   HelpIcon,
   BrokenImage,
@@ -71,6 +78,7 @@ export {
   ShortFormFieldWrapper,
   Header,
   PopoverHint,
+  LangSelector,
 };
 
 export default makeStyles(theme => ({
