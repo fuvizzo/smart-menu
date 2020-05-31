@@ -23,7 +23,7 @@ import {
 
 import {
   LocalBar as WineChartIcon,
-  Fastfood as FoodAndDrinkIcon,
+  RestaurantMenu as FoodAndDrinkIcon,
   MoreVert as MoreVertIcon,
   Delete as DeleteIcon,
   Edit as EditIcon,
