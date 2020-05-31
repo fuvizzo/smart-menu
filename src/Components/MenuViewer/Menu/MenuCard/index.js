@@ -7,16 +7,13 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  CardActionArea,
 } from '@material-ui/core';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 
-// Style customizations
-import { Card, Avatar } from './styles';
+import {Card, Avatar, StyledLink, StyledCardActionArea} from './styles';
 import Truncate from 'react-truncate';
-import { Link } from 'react-router-dom';
 import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
 const useStyles = makeStyles(() => ({
@@ -35,11 +32,11 @@ function MenuCard(props) {
 
   return (
     <Card className={classes.root}>
-      <Link
+      <StyledLink
         to={`/${business.info.uniqueUrlPath}/menu/${id}`}
         style={{ textDecoration: 'none' }}
       >
-        <CardActionArea>
+        <StyledCardActionArea>
           <CardHeader
             avatar={
               <Avatar
@@ -55,6 +52,7 @@ function MenuCard(props) {
           <CardMedia
             className={classes.media}
             image={getMenuTypeImage(data.info.type)}
+            style={{ width: '100%' }}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -63,8 +61,8 @@ function MenuCard(props) {
               </Truncate>
             </Typography>
           </CardContent>
-        </CardActionArea>
-      </Link>
+        </StyledCardActionArea>
+      </StyledLink>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
