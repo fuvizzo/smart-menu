@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocalBar, Fastfood } from '@material-ui/icons';
+import { LocalBar, RestaurantMenu } from '@material-ui/icons';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import FOOD_AND_DRINKS_IMAGE from '../../../Assets/FOOD_AND_DRINKS.jpg';
 import WINE_CHART_IMAGE from '../../../Assets/WINE_CHART.jpg';
@@ -15,13 +15,13 @@ export function getMenuTypeIcon(type) {
   let icon;
   switch (type) {
     case 0:
-      icon = Fastfood;
+      icon = RestaurantMenu;
       break;
     case 1:
       icon = LocalBar;
       break;
     default:
-      icon = Fastfood;
+      icon = RestaurantMenu;
       break;
   }
 

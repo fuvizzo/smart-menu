@@ -1,22 +1,21 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import {
+  Typography,
+  IconButton,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  CardActionArea,
+} from '@material-ui/core';
+
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 // Style customizations
-import { StyledCard } from './styles';
+import { Card, Avatar } from './styles';
 import Truncate from 'react-truncate';
-import Button from '@material-ui/core/Button';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import { Link } from 'react-router-dom';
 import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
@@ -28,9 +27,6 @@ const useStyles = makeStyles(() => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
 
 function MenuCard(props) {
@@ -38,7 +34,7 @@ function MenuCard(props) {
   const { data, defaultLanguage, business, id } = props;
 
   return (
-    <StyledCard className={classes.root}>
+    <Card className={classes.root}>
       <Link
         to={`/${business.info.uniqueUrlPath}/menu/${id}`}
         style={{ textDecoration: 'none' }}
@@ -46,7 +42,10 @@ function MenuCard(props) {
         <CardActionArea>
           <CardHeader
             avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
+              <Avatar
+                aria-label="recipe"
+                color={business.theme.colorPalette.primary}
+              >
                 {getMenuTypeIcon(data.info.type)}
               </Avatar>
             }
@@ -74,7 +73,7 @@ function MenuCard(props) {
           <ShareIcon />
         </IconButton>
       </CardActions>
-    </StyledCard>
+    </Card>
   );
 }
 

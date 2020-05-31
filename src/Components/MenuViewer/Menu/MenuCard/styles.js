@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Card from '@material-ui/core/Card';
+import { Card as MUI_Card, Avatar as MUI_Avatar } from '@material-ui/core';
 
-const StyledCard = styled(Card)`
+const Card = styled(MUI_Card)`
   margin: 10px;
   max-width: 100%;
   min-width: 280px;
@@ -10,4 +10,8 @@ const StyledCard = styled(Card)`
   }
 `;
 
-export { StyledCard };
+const Avatar = styled(MUI_Avatar)`
+  background-color: ${props => props.color};
+`;
+
+export { Card, Avatar };
