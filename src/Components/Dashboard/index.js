@@ -22,8 +22,9 @@ import { Snackbar } from '../Common';
 import constants from '../../Constants';
 import { setDashboardDrawerOpen, setError } from '../../Actions/ui-actions';
 import useStyles from './styles';
+import Logo from "../Common/logo";
 
-const { ErrorTypes, APP_NAME } = constants;
+const { ErrorTypes } = constants;
 
 const Dashboard = props => {
   const {
@@ -85,7 +86,7 @@ const Dashboard = props => {
               noWrap
               className={classes.logo}
             >
-              {APP_NAME}
+              <Logo style={{ marginLeft: 20 }} />
             </Typography>
           </Box>
           {props.leftMenu}
