@@ -38,7 +38,9 @@ import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 import ContactUsDialog from '../Contacts';
 import { isEmpty } from 'lodash';
-const { Locales, ErrorTypes, APP_NAME } = constants;
+import Logo from '../Common/logo';
+
+const { Locales } = constants;
 
 const PublicMasterPage = connect(mapStateToProps, {
   setError,
@@ -77,8 +79,13 @@ const PublicMasterPage = connect(mapStateToProps, {
       )}
       <AppBar position="static" color="default" elevation={0}>
         <Toolbar>
-          <ToolbarTitle variant="h6" color="inherit" noWrap>
-            {APP_NAME}
+          <ToolbarTitle
+            variant="h6"
+            color="inherit"
+            noWrap
+            style={{ display: 'flex' }}
+          >
+            <Logo style={{ marginLeft: 20 }} />
           </ToolbarTitle>
           <nav>
             <NavList component="div">
