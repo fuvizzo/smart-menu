@@ -4,6 +4,7 @@ import es from '../i18n/es';
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
+  RECAPTCHA_KEY: '6Lf-tf4UAAAAAOgaEvwH7lLLh7w7WB54OqGTHIjT',
   ErrorTypes: {
     SERVER_ERROR: 'SERVER_ERROR',
     AUTHENTICATION: 'AUTHENTICATION',

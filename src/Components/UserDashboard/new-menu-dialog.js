@@ -43,6 +43,7 @@ const NewMenuDialog = props => {
     await props.createNewMenu(ui.insertMode.data.value);
     props.disableInsertMode();
   }, [ui.insertMode.data]);
+
   return (
     ui.insertMode.enabled &&
     !ui.insertMode.childItem && (

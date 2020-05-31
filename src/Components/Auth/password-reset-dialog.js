@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { PasswordResetDialogContent } from './styles';
 import { DialogTitle, DialogContent, DialogActions } from '../Common';
-import { email as createEmailSchema } from '../../Schemas/account';
+import { email as createEmailSchema } from '../../Schemas/user';
 import { submitResetPasswordRequest } from '../../Actions';
 const PasswordResetDialog = props => {
   const { open, onCloseHandler, defaultLanguage } = props;

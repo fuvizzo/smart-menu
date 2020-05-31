@@ -8,7 +8,7 @@ import { TextField } from 'formik-material-ui';
 import useStyles from './styles';
 import constants from '../../Constants/index';
 import { resetPassword } from '../../Actions/index';
-import { resetPassword as createResetPasswordSchema } from '../../Schemas/account';
+import { resetPassword as createResetPasswordSchema } from '../../Schemas/user';
 
 const { Locales } = constants;
 

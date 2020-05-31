@@ -16,7 +16,7 @@ import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
 } from '@material-ui/icons';
-
+import { isEmpty } from 'lodash';
 import Copyright from '../Common/copyright';
 import { Snackbar } from '../Common';
 import constants from '../../Constants';
@@ -34,7 +34,7 @@ const Dashboard = props => {
 
   return (
     <div className={classes.root}>
-      {error.type === ErrorTypes.SERVER_ERROR && (
+      {!isEmpty(error) && (
         <Snackbar
           severity="warning"
           onCloseHandler={() => {

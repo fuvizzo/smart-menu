@@ -15,6 +15,13 @@ import {
 } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_BACK_END_URL,
+});
+
 window.addEventListener('storage', e => {
   if (!e.key) window.location.href = '/';
 });
@@ -27,7 +34,9 @@ ReactDOM.render(
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-          <App />
+          <ApolloProvider client={client}>
+            <App />
+          </ApolloProvider>
         </MuiThemeProvider>
       </StylesProvider>
     </PersistGate>

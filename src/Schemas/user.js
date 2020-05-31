@@ -50,3 +50,16 @@ export const resetPassword = errorLables => {
     confirmPassword,
   });
 };
+
+export const contactUs = errorLables => {
+  const firstName = Yup.string().required(errorLables.REQUIRED);
+  const lastName = Yup.string().required(errorLables.REQUIRED);
+  const message = Yup.string().required(errorLables.REQUIRED);
+  const email = createEmailValidator(errorLables);
+  return Yup.object().shape({
+    firstName,
+    lastName,
+    email,
+    message,
+  });
+};

@@ -160,6 +160,8 @@ export default {
       ADD: 'Carica',
       QR_CODE: 'QR code',
       BACK_TO_MENU_LIST: 'Torna alla lista dei menù',
+      CONTACT_US: 'Contattaci',
+      WRITE_SOMETHING_HERE: 'Scrivi qualcosa qui...',
     },
   },
   ConfirmationActions: {

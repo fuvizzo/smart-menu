@@ -14,7 +14,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import { signUp as createSignUpSchema } from '../../Schemas/account';
+import { signUp as createSignUpSchema } from '../../Schemas/user';
 import constants from '../../Constants/index';
 import { signUp } from '../../Actions/index';
 import useStyles from './styles';

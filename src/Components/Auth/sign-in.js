@@ -15,7 +15,7 @@ import PasswordResetDialog from './password-reset-dialog';
 import useStyles from './styles';
 import constants from '../../Constants/index';
 import { signInWithEmailAndPassword } from '../../Actions/index';
-import { signIn as createSignInSchema } from '../../Schemas/account';
+import { signIn as createSignInSchema } from '../../Schemas/user';
 
 const { Locales } = constants;
 

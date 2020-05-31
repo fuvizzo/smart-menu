@@ -166,6 +166,8 @@ export default {
       ADD: 'ADD',
       QR_CODE: 'QR code',
       BACK_TO_MENU_LIST: 'Back to menu list',
+      CONTACT_US: 'Contact us',
+      WRITE_SOMETHING_HERE: 'Write something here...',
     },
   },
   ConfirmationActions: {

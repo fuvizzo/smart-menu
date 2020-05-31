@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
@@ -36,17 +36,19 @@ import { Snackbar } from '../Common';
 import LanguageSelector from '../Common/public-language-selector';
 import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
-
+import ContactUsDialog from '../Contacts';
+import { isEmpty } from 'lodash';
 const { Locales, ErrorTypes, APP_NAME } = constants;
 
 const PublicMasterPage = connect(mapStateToProps, {
   setError,
   setDefaultPublicLanguage,
 })(props => {
+  const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
   const { children, account, publicDefaultLanguage, error } = props;
 
   const {
-    Labels: { Sections: SectionLabels, Actions: ActionsLabels, Common },
+    Labels: { Sections: SectionLabels, Actions: ActionLabels, Common },
   } = Locales[publicDefaultLanguage];
 
   const languageChangeHandler = event => {
@@ -55,7 +57,14 @@ const PublicMasterPage = connect(mapStateToProps, {
 
   return (
     <>
-      {error.type === ErrorTypes.AUTHENTICATION && (
+      <ContactUsDialog
+        defaultLanguage={publicDefaultLanguage}
+        open={contactUsDialogOpen}
+        onCloseHandler={() => {
+          setContactUsDialogOpen(false);
+        }}
+      />
+      {!isEmpty(error) && (
         <Snackbar
           severity="warning"
           onCloseHandler={() => {
@@ -72,8 +81,8 @@ const PublicMasterPage = connect(mapStateToProps, {
             {APP_NAME}
           </ToolbarTitle>
           <nav>
-            {/*  <NavList component="div">
-              <ListItem button component={RouterLink} to="/">
+            <NavList component="div">
+              {/*  <ListItem button component={RouterLink} to="/">
                 <Typography color="textPrimary">
                   {SectionLabels.HOME}
                 </Typography>
@@ -82,8 +91,18 @@ const PublicMasterPage = connect(mapStateToProps, {
                 <Typography color="textPrimary" to="/pricing">
                   {SectionLabels.PRICING}
                 </Typography>
+              </ListItem> */}
+              <ListItem
+                button
+                onClick={() => {
+                  setContactUsDialogOpen(true);
+                }}
+              >
+                <Typography color="textPrimary">
+                  {ActionLabels.CONTACT_US}
+                </Typography>
               </ListItem>
-            </NavList> */}
+            </NavList>
           </nav>
 
           <Button
@@ -92,7 +111,7 @@ const PublicMasterPage = connect(mapStateToProps, {
             color="primary"
             variant="outlined"
           >
-            {account ? ActionsLabels.BACK_TO_DASHBOARD : ActionsLabels.SIGN_IN}
+            {account ? ActionLabels.BACK_TO_DASHBOARD : ActionLabels.SIGN_IN}
           </Button>
           <Box ml={1}>
             <LanguageSelector

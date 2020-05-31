@@ -152,6 +152,8 @@ export default {
       ADD: 'Sube',
       QR_CODE: 'Codigo QR',
       BACK_TO_MENU_LIST: 'Volver a la lista de las cartas',
+      CONTACT_US: 'Contactar',
+      WRITE_SOMETHING_HERE: 'Escribir algo por aquí...',
     },
   },
   ConfirmationActions: {
