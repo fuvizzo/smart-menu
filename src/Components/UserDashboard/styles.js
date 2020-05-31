@@ -22,7 +22,7 @@ export default makeStyles(theme => ({
     height: 80,
   },
   media: {
-    backgroundSize: '80%',
+    backgroundSize: '99%',
     height: 0,
     paddingTop: '56.25%', // 16:9
   },

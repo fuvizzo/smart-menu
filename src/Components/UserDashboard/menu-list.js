@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
-import MenuImage from '../../Assets/menu.png';
+import FOOD_AND_DRINKS_IMAGE from '../../Assets/FOOD_AND_DRINKS.jpg';
+import WINE_CHART_IMAGE from '../../Assets/WINE_CHART.jpg';
+
 import {
   Card,
   Avatar,
@@ -114,6 +116,20 @@ const MenuList = props => {
         onConfirm={() => deleteMenuHandler(ui.confirmationDialog.data.id)}
       />
     );
+  };
+
+  const CardImage = props => {
+    const { type, ...rest } = props;
+    let menuImage;
+    switch (type) {
+      case 1:
+        menuImage = WINE_CHART_IMAGE;
+        break;
+      default:
+        menuImage = FOOD_AND_DRINKS_IMAGE;
+        break;
+    }
+    return <CardMedia {...rest} image={menuImage} />;
   };
 
   return (
@@ -253,9 +269,9 @@ const MenuList = props => {
                     }
                   />
 
-                  <CardMedia
+                  <CardImage
                     className={classes.media}
-                    image={MenuImage}
+                    type={menu.info.type}
                     title={menu.info.locales[defaultLanguage].name}
                   />
                   <CardContent>
