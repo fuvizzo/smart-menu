@@ -1,7 +1,15 @@
 import styled from 'styled-components';
-import Container from '@material-ui/core/Container';
+import { Link, Container } from '@material-ui/core';
+
+const ActionSelectorWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const BackLink = styled(Link)``;
 
 const HeaderContainer = styled(Container)`
+  padding: 10px;
   display: flex;
   flex-direction: column;
 `;
@@ -21,4 +29,4 @@ const MenuListWrapper = styled.div`
   }
 `;
 
-export { HeaderContainer, MenuListWrapper };
+export { HeaderContainer, MenuListWrapper, ActionSelectorWrapper, BackLink };

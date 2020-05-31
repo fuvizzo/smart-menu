@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import LanguageSelector from './../LanguageSelector';
-
 import MenuContainer, {
   TypeText,
   TypesContainer,
@@ -12,7 +10,7 @@ import MenuContainer, {
 } from './styles';
 import Constants from '../../../Constants';
 import MenuItem from './MenuItem';
-import {groupMenuItemsByType} from '../Helpers';
+import { groupMenuItemsByType } from '../Helpers';
 const { Locales, MenuTypes } = Constants;
 
 function Menu(props) {
@@ -27,7 +25,7 @@ function Menu(props) {
   const [selected, setSelected] = useState([]);
 
   const {
-    data: { providedLanguages, info, items },
+    data: { providedLanguages = [], info, items = [] },
     colors,
     defaultLanguage,
   } = props;
@@ -40,18 +38,8 @@ function Menu(props) {
 
   return (
     <MenuContainer>
-      {providedLanguages.length === 0 ? (
-        <span style={{ width: '300px', color: 'red' }}>
-          Here goes the language selector but so far the list of the provided
-          languages is empty. Open this menu in the dashboard, go to language
-          settings tab and enable the languages you want to show this menu in.
-        </span>
-      ) : (
+      {providedLanguages.some(lang => lang === defaultLanguage) && (
         <>
-          <LanguageSelector
-            defaultLanguage={defaultLanguage}
-            providedLanguages={providedLanguages}
-          />
           {localeInfo ? (
             <>
               <Title color={colors.primary}>{localeInfo.name}</Title>

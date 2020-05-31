@@ -165,6 +165,7 @@ export default {
       REMOVE: 'Remove',
       ADD: 'ADD',
       QR_CODE: 'QR code',
+      BACK_TO_MENU_LIST: 'Back to menu list',
     },
   },
   ConfirmationActions: {

@@ -64,9 +64,7 @@ const PopoverHint = styled(Box)({
 });
 
 const LangSelector = withStyles({
-  root: {
-    padding: '8.5px 24px 8.5px 10px',
-  },
+  root: { padding: '8.5px 24px 8.5px 10px' },
 })(Select);
 
 export {

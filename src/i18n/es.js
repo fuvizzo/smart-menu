@@ -151,6 +151,7 @@ export default {
       REMOVE: 'Quita',
       ADD: 'Sube',
       QR_CODE: 'Codigo QR',
+      BACK_TO_MENU_LIST: 'Volver a la lista de las cartas',
     },
   },
   ConfirmationActions: {
