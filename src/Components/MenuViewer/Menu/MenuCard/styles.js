@@ -7,9 +7,14 @@ const Card = styled(MUI_Card)`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  width: 100%;
-  @media (min-width: 768px) {
+  height: 500px;
+  width: calc(100% - 20px);
+  @media (min-width: 500px) {
+    width: 50%;
+  }
+  @media (min-width: 991px) {
     max-width: 280px;
+    width: 33.33%;
   }
 `;
 

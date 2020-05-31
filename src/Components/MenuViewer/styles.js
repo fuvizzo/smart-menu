@@ -11,13 +11,15 @@ const MainContainer = styled(Container)`
 const MenuListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   flex-wrap: wrap;
   margin-top: 20px;
   margin-left: -10px;
   margin-right: -10px;
+  justify-content: space-between;
+  align-items: center;
 
-  @media (min-width: 580px) {
+  @media (min-width: 768px) {
+    align-items: flex-start;
     margin-top: 50px;
     flex-direction: row;
   }
