@@ -111,6 +111,10 @@ export default {
         USER_NOT_FOUND: "Sei sicuro che l'indirizzo email sia quello giusto?",
       },
     },
+    Success: {
+      CONTACT_REQUEST_SENT:
+        'Grazie per averci contattato. Ti risponderemo al più presto possibile!',
+    },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostra altre lingue',
       LANGUAGE: 'Lingua',

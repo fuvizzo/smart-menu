@@ -102,6 +102,10 @@ export default {
         USER_NOT_FOUND:
           '¿Estás segura/o de que la dirección de correo electrónico es la correcta?',
       },
+      Success: {
+        CONTACT_REQUEST_SENT:
+          '¡Gracias para contactarnos. Te contestaremos tan pronto posible!',
+      },
     },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Mostrar otros idiomas',

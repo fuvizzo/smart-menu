@@ -117,6 +117,10 @@ export default {
         USER_NOT_FOUND: 'Are you sure the email address is the right one?',
       },
     },
+    Success: {
+      CONTACT_REQUEST_SENT:
+        'Thank you for contacting us. We will get back to you ASAP!',
+    },
     Common: {
       SHOW_OTHER_LANGUAGES: 'Show Other languages',
       LANGUAGE: 'Lang',
