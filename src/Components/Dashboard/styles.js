@@ -8,6 +8,7 @@ export default makeStyles(theme => ({
   },
   logo: {
     display: 'flex',
+    height: 32,
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
