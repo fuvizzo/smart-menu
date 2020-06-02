@@ -5,6 +5,7 @@ export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
   RECAPTCHA_KEY: '6Lf-tf4UAAAAAOgaEvwH7lLLh7w7WB54OqGTHIjT',
+  ALLOWED_CHARACTERS_REGEX: /^[a-zA-Z0-9 _-]+$/,
   ErrorTypes: {
     SERVER_ERROR: 'SERVER_ERROR',
     AUTHENTICATION: 'AUTHENTICATION',

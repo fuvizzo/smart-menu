@@ -106,6 +106,8 @@ export default {
           'The unique URL path you chose is already used. Please choose a different one',
         INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
         OPERATION_ERROR: 'An error occured during the delete operation',
+        ALLOWED_CHARACTERS:
+          'Only letter, digits,dash, underscore and space characters are allowed here',
       },
       GENERIC: 'An error occurred during this operation',
       Authentication: {
