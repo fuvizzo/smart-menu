@@ -15,10 +15,11 @@ const MenuListWrapper = styled.div`
   margin-top: 20px;
   margin-left: -10px;
   margin-right: -10px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
   @media (min-width: 768px) {
+    justify-content: space-between;
     align-items: flex-start;
     margin-top: 50px;
     flex-direction: row;
