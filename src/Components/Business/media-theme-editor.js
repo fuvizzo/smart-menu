@@ -73,9 +73,10 @@ const BusinessMediaAndThemeEditor = props => {
           deleteBusinessMedia(
             businessId,
             mediaType,
-            businessMedia.logo.imageType
+            businessMedia[mediaType].imageType
           );
         }}
+        id={`icon-button-file-${mediaType}`}
         onChange={(file, setProgressValue) => {
           uploadBusinessMedia(businessId, file, mediaType, snapshot => {
             const progress =

@@ -24,7 +24,7 @@ function Image({ srcList, alt }) {
 }
 
 const ImageSelector = props => {
-  const { data, alt, onChange, onDelete, labels, ...rest } = props;
+  const { data, alt, onChange, onDelete, labels, id, ...rest } = props;
 
   const [progressState, setProgressState] = useState({ value: 100 });
 
@@ -66,10 +66,9 @@ const ImageSelector = props => {
               setProgressState({ value });
             });
           }}
-          id="icon-button-file"
           style={{ display: 'none' }}
         />
-        <label htmlFor="icon-button-file">
+        <label htmlFor={id}>
           <Button
             variant="contained"
             component="span"
