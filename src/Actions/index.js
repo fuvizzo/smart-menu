@@ -26,7 +26,7 @@ const basicSignIn = async (email, password, dispatch) => {
     password
   );
   const userData = (
-    await firebaseService.read(`${USERS}/${authData.user.uid}`)
+    await firebaseService.database.read(`${USERS}/${authData.user.uid}`)
   ).val();
   userData.menus = userData.menus || {};
   Object.keys(userData.businesses).forEach(businessId => {
@@ -79,7 +79,7 @@ export const signUp = ({
         path: `${USERS}/${userId}`,
         body: user,
       };
-      await firebaseService.create(userData);
+      await firebaseService.database.create(userData);
 
       const urlToBusinessMappingData = {
         path: `${URL_TO_BUSINESS_MAPPINGS}/${uniqueUrlPath}`,
@@ -89,7 +89,7 @@ export const signUp = ({
         },
       };
 
-      await firebaseService.create(urlToBusinessMappingData);
+      await firebaseService.database.create(urlToBusinessMappingData);
 
       setUpStore(authData, user, dispatch);
       isAuthenticated = true;

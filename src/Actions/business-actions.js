@@ -19,7 +19,7 @@ export const updateBusinessTheme = (businessId, body) => {
         body,
       };
 
-      await firebaseService.update(data);
+      await firebaseService.database.update(data);
       dispatch({
         type: BusinessActions.UPDATE_BUSINESS_THEME,
         payload: { businessId, value: body },
@@ -44,11 +44,11 @@ export const updateBusinessInfo = (businessId, body) => {
       const newPath = `${URL_TO_BUSINESS_MAPPINGS}/${body.uniqueUrlPath}`;
 
       if (oldUniqueUrlPath !== body.uniqueUrlPath) {
-        const results = await firebaseService.read(newPath);
+        const results = await firebaseService.database.read(newPath);
         if (!results.val()) {
           const deleteOldUniqueUrlPath = async () => {
             const path = `${URL_TO_BUSINESS_MAPPINGS}/${oldUniqueUrlPath}`;
-            await firebaseService.delete(path);
+            await firebaseService.database.delete(path);
           };
           await deleteOldUniqueUrlPath();
           data = {
@@ -59,7 +59,7 @@ export const updateBusinessInfo = (businessId, body) => {
             },
           };
 
-          await firebaseService.update(data);
+          await firebaseService.database.update(data);
         } else {
           dispatchGenericError(
             dispatch,
@@ -76,7 +76,7 @@ export const updateBusinessInfo = (businessId, body) => {
         body,
       };
 
-      await firebaseService.update(data);
+      await firebaseService.database.update(data);
       dispatch({
         type: BusinessActions.UPDATE_BUSINESS_INFO,
         payload: { businessId, value: body },
@@ -97,6 +97,7 @@ export const deleteBusinessMedia = (businessId, fileName, fileExt) => {
       await firebaseService.storage.deleteFile(
         `${basePath}/${fileName}.${fileExt}`
       );
+      await firebaseService.database.delete(`${basePath}/${MEDIA}/${fileName}`);
       dispatch({
         type: BusinessActions.DELETE_BUSINESS_MEDIA,
         payload: { businessId, type: fileName },
@@ -138,7 +139,7 @@ export const uploadBusinessMedia = (
           imageType,
         },
       };
-      await firebaseService.update(data);
+      await firebaseService.database.update(data);
       dispatch({
         type: BusinessActions.UPLOAD_BUSINESS_MEDIA,
         payload: { businessId, type, value: data.body },

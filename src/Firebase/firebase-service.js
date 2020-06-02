@@ -19,7 +19,9 @@ class FirebaseService {
       const resource = await this.#storage.ref(path);
       return await resource.getDownloadURL();
     },
+
     deleteFile: async path => this.#storage.ref(path).delete(),
+
     uploadFile: async (path, file, onUploading, metadata = null) => {
       const resource = this.#storage.ref(path);
       const uploadTask = metadata
@@ -29,27 +31,29 @@ class FirebaseService {
       return await uploadTask;
     },
   };
-  create = async ({ path, body }) => this.#database.ref(path).set(body);
+  database = {
+    create: async ({ path, body }) => this.#database.ref(path).set(body),
 
-  delete = async path => this.#database.ref(path).remove();
+    delete: async path => this.#database.ref(path).remove(),
 
-  update = async ({ path, body }) => this.#database.ref(path).update(body);
+    update: async ({ path, body }) => this.#database.ref(path).update(body),
 
-  read = async path => this.#database.ref(path).once('value');
+    read: async path => this.#database.ref(path).once('value'),
 
-  orderByChild = (path, name, value) => {
-    const orderByChild = this.#database
-      .ref(path)
-      .orderByChild(name)
-      .equalTo(value);
-    return {
-      read: async () => await orderByChild.once('value'),
-    };
-  };
+    orderByChild: (path, name, value) => {
+      const orderByChild = this.#database
+        .ref(path)
+        .orderByChild(name)
+        .equalTo(value);
+      return {
+        read: async () => await orderByChild.once('value'),
+      };
+    },
 
-  orderByValue = async (path, value) => {
-    const x = this.#database.ref(path).orderByValue();
-    return x.equalTo(value).once('value');
+    orderByValue: async (path, value) => {
+      const x = this.#database.ref(path).orderByValue();
+      return x.equalTo(value).once('value');
+    },
   };
 }
 export default FirebaseService;
