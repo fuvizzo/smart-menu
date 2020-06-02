@@ -83,7 +83,7 @@ const MenuViewer = props => {
           <Redirect to="/" />
         ) : (
           <>
-            <Hero img={data.business.media.headerBanner.url}>
+            <Hero img={data.business.media.headerBanner && data.business.media.headerBanner.url}>
               <HeaderContainer maxWidth="md">
                 <Header
                   data={data.business}

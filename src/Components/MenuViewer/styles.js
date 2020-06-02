@@ -48,11 +48,11 @@ const Hero = styled.div`
   background-image: ${props => props.img ? `url(${props.img})` : 'none' };
   background-size: cover;
   background-position: 50% 50%;
-  height: 150px;
+  height: ${props => props.img ? '150px' : 'auto' };
   
   @media (min-width: 991px) {
     justify-content: flex-start;
-    height: 250px;
+    height: ${props => props.img ? '250px' : 'auto' };
   }
 `;
 
