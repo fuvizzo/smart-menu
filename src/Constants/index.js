@@ -21,6 +21,13 @@ export default {
     '#ffa15f',
     '#f44336',
   ],
+  DEFAULT_THEME: {
+    colorPalette: {
+      primary: '#000000',
+      secondary: '#4A4A4A',
+      accent: '#9B9B9B',
+    },
+  },
   Locales: {
     en,
     it,

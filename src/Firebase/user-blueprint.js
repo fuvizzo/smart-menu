@@ -18,14 +18,8 @@ export default (
       businesses: {
         [businessId]: {
           info: { type: businessType, name: businessName, uniqueUrlPath },
-          media: { logo: null, headerBanner: null },
-          theme: {
-            colorPalette: {
-              primary: null,
-              secondary: null,
-              accent: null,
-            },
-          },
+          media: {},
+          theme: constants.DEFAULT_THEME,
         },
       },
       account: {
