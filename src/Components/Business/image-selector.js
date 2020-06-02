@@ -60,6 +60,7 @@ const ImageSelector = props => {
       <ButtonBar mt={1}>
         <input
           {...rest}
+          id={id}
           type="file"
           onChange={e => {
             onChange([...e.target.files][0], value => {
