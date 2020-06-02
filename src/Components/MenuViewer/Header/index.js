@@ -1,12 +1,11 @@
 import React from 'react';
 import LanguageSelector from '../../Common/public-language-selector';
-import HeaderContainer, { Logo, Title, ActionSelectorWrapper } from './styles';
+import HeaderContainer, { Logo, Title, ActionSelectorWrapper, StyledLanguageBox } from './styles';
 import UndoIcon from '@material-ui/icons/Undo';
 import IconButton from '@material-ui/core/IconButton';
 
 import { Link, useLocation } from 'react-router-dom';
 import constants from '../../../Constants';
-import { Box } from '@material-ui/core';
 const { Locales } = constants;
 
 const Header = props => {
@@ -38,13 +37,13 @@ const Header = props => {
             <UndoIcon />
           </IconButton>
         )}
-        <Box ml={1}>
+        <StyledLanguageBox ml={1}>
           <LanguageSelector
             languageLabel={CommonLabels.LANGUAGE}
             value={defaultLanguage}
             onChange={languageChangeHandler}
           />
-        </Box>
+        </StyledLanguageBox>
       </ActionSelectorWrapper>
     </HeaderContainer>
   );

@@ -4,7 +4,7 @@ import { useParams, Redirect, useLocation } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
 import constants from '../../Constants';
 import { isEmpty } from 'lodash';
-import { MainContainer, MenuListWrapper, LoaderWrapper } from './styles';
+import {MainContainer, MenuListWrapper, LoaderWrapper, Hero, HeaderContainer} from './styles';
 import { setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -82,30 +82,36 @@ const MenuViewer = props => {
         (data.notFound ? (
           <Redirect to="/" />
         ) : (
-          <MainContainer maxWidth="md">
-            {pathname[pathname.length - 1] !== '/' && (
-              <Redirect to={`${pathname}/`} />
-            )}
-            <Header
-              data={data.business}
-              languageChangeHandler={languageChangeHandler}
-              defaultLanguage={defaultLanguage}
-            />
-            {menuId || Object.keys(data.menu.list).length === 1 ? (
-              <Menu
-                defaultLanguage={defaultLanguage}
-                colors={data.business.theme.colorPalette}
-                data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
-              />
-            ) : (
-              <MenuListWrapper>
-                <MenuCardWrapper />
-              </MenuListWrapper>
-            )}
-            <Box mt={2} mb={2}>
-              <Copyright />
-            </Box>
-          </MainContainer>
+          <>
+            <Hero img={data.business.media.headerBanner.url}>
+              <HeaderContainer maxWidth="md">
+                <Header
+                  data={data.business}
+                  languageChangeHandler={languageChangeHandler}
+                  defaultLanguage={defaultLanguage}
+                />
+              </HeaderContainer>
+            </Hero>
+            <MainContainer maxWidth="md">
+              {pathname[pathname.length - 1] !== '/' && (
+                <Redirect to={`${pathname}/`} />
+              )}
+              {menuId || Object.keys(data.menu.list).length === 1 ? (
+                <Menu
+                  defaultLanguage={defaultLanguage}
+                  colors={data.business.theme.colorPalette}
+                  data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
+                />
+              ) : (
+                <MenuListWrapper>
+                  <MenuCardWrapper />
+                </MenuListWrapper>
+              )}
+              <Box mt={2} mb={2}>
+                <Copyright />
+              </Box>
+            </MainContainer>
+          </>
         ))}
     </>
   );
