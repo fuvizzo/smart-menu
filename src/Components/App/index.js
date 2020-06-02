@@ -157,6 +157,9 @@ const App = () => {
         <Route exact path="/:uniqueBusinessUrlPath">
           <MenuViewer />
         </Route>
+        <AuthRoute path="/menu-preview/:uniqueBusinessUrlPath/menu/:menuId">
+          <MenuPreviewer />
+        </AuthRoute>
         <AuthRoute path="/menu-preview/:uniqueBusinessUrlPath">
           <MenuPreviewer />
         </AuthRoute>

@@ -28,18 +28,15 @@ const Header = props => {
     <HeaderContainer maxWidth="lg">
       <div>{logo ? <Logo src={logo.url} /> : <Title>{name}</Title>}</div>
       <ActionSelectorWrapper>
-        {location.pathname.includes('menu') && (
+        {location.pathname.includes('menu/') && (
           <IconButton
             size="small"
-            to="../"
+            to="../../"
             component={Link}
             aria-label={ActionLabels.BACK_TO_MENU_LIST}
           >
             <UndoIcon />
           </IconButton>
-          /*   <BackLink to="../" component={Link} variant="body2">
-            {ActionLabels.BACK_TO_MENU_LIST}
-          </BackLink> */
         )}
         <Box ml={1}>
           <LanguageSelector

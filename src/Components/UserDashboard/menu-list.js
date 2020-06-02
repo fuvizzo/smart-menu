@@ -187,7 +187,7 @@ const MenuList = props => {
                 ? businesses[businessId]
                 : Object.values(businesses)[0];
               const menuPreviewPath = business.info.uniqueUrlPath;
-              window.open(`/menu-preview/${menuPreviewPath}?menu-id=${menuId}`);
+              window.open(`/menu-preview/${menuPreviewPath}/menu/${menuId}`);
               hideActionsPopover();
               setActionPopoverAnchorEl(null);
             }}
@@ -298,7 +298,7 @@ const MenuList = props => {
                           onChange={() =>
                             props.togglePublishedStatus(key, !menu.published)
                           }
-                          name="checkedB"
+                          name="published"
                           color="primary"
                         />
                       }

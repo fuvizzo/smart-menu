@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Redirect, useLocation } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
 import constants from '../../Constants';
 import { isEmpty } from 'lodash';
@@ -16,6 +16,7 @@ import { Box } from '@material-ui/core';
 
 const { Locales } = constants;
 const MenuViewer = props => {
+  const { pathname } = useLocation();
   const { uniqueBusinessUrlPath, menuId } = useParams();
 
   const {
@@ -82,12 +83,15 @@ const MenuViewer = props => {
           <Redirect to="/" />
         ) : (
           <MainContainer maxWidth="md">
+            {pathname[pathname.length - 1] !== '/' && (
+              <Redirect to={`${pathname}/`} />
+            )}
             <Header
               data={data.business}
               languageChangeHandler={languageChangeHandler}
               defaultLanguage={defaultLanguage}
             />
-            {menuId || data.menu.list.length === 1 || isPreview ? (
+            {menuId || Object.keys(data.menu.list).length === 1 ? (
               <Menu
                 defaultLanguage={defaultLanguage}
                 colors={data.business.theme.colorPalette}

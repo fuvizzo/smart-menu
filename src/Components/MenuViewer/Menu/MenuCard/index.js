@@ -20,6 +20,7 @@ import {
   StyledCardActionArea,
 } from './styles';
 import Truncate from 'react-truncate';
+
 import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
 const useStyles = makeStyles(() => ({
@@ -38,10 +39,7 @@ function MenuCard(props) {
 
   return (
     <Card className={classes.root}>
-      <StyledLink
-        to={`/${business.info.uniqueUrlPath}/menu/${id}`}
-        style={{ textDecoration: 'none' }}
-      >
+      <StyledLink to={`menu/${id}`} style={{ textDecoration: 'none' }}>
         <StyledCardActionArea>
           <CardHeader
             avatar={

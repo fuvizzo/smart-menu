@@ -218,7 +218,7 @@ const MenuInfoEditor = props => {
                             !ui.editMode.data.setMenuEnabled
                           )
                         }
-                        name="checkedB"
+                        name="setMenuEnabled"
                         color="primary"
                       />
                     }

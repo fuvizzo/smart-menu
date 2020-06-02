@@ -56,7 +56,10 @@ export const getPreviewMenu = menuId => {
   return (dispatch, getState) => {
     const state = getState();
     try {
-      const businessId = state.menus[menuId].businessId;
+      let businessId;
+      if (menuId) {
+        businessId = state.menus[menuId].businessId;
+      }
       const business = businessId
         ? state.businesses[businessId]
         : Object.values(state.businesses)[0];
