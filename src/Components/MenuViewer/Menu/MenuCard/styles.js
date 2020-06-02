@@ -13,7 +13,7 @@ const Card = styled(MUI_Card)`
     width: 50%;
   }
   @media (min-width: 991px) {
-    width: calc(33.33% - 30px);
+    width: calc(33.33% - 20px);
   }
 `;
 

@@ -24,6 +24,10 @@ const MenuListWrapper = styled.div`
     margin-top: 50px;
     flex-direction: row;
   }
+  
+  @media (min-width: 991px) {
+    justify-content: flex-start;
+  }
 `;
 
 const LoaderWrapper = styled.div`
