@@ -1,11 +1,16 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Link } from '@material-ui/core';
 
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      SmartMenoos {new Date().getFullYear()}
+      <Link href="/">
+        <Typography variant="span" color="secondary">
+          SmartMenoos
+        </Typography>
+      </Link>{' '}
+      {new Date().getFullYear()}
     </Typography>
   );
 };

@@ -1,25 +1,33 @@
 import React, { useCallback, useState } from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import StorefrontIcon from '@material-ui/icons/Storefront';
-import Box from '@material-ui/core/Box';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {
+  Divider,
+  List,
+  Box,
+  ListItemText,
+  ListItemIcon,
+  ListItem,
+} from '@material-ui/core';
+import {
+  Assignment as AssignmentIcon,
+  AccountCircle as AccountCircleIcon,
+  ExitToApp as ExitToAppIcon,
+  ShoppingCart as ShoppingCartIcon,
+  Storefront as StorefrontIcon,
+  Mail as MailIcon,
+} from '@material-ui/icons';
+
 import { signOut } from '../../Actions/index';
 import { connect } from 'react-redux';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import { Link as RouterLink } from 'react-router-dom';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import constants from '../../Constants/index';
 import { QRCodeIcon } from './styles';
 import QRCodeDialog from '../QRCode';
+import ContactUsDialog from '../Contacts';
 const { Locales } = constants;
 
 const LeftMenu = props => {
   const { defaultLanguage, children } = props;
+  const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
   const [qRCodeDialogOpen, setQRCodeDialogOpen] = useState(false);
   const signOutHandler = useCallback(() => {
     props.signOut();
@@ -30,7 +38,7 @@ const LeftMenu = props => {
   }, [qRCodeDialogOpen]);
 
   const {
-    Labels: { Sections: SectionLabels, Actions: ActionsLabels },
+    Labels: { Sections: SectionLabels, Actions: ActionLabels },
   } = Locales[defaultLanguage];
 
   return (
@@ -38,6 +46,13 @@ const LeftMenu = props => {
       <QRCodeDialog
         open={qRCodeDialogOpen}
         onCloseHandler={() => setQRCodeDialogOpen(false)}
+      />
+      <ContactUsDialog
+        defaultLanguage={defaultLanguage}
+        open={contactUsDialogOpen}
+        onCloseHandler={() => {
+          setContactUsDialogOpen(false);
+        }}
       />
       <Box ml={1}>
         {children}
@@ -82,7 +97,20 @@ const LeftMenu = props => {
             <ListItemIcon>
               <QRCodeIcon />
             </ListItemIcon>
-            <ListItemText primary={ActionsLabels.QR_CODE} />
+            <ListItemText primary={ActionLabels.QR_CODE} />
+          </ListItem>
+        </List>
+        <List component="div">
+          <ListItem
+            button
+            onClick={() => {
+              setContactUsDialogOpen(true);
+            }}
+          >
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={ActionLabels.CONTACT_US} />
           </ListItem>
         </List>
 
@@ -92,7 +120,7 @@ const LeftMenu = props => {
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary={ActionsLabels.SIGN_OUT} />
+            <ListItemText primary={ActionLabels.SIGN_OUT} />
           </ListItem>
         </List>
       </Box>

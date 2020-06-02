@@ -6,7 +6,8 @@ const SEND_CONTACT_REQUEST = gql`
     $firstName: String!
     $lastName: String!
     $message: String!
-    $captchaValue: String!
+    $captchaValue: String
+    $userIdToken: String
   ) {
     sendContactRequest(
       email: $email
@@ -14,6 +15,7 @@ const SEND_CONTACT_REQUEST = gql`
       lastName: $lastName
       message: $message
       captchaValue: $captchaValue
+      userIdToken: $userIdToken
     )
   }
 `;
