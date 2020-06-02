@@ -40,6 +40,10 @@ const ContactUsDialog = props => {
     }
   }, [account, formValues]);
 
+  useEffect(() => {
+    setAsSent(!error && !loading && called);
+  }, [error, loading, called]);
+
   const {
     Labels: {
       Account: AccountLabels,
@@ -59,8 +63,6 @@ const ContactUsDialog = props => {
     }
     try {
       await sendContactRequest({ variables });
-      setAsSent(!error && !loading && called);
-
       setTimeout(() => {
         onCloseHandler();
         setAsSent(false);
