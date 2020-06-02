@@ -5,6 +5,7 @@ export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
   RECAPTCHA_KEY: '6Lf-tf4UAAAAAOgaEvwH7lLLh7w7WB54OqGTHIjT',
+  ALLOWED_CHARACTERS_REGEX: /^[a-zA-Z0-9 _-]+$/,
   ErrorTypes: {
     SERVER_ERROR: 'SERVER_ERROR',
     AUTHENTICATION: 'AUTHENTICATION',
@@ -21,6 +22,13 @@ export default {
     '#ffa15f',
     '#f44336',
   ],
+  DEFAULT_THEME: {
+    colorPalette: {
+      primary: '#000000',
+      secondary: '#4A4A4A',
+      accent: '#9B9B9B',
+    },
+  },
   Locales: {
     en,
     it,

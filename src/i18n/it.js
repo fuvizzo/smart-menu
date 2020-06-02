@@ -100,6 +100,8 @@ export default {
         UNIQUE_URL_PATH_ALREADY_IN_USE:
           'Il percorso URL univoco che hai scelto è già utilizzato. Scegliene uno differente, per favore',
         INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
+        ALLOWED_CHARACTERS:
+          'Qui sono ammessi solo lettere, cifre, trattini, trattini bassi e spazi',
       },
       GENERIC: "Si è verificato un errore durante l'operazione",
       Authentication: {

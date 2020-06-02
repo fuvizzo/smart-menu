@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-
+import constants from '../Constants';
 const createEmailValidator = errorLables =>
   Yup.string()
     .email(errorLables.INVALID_EMAIL_ADDRESS)
@@ -13,7 +13,9 @@ const createPasswrodValidator = errorLables =>
 export const signUp = errorLables => {
   const firstName = Yup.string().required(errorLables.REQUIRED);
   const lastName = Yup.string().required(errorLables.REQUIRED);
-  const businessName = Yup.string().required(errorLables.REQUIRED);
+  const businessName = Yup.string()
+    .matches(constants.ALLOWED_CHARACTERS_REGEX, errorLables.ALLOWED_CHARACTERS)
+    .required(errorLables.REQUIRED);
   const email = createEmailValidator(errorLables);
   const password = createPasswrodValidator(errorLables);
 

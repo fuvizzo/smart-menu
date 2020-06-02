@@ -65,7 +65,7 @@ export const getPreviewMenu = menuId => {
         : Object.values(state.businesses)[0];
       const menu = {
         list: state.menus,
-        defaultMenuId: menuId,
+        defaultMenuId: menuId || Object.keys(state.menus)[0],
       };
       dispatch({
         type: MenuActions.GET_MENU,

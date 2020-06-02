@@ -91,6 +91,8 @@ export default {
         UNIQUE_URL_PATH_ALREADY_IN_USE:
           'La ruta URL única que eligió ya está en uso. Por favor, elija una diferente',
         INVALID_EMAIL_ADDRESS: 'Dirección de correo electrónico no válida',
+        ALLOWED_CHARACTERS:
+          'Aquí solo se permiten letras, dígitos, guiones, guiones bajos y caracteres de espacio.',
       },
       GENERIC: 'Se produjo un error durante la operación',
       Authentication: {

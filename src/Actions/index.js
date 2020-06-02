@@ -5,7 +5,6 @@ import createUserBlueprint from '../Firebase/user-blueprint';
 import { v1 as uuidv1 } from 'uuid';
 import firebaseService from '../Firebase';
 import { dispatchAuthenticationError } from './helpers';
-
 const USERS = '/users';
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 
@@ -29,7 +28,11 @@ const basicSignIn = async (email, password, dispatch) => {
   const userData = (
     await firebaseService.read(`${USERS}/${authData.user.uid}`)
   ).val();
-
+  userData.menus = userData.menus || {};
+  Object.keys(userData.businesses).forEach(businessId => {
+    const business = userData.businesses[businessId];
+    business.media = business.media || {};
+  });
   setUpStore(authData, userData, dispatch);
 };
 
