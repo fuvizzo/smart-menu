@@ -103,13 +103,16 @@ export const signUp = ({
 
 export const signOut = () => {
   return async (dispatch, getState) => {
+    let isAuthenticated = true;
     try {
       await firebaseService.auth.signOut();
+      isAuthenticated = false;
       dispatch({ type: UserActions.SIGN_OUT });
     } catch (error) {
       const language = getState().ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
+    return isAuthenticated;
   };
 };
 

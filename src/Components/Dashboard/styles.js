@@ -11,6 +11,7 @@ export default makeStyles(theme => ({
     height: 32,
   },
   toolbar: {
+    paddingLeft: 18,
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
@@ -60,9 +61,6 @@ export default makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {

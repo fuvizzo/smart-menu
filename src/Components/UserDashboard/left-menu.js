@@ -54,7 +54,7 @@ const LeftMenu = props => {
           setContactUsDialogOpen(false);
         }}
       />
-      <Box ml={1}>
+      <Box>
         {children}
 
         <Divider />

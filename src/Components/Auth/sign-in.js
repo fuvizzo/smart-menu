@@ -5,6 +5,7 @@ import {
   Grid,
   Link,
   Checkbox,
+  LinearProgress,
   Button,
   FormControlLabel,
 } from '@material-ui/core';
@@ -38,10 +39,13 @@ const SignIn = props => {
 
   const classes = useStyles();
 
-  const onSubmitClickHandler = async (data, { setSubmitting }) => {
-    setSubmitting(false);
-    const isAuthenticated = await props.signInWithEmailAndPassword(data);
-    if (isAuthenticated) history.push('/dashboard/menu-list');
+  const onSubmitClickHandler = (data, { setSubmitting }) => {
+    const submit = async () => {
+      const isAuthenticated = await props.signInWithEmailAndPassword(data);
+      setSubmitting(false);
+      if (isAuthenticated) history.push('/dashboard/menu-list');
+    };
+    submit();
   };
 
   return (
@@ -91,6 +95,7 @@ const SignIn = props => {
               /> */}
             </Grid>
             <Button
+              disabled={isSubmitting}
               type="submit"
               fullWidth
               variant="contained"
@@ -99,6 +104,7 @@ const SignIn = props => {
             >
               {ActionLabels.SIGN_IN}
             </Button>
+            {isSubmitting && <LinearProgress />}
           </Form>
         )}
       </Formik>

@@ -7,6 +7,7 @@ import {
   Grid,
   Link,
   Checkbox,
+  LinearProgress,
   FormControlLabel,
   Button,
 } from '@material-ui/core';
@@ -37,10 +38,13 @@ const SignUp = props => {
     BUSINESS_TYPES: BusinessTypes,
   } = locale;
 
-  const onSubmitClickHandler = async (data, { setSubmitting }) => {
-    setSubmitting(false);
-    const isAuthenticated = await props.signUp(data);
-    if (isAuthenticated) history.push('/dashboard/menu-list');
+  const onSubmitClickHandler = (data, { setSubmitting }) => {
+    const submit = async () => {
+      const isAuthenticated = await props.signUp(data);
+      setSubmitting(false);
+      if (isAuthenticated) history.push('/dashboard/menu-list');
+    };
+    submit();
   };
 
   const initialValues = {
@@ -144,12 +148,14 @@ const SignUp = props => {
             <Button
               type="submit"
               fullWidth
+              disabled={isSubmitting}
               variant="contained"
               color="primary"
               className={classes.submit}
             >
               {ActionLabels.SIGN_UP}
             </Button>
+            {isSubmitting && <LinearProgress />}
           </Form>
         )}
       </Formik>
