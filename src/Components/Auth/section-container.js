@@ -4,7 +4,7 @@ import { Avatar, Typography, Grid, Paper, Box } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import LoginImage from '../../Assets/login-wallpaper.jpg';
-import Copyright from '../Common/copyright';
+import CopyAndLang from '../Common/copy-and-lang';
 
 const AuthSectionContainer = props => {
   const { sectionLabel, children } = props;
@@ -27,7 +27,7 @@ const AuthSectionContainer = props => {
           <Box mt={2}>{children}</Box>
         </div>
         <Box m={5}>
-          <Copyright />
+          <CopyAndLang />
         </Box>
       </Grid>
     </Grid>

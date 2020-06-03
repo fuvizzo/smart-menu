@@ -17,14 +17,7 @@ import {
   MenuItem,
   Box,
 } from '@material-ui/core/';
-import {
-  AppBar,
-  Toolbar,
-  ToolbarTitle,
-  NavList,
-  RouterLink,
-  LangSelector,
-} from './styles';
+import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
 import AuthRoute from '../Auth/auth-route';
 
 import Pricing from '../Pricing';
@@ -33,8 +26,7 @@ import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
 import MenuViewer from '../MenuViewer/menu-viewer';
 import { Snackbar } from '../Common';
-import LanguageSelector from '../Common/public-language-selector';
-import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
+import { setError } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 import ContactUsDialog from '../Contacts';
 import { isEmpty } from 'lodash';
@@ -44,18 +36,13 @@ const { Locales } = constants;
 
 const PublicMasterPage = connect(mapStateToProps, {
   setError,
-  setDefaultPublicLanguage,
 })(props => {
   const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
   const { children, account, publicDefaultLanguage, error } = props;
 
   const {
-    Labels: { Sections: SectionLabels, Actions: ActionLabels, Common },
+    Labels: { Sections: SectionLabels, Actions: ActionLabels },
   } = Locales[publicDefaultLanguage];
-
-  const languageChangeHandler = event => {
-    props.setDefaultPublicLanguage(event.target.value);
-  };
 
   return (
     <>
@@ -120,13 +107,6 @@ const PublicMasterPage = connect(mapStateToProps, {
           >
             {account ? ActionLabels.BACK_TO_DASHBOARD : ActionLabels.SIGN_IN}
           </Button>
-          <Box ml={1}>
-            <LanguageSelector
-              languageLabel={Common.LANGUAGE}
-              value={publicDefaultLanguage}
-              onChange={languageChangeHandler}
-            />
-          </Box>
         </Toolbar>
       </AppBar>
       {children}

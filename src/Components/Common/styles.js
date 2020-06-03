@@ -20,6 +20,12 @@ const BrokenImage = styled(MUI_BrokenImage)({
   fill: '#e6e6e6',
 });
 
+const LangSelectorWrapper = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  marginBottom: 15,
+});
+
 const Label = styled(Typography)({
   fontSize: 12,
 });
@@ -77,6 +83,7 @@ export {
   Header,
   PopoverHint,
   LangSelector,
+  LangSelectorWrapper,
 };
 
 export default makeStyles(theme => ({
