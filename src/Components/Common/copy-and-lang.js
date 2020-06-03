@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Box } from '@material-ui/core/';
+import { LangSelectorWrapper } from '../Common/styles';
 import Copyright from '../Common/copyright';
 import LanguageSelector from '../Common/public-language-selector';
 import { setDefaultPublicLanguage } from '../../Actions/ui-actions';
@@ -19,11 +19,13 @@ const CopyAndLang = props => {
   } = Locales[publicDefaultLanguage];
   return (
     <>
-      <LanguageSelector
-        languageLabel={Common.LANGUAGE}
-        value={publicDefaultLanguage}
-        onChange={languageChangeHandler}
-      />
+      <LangSelectorWrapper>
+        <LanguageSelector
+          languageLabel={Common.LANGUAGE}
+          value={publicDefaultLanguage}
+          onChange={languageChangeHandler}
+        />
+      </LangSelectorWrapper>
       <Copyright />
     </>
   );

@@ -23,6 +23,12 @@ const Title = styled.h2`
   margin: 0;
 `;
 
-export { Logo, Title, ActionSelectorWrapper };
+const BackButtonHolder = styled.div`
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
+`;
+
+export { Logo, Title, ActionSelectorWrapper, BackButtonHolder };
 
 export default HeaderContainer;
