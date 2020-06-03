@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { Link, useLocation } from 'react-router-dom';
 import constants from '../../../Constants';
+import Box from "@material-ui/core/Box";
 const { Locales } = constants;
 
 const Header = props => {
@@ -37,13 +38,13 @@ const Header = props => {
             <UndoIcon />
           </IconButton>
         )}
-        <StyledLanguageBox ml={1}>
+        <Box ml={1}>
           <LanguageSelector
             languageLabel={CommonLabels.LANGUAGE}
             value={defaultLanguage}
             onChange={languageChangeHandler}
           />
-        </StyledLanguageBox>
+        </Box>
       </ActionSelectorWrapper>
     </HeaderContainer>
   );

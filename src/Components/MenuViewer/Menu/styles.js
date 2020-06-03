@@ -41,6 +41,11 @@ const TypeText = styled.h3`
   font-size: 22px;
   font-weight: bold;
   color: ${props => (props.color ? props.color : 'inherit')};
+  text-align: center;
+  
+  @media (min-width: 797px) {
+    text-align: left;
+  }
 `;
 
 const TypeWrapper = styled.div`

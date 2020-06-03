@@ -6,10 +6,25 @@ const MainContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   position: relative;
+  flex: 1 0 auto;
+  min-height: calc(100vh - 300px);
+  
+  @media (min-width: 991px) {
+    min-height: calc(100vh - 500px);
+  }
 `;
 
 const HeaderContainer = styled(Container)`
-  padding: 30px 10px 10px 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderWrapper = styled.div`
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
 `;
 
 const MenuListWrapper = styled.div`
@@ -52,8 +67,13 @@ const Hero = styled.div`
   
   @media (min-width: 991px) {
     justify-content: flex-start;
-    height: ${props => props.img ? '250px' : 'auto' };
+    height: ${props => props.img ? '350px' : 'auto' };
   }
+`;
+
+const Footer = styled.div`
+  padding: 20px 0px;
+  flex-shrink: 0;
 `;
 
 export {
@@ -62,4 +82,6 @@ export {
   LoaderWrapper,
   Hero,
   HeaderContainer,
+  HeaderWrapper,
+  Footer,
 };

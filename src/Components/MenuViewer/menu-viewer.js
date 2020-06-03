@@ -4,7 +4,15 @@ import { useParams, Redirect, useLocation } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
 import constants from '../../Constants';
 import { isEmpty } from 'lodash';
-import {MainContainer, MenuListWrapper, LoaderWrapper, Hero, HeaderContainer} from './styles';
+import {
+  MainContainer,
+  MenuListWrapper,
+  LoaderWrapper,
+  Hero,
+  HeaderContainer,
+  HeaderWrapper,
+  Footer,
+} from './styles';
 import { setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -12,7 +20,6 @@ import Header from './Header';
 import Menu from './Menu';
 import MenuCard from './Menu/MenuCard';
 import Copyright from '../Common/copyright';
-import { Box } from '@material-ui/core';
 
 const { Locales } = constants;
 const MenuViewer = props => {
@@ -83,7 +90,7 @@ const MenuViewer = props => {
           <Redirect to="/" />
         ) : (
           <>
-            <Hero img={data.business.media.headerBanner && data.business.media.headerBanner.url}>
+            <HeaderWrapper>
               <HeaderContainer maxWidth="md">
                 <Header
                   data={data.business}
@@ -91,7 +98,8 @@ const MenuViewer = props => {
                   defaultLanguage={defaultLanguage}
                 />
               </HeaderContainer>
-            </Hero>
+            </HeaderWrapper>
+            <Hero img={data.business.media.headerBanner && data.business.media.headerBanner.url} />
             <MainContainer maxWidth="md">
               {pathname[pathname.length - 1] !== '/' && (
                 <Redirect to={`${pathname}/`} />
@@ -107,10 +115,10 @@ const MenuViewer = props => {
                   <MenuCardWrapper />
                 </MenuListWrapper>
               )}
-              <Box mt={2} mb={2}>
-                <Copyright />
-              </Box>
             </MainContainer>
+            <Footer mt={2} mb={2}>
+              <Copyright />
+            </Footer>
           </>
         ))}
     </>
