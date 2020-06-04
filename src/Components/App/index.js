@@ -7,17 +7,22 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+import { Button, FormControl, List, Drawer } from '@material-ui/core/';
+
 import {
-  Button,
-  Typography,
+  Menu as MenuIcon,
+  ChevronRight as ChevronRigthIcon,
+} from '@material-ui/icons';
+import {
+  AppBar,
   ListItem,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box,
-} from '@material-ui/core/';
-import { AppBar, Toolbar, ToolbarTitle, NavList, RouterLink } from './styles';
+  Toolbar,
+  ToolbarTitle,
+  NavList,
+  RouterLink,
+  DesktopNav,
+  MenuButton,
+} from './styles';
 import AuthRoute from '../Auth/auth-route';
 
 import Pricing from '../Pricing';
@@ -38,11 +43,66 @@ const PublicMasterPage = connect(mapStateToProps, {
   setError,
 })(props => {
   const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
+  const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
+
+  const toggleDrawer = open => event => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setRightDrawerOpen(open);
+  };
   const { children, account, publicDefaultLanguage, error } = props;
 
   const {
     Labels: { Sections: SectionLabels, Actions: ActionLabels },
   } = Locales[publicDefaultLanguage];
+
+  const NavPanel = () => {
+    return (
+      <div
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <NavList component="div">
+          {/*  <ListItem button component={RouterLink} to="/">
+      <Typography color="textPrimary">
+        {SectionLabels.HOME}
+      </Typography>
+    </ListItem>
+    <ListItem button component={RouterLink} to="/pricing">
+      <Typography color="textPrimary" to="/pricing">
+        {SectionLabels.PRICING}
+      </Typography>
+    </ListItem> */}
+          <ListItem component="div">
+            <Button
+              onClick={() => {
+                setContactUsDialogOpen(true);
+              }}
+              color="primary"
+            >
+              {ActionLabels.CONTACT_US}
+            </Button>
+          </ListItem>
+          <ListItem component="div">
+            <Button
+              to={account ? '/dashboard/menu-list' : '/authentication/sign-in'}
+              component={RouterLink}
+              color="primary"
+              variant="outlined"
+            >
+              {account ? ActionLabels.BACK_TO_DASHBOARD : ActionLabels.SIGN_IN}
+            </Button>
+          </ListItem>
+        </NavList>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -64,6 +124,13 @@ const PublicMasterPage = connect(mapStateToProps, {
           {error.message}
         </Snackbar>
       )}
+      <Drawer
+        anchor="right"
+        open={rightDrawerOpen}
+        onClose={toggleDrawer(false)}
+      >
+        <NavPanel />
+      </Drawer>
       <AppBar position="static" color="default" elevation={0}>
         <Toolbar>
           <ToolbarTitle
@@ -74,39 +141,17 @@ const PublicMasterPage = connect(mapStateToProps, {
           >
             <Logo style={{ marginLeft: 20 }} />
           </ToolbarTitle>
-          <nav>
-            <NavList component="div">
-              {/*  <ListItem button component={RouterLink} to="/">
-                <Typography color="textPrimary">
-                  {SectionLabels.HOME}
-                </Typography>
-              </ListItem>
-              <ListItem button component={RouterLink} to="/pricing">
-                <Typography color="textPrimary" to="/pricing">
-                  {SectionLabels.PRICING}
-                </Typography>
-              </ListItem> */}
-              <ListItem
-                button
-                onClick={() => {
-                  setContactUsDialogOpen(true);
-                }}
-              >
-                <Typography color="textPrimary">
-                  {ActionLabels.CONTACT_US}
-                </Typography>
-              </ListItem>
-            </NavList>
-          </nav>
-
-          <Button
-            to={account ? '/dashboard/menu-list' : '/authentication/sign-in'}
-            component={RouterLink}
-            color="primary"
-            variant="outlined"
+          <DesktopNav>
+            <NavPanel />
+          </DesktopNav>
+          <MenuButton
+            edge="end"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer(true)}
           >
-            {account ? ActionLabels.BACK_TO_DASHBOARD : ActionLabels.SIGN_IN}
-          </Button>
+            {rightDrawerOpen ? <ChevronRigthIcon /> : <MenuIcon />}
+          </MenuButton>
         </Toolbar>
       </AppBar>
       {children}

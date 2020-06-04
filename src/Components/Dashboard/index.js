@@ -22,7 +22,7 @@ import { Snackbar } from '../Common';
 import constants from '../../Constants';
 import { setDashboardDrawerOpen, setError } from '../../Actions/ui-actions';
 import useStyles from './styles';
-import Logo from "../Common/logo";
+import Logo from '../Common/logo';
 
 const { ErrorTypes } = constants;
 

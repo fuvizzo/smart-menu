@@ -1,34 +1,65 @@
-import { styled, createMuiTheme } from '@material-ui/core/styles';
+import styled from 'styled-components';
 import {
   AppBar as MUI_AppBar,
   Toolbar as MUI_Toolbar,
   Typography as MUI_Typography,
+  IconButton,
   List,
+  ListItem as MUI_ListItem,
 } from '@material-ui/core/';
 
 import { Link as RouterDomLink } from 'react-router-dom';
 
-const theme = createMuiTheme();
+const AppBar = styled(MUI_AppBar)`
+  border-bottom: 1px solid #e6e6e6;
+`;
 
-const AppBar = styled(MUI_AppBar)({
-  borderBottom: `1px solid ${theme.palette.divider}`,
-});
+const Toolbar = styled(MUI_Toolbar)`
+  flex-wrap: wrap;
+`;
 
-const Toolbar = styled(MUI_Toolbar)({
-  flexWrap: 'wrap',
-});
+const ToolbarTitle = styled(MUI_Typography)`
+  flex-grow: 1;
+`;
 
-const ToolbarTitle = styled(MUI_Typography)({
-  flexGrow: 1,
-});
+const RouterLink = styled(RouterDomLink)`
+  text-decoration: none;
+`;
 
-const RouterLink = styled(RouterDomLink)({
-  textDecoration: 'none',
-});
+const NavList = styled(List)`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 650px) {
+    flex-direction: row;
+  }
+`;
 
-const NavList = styled(List)({
-  display: 'flex',
-  marginRight: 20,
-});
+const ListItem = styled(MUI_ListItem)`
+  justify-content: center;
+  white-space: nowrap;
+`;
 
-export { NavList, AppBar, Toolbar, ToolbarTitle, RouterLink };
+const DesktopNav = styled.nav`
+  display: none;
+
+  @media (min-width: 650px) {
+    display: flex;
+  }
+`;
+
+const MenuButton = styled(IconButton)`
+  @media (min-width: 650px) {
+    display: none;
+  }
+`;
+
+export {
+  ListItem,
+  NavList,
+  DesktopNav,
+  AppBar,
+  Toolbar,
+  ToolbarTitle,
+  RouterLink,
+  MenuButton,
+};
