@@ -71,14 +71,6 @@ function MenuCard(props) {
           </CardContent>
         </StyledCardActionArea>
       </StyledLink>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
     </Card>
   );
 }

@@ -5,10 +5,8 @@ const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link href="/">
-        <Typography variant="span" color="secondary">
-          SmartMenoos
-        </Typography>
+      <Link color="secondary" href="/">
+        <span>SmartMenoos</span>
       </Link>{' '}
       {new Date().getFullYear()}
     </Typography>

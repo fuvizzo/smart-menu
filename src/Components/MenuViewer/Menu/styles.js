@@ -24,9 +24,16 @@ const MenuItemWrapper = styled.div`
   }
 `;
 
-const Title = styled.h2`
+const TitleWrapper = styled.div`
+  display: flex;
+  font-size: 10px;
   margin: 20px auto;
+  align-items: baseline;
+`;
+
+const Title = styled.h2`
   font-size: 22px;
+  margin: 0 5px;
   color: ${props => (props.color ? props.color : 'inherit')};
 `;
 
@@ -42,7 +49,7 @@ const TypeText = styled.h3`
   font-weight: bold;
   color: ${props => (props.color ? props.color : 'inherit')};
   text-align: center;
-  
+
   @media (min-width: 797px) {
     text-align: left;
   }
@@ -77,6 +84,7 @@ export {
   Description,
   Title,
   MenuItemWrapper,
+  TitleWrapper,
 };
 
 export default MenuContainer;

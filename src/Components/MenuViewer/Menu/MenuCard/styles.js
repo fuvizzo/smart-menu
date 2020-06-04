@@ -7,7 +7,7 @@ const Card = styled(MUI_Card)`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  height: 500px;
+  height: 430px;
   width: calc(100% - 20px);
   @media (min-width: 500px) {
     width: 50%;

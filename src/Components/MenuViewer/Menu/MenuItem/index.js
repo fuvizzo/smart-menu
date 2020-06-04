@@ -10,6 +10,7 @@ import MenuItemContainer, {
 
 const MenuItem = props => {
   const {
+    isNormalMenu,
     defaultLanguage,
     data: { locales },
     colors,
@@ -19,7 +20,7 @@ const MenuItem = props => {
     <MenuItemContainer color={colors.primary}>
       <MenuItemMeta>
         <Title>{locale.name}</Title>
-        <Price>{props.data.price} €</Price>
+        {isNormalMenu && <Price>{props.data.price} €</Price>}
       </MenuItemMeta>
       {locale.description && <Description>{locale.description}</Description>}
       {locale.ingredients && <Ingredients>{locale.ingredients}</Ingredients>}

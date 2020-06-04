@@ -6,6 +6,7 @@ import MenuContainer, {
   TypeWrapper,
   Description,
   Title,
+  TitleWrapper,
   MenuItemWrapper,
 } from './styles';
 import Constants from '../../../Constants';
@@ -42,7 +43,10 @@ function Menu(props) {
         <>
           {localeInfo ? (
             <>
-              <Title color={colors.primary}>{localeInfo.name}</Title>
+              <TitleWrapper>
+                <Title color={colors.primary}>{localeInfo.name}</Title>
+                {info.setMenu && <span>(${info.setMenu} €)</span>}
+              </TitleWrapper>
               <Description>{localeInfo.description}</Description>
             </>
           ) : (
@@ -64,6 +68,7 @@ function Menu(props) {
                     onClick={() => selectMenuItem(`${index}-${index2}`)}
                   >
                     <MenuItem
+                      isNormalMenu={!info.setMenu}
                       colors={colors}
                       data={item}
                       defaultLanguage={defaultLanguage}
