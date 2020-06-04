@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { Button, FormControl, List, Drawer } from '@material-ui/core/';
+import { Button, FormControl, Drawer } from '@material-ui/core/';
 
 import {
   Menu as MenuIcon,

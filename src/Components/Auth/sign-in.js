@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, Link as RouterLink } from 'react-router-dom';
 import {
@@ -10,10 +10,10 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import PasswordResetDialog from './password-reset-dialog';
-import useStyles from './styles';
+import { StyledForm, SubmitButton } from './styles';
 import constants from '../../Constants/index';
 import { signInWithEmailAndPassword } from '../../Actions/index';
 import { signIn as createSignInSchema } from '../../Schemas/user';
@@ -37,8 +37,6 @@ const SignIn = props => {
     },
   } = Locales[props.defaultLanguage];
 
-  const classes = useStyles();
-
   const onSubmitClickHandler = (data, { setSubmitting }) => {
     const submit = async () => {
       const isAuthenticated = await props.signInWithEmailAndPassword(data);
@@ -60,7 +58,7 @@ const SignIn = props => {
         onSubmit={onSubmitClickHandler}
       >
         {({ submitForm, isSubmitting, values }) => (
-          <Form className={classes.form} noValidate>
+          <StyledForm noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Field
@@ -94,18 +92,17 @@ const SignIn = props => {
                 label="Remember me"
               /> */}
             </Grid>
-            <Button
+            <SubmitButton
               disabled={isSubmitting}
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
             >
               {ActionLabels.SIGN_IN}
-            </Button>
+            </SubmitButton>
             {isSubmitting && <LinearProgress />}
-          </Form>
+          </StyledForm>
         )}
       </Formik>
       <Grid container>

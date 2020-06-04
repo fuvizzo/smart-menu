@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-import useStyles from './styles';
+import { StyledForm, SubmitButton } from './styles';
 import constants from '../../Constants/index';
 import { resetPassword } from '../../Actions/index';
 import { resetPassword as createResetPasswordSchema } from '../../Schemas/user';
@@ -31,8 +31,6 @@ const ResetPassword = props => {
     },
   } = Locales[props.defaultLanguage];
 
-  const classes = useStyles();
-
   const onSubmitClickHandler = async (data, { setSubmitting }) => {
     setSubmitting(false);
     const isAuthenticated = await props.resetPassword(
@@ -51,7 +49,7 @@ const ResetPassword = props => {
       validate={values => console.log(values)}
     >
       {({ submitForm, isSubmitting, values }) => (
-        <Form className={classes.form} noValidate>
+        <StyledForm noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Field
@@ -81,16 +79,15 @@ const ResetPassword = props => {
               />
             </Grid>
           </Grid>
-          <Button
+          <SubmitButton
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
           >
             {ActionLabels.PROCEED}
-          </Button>
-        </Form>
+          </SubmitButton>
+        </StyledForm>
       )}
     </Formik>
   );

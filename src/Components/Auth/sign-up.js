@@ -9,22 +9,21 @@ import {
   Checkbox,
   LinearProgress,
   FormControlLabel,
-  Button,
 } from '@material-ui/core';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
 import { signUp as createSignUpSchema } from '../../Schemas/user';
 import constants from '../../Constants/index';
 import { signUp } from '../../Actions/index';
-import useStyles from './styles';
+
+import { StyledForm, SubmitButton, SelectorWrapper } from './styles';
 
 const { Locales } = constants;
 
 const SignUp = props => {
   const { defaultLanguage } = props;
-  const classes = useStyles();
   const history = useHistory();
   const locale = Locales[defaultLanguage];
   const {
@@ -63,7 +62,7 @@ const SignUp = props => {
         onSubmit={onSubmitClickHandler}
       >
         {({ submitForm, isSubmitting }) => (
-          <Form className={classes.form}>
+          <StyledForm>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Field
@@ -96,22 +95,24 @@ const SignUp = props => {
                   label={BusinessLabels.NAME}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} className={classes.selectorWrapper}>
-                <Field
-                  component={TextField}
-                  select
-                  variant="outlined"
-                  label={BusinessLabels.TYPE}
-                  name="businessType"
-                >
-                  {BusinessTypes.map((businessType, index) => {
-                    return (
-                      <MenuItem key={index} value={index}>
-                        {businessType}
-                      </MenuItem>
-                    );
-                  })}
-                </Field>
+              <Grid item xs={12} sm={6}>
+                <SelectorWrapper>
+                  <Field
+                    component={TextField}
+                    select
+                    variant="outlined"
+                    label={BusinessLabels.TYPE}
+                    name="businessType"
+                  >
+                    {BusinessTypes.map((businessType, index) => {
+                      return (
+                        <MenuItem key={index} value={index}>
+                          {businessType}
+                        </MenuItem>
+                      );
+                    })}
+                  </Field>
+                </SelectorWrapper>
               </Grid>
               <Grid item xs={12}>
                 <Field
@@ -145,18 +146,17 @@ const SignUp = props => {
                 />
               </Grid>
             </Grid>
-            <Button
+            <SubmitButton
               type="submit"
               fullWidth
               disabled={isSubmitting}
               variant="contained"
               color="primary"
-              className={classes.submit}
             >
               {ActionLabels.SIGN_UP}
-            </Button>
+            </SubmitButton>
             {isSubmitting && <LinearProgress />}
-          </Form>
+          </StyledForm>
         )}
       </Formik>
       <Grid container justify="flex-end">
