@@ -16,7 +16,7 @@ export default props => {
         id="language-select"
         value={value}
         onChange={onChange}
-        label="lang"
+        label={languageLabel}
       >
         {Object.keys(Locales).map((lang, index) => {
           return (

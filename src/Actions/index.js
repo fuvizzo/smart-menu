@@ -44,7 +44,7 @@ export const signInWithEmailAndPassword = ({ email, password }) => {
 
       isAuthenticated = true;
     } catch (error) {
-      const language = getState().ui.settings.defaultLanguage;
+      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
@@ -94,7 +94,7 @@ export const signUp = ({
       setUpStore(authData, user, dispatch);
       isAuthenticated = true;
     } catch (error) {
-      const language = getState().ui.settings.defaultLanguage;
+      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
@@ -121,7 +121,7 @@ export const submitResetPasswordRequest = email => {
     try {
       await firebaseService.auth.sendPasswordResetEmail(email);
     } catch (error) {
-      const language = getState().ui.settings.defaultLanguage;
+      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
   };
@@ -135,7 +135,7 @@ export const resetPassword = (actionCode, password, email) => {
       await basicSignIn(email, password, dispatch);
       isAuthenticated = true;
     } catch (error) {
-      const language = getState().ui.settings.defaultLanguage;
+      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
