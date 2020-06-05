@@ -7,7 +7,7 @@ const Card = styled(MUI_Card)`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  height: 480px;
+  height: 410px;
   width: calc(100% - 20px);
   @media (min-width: 500px) {
     width: 50%;
@@ -18,6 +18,8 @@ const Card = styled(MUI_Card)`
 `;
 
 const CardTitle = styled.span`
+  font-weight: bold;
+  font-size: 16px;
   color: ${props => props.color};
 `;
 

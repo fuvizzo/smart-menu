@@ -25,7 +25,14 @@ const client = new ApolloClient({
 window.addEventListener('storage', e => {
   if (!e.key) window.location.href = '/';
 });
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Rubik',
+      'sans-serif'
+    ].join(','),
+  }
+});
 
 ReactDOM.render(
   /*  <React.StrictMode> */
