@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { store, persistor } from './Store/index';
 import 'reset-css';
 
@@ -13,13 +13,22 @@ import {
   MuiThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core';
 
-import ApolloClient from 'apollo-boost';
+import { CssBaseline } from '@material-ui/core';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-const client = new ApolloClient({
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const link = createHttpLink({
   uri: process.env.REACT_APP_BACK_END_URL,
+  credentials: 'include',
+});
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
 });
 
 window.addEventListener('storage', e => {
@@ -27,22 +36,28 @@ window.addEventListener('storage', e => {
 });
 const theme = createMuiTheme();
 
-ReactDOM.render(
-  /*  <React.StrictMode> */
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <StylesProvider injectFirst>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <ApolloProvider client={client}>
-            <App />
-          </ApolloProvider>
-        </MuiThemeProvider>
-      </StylesProvider>
-    </PersistGate>
-  </Provider>,
-  /* </React.StrictMode> */ document.getElementById('root')
-);
+const SmartMenoos = () => {
+  return (
+    /*  <React.StrictMode> */
+
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <StylesProvider injectFirst>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <ApolloProvider client={client}>
+              <App />
+            </ApolloProvider>
+          </MuiThemeProvider>
+        </StylesProvider>
+      </PersistGate>
+    </ReduxProvider>
+
+    /* </React.StrictMode> */
+  );
+};
+
+ReactDOM.render(<SmartMenoos />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

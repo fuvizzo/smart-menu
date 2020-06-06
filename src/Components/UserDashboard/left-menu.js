@@ -15,7 +15,7 @@ import {
   Storefront as StorefrontIcon,
   Mail as MailIcon,
 } from '@material-ui/icons';
-
+import Cookies from 'js-cookie';
 import { signOut } from '../../Actions/index';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
@@ -28,6 +28,7 @@ const { Locales } = constants;
 const LeftMenu = props => {
   const { defaultLanguage, children } = props;
   const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
+
   const [qRCodeDialogOpen, setQRCodeDialogOpen] = useState(false);
   const signOutHandler = useCallback(() => {
     props.signOut();

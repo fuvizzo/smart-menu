@@ -4,7 +4,11 @@ import { GET_MENUS } from '../Constants/menu-action-types';
 import createUserBlueprint from '../Firebase/user-blueprint';
 import { v1 as uuidv1 } from 'uuid';
 import firebaseService from '../Firebase';
-import { dispatchAuthenticationError } from './helpers';
+import {
+  dispatchAuthenticationError,
+  startSession,
+  endSession,
+} from './helpers';
 const USERS = '/users';
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 
@@ -20,11 +24,17 @@ const setUpStore = (authData, userData, dispatch) => {
   });
 };
 
+const initSession = async user => {
+  const idToken = await user.getIdToken();
+  await startSession(idToken);
+};
+
 const basicSignIn = async (email, password, dispatch) => {
   const authData = await firebaseService.auth.signInWithEmailAndPassword(
     email,
     password
   );
+  await initSession(authData.user);
   const userData = (
     await firebaseService.database.read(`${USERS}/${authData.user.uid}`)
   ).val();
@@ -103,16 +113,17 @@ export const signUp = ({
 
 export const signOut = () => {
   return async (dispatch, getState) => {
-    let isAuthenticated = true;
+    let isSingnedOut = false;
     try {
       await firebaseService.auth.signOut();
-      isAuthenticated = false;
+      await endSession();
+      isSingnedOut = true;
       dispatch({ type: UserActions.SIGN_OUT });
     } catch (error) {
       const language = getState().ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
-    return isAuthenticated;
+    return isSingnedOut;
   };
 };
 

@@ -26,6 +26,7 @@ const initialValues = {
 };
 const SignIn = props => {
   const [passwordResetDialogOpen, setPasswordResetDialogOpen] = useState(false);
+
   const history = useHistory();
 
   const {
@@ -37,9 +38,9 @@ const SignIn = props => {
     },
   } = Locales[props.defaultLanguage];
 
-  const onSubmitClickHandler = (data, { setSubmitting }) => {
+  const onSubmitClickHandler = (formData, { setSubmitting }) => {
     const submit = async () => {
-      const isAuthenticated = await props.signInWithEmailAndPassword(data);
+      const isAuthenticated = await props.signInWithEmailAndPassword(formData);
       setSubmitting(false);
       if (isAuthenticated) history.push('/dashboard/menu-list');
     };

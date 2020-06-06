@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
@@ -36,7 +36,6 @@ import constants from '../../Constants/index';
 import ContactUsDialog from '../Contacts';
 import { isEmpty } from 'lodash';
 import Logo from '../Common/logo';
-
 const { Locales } = constants;
 
 const PublicMasterPage = connect(mapStateToProps, {

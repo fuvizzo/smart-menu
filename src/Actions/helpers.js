@@ -1,6 +1,7 @@
 import constants from '../Constants';
 import { SET_ERROR } from '../Constants/ui-action-types';
-
+import graphql from 'graphql';
+const BACK_END_URL = process.env.REACT_APP_BACK_END_URL;
 const { ErrorTypes, Locales } = constants;
 
 const getErrorLables = language => Locales[language].Labels.Errors;
@@ -14,6 +15,14 @@ const dispatchError = (dispatch, language, message, type) => {
     },
   });
 };
+
+const buildGraphQLRequest = async object =>
+  await fetch(BACK_END_URL, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(object),
+  });
 
 export const dispatchGenericError = (dispatch, language, error = false) => {
   const message = getErrorLables(language).GENERIC;
@@ -55,4 +64,29 @@ export const getUserIdAndLanguage = getState => {
     },
   } = getState();
   return { userId, language };
+};
+
+export const startSession = async userTokenId => {
+  const response = await buildGraphQLRequest({
+    query: ` mutation StartSession($userTokenId: String!) {
+      startSession(userTokenId: $userTokenId)
+    }`,
+    variables: { userTokenId },
+  });
+  const json = await response.json();
+  if (json.errors) {
+    throw new Error(json.errors[0].message);
+  }
+};
+
+export const endSession = async userTokenId => {
+  const response = await buildGraphQLRequest({
+    query: ` mutation EndSession {
+      endSession
+    }`,
+  });
+  const json = await response.json();
+  if (json.errors) {
+    throw new Error(json.errors[0].message);
+  }
 };

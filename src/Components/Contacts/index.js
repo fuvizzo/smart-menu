@@ -156,7 +156,7 @@ const ContactUsDialog = props => {
               <DialogActions>
                 {loading && <CircularProgress />}
                 <Button
-                  disabled={loading || !(account || captchaValue)}
+                  disabled={loading}
                   type="submit"
                   autoFocus
                   color="primary"
