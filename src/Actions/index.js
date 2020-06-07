@@ -120,9 +120,11 @@ export const submitResetPasswordRequest = email => {
   return async (dispatch, getState) => {
     try {
       await firebaseService.auth.sendPasswordResetEmail(email);
+      return true;
     } catch (error) {
       const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
+      return false;
     }
   };
 };

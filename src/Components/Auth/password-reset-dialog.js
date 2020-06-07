@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import constants from '../../Constants';
-import { Dialog, Typography, Button } from '@material-ui/core';
+import {
+  Dialog,
+  Typography,
+  Button,
+  CircularProgress,
+} from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { PasswordResetDialogContent } from './styles';
@@ -21,11 +26,15 @@ const PasswordResetDialog = props => {
     },
   } = Locales[defaultLanguage];
 
-  const onSubmitHandler = async (data, { setSubmitting }) => {
-    setSubmitting(false);
-
-    await props.submitResetPasswordRequest(data.email);
-    onCloseHandler();
+  const onSubmitHandler = (data, { setSubmitting }) => {
+    const submit = async () => {
+      const successful = await props.submitResetPasswordRequest(data.email);
+      setSubmitting(false);
+      if (successful) {
+        onCloseHandler();
+      }
+    };
+    submit();
   };
 
   return (
@@ -64,6 +73,7 @@ const PasswordResetDialog = props => {
               </PasswordResetDialogContent>
             </DialogContent>
             <DialogActions>
+              {isSubmitting && <CircularProgress />}
               <Button
                 size="small"
                 type="submit"

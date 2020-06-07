@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 
 import { Formik, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -31,14 +31,17 @@ const ResetPassword = props => {
     },
   } = Locales[props.defaultLanguage];
 
-  const onSubmitClickHandler = async (data, { setSubmitting }) => {
-    setSubmitting(false);
-    const isAuthenticated = await props.resetPassword(
-      actionCode,
-      data.password,
-      email
-    );
-    if (isAuthenticated) history.push('/dashboard/menu-list');
+  const onSubmitClickHandler = (data, { setSubmitting }) => {
+    const submit = async () => {
+      const isAuthenticated = await props.resetPassword(
+        actionCode,
+        data.password,
+        email
+      );
+      setSubmitting(false);
+      if (isAuthenticated) history.push('/dashboard/menu-list');
+    };
+    submit();
   };
 
   return (
@@ -87,6 +90,7 @@ const ResetPassword = props => {
           >
             {ActionLabels.PROCEED}
           </SubmitButton>
+          {isSubmitting && <LinearProgress />}
         </StyledForm>
       )}
     </Formik>
