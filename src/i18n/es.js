@@ -1,5 +1,5 @@
 export default {
-  BUSINESS_TYPES: ['Restaurante', 'Bar', 'Cafeteria', 'Café', 'Pub'],
+  BUSINESS_TYPES: ['Restaurante', 'Bar', 'Cafetería', 'Café', 'Pub'],
   MenuItemTypes: {
     FoodAndDrinks: {
       LABEL: 'Comida y bebidas',
@@ -20,7 +20,7 @@ export default {
         'Vinos blancos',
         'Vinos rosados',
         'Vinos de postre',
-        'Licores y distilados',
+        'Licores y destilados',
       ],
     },
   },
@@ -64,9 +64,9 @@ export default {
       INFO: 'Info',
       LANGUAGE_SETTINGS: 'Configuración de idioma',
       PROVIDED_LANGUAGES: 'El contenido del menú actual se proporcionará en',
-      QR_CODE: 'Codigo QR de la pagina de los menús',
+      QR_CODE: 'Código QR de la página de los menús',
       WEB_LINK: 'Dirección web de la página del menú',
-      NO_MENUS_AVAILABLE: 'No hay cartas disponibles en el idioma que elejiste',
+      NO_MENUS_AVAILABLE: 'No hay cartas disponibles en el idioma que elegiste',
     },
     Business: {
       NAME: 'Nombre comercial',
@@ -80,7 +80,7 @@ export default {
       },
       TYPE: 'Tipo',
       INFO: 'Info',
-      MEDIA_AND_THEME: 'Media and theme',
+      MEDIA_AND_THEME: 'Media y tema',
     },
     Account: {
       FIRST_NAME: 'Nombre',
@@ -99,9 +99,9 @@ export default {
           'La ruta URL única que eligió ya está en uso. Por favor, elija una diferente',
         INVALID_EMAIL_ADDRESS: 'Dirección de correo electrónico no válida',
         ALLOWED_CHARACTERS:
-          'Aquí solo se permiten letras, dígitos, guiones, guiones bajos y caracteres de espacio.',
+          'Aquí solo se permiten letras, dígitos, guiones, guiones bajos y carácteres de espacio.',
         EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
-          'Operacion no permitida. La lista tiene que tener al menos un idioma por defecto',
+          'Operación no permitida. La lista debe tener al menos un idioma por defecto',
 
         EMPTY_LOCALES_NOT_ALLOWED:
           'Operacion no permitida. Tienes que asegurarte que el nombre de este elemento sea traducido al menos en un idioma',
@@ -118,7 +118,7 @@ export default {
       },
       Success: {
         CONTACT_REQUEST_SENT:
-          '¡Gracias para contactarnos. Te contestaremos tan pronto posible!',
+          '¡Gracias para contactarnos. Te contestaremos tan pronto nos sea posible!',
       },
     },
     Common: {
@@ -135,14 +135,14 @@ export default {
       UNIQUE_URL_PATH:
         '¡Esta es una identificación fácil de usar con la que vinculará su negocio y permitirá que los usuarios naveguen por sus menús más fácilmente!!',
       LOGO: 'El logotipo de su empresa se mostrará en la página del menú',
-      SIGN_IN: '¿Ya tienes una cuenta? Inicie sesión',
+      SIGN_IN: '¿Ya tiene una cuenta? Inicie sesión',
       SIGN_UP: '¿No tiene una cuenta? Regístrese',
       PASSWORD_FORGOTTEN: '¿Olvidó su contraseña?',
       ADD_MENU:
         'Comience a crear un nuevo menú utilizando el botón con el icono más en la parte superior derecha de la pantalla',
       ADD_MENU_ITEM:
         'Comience a agregar elementos de menú utilizando el botón con el ícono más en la parte superior derecha de la pantalla',
-      MAX_FILE_SIZE: 'Tamaño maximo del archivo: 1 MB',
+      MAX_FILE_SIZE: 'Tamaño máximo del archivo: 1 MB',
       SUPPORTED_FILE_EXTENSIONS: 'Extensiones de archivo permitidas: jpg/png',
     },
     Actions: {
@@ -163,15 +163,15 @@ export default {
       ADD_NEW_MENU: 'Agregar un nuevo menú',
       REMEMBER_ME: 'Recordarme',
       BACK_TO_DASHBOARD: 'Volver al panel de control',
-      DOWNLOAD: 'Baja',
-      PRINT: 'Imprime',
-      REPLACE: 'Replaza',
-      REMOVE: 'Quita',
-      ADD: 'Sube',
-      QR_CODE: 'Codigo QR',
-      BACK_TO_MENU_LIST: 'Volver a la lista de las cartas',
+      DOWNLOAD: 'Descargar',
+      PRINT: 'Imprimir',
+      REPLACE: 'Reemplazar',
+      REMOVE: 'Quitar',
+      ADD: 'Añadir',
+      QR_CODE: 'Código QR',
+      BACK_TO_MENU_LIST: 'Volver al listado de menús',
       CONTACT_US: 'Contactar',
-      WRITE_SOMETHING_HERE: 'Escribir algo por aquí...',
+      WRITE_SOMETHING_HERE: 'Escribe algo aquí...',
     },
   },
   ConfirmationActions: {
