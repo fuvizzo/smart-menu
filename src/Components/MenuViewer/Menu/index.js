@@ -55,12 +55,12 @@ function Menu(props) {
             </>
           ) : null}
           <TypesContainer>
-            {Object.values(groupMenuItemsByType(items)).map((type, index) => (
+            {Object.entries(groupMenuItemsByType(items)).map((type, index) => (
               <TypeWrapper key={index}>
                 <TypeText color={colors.secondary}>
-                  {MenuItemTypes.ITEM_LIST[index]}
+                  {MenuItemTypes.ITEM_LIST[type[0]]}
                 </TypeText>
-                {type.map((item, index2) => (
+                {type[1].map((item, index2) => (
                   <MenuItemWrapper
                     key={`${index}-${index2}`}
                     color={colors.primary}
