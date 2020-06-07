@@ -21,8 +21,8 @@ export default {
       ITEM_LIST: [
         'Bubbles/sparkling',
         'Red wines',
+        'White wines',
         'Rosè wines',
-        'Vini rosè',
         'Dessert wines',
         'Liqueurs and spirits',
       ],
