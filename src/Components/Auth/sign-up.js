@@ -53,6 +53,7 @@ const SignUp = props => {
     passord: '',
     businessName: '',
     businessType: '0',
+    allowExtraEmails: true,
   };
   return (
     <>
@@ -61,7 +62,7 @@ const SignUp = props => {
         validationSchema={createSignUpSchema(FormValidationErrors)}
         onSubmit={onSubmitClickHandler}
       >
-        {({ submitForm, isSubmitting }) => (
+        {({ submitForm, isSubmitting, values, setFieldValue }) => (
           <StyledForm>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -139,9 +140,12 @@ const SignUp = props => {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
+                  control={<Checkbox />}
+                  onChange={() =>
+                    setFieldValue('allowExtraEmails', !values.allowExtraEmails)
                   }
+                  checked={values.allowExtraEmails}
+                  color="primary"
                   label={AccountLabels.NEWS_LETTER}
                 />
               </Grid>

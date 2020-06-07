@@ -58,6 +58,7 @@ export const signUp = ({
   password,
   businessName,
   businessType,
+  allowExtraEmails,
 }) => {
   return async (dispatch, getState) => {
     let isAuthenticated = false;
@@ -73,7 +74,8 @@ export const signUp = ({
         lastName,
         businessId,
         businessName,
-        businessType
+        businessType,
+        allowExtraEmails
       );
       const userData = {
         path: `${USERS}/${userId}`,

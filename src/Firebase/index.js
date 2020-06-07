@@ -1,9 +1,9 @@
 import firebase from 'firebase/app';
-import firebaseMock from '../Mock/firebase-mock';
-
 import 'firebase/database';
 import 'firebase/firebase-storage';
 import 'firebase/firebase-auth';
+
+//import firebase from '../Mock/firebase-mock';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyApy1VB9ENzXTjyABftKFf0t7DpF5itsRw',
@@ -14,7 +14,7 @@ const firebaseConfig = {
   messagingSenderId: '491231259664',
   appId: '1:491231259664:web:e615a08b2ef6e32d946e95',
 };
-// Initialize Firebase
+
 firebase.initializeApp(firebaseConfig);
 
 class FirebaseService {

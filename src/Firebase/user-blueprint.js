@@ -5,7 +5,8 @@ export default (
   lastName,
   businessId,
   businessName,
-  businessType
+  businessType,
+  allowExtraEmails
 ) => {
   const businessTypeName = constants.Locales.en.BUSINESS_TYPES[businessType];
   const uniqueUrlPath = `${businessTypeName}-${businessName}-${Random.generate(
@@ -31,6 +32,7 @@ export default (
           type: null,
           expirationTime: null,
         },
+        allowExtraEmails,
       },
     },
   };
