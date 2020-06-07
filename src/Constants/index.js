@@ -1,6 +1,8 @@
 import en from '../i18n/en';
 import it from '../i18n/it';
 import es from '../i18n/es';
+//import cat from '../i18n/cat';
+
 export default {
   SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
   LocalizedFields: ['description', 'ingredients', 'name'],
@@ -33,6 +35,7 @@ export default {
     en,
     it,
     es,
+    //cat,
   },
   APP_NAME: 'SmartMenoos',
 };
