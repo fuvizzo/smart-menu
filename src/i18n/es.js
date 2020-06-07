@@ -14,7 +14,14 @@ export default {
     },
     WineChart: {
       LABEL: 'Carta de vinos',
-      ITEM_LIST: [],
+      ITEM_LIST: [
+        'Espumosos',
+        'Vinos tintos',
+        'Vinos blancos',
+        'Vinos rosados',
+        'Vinos de postre',
+        'Licores y distilados',
+      ],
     },
   },
   DEFAULT_LANGUAGE: 'Idioma predeterminado',
