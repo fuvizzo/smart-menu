@@ -93,6 +93,8 @@ export default {
         INVALID_EMAIL_ADDRESS: 'Dirección de correo electrónico no válida',
         ALLOWED_CHARACTERS:
           'Aquí solo se permiten letras, dígitos, guiones, guiones bajos y caracteres de espacio.',
+        EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
+          'La lista tiene que tener al menos un idioma por defecto',
       },
       GENERIC: 'Se produjo un error durante la operación',
       Authentication: {

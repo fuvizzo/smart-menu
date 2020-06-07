@@ -108,6 +108,8 @@ export default {
         OPERATION_ERROR: 'An error occured during the delete operation',
         ALLOWED_CHARACTERS:
           'Only letter, digits,dash, underscore and space characters are allowed here',
+        EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
+          'The list must contain at least one default language',
       },
       GENERIC: 'An error occurred during this operation',
       Authentication: {

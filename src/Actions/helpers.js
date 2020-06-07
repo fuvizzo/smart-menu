@@ -5,7 +5,7 @@ const { ErrorTypes, Locales } = constants;
 
 const getErrorLables = language => Locales[language].Labels.Errors;
 
-const dispatchError = (dispatch, language, message, type) => {
+const dispatchError = (dispatch, message, type) => {
   dispatch({
     type: SET_ERROR,
     payload: {
@@ -15,9 +15,14 @@ const dispatchError = (dispatch, language, message, type) => {
   });
 };
 
-export const dispatchGenericError = (dispatch, language, error = false) => {
+export const dispatchFormValidationError = (dispatch, language, error) => {
+  const message = getErrorLables(language).FormValidation[error];
+  dispatchError(dispatch, message, ErrorTypes.SERVER_ERROR);
+};
+
+export const dispatchGenericError = (dispatch, language) => {
   const message = getErrorLables(language).GENERIC;
-  dispatchError(dispatch, language, message, ErrorTypes.SERVER_ERROR);
+  dispatchError(dispatch, message, ErrorTypes.SERVER_ERROR);
 };
 
 export const dispatchAuthenticationError = (dispatch, language, error) => {
@@ -42,7 +47,7 @@ export const dispatchAuthenticationError = (dispatch, language, error) => {
   const message = labelName
     ? errorLabels.Authentication[labelName]
     : errorLabels.GENERIC;
-  dispatchError(dispatch, language, message, ErrorTypes.AUTHENTICATION);
+  dispatchError(dispatch, message, ErrorTypes.AUTHENTICATION);
 };
 
 export const getUserIdAndLanguage = getState => {

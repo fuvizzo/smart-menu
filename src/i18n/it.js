@@ -102,6 +102,9 @@ export default {
         INVALID_EMAIL_ADDRESS: 'Invalid e-mail address',
         ALLOWED_CHARACTERS:
           'Qui sono ammessi solo lettere, cifre, trattini, trattini bassi e spazi',
+
+        EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
+          'La lista deve contenere almento una lingua predefinita',
       },
       GENERIC: "Si è verificato un errore durante l'operazione",
       Authentication: {

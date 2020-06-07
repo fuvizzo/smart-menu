@@ -1,6 +1,10 @@
 import * as MenuActions from '../Constants/menu-action-types';
 import firebaseService from '../Firebase/index';
-import { dispatchGenericError, getUserIdAndLanguage } from './helpers';
+import {
+  dispatchGenericError,
+  dispatchFormValidationError,
+  getUserIdAndLanguage,
+} from './helpers';
 
 import { v1 as uuidv1 } from 'uuid';
 
@@ -128,6 +132,15 @@ export const mockUnlocalizedMenus = defaultLanguage => {
 export const setProvidedLanguages = (menuId, providedLanguages) => {
   return async (dispatch, getState) => {
     const { userId, language } = getUserIdAndLanguage(getState);
+    if (providedLanguages.length === 0) {
+      dispatchFormValidationError(
+        dispatch,
+        language,
+        'EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED'
+      );
+      return false;
+    }
+
     const path = `${userMenusPath(userId)}/${menuId}`;
     const data = {
       path,

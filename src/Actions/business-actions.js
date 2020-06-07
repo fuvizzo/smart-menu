@@ -1,6 +1,10 @@
 import * as BusinessActions from '../Constants/business-action-types';
 import firebaseService from '../Firebase/index';
-import { dispatchGenericError, getUserIdAndLanguage } from './helpers';
+import {
+  dispatchGenericError,
+  dispatchFormValidationError,
+  getUserIdAndLanguage,
+} from './helpers';
 
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 const INFO = 'info';
@@ -61,7 +65,7 @@ export const updateBusinessInfo = (businessId, body) => {
 
           await firebaseService.database.update(data);
         } else {
-          dispatchGenericError(
+          dispatchFormValidationError(
             dispatch,
             language,
             'UNIQUE_URL_PATH_ALREADY_IN_USE'
