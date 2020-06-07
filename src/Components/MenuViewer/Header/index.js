@@ -18,6 +18,7 @@ const Header = props => {
   const {
     defaultLanguage,
     languageChangeHandler,
+    filteredLangList,
     data: {
       name,
       media: { logo },
@@ -47,6 +48,7 @@ const Header = props => {
         )}
         <Box>
           <LanguageSelector
+            filteredLangList={filteredLangList}
             languageLabel={CommonLabels.LANGUAGE}
             value={defaultLanguage}
             onChange={languageChangeHandler}

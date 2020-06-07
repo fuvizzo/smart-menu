@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, Redirect, useLocation } from 'react-router-dom';
 import { getMenu } from '../../Actions/menu-actions';
@@ -78,51 +78,68 @@ const MenuViewer = props => {
     );
   };
 
-  return (
-    <>
-      {isEmpty(data) && (
-        <LoaderWrapper>
-          <CircularProgress />
-        </LoaderWrapper>
-      )}
-      {!isEmpty(data) &&
-        (data.notFound ? (
-          <Redirect to="/" />
-        ) : (
-          <>
-            <HeaderWrapper>
-              <HeaderContainer maxWidth="md">
-                <Header
-                  data={data.business}
-                  languageChangeHandler={languageChangeHandler}
-                  defaultLanguage={defaultLanguage}
-                />
-              </HeaderContainer>
-            </HeaderWrapper>
-            <Hero img={data.business.media.headerBanner && data.business.media.headerBanner.url} />
-            <MainContainer maxWidth="md">
-              {pathname[pathname.length - 1] !== '/' && (
-                <Redirect to={`${pathname}/`} />
-              )}
-              {menuId || Object.keys(data.menu.list).length === 1 ? (
-                <Menu
-                  defaultLanguage={defaultLanguage}
-                  colors={data.business.theme.colorPalette}
-                  data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
-                />
-              ) : (
-                <MenuListWrapper>
-                  <MenuCardWrapper />
-                </MenuListWrapper>
-              )}
-            </MainContainer>
-            <Footer mt={2} mb={2}>
-              <Copyright />
-            </Footer>
-          </>
-        ))}
-    </>
-  );
+  if (isEmpty(data)) {
+    return (
+      <LoaderWrapper>
+        <CircularProgress />
+      </LoaderWrapper>
+    );
+  } else if (data.notFound) {
+    return <Redirect to="/" />;
+  } else {
+    const menuKeys = Object.keys(data.menu.list);
+    let filteredLangList = [];
+    if (menuId) {
+      filteredLangList = data.menu.list[menuId].providedLanguages;
+    } else {
+      filteredLangList = menuKeys.reduce((acc, key) => {
+        const languages = data.menu.list[key].providedLanguages;
+        if (acc.length < languages.length) {
+          acc = languages;
+        }
+        return acc;
+      }, []);
+    }
+    return (
+      <>
+        <HeaderWrapper>
+          <HeaderContainer maxWidth="md">
+            <Header
+              filteredLangList={filteredLangList}
+              data={data.business}
+              languageChangeHandler={languageChangeHandler}
+              defaultLanguage={defaultLanguage}
+            />
+          </HeaderContainer>
+        </HeaderWrapper>
+        <Hero
+          img={
+            data.business.media.headerBanner &&
+            data.business.media.headerBanner.url
+          }
+        />
+        <MainContainer maxWidth="md">
+          {pathname[pathname.length - 1] !== '/' && (
+            <Redirect to={`${pathname}/`} />
+          )}
+          {menuId || menuKeys.length === 1 ? (
+            <Menu
+              defaultLanguage={defaultLanguage}
+              colors={data.business.theme.colorPalette}
+              data={data.menu.list[menuId ? menuId : data.menu.defaultMenuId]}
+            />
+          ) : (
+            <MenuListWrapper>
+              <MenuCardWrapper />
+            </MenuListWrapper>
+          )}
+        </MainContainer>
+        <Footer mt={2} mb={2}>
+          <Copyright />
+        </Footer>
+      </>
+    );
+  }
 };
 
 function mapStateToProps(state) {

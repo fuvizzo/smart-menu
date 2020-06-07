@@ -7,7 +7,8 @@ import constants from '../../Constants/index';
 
 const { Locales } = constants;
 export default props => {
-  const { languageLabel, value, onChange } = props;
+  const { languageLabel, filteredLangList, value, onChange } = props;
+  const langList = filteredLangList || Object.keys(Locales);
   return (
     <FormControl variant="outlined">
       <InputLabel htmlFor="outlined-lang-selector">{languageLabel}</InputLabel>
@@ -18,7 +19,7 @@ export default props => {
         onChange={onChange}
         label={languageLabel}
       >
-        {Object.keys(Locales).map((lang, index) => {
+        {langList.map((lang, index) => {
           return (
             <MenuItem value={lang} key={index}>
               <em>{lang}</em>
