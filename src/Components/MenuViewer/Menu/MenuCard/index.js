@@ -36,8 +36,9 @@ const useStyles = makeStyles(() => ({
 function MenuCard(props) {
   const classes = useStyles();
   const { data, defaultLanguage, business, id } = props;
+  const locale = data.info.locales[defaultLanguage];
 
-  return (
+  return locale ? (
     <Card className={classes.root}>
       <StyledLink to={`menu/${id}`} style={{ textDecoration: 'none' }}>
         <StyledCardActionArea>
@@ -52,7 +53,7 @@ function MenuCard(props) {
             }
             title={
               <CardTitle color={business.theme.colorPalette.secondary}>
-                {data.info.locales[defaultLanguage].name}
+                {locale.name}
               </CardTitle>
             }
             subheader={data.info.setMenu ? `${data.info.setMenu} €` : null}
@@ -64,15 +65,15 @@ function MenuCard(props) {
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              <Truncate lines={6} ellipsis="...">
-                {data.info.locales[defaultLanguage].description}
+              <Truncate lines={5} ellipsis="...">
+                {locale.description}
               </Truncate>
             </Typography>
           </CardContent>
         </StyledCardActionArea>
       </StyledLink>
     </Card>
-  );
+  ) : null;
 }
 
 export default MenuCard;

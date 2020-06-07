@@ -49,11 +49,7 @@ function Menu(props) {
               </TitleWrapper>
               <Description>{localeInfo.description}</Description>
             </>
-          ) : (
-            <span style={{ color: 'red' }}>
-              Menu info are missing for this language
-            </span>
-          )}
+          ) : null}
           <TypesContainer>
             {Object.values(groupMenuItemsByType(items)).map((type, index) => (
               <TypeWrapper key={index}>
@@ -72,6 +68,7 @@ function Menu(props) {
                       colors={colors}
                       data={item}
                       defaultLanguage={defaultLanguage}
+                      providedLanguages={providedLanguages}
                     />
                   </MenuItemWrapper>
                 ))}
