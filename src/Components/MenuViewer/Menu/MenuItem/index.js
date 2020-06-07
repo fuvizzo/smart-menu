@@ -19,7 +19,7 @@ const MenuItem = props => {
   let locale = locales[defaultLanguage];
 
   if (!locale) {
-    locale = locales['en']
+    locale = Object.values(locales).filter(lang => lang !== null)[0];
   }
 
   return (

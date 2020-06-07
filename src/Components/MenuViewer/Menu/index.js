@@ -35,7 +35,11 @@ function Menu(props) {
   const {
     MenuItemTypes: { [MenuItemTypeCategory]: MenuItemTypes },
   } = Locales[defaultLanguage];
-  const localeInfo = info.locales[defaultLanguage];
+  let localeInfo = info.locales[defaultLanguage];
+
+  if (!localeInfo) {
+    localeInfo = Object.values(info.locales).filter(lang => lang !== null)[0];
+  }
 
   return (
     <MenuContainer>
