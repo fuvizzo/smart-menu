@@ -15,13 +15,8 @@ const MenuItemWrapper = styled.div`
   transition: all 0.3s ease;
   background-color: white;
   box-shadow: inset 0 0 0 2px
-    ${props => (props.selected ? props.color : 'transparent')};
+    ${props => (props.selected ? props.color : 'none')};
   color: ${props => (props.selected ? props.color : 'black')};
-
-  &:hover {
-    box-shadow: inset 0 0 0 2px
-      ${props => (props.color ? props.color : 'black')};
-  }
 `;
 
 const TitleWrapper = styled.div`
