@@ -109,7 +109,9 @@ export default {
         ALLOWED_CHARACTERS:
           'Only letter, digits,dash, underscore and space characters are allowed here',
         EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
-          'The list must contain at least one default language',
+          'Operation not allowed. The list must contain at least one default language',
+        EMPTY_LOCALES_NOT_ALLOWED:
+          'Operation not allowed. You have to ensure the name of this item is provided at least in one language',
       },
       GENERIC: 'An error occurred during this operation',
       Authentication: {

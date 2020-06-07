@@ -188,15 +188,17 @@ const LanguageTabsPanel = props => {
         title={action.getTitle(languageName)}
         content={action.getContent(languageName)}
         handleClose={closeConfirmationDialog}
-        onConfirm={() => {
-          deleteLocale(
+        onConfirm={async () => {
+          const successful = await deleteLocale(
             ui.confirmationDialog.data.value,
             ui.confirmationDialog.data.id
           );
-          closeConfirmationDialog();
-          const left = Object.keys(locales).length - 1;
-          if (left > 1) setTabValue(0);
-          else collapseLanguageTabsPanel();
+          if (successful) {
+            closeConfirmationDialog();
+            const left = Object.keys(locales).length;
+            if (left > 1) setTabValue(0);
+            else collapseLanguageTabsPanel();
+          }
         }}
       />
     );

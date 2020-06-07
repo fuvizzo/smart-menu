@@ -104,7 +104,9 @@ export default {
           'Qui sono ammessi solo lettere, cifre, trattini, trattini bassi e spazi',
 
         EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
-          'La lista deve contenere almento una lingua predefinita',
+          'Operazione non consentita. La lista deve contenere almento una lingua predefinita',
+        EMPTY_LOCALES_NOT_ALLOWED:
+          'Operazione non consentita. Assicurati che il nome di questo elemento sia tradotto al meno in una lingua',
       },
       GENERIC: "Si è verificato un errore durante l'operazione",
       Authentication: {

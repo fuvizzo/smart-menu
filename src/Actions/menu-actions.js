@@ -15,6 +15,22 @@ const INFO = 'info';
 
 const userMenusPath = userId => `/users/${userId}/menus`;
 
+const isLocaleDeletable = (locales, language, dispatch) => {
+  const localesLength = Object.keys(locales).reduce(
+    (acc, lang) => (locales[lang].name ? acc + 1 : acc),
+    0
+  );
+  if (localesLength === 1) {
+    dispatchFormValidationError(
+      dispatch,
+      language,
+      'EMPTY_LOCALES_NOT_ALLOWED'
+    );
+    return false;
+  }
+  return true;
+};
+
 export const getMenu = uniqueUrlPath => {
   return async (dispatch, getState) => {
     let path, results;
@@ -302,6 +318,12 @@ export const createNewMenuItemLocale = (menuId, menuItemId, body) => {
 export const deleteMenuItemLocale = (menuId, menuItemId, lang) => {
   return async (dispatch, getState) => {
     const { userId, language } = getUserIdAndLanguage(getState);
+
+    const locales = getState().menus[menuId].items[menuItemId].locales;
+    if (!isLocaleDeletable(locales, language, dispatch)) {
+      return false;
+    }
+
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${ITEMS}/${menuItemId}/${LOCALES}/${lang}`;
@@ -382,6 +404,10 @@ export const deleteMenuInfoLocale = (menuId, lang) => {
   return async (dispatch, getState) => {
     const { userId, language } = getUserIdAndLanguage(getState);
 
+    const locales = getState().menus[menuId].info.locales;
+    if (!isLocaleDeletable(locales, language, dispatch)) {
+      return false;
+    }
     const path = `${userMenusPath(
       userId
     )}/${menuId}/${INFO}/${LOCALES}/${lang}`;

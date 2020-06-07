@@ -94,7 +94,10 @@ export default {
         ALLOWED_CHARACTERS:
           'Aquí solo se permiten letras, dígitos, guiones, guiones bajos y caracteres de espacio.',
         EMPTY_PROVIDED_LANGUAGES_NOT_ALLOWED:
-          'La lista tiene que tener al menos un idioma por defecto',
+          'Operacion no permitida. La lista tiene que tener al menos un idioma por defecto',
+
+        EMPTY_LOCALES_NOT_ALLOWED:
+          'Operacion no permitida. Tienes que asegurarte que el nombre de este elemento sea traducido al menos en un idioma',
       },
       GENERIC: 'Se produjo un error durante la operación',
       Authentication: {

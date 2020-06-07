@@ -246,13 +246,13 @@ const MenuList = props => {
                     title={
                       <Typography
                         color={
-                          menu.info.locales[defaultLanguage].name ===
-                          WarningMessages.MISSING_NAME
-                            ? 'secondary'
-                            : 'initial'
+                          menu.info.locales[defaultLanguage].name
+                            ? 'initial'
+                            : 'secondary'
                         }
                       >
-                        {menu.info.locales[defaultLanguage].name}
+                        {menu.info.locales[defaultLanguage].name ||
+                          WarningMessages.MISSING_NAME}
                       </Typography>
                     }
                     subheader={

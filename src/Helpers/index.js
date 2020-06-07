@@ -1,6 +1,3 @@
-import constants from '../Constants/index';
-const { Locales } = constants;
-
 export const sort = list => {
   const compareFn = (val1, val2) => {
     return val1[1].type - val2[1].type;
@@ -11,20 +8,15 @@ export const sort = list => {
 };
 
 export const mockUnlocalizedMenus = (list, defaultLanguage) => {
-  const {
-    Labels: { Warnings: WarningMessages },
-  } = Locales[defaultLanguage];
   const values = Object.values(list);
   values.forEach(value => {
-    value.info.locales[defaultLanguage] = value.info.locales[
-      defaultLanguage
-    ] || { name: WarningMessages.MISSING_NAME };
+    value.info.locales[defaultLanguage] =
+      value.info.locales[defaultLanguage] || {};
 
     const itemValues = Object.values(value.items || {});
     itemValues.forEach(itemValue => {
-      itemValue.locales[defaultLanguage] = itemValue.locales[
-        defaultLanguage
-      ] || { name: WarningMessages.MISSING_NAME };
+      itemValue.locales[defaultLanguage] =
+        itemValue.locales[defaultLanguage] || {};
     });
   });
   return list;

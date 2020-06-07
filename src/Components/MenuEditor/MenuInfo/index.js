@@ -280,13 +280,13 @@ const MenuInfoEditor = props => {
                     <Box mt={0.5}>
                       <Typography
                         color={
-                          data.locales[defaultLanguage].name ===
-                          WarningMessages.MISSING_NAME
-                            ? 'secondary'
-                            : 'initial'
+                          data.locales[defaultLanguage].name
+                            ? 'initial'
+                            : 'secondary'
                         }
                       >
-                        {data.locales[defaultLanguage].name}
+                        {data.locales[defaultLanguage].name ||
+                          WarningMessages.MISSING_NAME}
                       </Typography>
                     </Box>
                   </>

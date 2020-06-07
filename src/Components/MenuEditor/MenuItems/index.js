@@ -132,7 +132,7 @@ const MenuItemsEditor = props => {
   }, [ui.insertMode.data]);
 
   const deleteLocaleHandler = useCallback(async (lang, menuItemId) => {
-    await deleteMenuItemLocale(menuId, menuItemId, lang);
+    return await deleteMenuItemLocale(menuId, menuItemId, lang);
   }, []);
 
   const menuItemActionsClickHandler = useCallback(
@@ -364,13 +364,13 @@ const MenuItemsEditor = props => {
                       title={
                         <Typography
                           color={
-                            data.locales[defaultLanguage].name ===
-                            WarningMessages.MISSING_NAME
-                              ? 'secondary'
-                              : 'initial'
+                            data.locales[defaultLanguage].name
+                              ? 'initial'
+                              : 'secondary'
                           }
                         >
-                          {data.locales[defaultLanguage].name}
+                          {data.locales[defaultLanguage].name ||
+                            WarningMessages.MISSING_NAME}
                         </Typography>
                       }
                       subheader={!menu.info.setMenu && `${data.price}€`}
