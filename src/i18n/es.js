@@ -38,7 +38,7 @@ export default {
       MENU_LIST: 'Lista de menús',
       MENU_EDITOR: 'Editor de menús',
       ACCOUNT: 'Cuenta',
-      SUBSCRIPTION_STATUS: 'Estado de la suscripción',
+      SUBSCRIPTION_STATUS: 'Suscripción',
       BUSINESS: 'Mi negocio',
       SIGN_IN: 'Iniciar sesión',
       SIGN_UP: 'Registrarse',
