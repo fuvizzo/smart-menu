@@ -3,6 +3,7 @@ import { GET_BUSINESSES } from '../Constants/business-action-types';
 import { GET_MENUS } from '../Constants/menu-action-types';
 import createUserBlueprint from '../Firebase/user-blueprint';
 import { v1 as uuidv1 } from 'uuid';
+import { mockUnlocalizedMenus } from '../Helpers';
 import firebaseService from '../Firebase';
 import { dispatchAuthenticationError } from './helpers';
 const USERS = '/users';
@@ -20,7 +21,7 @@ const setUpStore = (authData, userData, dispatch) => {
   });
 };
 
-const basicSignIn = async (email, password, dispatch) => {
+const basicSignIn = async (email, password, language, dispatch) => {
   const authData = await firebaseService.auth.signInWithEmailAndPassword(
     email,
     password
@@ -28,7 +29,12 @@ const basicSignIn = async (email, password, dispatch) => {
   const userData = (
     await firebaseService.database.read(`${USERS}/${authData.user.uid}`)
   ).val();
-  userData.menus = userData.menus || {};
+  if (userData.menus) {
+    mockUnlocalizedMenus(userData.menus, language);
+  } else {
+    userData.menus = {};
+  }
+
   Object.keys(userData.businesses).forEach(businessId => {
     const business = userData.businesses[businessId];
     business.media = business.media || {};
@@ -39,12 +45,12 @@ const basicSignIn = async (email, password, dispatch) => {
 export const signInWithEmailAndPassword = ({ email, password }) => {
   return async (dispatch, getState) => {
     let isAuthenticated = false;
+    const language = getState().public.ui.settings.defaultLanguage;
     try {
-      await basicSignIn(email, password, dispatch);
+      await basicSignIn(email, password, language, dispatch);
 
       isAuthenticated = true;
     } catch (error) {
-      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;
