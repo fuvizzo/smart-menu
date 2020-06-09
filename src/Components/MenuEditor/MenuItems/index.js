@@ -9,6 +9,7 @@ import {
   Typography,
   ListItem,
   Box,
+  InputLabel,
   CardContent,
   MenuItem,
   ListItemText,
@@ -268,6 +269,9 @@ const MenuItemsEditor = props => {
                     <Box p={2}>
                       <FormControl>
                         <ShortFormFieldWrapper>
+                          <InputLabel htmlFor="outlined-lang-selector">
+                            {MenuLabels.CATEGORY}
+                          </InputLabel>
                           <Select
                             label={MenuLabels.CATEGORY}
                             name="type"

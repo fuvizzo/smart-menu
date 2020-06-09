@@ -1,9 +1,5 @@
 export default {
   BUSINESS_TYPES: ['Restaurant', 'Bar', 'Cafeteria', 'Cafe', 'Pub'],
-  MenuTypes: {
-    FOOD_AND_DRINKS: 'Food and drinks',
-    WINE_CHART: 'Wine chart',
-  },
   MenuItemTypes: {
     FoodAndDrinks: {
       LABEL: 'Food and drinks',
@@ -14,6 +10,18 @@ export default {
         'Side Dishes',
         'Desserts',
         'Drinks',
+      ],
+    },
+    Pizzas: {
+      LABEL: 'Pizzas',
+      ITEM_LIST: [
+        'Tradicional pizzas',
+        'Special flour pizzas',
+        "Pizzas 'Calzone'",
+        "Pizzas 'Covaccino'",
+        'Fried pizzas',
+        'Sweet pizzas',
+        'Filled edge pizzas',
       ],
     },
     WineChart: {

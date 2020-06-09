@@ -12,6 +12,18 @@ export default {
         'Bebidas',
       ],
     },
+    Pizzas: {
+      LABEL: 'Pizzas',
+      ITEM_LIST: [
+        'Pizzas tradicionales',
+        'Pizzas con harinas especiales',
+        "'Calzone's'",
+        "'Covaccinos's",
+        'Pizzas fritas',
+        'Pizzas dulces',
+        'Pizzas con borde relleno',
+      ],
+    },
     WineChart: {
       LABEL: 'Carta de vinos',
       ITEM_LIST: [

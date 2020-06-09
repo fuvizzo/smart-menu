@@ -3,7 +3,7 @@ export default {
 
   MenuItemTypes: {
     FoodAndDrinks: {
-      LABEL: 'Food and drinks',
+      LABEL: 'Cibi e bibite',
       ITEM_LIST: [
         'Antipasti',
         'Primi',
@@ -11,6 +11,18 @@ export default {
         'Contorni',
         'Desserts',
         'Bibite',
+      ],
+    },
+    Pizzas: {
+      LABEL: 'Pizze',
+      ITEM_LIST: [
+        'Pizze tradizionali',
+        'Pizze con farine speciali',
+        'Calzoni',
+        'Covaccini',
+        'Pizze fritte',
+        'Pizze dolci',
+        'Pizze con bordo ripieno',
       ],
     },
     WineChart: {

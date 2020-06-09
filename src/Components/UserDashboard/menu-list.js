@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import FOOD_AND_DRINKS_IMAGE from '../../Assets/FOOD_AND_DRINKS.jpg';
 import WINE_CHART_IMAGE from '../../Assets/WINE_CHART.jpg';
-
+import PIZZAS_IMAGE from '../../Assets/PIZZAS.jpg';
 import {
   Card,
   Avatar,
@@ -22,6 +22,7 @@ import {
 } from '@material-ui/core';
 
 import {
+  LocalPizza as PizzaIcon,
   LocalBar as WineChartIcon,
   RestaurantMenu as FoodAndDrinkIcon,
   MoreVert as MoreVertIcon,
@@ -98,6 +99,8 @@ const MenuList = props => {
     switch (type) {
       case 1:
         return <WineChartIcon />;
+      case 2:
+        return <PizzaIcon />;
       default:
         return <FoodAndDrinkIcon />;
     }
@@ -124,6 +127,9 @@ const MenuList = props => {
     switch (type) {
       case 1:
         menuImage = WINE_CHART_IMAGE;
+        break;
+      case 2:
+        menuImage = PIZZAS_IMAGE;
         break;
       default:
         menuImage = FOOD_AND_DRINKS_IMAGE;

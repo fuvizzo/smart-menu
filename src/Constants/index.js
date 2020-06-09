@@ -15,7 +15,7 @@ export default {
   RegexExpressions: {
     EURO: new RegExp(/^\d+(?:,\d{1,2})?$/).source,
   },
-  MenuTypes: ['FoodAndDrinks', 'WineChart'],
+  MenuTypes: ['FoodAndDrinks', 'WineChart', 'Pizzas'],
   MenuItemTypesColorMap: [
     '#36bff4',
     '#36f456',
