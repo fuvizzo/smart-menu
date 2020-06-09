@@ -25,7 +25,6 @@ const DashboardWrapper = props => {
 
 const UserDashboard = props => {
   const { path } = useRouteMatch();
-  // console.log(useLocation());
   return (
     <>
       <Redirect to={`${path}/menu-list`} />

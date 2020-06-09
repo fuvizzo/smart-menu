@@ -1,4 +1,5 @@
 import * as UserActions from '../Constants/account-action-types';
+import { SET_DEFAULT_SYSTEM_LANGUAGE } from '../Constants/ui-action-types';
 import { GET_BUSINESSES } from '../Constants/business-action-types';
 import { GET_MENUS } from '../Constants/menu-action-types';
 import createUserBlueprint from '../Firebase/user-blueprint';
@@ -9,7 +10,7 @@ import { dispatchAuthenticationError } from './helpers';
 const USERS = '/users';
 const URL_TO_BUSINESS_MAPPINGS = '/urlToBusinessMappings';
 
-const setUpStore = (authData, userData, dispatch) => {
+const setUpStore = (authData, userData, dispatch, language = null) => {
   dispatch({ type: GET_MENUS, payload: userData.menus });
   dispatch({ type: GET_BUSINESSES, payload: userData.businesses });
   dispatch({
@@ -19,6 +20,12 @@ const setUpStore = (authData, userData, dispatch) => {
       userData,
     },
   });
+  if (language) {
+    dispatch({
+      type: SET_DEFAULT_SYSTEM_LANGUAGE,
+      payload: language,
+    });
+  }
 };
 
 const basicSignIn = async (email, password, language, dispatch) => {
@@ -68,6 +75,7 @@ export const signUp = ({
 }) => {
   return async (dispatch, getState) => {
     let isAuthenticated = false;
+    const language = getState().public.ui.settings.defaultLanguage;
     try {
       const authData = await firebaseService.auth.createUserWithEmailAndPassword(
         email,
@@ -99,10 +107,9 @@ export const signUp = ({
 
       await firebaseService.database.create(urlToBusinessMappingData);
 
-      setUpStore(authData, user, dispatch);
+      setUpStore(authData, user, dispatch, language);
       isAuthenticated = true;
     } catch (error) {
-      const language = getState().public.ui.settings.defaultLanguage;
       dispatchAuthenticationError(dispatch, language, error);
     }
     return isAuthenticated;

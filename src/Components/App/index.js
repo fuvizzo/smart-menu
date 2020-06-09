@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 
 import { Button, FormControl, Drawer } from '@material-ui/core/';
@@ -31,19 +32,30 @@ import UserDashboard from '../UserDashboard/index';
 import MenuPreviewer from '../UserDashboard/menu-previewer';
 import MenuViewer from '../MenuViewer/menu-viewer';
 import { Snackbar } from '../Common';
-import { setError } from '../../Actions/ui-actions';
+import { setError, setDefaultPublicLanguage } from '../../Actions/ui-actions';
 import constants from '../../Constants/index';
 import ContactUsDialog from '../Contacts';
 import { isEmpty } from 'lodash';
 import Logo from '../Common/logo';
 
 const { Locales } = constants;
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const PublicMasterPage = connect(mapStateToProps, {
   setError,
+  setDefaultPublicLanguage,
 })(props => {
   const [contactUsDialogOpen, setContactUsDialogOpen] = useState(false);
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
+  const query = useQuery();
+  const { children, account, publicDefaultLanguage, error } = props;
+
+  useEffect(() => {
+    const language = query.get('lang');
+    if (Object.keys(Locales).some(lang => lang === language)) {
+      props.setDefaultPublicLanguage(language);
+    }
+  }, []);
 
   const toggleDrawer = open => event => {
     if (
@@ -55,7 +67,6 @@ const PublicMasterPage = connect(mapStateToProps, {
 
     setRightDrawerOpen(open);
   };
-  const { children, account, publicDefaultLanguage, error } = props;
 
   const {
     Labels: { Sections: SectionLabels, Actions: ActionLabels },
@@ -204,4 +215,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default App;

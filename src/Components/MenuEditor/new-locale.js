@@ -47,10 +47,7 @@ const NewLocaleForm = props => {
   };
 
   return (
-    <ValidatorForm
-      onSubmit={onCreateNewMenuItemLocale}
-      onError={errors => console.log(errors)}
-    >
+    <ValidatorForm onSubmit={onCreateNewMenuItemLocale}>
       <Box p={3}>
         <FormControl>
           <ShortFormFieldWrapper>

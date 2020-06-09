@@ -47,7 +47,6 @@ const PasswordResetDialog = props => {
         initialValues={{ email: '' }}
         validationSchema={createEmailSchema(FormValidationErrors)}
         onSubmit={onSubmitHandler}
-        onError={errors => console.log(errors)}
       >
         {({ submitForm, isSubmitting, values, errors }) => (
           <Form>

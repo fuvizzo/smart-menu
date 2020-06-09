@@ -49,7 +49,6 @@ const ResetPassword = props => {
       initialValues={initialValues}
       validationSchema={createResetPasswordSchema(FormValidationErrors)}
       onSubmit={onSubmitClickHandler}
-      validate={values => console.log(values)}
     >
       {({ submitForm, isSubmitting, values }) => (
         <StyledForm noValidate>

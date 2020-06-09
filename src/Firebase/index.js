@@ -26,9 +26,7 @@ class FirebaseService {
     this.#storage = firebase.storage();
     this.auth = firebase.auth();
 
-    this.auth.onAuthStateChanged(user => {
-      // console.log(user);
-    });
+    this.auth.onAuthStateChanged(user => {});
   }
 
   auth = this.auth;

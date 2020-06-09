@@ -264,10 +264,7 @@ const MenuItemsEditor = props => {
             <Grid item xs={12} key={key}>
               <Card width={1} elevation={2}>
                 {showMenuItemEditForm ? (
-                  <ValidatorForm
-                    onSubmit={updateMenuItemHandler}
-                    onError={errors => console.log(errors)}
-                  >
+                  <ValidatorForm onSubmit={updateMenuItemHandler}>
                     <Box p={2}>
                       <FormControl>
                         <ShortFormFieldWrapper>

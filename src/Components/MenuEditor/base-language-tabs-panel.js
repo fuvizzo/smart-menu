@@ -47,10 +47,7 @@ const a11yProps = index => ({
 const TabLocaleEditor = props => {
   const { updateData, actionsLabels, disableEditMode, children } = props;
   return (
-    <ValidatorForm
-      onSubmit={updateData}
-      onError={errors => console.log(errors)}
-    >
+    <ValidatorForm onSubmit={updateData}>
       <Box pt={3}>
         {children}
 

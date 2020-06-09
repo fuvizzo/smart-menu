@@ -185,10 +185,7 @@ const MenuInfoEditor = props => {
       <Grid item xs={12}>
         <Card width={1} elevation={2}>
           {showMenuItemEditForm ? (
-            <ValidatorForm
-              onSubmit={updateMenuInfoHandler}
-              onError={errors => console.log(errors)}
-            >
+            <ValidatorForm onSubmit={updateMenuInfoHandler}>
               <Box p={2}>
                 {Object.keys(ui.editMode.data.value.locales)
                   .filter(lang => lang === defaultLanguage)
