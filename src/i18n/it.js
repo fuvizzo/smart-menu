@@ -26,7 +26,7 @@ export default {
       ],
     },
     WineChart: {
-      LABEL: '',
+      LABEL: 'Carta dei vini',
       ITEM_LIST: [
         'Bollicine/spumanti',
         'Vini rossi',
