@@ -40,7 +40,7 @@ import Truncate from 'react-truncate';
 
 import * as uiActions from '../../Actions/ui-actions';
 import { deleteMenu, togglePublishedStatus } from '../../Actions/menu-actions';
-import useStyles from './styles';
+import useStyles, { MenuNameTypography } from './styles';
 
 const { Locales } = constants;
 
@@ -250,7 +250,7 @@ const MenuList = props => {
                       </IconButton>
                     }
                     title={
-                      <Typography
+                      <MenuNameTypography
                         color={
                           menu.info.locales[defaultLanguage].name
                             ? 'initial'
@@ -259,7 +259,7 @@ const MenuList = props => {
                       >
                         {menu.info.locales[defaultLanguage].name ||
                           WarningMessages.MISSING_NAME}
-                      </Typography>
+                      </MenuNameTypography>
                     }
                     subheader={
                       menu.info.setMenu ? (

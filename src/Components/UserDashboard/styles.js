@@ -3,7 +3,10 @@ import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { QRCodeIcon as QRCode } from '../SVGs';
-import { ListItemIcon as MUI_ListItemIcon } from '@material-ui/core';
+import {
+  ListItemIcon as MUI_ListItemIcon,
+  Typography,
+} from '@material-ui/core';
 
 export const QRCodeIcon = styled(QRCode)`
   font-size: 1.51rem;
@@ -11,6 +14,13 @@ export const QRCodeIcon = styled(QRCode)`
 
 export const ListItemIcon = styled(MUI_ListItemIcon)`
   min-width: 42px;
+`;
+
+export const MenuNameTypography = styled(Typography)`
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 140px;
+  text-overflow: ellipsis;
 `;
 
 export default makeStyles(theme => ({
