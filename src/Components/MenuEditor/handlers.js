@@ -1,7 +1,7 @@
 import constants from '../../Constants/index';
 export const onChangeInputValueHandler = (event, ui, editData, insertData) => {
   const input = event.currentTarget;
-  const currentValue = input.type !== '' ? input.value : input.dataset.value;
+  const currentValue = input.type !== '' ? input.value : event.target.value;
 
   if (ui.insertMode.enabled) {
     const lang = input.dataset.lang;

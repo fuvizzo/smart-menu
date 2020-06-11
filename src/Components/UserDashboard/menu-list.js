@@ -97,12 +97,13 @@ const MenuList = props => {
 
   const MenuIconType = ({ type }) => {
     switch (type) {
-      case 1:
-        return <WineChartIcon />;
-      case 2:
-        return <PizzaIcon />;
+      case '0':
       default:
         return <FoodAndDrinkIcon />;
+      case '1':
+        return <WineChartIcon />;
+      case '2':
+        return <PizzaIcon />;
     }
   };
 
@@ -125,14 +126,15 @@ const MenuList = props => {
     const { type, ...rest } = props;
     let menuImage;
     switch (type) {
-      case 1:
-        menuImage = WINE_CHART_IMAGE;
-        break;
-      case 2:
-        menuImage = PIZZAS_IMAGE;
-        break;
+      case '0':
       default:
         menuImage = FOOD_AND_DRINKS_IMAGE;
+        break;
+      case '1':
+        menuImage = WINE_CHART_IMAGE;
+        break;
+      case '2':
+        menuImage = PIZZAS_IMAGE;
         break;
     }
     return <CardMedia {...rest} image={menuImage} />;

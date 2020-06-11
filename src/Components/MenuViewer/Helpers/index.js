@@ -15,14 +15,14 @@ export function groupMenuItemsByType(items) {
 export function getMenuTypeIcon(type) {
   let icon;
   switch (type) {
-    case 0:
+    case '0':
     default:
       icon = RestaurantMenu;
       break;
-    case 1:
+    case '1':
       icon = LocalBar;
       break;
-    case 2:
+    case '2':
       icon = LocalPizza;
       break;
   }
@@ -32,12 +32,12 @@ export function getMenuTypeIcon(type) {
 
 export function getMenuTypeImage(type) {
   switch (type) {
-    case 0:
+    case '0':
     default:
       return FOOD_AND_DRINKS_IMAGE;
-    case 1:
+    case '1':
       return WINE_CHART_IMAGE;
-    case 2:
+    case '2':
       return PIZZAS_IMAGE;
   }
 }

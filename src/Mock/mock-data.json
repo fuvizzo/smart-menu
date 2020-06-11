@@ -19,7 +19,7 @@
         "businesses": {
           "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
             "info": {
-              "type": "0",
+              "type": 0,
               "name": "Momenti",
               "uniqueUrlPath": "restaurant-momenti"
             },
@@ -56,7 +56,7 @@
           },
           "items": {
             "75db2315-ce01-41d8-a16e-7984b1e48b17": {
-              "type": "0",
+              "type": 0,
               "locales": {
                 "en": {
                   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -67,7 +67,7 @@
               "price": "5"
             },
             "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
-              "type": "1",
+              "type": 1,
               "locales": {
                 "en": {
                   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -107,7 +107,7 @@
           },
           "items": {
             "75db2315-ce01-41d8-a16e-7984b1e48b17": {
-              "type": "0",
+              "type": 0,
               "locales": {
                 "en": {
                   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -128,7 +128,7 @@
               "price": "5"
             },
             "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
-              "type": "1",
+              "type": 1,
               "locales": {
                 "en": {
                   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -144,7 +144,7 @@
       "businesses": {
         "d5d1bb90-7d6c-490f-8871-f4368a19416c": {
           "info": {
-            "type": "0",
+            "type": 0,
             "name": "LEKA",
             "uniqueUrlPath": "restaurant-leka"
           },

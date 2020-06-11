@@ -29,7 +29,7 @@ const NewMenuDialog = props => {
       const input = event.currentTarget;
       const data = ui.insertMode.data;
       if (input.type === '') {
-        data.value.info.type = event.target.value;
+        data.value.info.type = input.dataset.value;
       } else {
         const currentValue = input.value;
         data.value.info.locales[defaultLanguage][input.name] = currentValue;

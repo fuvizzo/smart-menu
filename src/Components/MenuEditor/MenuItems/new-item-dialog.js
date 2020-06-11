@@ -32,8 +32,7 @@ const NewMenuItemDialog = props => {
   const onChangeValueHandler = useCallback(
     event => {
       const input = event.currentTarget;
-      const currentValue =
-        input.type !== '' ? input.value : input.dataset.value;
+      const currentValue = input.type !== '' ? input.value : event.target.value;
       const data = ui.insertMode.data;
       if (LocalizedFields.some(field => field === input.name)) {
         data.value.locales[defaultLanguage][input.name] = currentValue;
