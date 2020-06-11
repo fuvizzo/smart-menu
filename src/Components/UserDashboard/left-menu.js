@@ -1,12 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Divider,
-  List,
-  Box,
-  ListItemText,
-  ListItemIcon,
-  ListItem,
-} from '@material-ui/core';
+import { Divider, List, Box, ListItemText, ListItem } from '@material-ui/core';
 import {
   Assignment as AssignmentIcon,
   AccountCircle as AccountCircleIcon,
@@ -15,7 +8,7 @@ import {
   Storefront as StorefrontIcon,
   Mail as MailIcon,
 } from '@material-ui/icons';
-
+import { ListItemIcon } from './styles';
 import { signOut } from '../../Actions/index';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
