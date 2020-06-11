@@ -32,6 +32,9 @@ const Description = styled.p`
   font-size: 14px;
   line-height: 1.4;
   color: ${props => props.color ? props.color : 'inherit'};
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 `;
 
 const Ingredients = styled.p`
@@ -46,6 +49,9 @@ const Price = styled.p`
   margin: 0;
   font-weight: bold;
   color: ${props => (props.color ? props.color : 'inherit')};
+  min-width: 60px;
+  text-align: right;
+  align-self: flex-start;
 `;
 
 const MenuItemMeta = styled.div`

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card as MUI_Card, Avatar as MUI_Avatar } from '@material-ui/core';
+import {Card as MUI_Card, Avatar as MUI_Avatar, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import CardActions from '@material-ui/core/CardActionArea';
 
@@ -41,4 +41,11 @@ const StyledCardActionArea = styled(CardActions)`
   justify-content: flex-start;
 `;
 
-export { Card, Avatar, CardTitle, StyledLink, StyledCardActionArea };
+const Description = styled.span`
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`;
+
+export { Card, Avatar, CardTitle, StyledLink, StyledCardActionArea, Description };

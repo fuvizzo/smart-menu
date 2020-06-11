@@ -2,11 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
-  IconButton,
   CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
 } from '@material-ui/core';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -18,8 +16,8 @@ import {
   CardTitle,
   StyledLink,
   StyledCardActionArea,
+  Description,
 } from './styles';
-import Truncate from 'react-truncate';
 
 import { getMenuTypeIcon, getMenuTypeImage } from '../../Helpers';
 
@@ -65,9 +63,9 @@ function MenuCard(props) {
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              <Truncate lines={5} ellipsis="...">
+              <Description>
                 {locale.description}
-              </Truncate>
+              </Description>
             </Typography>
           </CardContent>
         </StyledCardActionArea>
