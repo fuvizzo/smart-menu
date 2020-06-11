@@ -187,6 +187,7 @@ export default {
       BACK_TO_MENU_LIST: 'Volver al listado de menús',
       CONTACT_US: 'Contactar',
       WRITE_SOMETHING_HERE: 'Escribe algo aquí...',
+      CLICK_HERE: 'Clica aquí',
     },
   },
   ConfirmationActions: {

@@ -52,7 +52,7 @@ const SignUp = props => {
     email: '',
     passord: '',
     businessName: '',
-    businessType: '0',
+    businessType: 0,
     allowExtraEmails: true,
   };
   return (

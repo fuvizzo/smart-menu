@@ -188,6 +188,7 @@ export default {
       BACK_TO_MENU_LIST: 'Torna alla lista dei menù',
       CONTACT_US: 'Contattaci',
       WRITE_SOMETHING_HERE: 'Scrivi qualcosa qui...',
+      CLICK_HERE: 'Clicca quì',
     },
   },
   ConfirmationActions: {
