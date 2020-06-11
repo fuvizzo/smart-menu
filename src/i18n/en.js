@@ -43,6 +43,7 @@ export default {
     cat: 'Catalan',
     it: 'Italian',
     fr: 'French',
+    nl: 'Dutch',
   },
   Labels: {
     Sections: {
@@ -158,6 +159,8 @@ export default {
         'Start adding menu items by using the plus icon button in the upper right part of the screen',
       MAX_FILE_SIZE: 'Max file size: 1 MB',
       SUPPORTED_FILE_EXTENSIONS: 'supported file extensions: jpg/png',
+      CHANGE_UNIQUE_URL_PATH:
+        'Advice: you can change the bold part as you wish.',
     },
     Actions: {
       EDIT_COLOR: 'Edit color',
@@ -186,6 +189,7 @@ export default {
       BACK_TO_MENU_LIST: 'Back to menu list',
       CONTACT_US: 'Contact us',
       WRITE_SOMETHING_HERE: 'Write something here...',
+      CLICK_HERE: 'Click here',
     },
   },
   ConfirmationActions: {

@@ -6,7 +6,6 @@ import {
   IconButton,
   ListItem,
   MenuItem,
-  FormHelperText,
   ListItemIcon,
   ListItemText,
   Box,
@@ -23,6 +22,7 @@ import { PopoverComponent as Popover } from '../Common';
 import * as uiActions from '../../Actions/ui-actions';
 import * as businessActions from '../../Actions/business-actions';
 import constants from '../../Constants/index';
+import { createUrlSafeStringValue } from '../../Helpers';
 import {
   PopoverHint,
   Header,
@@ -93,6 +93,7 @@ const BusinessEditor = props => {
   const onBusinessUpdateHandler = useCallback(
     async (data, { setSubmitting }) => {
       setSubmitting(false);
+      data.uniqueUrlPath = createUrlSafeStringValue(data.uniqueUrlPath);
       const result = await updateBusinessInfo(businessId, data);
       if (result) disableEditMode();
     },

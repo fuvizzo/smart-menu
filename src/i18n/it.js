@@ -44,6 +44,7 @@ export default {
     cat: 'Catalano',
     it: 'Italiano',
     fr: 'Francese',
+    nl: 'Olandese',
   },
   Labels: {
     Sections: {
@@ -157,6 +158,8 @@ export default {
         "Inizia ad aggiungere elementi al menù cliccando sul bottono col simbolo 'più' in alto a destra dello schermo",
       MAX_FILE_SIZE: 'Dimensione massima del file: 1 MB',
       SUPPORTED_FILE_EXTENSIONS: 'Estensioni del file supportate: jpg/png',
+      CHANGE_UNIQUE_URL_PATH:
+        'Consiglio: puoi cambiare la parte in grassetto come preferisci.',
     },
     Actions: {
       EDIT_COLOR: 'Cambia colore',

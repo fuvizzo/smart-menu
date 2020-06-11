@@ -43,6 +43,7 @@ export default {
     cat: 'Catalán',
     it: 'Italiano',
     fr: 'Francés',
+    nl: 'Holandés',
   },
   Labels: {
     Sections: {
@@ -156,6 +157,8 @@ export default {
         'Comience a agregar elementos de menú utilizando el botón con el ícono más en la parte superior derecha de la pantalla',
       MAX_FILE_SIZE: 'Tamaño máximo del archivo: 1 MB',
       SUPPORTED_FILE_EXTENSIONS: 'Extensiones de archivo permitidas: jpg/png',
+      CHANGE_UNIQUE_URL_PATH:
+        'Consejo: puede cambiar la parte en negrita como desee.',
     },
     Actions: {
       EDIT_COLOR: 'Editar color',

@@ -34,3 +34,9 @@ export const downLoadSvgImage = (htmlElementId, name) => {
   var svgAsXML = new XMLSerializer().serializeToString(svg);
   download(`data:image/svg+xml,${encodeURIComponent(svgAsXML)}`);
 };
+
+export const createUrlSafeStringValue = value =>
+  value
+    .trim()
+    .split(' ')
+    .reduce((acc, word) => (acc = word.length > 0 ? `${acc}-${word}` : acc));

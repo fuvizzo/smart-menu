@@ -1,5 +1,6 @@
 import constants from '../Constants/index';
 import Random from 'randomstring';
+import { createUrlSafeStringValue } from '../Helpers';
 export default (
   firstName,
   lastName,
@@ -9,9 +10,9 @@ export default (
   allowExtraEmails
 ) => {
   const businessTypeName = constants.Locales.en.BUSINESS_TYPES[businessType];
-  const uniqueUrlPath = `${businessTypeName}-${businessName}-${Random.generate(
-    4
-  )}`.toLowerCase();
+  const uniqueUrlPath = `${businessTypeName}-${createUrlSafeStringValue(
+    businessName
+  )}-${Random.generate(4)}`.toLowerCase();
   return {
     uniqueUrlPath,
     user: {

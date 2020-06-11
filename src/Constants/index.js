@@ -1,10 +1,11 @@
 import en from '../i18n/en';
 import it from '../i18n/it';
 import es from '../i18n/es';
+import nl from '../i18n/nl';
 //import cat from '../i18n/cat';
 
 export default {
-  SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr'],
+  SupportedLanguages: ['en', 'es', 'cat', 'it', 'fr', 'nl'],
   LocalizedFields: ['description', 'ingredients', 'name'],
   RECAPTCHA_KEY: '6Lf-tf4UAAAAAOgaEvwH7lLLh7w7WB54OqGTHIjT',
   ALLOWED_CHARACTERS_REGEX: /^[a-zA-Z0-9 _-]+$/,
@@ -35,6 +36,7 @@ export default {
     en,
     it,
     es,
+    nl,
     //cat,
   },
   APP_NAME: 'SmartMenoos',
