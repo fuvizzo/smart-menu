@@ -24,31 +24,31 @@ const Title = styled.h4`
   margin: 0;
   font-size: 14px;
   font-weight: bold;
-  color: ${props => props.color ? props.color : 'inherit'};
+  color: ${props => props.color ? props.color : '#2C394A'};
 `;
 
 const Description = styled.p`
-  margin: 15px 0 10px 0;
+  margin-top: 10px;
   font-size: 14px;
   line-height: 1.4;
-  color: ${props => props.color ? props.color : 'inherit'};
+  color: ${props => props.color ? props.color : '#3D3D3D'};
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
 `;
 
 const Ingredients = styled.p`
-  margin: 0px 0px 4px 0px;
+  margin-top: 10px;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.4;
-  color: ${props => props.color ? props.color : 'inherit'};
+  color: #3D3D3D;
 `;
 
 const Price = styled.p`
   margin: 0;
   font-weight: bold;
-  color: ${props => (props.color ? props.color : 'inherit')};
+  color: ${props => (props.color ? props.color : '#2C394A')};
   min-width: 60px;
   text-align: right;
   align-self: flex-start;

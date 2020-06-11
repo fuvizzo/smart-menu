@@ -29,13 +29,13 @@ const TitleWrapper = styled.div`
 const Title = styled.h2`
   font-size: 22px;
   margin: 0 5px;
-  color: ${props => (props.color ? props.color : 'inherit')};
+  color: ${props => (props.color ? props.color : '#3D3D3D')};
 `;
 
 const Description = styled.p`
   font-size: 14px;
   line-height: 1.5;
-  color: ${props => (props.color ? props.color : 'inherit')};
+  color: ${props => (props.color ? props.color : '#3D3D3D')};
   width: 100%;
 `;
 
