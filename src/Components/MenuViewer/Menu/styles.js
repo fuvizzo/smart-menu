@@ -36,6 +36,7 @@ const Description = styled.p`
   font-size: 14px;
   line-height: 1.5;
   color: ${props => (props.color ? props.color : 'inherit')};
+  width: 100%;
 `;
 
 const TypeText = styled.h3`
